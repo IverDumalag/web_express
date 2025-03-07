@@ -38,5 +38,7 @@
 
 ### Prerequisites
 - [List any prerequisites such as Node.js, Android Studio/Xcode, etc.]
+Packages Installed
+<li>npm install react-router-dom</li>
 
 ### Steps
