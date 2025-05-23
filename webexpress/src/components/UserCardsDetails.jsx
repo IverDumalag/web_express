@@ -420,20 +420,20 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
             })()}
           </div>
           {editMode && (
-            <div style={{ marginTop: "4%", display: "flex", gap: "2%" }}>
+            <div style={{ marginTop: "2em", display: "flex", gap: "1.2em", justifyContent: "center", alignItems: "center", width: "100%" }}>
               <button
-                className="ucd-prevnext-btn"
-                style={{ background: "#6c63ff", color: "#fff", width: "40%" }}
+                className="ucd-prevnext-btn ucd-save-btn"
                 onClick={handleEditSave}
                 disabled={editLoading || !editWords.trim()}
+                style={{ width: "40%" }}
               >
                 {editLoading ? "Saving..." : "Save"}
               </button>
               <button
-                className="ucd-prevnext-btn"
-                style={{ background: "#bbb", color: "#fff", width: "40%" }}
+                className="ucd-prevnext-btn ucd-cancel-btn"
                 onClick={handleEditCancel}
                 disabled={editLoading}
+                style={{ width: "40%" }}
               >
                 Cancel
               </button>
