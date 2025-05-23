@@ -74,43 +74,47 @@ export default function UserProfile() {
   return (
     <>
       <div className="profile-main-container">
-        <div className="profile-card">
-          <div className="profile-title-row">
-            <span className="profile-title">My Profile</span>
-            <button className="profile-edit-btn" title="Edit Profile" onClick={handleEditOpen}>
-              <FaEdit />
-            </button>
+        <div className="profile-card profile-card-modern">
+          <div className="profile-header-row">
+            <div className="profile-header-title-col">
+              <span className="profile-title modern">Account Settings</span>
+              <span className="profile-desc">Edit your name, email, and other details below.</span>
+            </div>
+            <div className="profile-avatar-col"></div>
           </div>
-          {user ? (
-            <>
-              <div className="profile-row">
-                <div className="profile-label">First Name:</div>
-                <div className="profile-value">{user.f_name || "-"}</div>
+          <form className="profile-form-modern profile-form-grid">
+            <div className="profile-form-col">
+              <div className="profile-form-row">
+                <label className="profile-form-label">First Name</label>
+                <input className="profile-form-input" name="f_name" value={user?.f_name || ""} disabled />
               </div>
-              <div className="profile-row">
-                <div className="profile-label">Middle Name:</div>
-                <div className="profile-value">{user.m_name || "-"}</div>
+              <div className="profile-form-row">
+                <label className="profile-form-label">Middle Name</label>
+                <input className="profile-form-input" name="m_name" value={user?.m_name || ""} disabled />
               </div>
-              <div className="profile-row">
-                <div className="profile-label">Last Name:</div>
-                <div className="profile-value">{user.l_name || "-"}</div>
+              <div className="profile-form-row">
+                <label className="profile-form-label">Last Name</label>
+                <input className="profile-form-input" name="l_name" value={user?.l_name || ""} disabled />
               </div>
-              <div className="profile-row">
-                <div className="profile-label">Email:</div>
-                <div className="profile-value">{user.email || "-"}</div>
+            </div>
+            <div className="profile-form-col">
+              <div className="profile-form-row">
+                <label className="profile-form-label">Email</label>
+                <input className="profile-form-input" name="email" value={user?.email || ""} disabled />
               </div>
-              <div className="profile-row">
-                <div className="profile-label">Sex:</div>
-                <div className="profile-value">{user.sex || "-"}</div>
+              <div className="profile-form-row">
+                <label className="profile-form-label">Sex</label>
+                <input className="profile-form-input" name="sex" value={user?.sex || ""} disabled />
               </div>
-              <div className="profile-row">
-                <div className="profile-label">Birthdate:</div>
-                <div className="profile-value">{user.birthdate || "-"}</div>
+              <div className="profile-form-row">
+                <label className="profile-form-label">Birthdate</label>
+                <input className="profile-form-input" name="birthdate" value={user?.birthdate || ""} disabled />
               </div>
-            </>
-          ) : (
-            <div style={{ textAlign: "center", color: "#aaa" }}>Loading...</div>
-          )}
+            </div>
+            <div className="profile-form-actions-wide">
+              <button className="profile-form-btn edit" type="button" onClick={handleEditOpen}><FaEdit style={{marginRight: 8}}/>Edit</button>
+            </div>
+          </form>
         </div>
       </div>
       {showEdit && (
