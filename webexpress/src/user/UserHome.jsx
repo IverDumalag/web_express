@@ -315,7 +315,7 @@ export default function UserHome() {
               <button
                 className={`tab-btn${activeTab === "wave" ? " active" : ""}`}
                 onClick={() => setActiveTab("wave")}
-                title="Wave"
+                title="Your cards"
               >
                 <MdOutlineWavingHand />
               </button>
