@@ -31,7 +31,7 @@ export default function UserLogin() {
         setTimeout(() => {
           setLoading(false);
           if (res.data.user.role === 'admin') {
-            navigate('/tempadmin');
+            navigate('/adminhome');
           } else {
             navigate('/userhome');  
           }
