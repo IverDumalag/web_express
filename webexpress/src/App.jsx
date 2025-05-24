@@ -11,6 +11,7 @@ import UserSettings from './user/UserSettings';
 import UserProfile from './user/UserProfile';
 import TrySearch from './pages/TrySearch';
 import UserArchived from './user/UserArchived';
+import AdminHome from './admin/AdminHome';
 
 export default function App() {
   return (
@@ -34,6 +35,7 @@ export default function App() {
         {/* Admin Protected Routes */}
         <Route element={<AdminProtectedRoute />}>
            <Route path="/tempadmin" element={<TempAdminPage />} />
+           <Route path="/adminhome" element={<AdminHome />} />
         </Route>
 
       </Routes>
