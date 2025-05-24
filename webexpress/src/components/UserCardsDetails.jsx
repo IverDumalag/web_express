@@ -288,7 +288,7 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
             {!editMode && (
               <button
                 className={`ucd-speak-btn${speaking ? " active" : ""}`}
-                title="Speak"
+                title="Hear aloud"
                 onClick={handleSpeak}
               >
                 {speaking ? <RiSpeakerFill /> : <MdSpeakerPhone />}
