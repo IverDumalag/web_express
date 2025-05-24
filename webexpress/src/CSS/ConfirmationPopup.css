@@ -1,0 +1,91 @@
+/* Modern, visually appealing confirmation popup styles */
+.confirmation-popup-overlay {
+  position: fixed;
+  z-index: 3000;
+  left: 0; top: 0; right: 0; bottom: 0;
+  background: rgba(51, 78, 123, 0.18);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.confirmation-popup-modal {
+  background: linear-gradient(135deg, #e3ecff 0%, #b6cfff 100%);
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(51, 78, 123, 0.18), 0 1.5px 8px rgba(51, 78, 123, 0.10);
+  width: 95vw;
+  max-width: 380px;
+  min-width: 240px;
+  padding: 2.5em 2em 2em 2em;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  animation: modal-pop 0.22s cubic-bezier(.68,-0.55,.27,1.55);
+}
+@keyframes modal-pop {
+  0% { transform: scale(0.92); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.confirmation-popup-title {
+  color: #334E7B;
+  font-size: 1.35em;
+  font-weight: 700;
+  margin-bottom: 1.2em;
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+.confirmation-popup-message {
+  color: #334E7B;
+  font-size: 1.08em;
+  margin-bottom: 2em;
+  text-align: center;
+}
+.confirmation-popup-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1.2em;
+}
+.confirmation-popup-btn {
+  background: #334E7B;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7em 1.5em;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(51, 78, 123, 0.10);
+  transition: background 0.18s, color 0.18s, transform 0.12s;
+}
+.confirmation-popup-btn.cancel {
+  background: #fff;
+  color: #334E7B;
+  border: 1.5px solid #b6cfff;
+}
+.confirmation-popup-btn.cancel:hover {
+  background: #e3ecff;
+}
+.confirmation-popup-btn:disabled {
+  background: #b6cfff;
+  color: #fff;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+.confirmation-popup-btn:not(:disabled):hover {
+  background: #4766a6;
+  color: #fff;
+  transform: translateY(-2px) scale(1.04);
+}
+@media (max-width: 600px) {
+  .confirmation-popup-modal {
+    min-width: 0;
+    width: 98vw;
+    padding: 1.2em 0.7em 1em 0.7em;
+  }
+  .confirmation-popup-title {
+    font-size: 1.1em;
+  }
+  .confirmation-popup-message {
+    font-size: 1em;
+  }
+}

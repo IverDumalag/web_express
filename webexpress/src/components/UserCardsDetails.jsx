@@ -5,6 +5,7 @@ import { RiSpeakerFill } from "react-icons/ri";
 import { getUserData } from '../data/UserData';
 import ConfirmationPopup from "./ConfirmationPopup";
 import MessagePopup from "./MessagePopup"; // <-- Add this import
+import '../CSS/UserCardsDetails.css';
 
 // API endpoints
 const EDIT_API_URL = import.meta.env.VITE_PHRASESWORDSEDIT;
@@ -419,20 +420,20 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
             })()}
           </div>
           {editMode && (
-            <div style={{ marginTop: "4%", display: "flex", gap: "2%" }}>
+            <div style={{ marginTop: "2em", display: "flex", gap: "1.2em", justifyContent: "center", alignItems: "center", width: "100%" }}>
               <button
-                className="ucd-prevnext-btn"
-                style={{ background: "#6c63ff", color: "#fff", width: "40%" }}
+                className="ucd-prevnext-btn ucd-save-btn"
                 onClick={handleEditSave}
                 disabled={editLoading || !editWords.trim()}
+                style={{ width: "40%" }}
               >
                 {editLoading ? "Saving..." : "Save"}
               </button>
               <button
-                className="ucd-prevnext-btn"
-                style={{ background: "#bbb", color: "#fff", width: "40%" }}
+                className="ucd-prevnext-btn ucd-cancel-btn"
                 onClick={handleEditCancel}
                 disabled={editLoading}
+                style={{ width: "40%" }}
               >
                 Cancel
               </button>
@@ -462,139 +463,6 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
         }}
         style={{ zIndex: 3001 }}
       />
-      <style>{`
-        .ucd-modal-overlay {
-          position: fixed;
-          z-index: 1000;
-          left: 0; top: 0; right: 0; bottom: 0;
-          background: rgba(0,0,0,0.25);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        .ucd-modal {
-          background: #fff;
-          border-radius: 3vw;
-          box-shadow: 0 4px 32px rgba(0,0,0,0.18);
-          width: 95vw;
-          max-width: 420px;
-          padding: 0;
-          display: flex;
-          flex-direction: column;
-        }
-        .ucd-modal-header {
-          display: flex;
-          align-items: center;
-          padding: 3% 4%;
-          border-bottom: 1px solid #eee;
-          background: #f8f8fc;
-        }
-        .ucd-back-btn, .ucd-icon-btn {
-          background: none;
-          border: none;
-          font-size: 1.4em;
-          color: #6c63ff;
-          cursor: pointer;
-          margin: 0 2%;
-        }
-        .ucd-modal-body {
-          padding: 5% 5% 5% 5%;
-        }
-        .ucd-words-row {
-          display: flex;
-          align-items: center;
-          gap: 4%;
-          margin-bottom: 5%;
-        }
-        .ucd-words {
-          font-size: 1.2em;
-          font-weight: bold;
-          flex: 1;
-        }
-        .ucd-speak-btn {
-          background: none;
-          border: none;
-          color: #6c63ff;
-          font-size: 1.3em;
-          cursor: pointer;
-          transition: color 0.2s;
-        }
-        .ucd-speak-btn.active {
-          color: #007bff;
-        }
-        .ucd-media-row {
-          margin-top: 2%;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
-        .ucd-media-square {
-          width: 100%;
-          aspect-ratio: 1 / 1;
-          background: #f7f7fa;
-          border-radius: 3%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          overflow: hidden;
-          margin-bottom: 3%;
-        }
-        .ucd-media-content {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          border-radius: 3%;
-        }
-        .ucd-video-extra-controls {
-          margin-top: 2%;
-          text-align: center;
-          width: 100%;
-        }
-        .ucd-prev-next-row {
-          display: flex;
-          justify-content: center;
-          margin-top: 4%;
-          width: 100%;
-        }
-        .ucd-prevnext-btn {
-          background: #ecebff;
-          border: none;
-          border-radius: 2vw;
-          padding: 2% 8%;
-          font-size: 1em;
-          color: #6c63ff;
-          cursor: pointer;
-          transition: background 0.2s, color 0.2s;
-        }
-        .ucd-prevnext-btn:disabled {
-          background: #f3f3f3;
-          color: #bbb;
-          cursor: not-allowed;
-        }
-        .ucd-prevnext-btn:not(:disabled):hover {
-          background: #d6d6ff;
-          color: #007bff;
-        }
-        .ucd-edit-input {
-          padding: 2% 3%;
-          border: 1px solid #ccc;
-          border-radius: 1vw;
-          font-size: 1em;
-          width: 100%;
-        }
-        @media (max-width: 600px) {
-          .ucd-modal {
-            max-width: 99vw;
-            border-radius: 4vw;
-          }
-          .ucd-modal-header {
-            padding: 4% 2%;
-          }
-          .ucd-modal-body {
-            padding: 6% 2% 6% 2%;
-          }
-        }
-      `}</style>
     </div>
   );
 }

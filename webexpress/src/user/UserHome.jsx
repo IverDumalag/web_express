@@ -7,6 +7,9 @@ import UserCards from '../components/UserCards';
 import { getUserData } from '../data/UserData';
 import MessagePopup from '../components/MessagePopup';
 import { useNavigate } from "react-router-dom";
+import bgImage from '../assets/background.png'; // Import the background image
+import expressLogo from '../assets/express_logo.png';
+import '../CSS/UserHome.css';
 
 // Get the API endpoint from .env
 const API_URL = import.meta.env.VITE_PHRASESWORDSBYIDGET;
@@ -14,7 +17,7 @@ const INSERT_API_URL = import.meta.env.VITE_PHRASESWORDSINSERT;
 const TRYSEARCH_API_URL = import.meta.env.VITE_TRYSEARCH;
 const UPDATE_STATUS_API_URL = import.meta.env.VITE_PHRASESWORDSSTATUSUPDATE; // Assuming you have an API endpoint for status updates
 
-export default function UserSearch() {
+export default function UserHome() {
   const [activeTab, setActiveTab] = useState("wave");
   const [search, setSearch] = useState("");
   const [showFilter, setShowFilter] = useState(false);
@@ -212,230 +215,36 @@ export default function UserSearch() {
 
   return (
     <>
-      <style>{`
-          .search-main-container {
-            min-height: 100vh;
-            width: 100vw;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #f8f8fc;
-          }
-          .search-content-box {
-            background: #fff;
-            border-radius: 2vw;
-            box-shadow: 0 2px 16px rgba(0,0,0,0.08);
-            width: 90vw;
-            max-width: 480px;
-            min-width: 240px;
-            padding: 4vw 4vw 2vw 4vw;
-            display: flex;
-            flex-direction: column;
-            align-items: stretch;
-          }
-          .search-bar-row {
-            display: flex;
-            align-items: center;
-            margin-bottom: 4vw;
-            position: relative;
-          }
-          .search-input {
-            flex: 1;
-            padding: 2.5vw 2vw;
-            font-size: 1.1em;
-            border: 1px solid #ccc;
-            border-radius: 1vw;
-            outline: none;
-          }
-          .filter-icon-btn, .meatball-icon-btn {
-            background: none;
-            border: none;
-            margin-left: 2vw;
-            font-size: 1.7em;
-            color: #888;
-            cursor: pointer;
-            position: relative;
-          }
-          .filter-dropdown, .meatball-dropdown {
-            position: absolute;
-            top: 110%;
-            background: #fff;
-            border: 1px solid #eee;
-            border-radius: 1vw;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            z-index: 10;
-          }
-          .filter-dropdown {
-            right: 48px;
-            min-width: 60vw;
-            max-width: 220px;
-          }
-          .meatball-dropdown {
-            right: 0;
-            min-width: 120px;
-          }
-          .filter-option, .meatball-option {
-            padding: 2vw 4vw;
-            font-size: 1em;
-            color: #333;
-            background: none;
-            border: none;
-            width: 100%;
-            text-align: left;
-            cursor: pointer;
-            transition: background 0.15s;
-          }
-          .filter-option.selected,
-          .filter-option:hover {
-            background: #f3f1ff;
-            color: #6c63ff;
-          }
-          .meatball-option:hover {
-            background: #f3f1ff;
-            color: #6c63ff;
-          }
-          .tab-row {
-            display: flex;
-            width: 100%;
-            justify-content: space-between;
-            align-items: stretch;
-            margin-bottom: 3vw;
-            gap: 0;
-          }
-          .tab-btn {
-            flex: 1 1 0;
-            background: none;
-            border: none;
-            font-size: 1.5em;
-            color: #bbb;
-            cursor: pointer;
-            padding: 2vw 0;
-            border-bottom: 3px solid transparent;
-            transition: color 0.2s, border-bottom 0.2s, background 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-          }
-          .tab-btn.active {
-            color: #6c63ff;
-            border-bottom: 3px solid #6c63ff;
-            background: #f3f1ff;
-          }
-          @media (max-width: 600px) {
-            .search-content-box {
-              width: 98vw;
-              max-width: 99vw;
-              padding: 6vw 2vw 3vw 2vw;
-            }
-            .search-input {
-              font-size: 1em;
-              padding: 3vw 2vw;
-            }
-            .tab-row {
-              gap: 0;
-            }
-            .tab-btn {
-              font-size: 1.2em;
-              padding: 3vw 0;
-            }
-            .filter-dropdown {
-              min-width: 70vw;
-            }
-          }
-            .search-main-container {
-            min-height: 100vh;
-            width: 100vw;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #f8f8fc;
-          }
-          .search-content-box {
-            background: #fff;
-            border-radius: 2vw;
-            box-shadow: 0 2px 16px rgba(0,0,0,0.08);
-            width: 90vw;
-            max-width: 480px;
-            min-width: 240px;
-            padding: 4vw 4vw 2vw 4vw;
-            display: flex;
-            flex-direction: column;
-            align-items: stretch;
-          }
-          /* ...other styles... */
-          .add-modal-overlay {
-            position: fixed;
-            z-index: 2000;
-            left: 0; top: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.25);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-          }
-          .add-modal {
-            background: #fff;
-            border-radius: 3vw;
-            box-shadow: 0 4px 32px rgba(0,0,0,0.18);
-            width: 90vw;
-            max-width: 350px;
-            min-width: 60vw;
-            padding: 8vw 6vw 6vw 6vw;
-            display: flex;
-            flex-direction: column;
-            align-items: stretch;
-          }
-          .add-modal h3 {
-            margin-bottom: 5vw;
-            text-align: center;
-            font-size: 1.2em;
-          }
-          .add-modal-input {
-            padding: 3vw 2vw;
-            font-size: 1.1em;
-            border: 1px solid #ccc;
-            border-radius: 2vw;
-            margin-bottom: 6vw;
-            outline: none;
-          }
-          .add-modal-actions {
-            display: flex;
-            justify-content: space-between;
-            gap: 4vw;
-          }
-          .add-modal-btn {
-            flex: 1;
-            background: #6c63ff;
-            color: #fff;
-            border: none;
-            border-radius: 2vw;
-            padding: 3vw 0;
-            font-size: 1em;
-            cursor: pointer;
-            transition: background 0.2s;
-          }
-          .add-modal-btn.cancel {
-            background: #bbb;
-          }
-          .add-modal-btn:disabled {
-            background: #eee;
-            color: #aaa;
-            cursor: not-allowed;
-          }
-          @media (max-width: 600px) {
-            .add-modal {
-              width: 96vw;
-              min-width: 0;
-              max-width: 99vw;
-              padding: 10vw 4vw 8vw 4vw;
-              border-radius: 4vw;
-            }
-            .add-modal-input {
-              font-size: 1em;
-              padding: 4vw 2vw;
-            }
-          }
-        `}</style>
-        <div className="search-main-container">
+      <div className="search-main-container">
+        <div className="search-two-col-container">
+          {/* Left: App Info */}
+          <div className="search-app-info-col">
+            <div className="search-app-logo-row">
+              {/* Logo: Use image if available, else styled text */}
+              <img src={expressLogo} alt="exPress Logo" className="search-app-logo-img" onError={e => {e.target.style.display='none'; e.target.parentNode.querySelector('.search-app-logo-fallback').style.display='block';}} />
+              <div className="search-app-logo-fallback" style={{display:'none'}}>
+                <div className="search-app-logo-text">
+                  <span className="ex-logo-e">E</span><span className="ex-logo-x">X</span>
+                  <span className="ex-logo-p">P</span><span className="ex-logo-r">R</span><span className="ex-logo-e2">E</span><span className="ex-logo-s">S</span><span className="ex-logo-s2">S</span>
+                  <span className="ex-logo-owlets">owlets</span>
+                </div>
+              </div>
+            </div>
+            <div className="search-app-title"><span className="ex-logo-e">ex</span><span className="ex-logo-p">Press</span></div>
+            <div className="search-app-desc">
+              is a mobile and web application<br />
+              designed to allow abled people to connect within<br />
+              deaf-mute communities seamlessly. With features<br />
+              like sign language to text and text/audio to sign<br />
+              language conversion for mobile, and audio-text to<br />
+              sign for web
+            </div>
+            <div className="search-app-download-row">
+              <a href="#" className="search-app-social-link" title="Facebook" target="_blank" rel="noopener noreferrer"><i className="fa fa-facebook" /></a>
+              <a href="mailto:info@express.com" className="search-app-social-link" title="Email"><i className="fa fa-envelope" /></a>
+            </div>
+          </div>
+          {/* Right: Search/cards UI */}
           <div className="search-content-box">
             {/* Search bar and filter/meatball icons */}
             <div className="search-bar-row">
@@ -506,7 +315,7 @@ export default function UserSearch() {
               <button
                 className={`tab-btn${activeTab === "wave" ? " active" : ""}`}
                 onClick={() => setActiveTab("wave")}
-                title="Wave"
+                title="Your cards"
               >
                 <MdOutlineWavingHand />
               </button>
@@ -529,57 +338,58 @@ export default function UserSearch() {
             )}
           </div>
         </div>
-        <UserBottomNavBar />
+      </div>
+      <UserBottomNavBar />
 
-        {/* Add Word/Phrases Modal */}
-        {showAddModal && (
-          <div className="add-modal-overlay">
-            <div className="add-modal">
-              <h3>Add Word/Phrase</h3>
-              <input
-                className="add-modal-input"
-                type="text"
-                value={addInput}
-                onChange={e => setAddInput(e.target.value)}
-                placeholder="Enter word or phrase"
-                disabled={addLoading}
-                autoFocus
-              />
-              <div className="add-modal-actions">
-                <button
-                  className="add-modal-btn"
-                  onClick={handleAddWord}
-                  disabled={addLoading || !addInput.trim()}
-                >
-                  {addLoading ? "Adding..." : "Add"}
-                </button>
-                <button
-                  className="add-modal-btn cancel"
-                  onClick={() => setShowAddModal(false)}
-                  disabled={addLoading}
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
-            <MessagePopup
-              open={popup.open}
-              title={popup.type === "success" ? "Success!" : popup.type === "error" ? "Error" : "Info"}
-              description={popup.message}
-              onClose={() => setPopup(p => ({ ...p, open: false }))}
-              style={{ zIndex: 3000 }}
+      {/* Add Word/Phrases Modal */}
+      {showAddModal && (
+        <div className="add-modal-overlay">
+          <div className="add-modal">
+            <h3>Add Word/Phrase</h3>
+            <input
+              className="add-modal-input"
+              type="text"
+              value={addInput}
+              onChange={e => setAddInput(e.target.value)}
+              placeholder="Enter word or phrase"
+              disabled={addLoading}
+              autoFocus
             />
+            <div className="add-modal-actions">
+              <button
+                className="add-modal-btn"
+                onClick={handleAddWord}
+                disabled={addLoading || !addInput.trim()}
+              >
+                {addLoading ? "Adding..." : "Add"}
+              </button>
+              <button
+                className="add-modal-btn cancel"
+                onClick={() => setShowAddModal(false)}
+                disabled={addLoading}
+              >
+                Cancel
+              </button>
+            </div>
           </div>
-        )}
-
-        {!showAddModal && (
           <MessagePopup
             open={popup.open}
             title={popup.type === "success" ? "Success!" : popup.type === "error" ? "Error" : "Info"}
             description={popup.message}
             onClose={() => setPopup(p => ({ ...p, open: false }))}
+            style={{ zIndex: 3000 }}
           />
-        )}
+        </div>
+      )}
+
+      {!showAddModal && (
+        <MessagePopup
+          open={popup.open}
+          title={popup.type === "success" ? "Success!" : popup.type === "error" ? "Error" : "Info"}
+          description={popup.message}
+          onClose={() => setPopup(p => ({ ...p, open: false }))}
+        />
+      )}
     </>
   );
 }
