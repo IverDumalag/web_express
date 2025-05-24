@@ -3,6 +3,7 @@ import { FaStar, FaRegStar } from "react-icons/fa";
 import { MdSpeakerPhone } from "react-icons/md";
 import { RiSpeakerFill } from "react-icons/ri";
 import UserCardDetailsModal from "./UserCardsDetails";
+import '../CSS/UserCards.css';
 
 const FAVORITE_API_URL = import.meta.env.VITE_PHRASESWORDSISFAVORITEUPDATE;
 
@@ -98,78 +99,6 @@ export default function UserCards({ cards: initialCards, onCardUpdated }) {
 
   return (
     <>
-      <style>{`
-        .card-list {
-          flex: 1;
-          overflow-y: auto;
-          max-height: 40vh;
-          min-height: 120px;
-          padding-right: 2%;
-        }
-        .card-item {
-          background: #f7f7fa;
-          border-radius: 2vw;
-          margin-bottom: 3%;
-          padding: 3% 4%;
-          box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          cursor: pointer;
-          transition: background 0.15s;
-        }
-        .card-item:hover {
-          background: #ecebff;
-        }
-        .card-content {
-          flex: 1;
-          min-width: 0;
-        }
-        .card-title {
-          font-weight: bold;
-          margin-bottom: 1vw;
-          font-size: 1.1em;
-        }
-        .card-actions {
-          display: flex;
-          align-items: center;
-          gap: 4vw;
-          margin-left: 4vw;
-        }
-        .card-action-btn {
-          background: none;
-          border: none;
-          color: #888;
-          font-size: 1.3em;
-          cursor: pointer;
-          padding: 0.2em;
-          transition: color 0.2s;
-        }
-        .card-action-btn.fav {
-          color: #f7b801;
-        }
-        .card-action-btn.speak {
-          color: #6c63ff;
-        }
-        .card-action-btn.speak.active {
-          color: #007bff;
-        }
-        .card-action-btn:disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
-        }
-        .card-action-btn:hover {
-          color: #007bff;
-        }
-        @media (max-width: 600px) {
-          .card-list {
-            max-height: 36vh;
-          }
-          .card-actions {
-            gap: 6vw;
-          }
-        }
-      `}</style>
       <div className="card-list">
         {cards.length === 0 ? (
           <div style={{ textAlign: "center", color: "#aaa", marginTop: "4vw" }}>
@@ -182,7 +111,7 @@ export default function UserCards({ cards: initialCards, onCardUpdated }) {
               key={card.entry_id}
               onClick={e => {
                 // Prevent modal open when clicking favorite/speak buttons
-                if (e.target.closest(".card-action-btn")) return;
+                if (e.target.closest('.card-action-btn')) return;
                 setSelectedCard(card);
               }}
             >
