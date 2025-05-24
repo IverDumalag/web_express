@@ -29,93 +29,84 @@ const GuestNavBar = () => {
                display: flex;
                justify-content: space-between;
                align-items: center;
-               background: rgb(182, 169, 226);
-               padding: 2% 4%;
-               width: 100%;
-               box-sizing: border-box;
+               background: #ffffff;
+               padding: 1rem 2rem;
+               box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+               border-bottom: 1px solid #e0e0e0;
+               position: sticky;
+               top: 0;
+               z-index: 100;
+               font-family: 'Segoe UI', sans-serif;
             }
-            .navbar-left {
+
+            .brand-link {
                display: flex;
                align-items: center;
-            }
-            .brand-link {
-               font-weight: bold;
-               font-size: 1.5em;
+               font-weight: 700;
+               font-size: 1.6em;
                color: #333;
                text-decoration: none;
                cursor: pointer;
-               margin-right: 2vw;
-               letter-spacing: 1px;
             }
+
             .download-link {
-               margin-right: 5%;
+               margin-left: 1.5rem;
                color: #007bff;
                text-decoration: none;
-               cursor: pointer;
                font-weight: 500;
-               font-size: 1.1em;
+               font-size: 1em;
             }
+
             .account-container {
                position: relative;
+               margin-left: 1rem;
             }
+
             .account-icon {
-               font-size: 2em;
+               font-size: 1.8em;
                cursor: pointer;
+               color: #333;
             }
+
             .dropdown {
                display: none;
                position: absolute;
                right: 0;
-               top: 120%;
-               background: #fff;
-               box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-               border-radius: 4px;
-               min-width: 120px;
-               z-index: 10;
+               top: 130%;
+               background: #ffffff;
+               box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+               border-radius: 8px;
+               min-width: 140px;
+               z-index: 100;
             }
+
             .dropdown a {
                display: block;
-               padding: 8% 12%;
+               padding: 0.75rem 1rem;
                color: #333;
                text-decoration: none;
-               font-size: 1em;
             }
+
             .dropdown a:hover {
-               background: #f0f0f0;
+               background: #f5f5f5;
             }
+
             .show {
                display: block;
             }
-            @media (max-width: 600px) {
-               .navbar {
-                  padding: 4% 2%;
-               }
-               .brand-link {
-                  font-size: 1.1em;
-                  margin-right: 1vw;
-               }
-               .download-link {
-                  margin-right: 3%;
-                  font-size: 1em;
-               }
-               .account-icon {
-                  font-size: 1.5em;
-               }
-               .dropdown a {
-                  font-size: 0.95em;
-                  padding: 10% 10%;
+
+            @media (max-width: 768px) {
+               .nav-links {
+                  display: none;
                }
             }
          `}</style>
+
          <nav className="navbar">
-            <div className="navbar-left">
-               <span
-                  className="brand-link"
-                  onClick={() => navigate("/")}
-               >
-                  exPress
-               </span>
-            </div>
+            <span className="brand-link" onClick={() => navigate("/")}>
+               exPress
+            </span>
+
             <div style={{ display: "flex", alignItems: "center" }}>
                <a
                   className="download-link"
@@ -123,7 +114,7 @@ const GuestNavBar = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                >
-                  Download our mobile app
+                  Download App
                </a>
                <div className="account-container" ref={accountRef}>
                   <span className="account-icon" role="img" aria-label="account">
@@ -133,26 +124,8 @@ const GuestNavBar = () => {
                      className={`dropdown${dropdownOpen ? " show" : ""}`}
                      ref={dropdownRef}
                   >
-                     <a
-                        href="#"
-                        onClick={e => {
-                           e.preventDefault();
-                           setDropdownOpen(false);
-                           navigate("/login");
-                        }}
-                     >
-                        Login
-                     </a>
-                     <a
-                        href="#"
-                        onClick={e => {
-                           e.preventDefault();
-                           setDropdownOpen(false);
-                           navigate("/register");
-                        }}
-                     >
-                        Register
-                     </a>
+                     <a href="#" onClick={(e) => { e.preventDefault(); navigate("/login"); }}>Login</a>
+                     <a href="#" onClick={(e) => { e.preventDefault(); navigate("/register"); }}>Register</a>
                   </div>
                </div>
             </div>
