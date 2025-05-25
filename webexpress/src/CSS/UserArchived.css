@@ -39,10 +39,10 @@
 }
 .archived-input {
   flex: 1;
-  padding: 2.5vw 2vw;
-  font-size: 1.1em;
+  padding: 0.7em 1em;
+  font-size: 0.95em;
   border: 1px solid #ccc;
-  border-radius: 1vw;
+  border-radius: 8px;
   outline: none;
 }
 .filter-icon-btn {
@@ -70,8 +70,8 @@
 .filter-option {
   padding: 2vw 4vw;
   font-size: 1em;
-  color: #334E7B;
-  background: none;
+  color: #fff;
+  background: #334E7B;
   border: none;
   width: 100%;
   text-align: left;
@@ -80,8 +80,8 @@
 }
 .filter-option.selected,
 .filter-option:hover {
-  background: #334E7B;
-  color: #fff;
+  background: #fff;
+  color: #334E7B;
   border-radius: 8px;
 }
 .archived-list {
@@ -92,7 +92,8 @@
   padding-right: 2%;
 }
 .archived-item {
-  background: #f7f7fa;
+  background: #334E7B;
+  color: #fff;
   border-radius: 8px;
   margin-bottom: 3%;
   padding: 3% 4%;
@@ -106,6 +107,7 @@
   min-width: 0;
 }
 .archived-title {
+  color: #fff;
   font-weight: bold;
   font-size: 1.1em;
   white-space: nowrap;
@@ -115,14 +117,14 @@
 .archived-action-btn {
   background: none;
   border: none;
-  color: #e74c3c;
+  color: #ffffff ;
   font-size: 1.3em;
   cursor: pointer;
   margin-left: 2vw;
   border-radius: 8px;
 }
 .archived-action-btn:hover {
-  color: #c0392b;
+  color: #000000 ;
   border-radius: 8px;
 }
 @media (max-width: 600px) {
