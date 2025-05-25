@@ -20,6 +20,7 @@ export default function UserFeedback({ showModal, onCloseModal }) {
 
   const userData = getUserData();
   const user_id = userData?.user_id || "";
+  const [user_email, setUserEmail] = useState(userData?.email||"");
 
   // Reset form when modal opens/closes
   useEffect(() => {
@@ -40,7 +41,7 @@ export default function UserFeedback({ showModal, onCloseModal }) {
       setPopup({ open: true, message: "User not logged in. Please log in again.", type: "error" });
       return;
     }
-    if (!mainConcern.trim() || !details.trim() || !email.trim()) {
+    if (!mainConcern.trim() || !details.trim() || !user_email.trim()) {
       setPopup({ open: true, message: "Please fill in all fields.", type: "error" });
       return;
     }
@@ -48,7 +49,7 @@ export default function UserFeedback({ showModal, onCloseModal }) {
     try {
       const payload = {
         user_id,
-        email,
+        email: user_email,
         main_concern: mainConcern,
         details
       };
@@ -82,7 +83,7 @@ export default function UserFeedback({ showModal, onCloseModal }) {
           position: fixed;
           z-index: 2000;
           top: 0; left: 0; right: 0; bottom: 0;
-          background: rgba(0, 0, 0, 0.25);
+          background: rgba(244,246,250,0.95);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -234,9 +235,9 @@ export default function UserFeedback({ showModal, onCloseModal }) {
             className="feedback-modal-input"
             id="email"
             type="email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
+            value={user_email}
             placeholder="Your email"
+            disabled
           />
           <div className="feedback-modal-actions">
             <button

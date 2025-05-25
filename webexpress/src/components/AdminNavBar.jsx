@@ -1,12 +1,19 @@
 import React, { useRef, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { clearUserData } from '../data/UserData';
 
-export default function AdminNavBar() {
+const sideLinks = [
+  { label: "Dashboard", path: "/adminhome" },
+  { label: "Analytics", path: "/adminanalytics" },
+  { label: "Logs", path: "/adminlogs" },
+];
+
+export default function AdminNavBar({ children }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const avatarRef = useRef(null);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const handleClick = (event) => {
@@ -34,15 +41,19 @@ export default function AdminNavBar() {
   return (
     <>
       <style>{`
-        .admin-navbar {
+        .admin-navbar-top {
+          width: 100vw;
+          background: linear-gradient(90deg, #2354C7 80%, #3b82f6 100%);
           display: flex;
           justify-content: space-between;
           align-items: center;
-          background: linear-gradient(90deg, #2354C7 80%, #3b82f6 100%);
           padding: 2% 5%;
-          width: 100%;
           box-sizing: border-box;
           min-height: 7vh;
+          position: fixed;
+          top: 0;
+          left: 0;
+          z-index: 100;
         }
         .admin-navbar-left {
           display: flex;
@@ -110,8 +121,95 @@ export default function AdminNavBar() {
         .admin-dropdown-btn:hover {
           background: #f0f4ff;
         }
+        .admin-outer-layout {
+          display: flex;
+          flex-direction: column;
+          min-height: 100vh;
+          background: #f4f6fa;
+        }
+        .admin-content-layout {
+          display: flex;
+          flex-direction: row;
+          width: 100vw;
+          min-height: 100vh;
+          background: #f4f6fa;
+          padding-top: 7vh; /* Height of navbar */
+        }
+        .admin-sidebar-vertical {
+          width: 210px;
+          background: #2354C7;
+          color: #fff;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 2vw 0 2vw 0;
+          box-shadow: 2px 0 12px rgba(35,84,199,0.08);
+          z-index: 99;
+          min-height: calc(100vh - 7vh);
+          position: sticky;
+          top: 7vh;
+          left: 0;
+          height: calc(100vh - 7vh);
+        }
+        .admin-sidebar-title {
+          font-size: 1.5em;
+          font-weight: bold;
+          margin: 0 0 2vw 2vw;
+          letter-spacing: 1px;
+        }
+        .admin-sidebar-links {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          gap: 0.5vw;
+        }
+        .admin-sidebar-link {
+          width: 100%;
+          padding: 1em 2em;
+          font-size: 1.1em;
+          color: #fff;
+          background: none;
+          border: none;
+          text-align: left;
+          cursor: pointer;
+          border-left: 4px solid transparent;
+          transition: background 0.15s, border-color 0.15s;
+        }
+        .admin-sidebar-link.active,
+        .admin-sidebar-link:hover {
+          background: #3b82f6;
+          border-left: 4px solid #fff;
+        }
+        .admin-main-content {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          min-height: calc(100vh - 7vh);
+          padding: 2vw 2vw 2vw 2vw;
+          margin-left: 210px; /* width of sidebar */
+        }
+        @media (max-width: 900px) {
+          .admin-sidebar-vertical {
+            width: 56px;
+            padding: 1vw 0;
+          }
+          .admin-main-content {
+            margin-left: 56px;
+          }
+          .admin-sidebar-title {
+            display: none;
+          }
+          .admin-sidebar-link {
+            padding: 1em 0.5em;
+            font-size: 1em;
+            text-align: center;
+          }
+          .admin-sidebar-link span {
+            display: none;
+          }
+        }
         @media (max-width: 600px) {
-          .admin-navbar {
+          .admin-navbar-top {
             padding: 4% 3%;
             min-height: 6vh;
           }
@@ -129,47 +227,69 @@ export default function AdminNavBar() {
           }
         }
       `}</style>
-      <nav className="admin-navbar">
-        <div className="admin-navbar-left">
-          <span
-            className="admin-brand-link"
-            onClick={() => navigate("/tempadmin")}
-          >
-            exPress
-          </span>
-        </div>
-        <div className="admin-navbar-right">
-          <div className="admin-avatar-container" ref={avatarRef}>
-            <span className="admin-avatar-icon" title="Account">
-              <span role="img" aria-label="avatar">👤</span>
-            </span>
-            <div
-              className={`admin-dropdown${dropdownOpen ? " show" : ""}`}
-              ref={dropdownRef}
+      <div className="admin-outer-layout">
+        <nav className="admin-navbar-top">
+          <div className="admin-navbar-left">
+            <span
+              className="admin-brand-link"
+              onClick={() => navigate("/adminhome")}
             >
-              <button
-                className="admin-dropdown-btn"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setDropdownOpen(false);
-                  navigate("/adminprofile");
-                }}
+              exPress
+            </span>
+          </div>
+          <div className="admin-navbar-right">
+            <div className="admin-avatar-container" ref={avatarRef}>
+              <span className="admin-avatar-icon" title="Account">
+                <span role="img" aria-label="avatar">👤</span>
+              </span>
+              <div
+                className={`admin-dropdown${dropdownOpen ? " show" : ""}`}
+                ref={dropdownRef}
               >
-                Profile
-              </button>
-              <button
-                className="admin-dropdown-btn"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleLogout();
-                }}
-              >
-                Logout
-              </button>
+                <button
+                  className="admin-dropdown-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setDropdownOpen(false);
+                    navigate("/adminprofile");
+                  }}
+                >
+                  Profile
+                </button>
+                <button
+                  className="admin-dropdown-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleLogout();
+                  }}
+                >
+                  Logout
+                </button>
+              </div>
             </div>
           </div>
+        </nav>
+        <div className="admin-content-layout">
+          <nav className="admin-sidebar-vertical">
+            <div className="admin-sidebar-title"></div>
+            <div className="admin-sidebar-links">
+              {sideLinks.map(link => (
+                <button
+                  key={link.path}
+                  className={`admin-sidebar-link${location.pathname === link.path ? " active" : ""}`}
+                  onClick={() => navigate(link.path)}
+                >
+                  <span>{link.label}</span>
+                </button>
+              ))}
+            </div>
+          </nav>
+          <div className="admin-main-content">
+            {/* Place your page content below */}
+            {children}
+          </div>
         </div>
-      </nav>
+      </div>
     </>
   );
 }
