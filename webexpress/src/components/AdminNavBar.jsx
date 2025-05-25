@@ -1,9 +1,10 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { clearUserData } from '../data/UserData';
+import AdminProfile from '../admin/AdminProfile';
+
 
 const sideLinks = [
-  { label: "Dashboard", path: "/adminhome" },
   { label: "Analytics", path: "/adminanalytics" },
   { label: "Logs", path: "/adminlogs" },
 ];
@@ -14,6 +15,7 @@ export default function AdminNavBar({ children }) {
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
+  const [showProfile, setShowProfile] = useState(false);
 
   useEffect(() => {
     const handleClick = (event) => {
@@ -41,8 +43,12 @@ export default function AdminNavBar({ children }) {
   return (
     <>
       <style>{`
+        body {
+          margin: 0;
+          font-family: Arial, sans-serif;
+        }
         .admin-navbar-top {
-          width: 100vw;
+          width: 100%;
           background: linear-gradient(90deg, #2354C7 80%, #3b82f6 100%);
           display: flex;
           justify-content: space-between;
@@ -50,10 +56,11 @@ export default function AdminNavBar({ children }) {
           padding: 2% 5%;
           box-sizing: border-box;
           min-height: 7vh;
-          position: fixed;
+          position: sticky;
           top: 0;
           left: 0;
           z-index: 100;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
         .admin-navbar-left {
           display: flex;
@@ -130,10 +137,8 @@ export default function AdminNavBar({ children }) {
         .admin-content-layout {
           display: flex;
           flex-direction: row;
-          width: 100vw;
-          min-height: 100vh;
+          flex: 1;
           background: #f4f6fa;
-          padding-top: 7vh; /* Height of navbar */
         }
         .admin-sidebar-vertical {
           width: 210px;
@@ -145,17 +150,12 @@ export default function AdminNavBar({ children }) {
           padding: 2vw 0 2vw 0;
           box-shadow: 2px 0 12px rgba(35,84,199,0.08);
           z-index: 99;
-          min-height: calc(100vh - 7vh);
           position: sticky;
           top: 7vh;
-          left: 0;
           height: calc(100vh - 7vh);
-        }
-        .admin-sidebar-title {
-          font-size: 1.5em;
-          font-weight: bold;
-          margin: 0 0 2vw 2vw;
-          letter-spacing: 1px;
+          overflow-y: auto;
+          /* Ensure the sidebar maintains its fixed width even if content pushes */
+          flex-shrink: 0; /* Add this line */
         }
         .admin-sidebar-links {
           width: 100%;
@@ -185,8 +185,11 @@ export default function AdminNavBar({ children }) {
           display: flex;
           flex-direction: column;
           min-height: calc(100vh - 7vh);
-          padding: 2vw 2vw 2vw 2vw;
-          margin-left: 210px; /* width of sidebar */
+          padding: 2vw;
+          margin-left: 210px;
+          box-sizing: border-box;
+          /* Allow main content to scroll internally if it overflows */
+          overflow-x: auto; /* Add this line */
         }
         @media (max-width: 900px) {
           .admin-sidebar-vertical {
@@ -195,9 +198,6 @@ export default function AdminNavBar({ children }) {
           }
           .admin-main-content {
             margin-left: 56px;
-          }
-          .admin-sidebar-title {
-            display: none;
           }
           .admin-sidebar-link {
             padding: 1em 0.5em;
@@ -210,20 +210,58 @@ export default function AdminNavBar({ children }) {
         }
         @media (max-width: 600px) {
           .admin-navbar-top {
-            padding: 4% 3%;
-            min-height: 6vh;
+            position: sticky;
+            top: 0;
           }
-          .admin-brand-link {
-            font-size: 1.1em;
+          .admin-content-layout {
+            flex-direction: column;
+            padding-top: 0;
           }
-          .admin-avatar-icon {
-            width: 2em;
-            height: 2em;
-            font-size: 1.1em;
+          .admin-sidebar-vertical {
+            position: static;
+            width: 100%;
+            min-width: auto;
+            height: auto;
+            top: auto;
+            left: auto;
+            flex-direction: row;
+            justify-content: space-around;
+            box-shadow: none;
+            padding: 0.5em 0;
+            min-height: auto;
+            overflow-y: visible;
+            flex-shrink: unset; /* Revert flex-shrink for mobile horizontal sidebar */
           }
-          .admin-dropdown-btn {
-            font-size: 0.95em;
-            padding: 10% 10%;
+          .admin-sidebar-links {
+            flex-direction: row;
+            gap: 0.5em;
+            width: 100%;
+            justify-content: space-around;
+          }
+          .admin-sidebar-link {
+            padding: 0.8em 0.5em;
+            font-size: 1em;
+            border-left: none;
+            border-bottom: 3px solid transparent;
+            border-radius: 0;
+            text-align: center;
+            width: auto;
+            flex-grow: 1;
+          }
+          .admin-sidebar-link.active,
+          .admin-sidebar-link:hover {
+            background: #3b82f6;
+            border-left: none;
+            border-bottom: 3px solid #fff;
+          }
+          .admin-sidebar-link span {
+            display: block;
+          }
+          .admin-main-content {
+            margin-left: 0;
+            padding: 2vw;
+            min-height: auto;
+            overflow-x: unset; /* Revert overflow-x for mobile content */
           }
         }
       `}</style>
@@ -232,7 +270,7 @@ export default function AdminNavBar({ children }) {
           <div className="admin-navbar-left">
             <span
               className="admin-brand-link"
-              onClick={() => navigate("/adminhome")}
+              onClick={() => navigate("/adminanalytics")}
             >
               exPress
             </span>
@@ -246,16 +284,16 @@ export default function AdminNavBar({ children }) {
                 className={`admin-dropdown${dropdownOpen ? " show" : ""}`}
                 ref={dropdownRef}
               >
-                <button
-                  className="admin-dropdown-btn"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setDropdownOpen(false);
-                    navigate("/adminprofile");
-                  }}
-                >
-                  Profile
-                </button>
+              <button
+                className="admin-dropdown-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setDropdownOpen(false);
+                  setShowProfile(true);
+                }}
+              >
+                Profile
+              </button>
                 <button
                   className="admin-dropdown-btn"
                   onClick={(e) => {
@@ -271,7 +309,6 @@ export default function AdminNavBar({ children }) {
         </nav>
         <div className="admin-content-layout">
           <nav className="admin-sidebar-vertical">
-            <div className="admin-sidebar-title"></div>
             <div className="admin-sidebar-links">
               {sideLinks.map(link => (
                 <button
@@ -290,6 +327,8 @@ export default function AdminNavBar({ children }) {
           </div>
         </div>
       </div>
+
+      <AdminProfile open={showProfile} onClose={() => setShowProfile(false)} />
     </>
   );
 }
