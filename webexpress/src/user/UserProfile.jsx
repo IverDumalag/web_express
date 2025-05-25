@@ -77,7 +77,7 @@ export default function UserProfile() {
         <div className="profile-card profile-card-modern">
           <div className="profile-header-row">
             <div className="profile-header-title-col">
-              <span className="profile-title modern">Account Settings</span>
+              <span className="profile-title modern">Account Settings</span><br></br><br/>
               <span className="profile-desc">Edit your name, email, and other details below.</span>
             </div>
             <div className="profile-avatar-col"></div>
