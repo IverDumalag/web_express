@@ -188,36 +188,50 @@ html, body {
 .tab-row {
   display: flex;
   width: 100%;
-  justify-content: space-between;
-  align-items: stretch;
-  margin-bottom: 2vw; /* slightly less space below */
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 1.5vw;
   gap: 0;
-  background: none;
+  background: #1c2a47;
+  border-radius: 5px; /* <- updated from 8px to 5px */
+  overflow: hidden;
   position: relative;
-  top: -2vw; /* move the tab row even higher */
+  top: -2vw;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .tab-btn {
-  flex: 1 1 0;
-  color: #c7d3ea;
-  background: none;
-  border-bottom: 2px solid transparent; /* thinner underline */
-  font-size: 1.1em; /* smaller font */
-  cursor: pointer;
-  padding: 1vw 0; /* less vertical padding */
-  transition: color 0.2s, border-bottom 0.2s, background 0.2s;
+  flex: 1;
+  color: #b6cfff;
+  background: transparent;
+  border: none;
+  font-size: 1em;
+  font-weight: 500;
+  padding: 0.8vw 0;
+  transition: all 0.25s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 32px;
-  max-height: 40px;
+  min-height: 36px;
+  cursor: pointer;
+  position: relative;
+  border-radius: 0; /* keep flat unless individual rounding is needed */
+}
+
+.tab-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .tab-btn.active {
   color: #fff;
-  border-bottom: 2px solid #ffffff;
-  background: #4669a5;
+  background: #2c4170;
+  font-weight: 600;
+  box-shadow: inset 0 -3px 0 #ffffff;
+  border-radius: 0; /* Optional: if you want rounded active tab: 5px */
 }
+
+
 
 @media (max-width: 600px) {
   .tab-btn {
@@ -444,24 +458,24 @@ html, body {
 }
 
 .search-app-logo-row {
-  width: 100%;
+  width: 95%;
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
   margin-bottom: 2vw;
+  margin-left: 0;
+  aspect-ratio: 2 / 1;
+  min-height: 110px;
+  max-width: 600px;
 }
 
 .search-app-logo-img {
-  width: 180px;
-  height: 90px;
-  object-fit: contain;
-  margin: 0 0 1vw 0;
-  background: none;
-  border-radius: 0;
-  box-shadow: none;
-  position: static;
-  max-width: 100%;
+  height: 100%;
+  width: auto;
   max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  aspect-ratio: 2 / 1;
 }
 
 .search-app-title {
@@ -508,7 +522,6 @@ html, body {
   }
 }
 
-/* Sticky/fixed bottom nav bar */
 .user-bottom-nav {
   position: fixed;
   bottom: 0;
@@ -517,3 +530,8 @@ html, body {
   background: #fff; /* or match your app's theme */
   z-index: 1000;
 }
+
+.ex-logo-e {
+  color: #000 !important;
+}
+
