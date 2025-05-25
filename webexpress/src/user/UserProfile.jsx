@@ -82,39 +82,42 @@ export default function UserProfile() {
             </div>
             <div className="profile-avatar-col"></div>
           </div>
-          <form className="profile-form-modern profile-form-grid">
-            <div className="profile-form-col">
-              <div className="profile-form-row">
-                <label className="profile-form-label">First Name</label>
-                <input className="profile-form-input" name="f_name" value={user?.f_name || ""} disabled />
+          
+          <div className="profile-form-modern">
+            <div className="profile-form-columns">
+              <div className="profile-form-col">
+                <div className="profile-form-row">
+                  <label className="profile-form-label">First Name</label>
+                  <input className="profile-form-input" type="text" value={user?.f_name || ""} disabled />
+                </div>
+                <div className="profile-form-row">
+                  <label className="profile-form-label">Middle Name</label>
+                  <input className="profile-form-input" type="text" value={user?.m_name || ""} disabled />
+                </div>
+                <div className="profile-form-row">
+                  <label className="profile-form-label">Last Name</label>
+                  <input className="profile-form-input" type="text" value={user?.l_name || ""} disabled />
+                </div>
               </div>
-              <div className="profile-form-row">
-                <label className="profile-form-label">Middle Name</label>
-                <input className="profile-form-input" name="m_name" value={user?.m_name || ""} disabled />
-              </div>
-              <div className="profile-form-row">
-                <label className="profile-form-label">Last Name</label>
-                <input className="profile-form-input" name="l_name" value={user?.l_name || ""} disabled />
+              <div className="profile-form-col">
+                <div className="profile-form-row">
+                  <label className="profile-form-label">Email</label>
+                  <input className="profile-form-input" type="email" value={user?.email || ""} disabled />
+                </div>
+                <div className="profile-form-row">
+                  <label className="profile-form-label">Sex</label>
+                  <input className="profile-form-input" type="text" value={user?.sex || ""} disabled />
+                </div>
+                <div className="profile-form-row">
+                  <label className="profile-form-label">Birthdate</label>
+                  <input className="profile-form-input" type="date" value={user?.birthdate || ""} disabled />
+                </div>
               </div>
             </div>
-            <div className="profile-form-col">
-              <div className="profile-form-row">
-                <label className="profile-form-label">Email</label>
-                <input className="profile-form-input" name="email" value={user?.email || ""} disabled />
-              </div>
-              <div className="profile-form-row">
-                <label className="profile-form-label">Sex</label>
-                <input className="profile-form-input" name="sex" value={user?.sex || ""} disabled />
-              </div>
-              <div className="profile-form-row">
-                <label className="profile-form-label">Birthdate</label>
-                <input className="profile-form-input" name="birthdate" value={user?.birthdate || ""} disabled />
-              </div>
-            </div>
-            <div className="profile-form-actions-wide">
+            <div className="profile-form-actions">
               <button className="profile-form-btn edit" type="button" onClick={handleEditOpen}><FaEdit style={{marginRight: 8}}/>Edit</button>
             </div>
-          </form>
+          </div>
         </div>
       </div>
       {showEdit && (
