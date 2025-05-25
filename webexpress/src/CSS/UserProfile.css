@@ -43,18 +43,47 @@ body, html {
 
 .profile-card-modern {
   background: #fff;
-  border-radius: 16px;
+  border-radius: 0; /* Remove border radius from the outer container for consistency */
   box-shadow: 0 8px 32px rgba(51, 78, 123, 0.10), 0 1.5px 8px rgba(51, 78, 123, 0.08);
-  max-width: 900px;
-  min-width: 420px;
-  width: 100%;
-  min-height: 420px;
+  max-width: 1400px;
+  min-width: 520px;
+  width: 86vw;
+  min-height: 540px;
   margin: 0 auto;
   padding: 2.5rem 2.5rem 2.2rem 2.5rem;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  gap: 2.5rem;
+  gap: 0;
+}
+
+/* Unify left/right column border radius for all pages */
+.profile-avatar-col {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1.2rem;
+  min-width: 320px;
+  max-width: 400px;
+  width: 32vw;
+  flex: 1 1 0;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  background: #fff;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+}
+
+.profile-form-modern {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  background: #fff;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
 }
 
 @media (max-width: 700px) {
@@ -126,6 +155,16 @@ body, html {
   justify-content: center;
   flex-direction: column;
   gap: 1.2rem;
+  min-width: 320px;
+  max-width: 400px;
+  width: 32vw;
+  flex: 1 1 0;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  background: #fff;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
 }
 
 .profile-avatar {
@@ -165,16 +204,29 @@ body, html {
 }
 
 .profile-form-modern {
-  flex: 2;
+  width: 86vw;
+  max-width: 1400px;
+  min-width: 520px;
+  min-height: 540px;
+  flex: 2 1 0;
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  background: #fff;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
 }
 
 .profile-form-row {
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
+  flex: 1 1 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .profile-form-label {
@@ -427,19 +479,15 @@ body, html {
     min-height: 320px;
     padding: 1.2rem 0.7rem 1rem 0.7rem;
     gap: 1.5rem;
+    width: 98vw;
+    border-radius: 5px;
   }
-  .profile-avatar-col {
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 1.2rem;
-    margin-bottom: 1.2rem;
-  }
-  .profile-avatar {
-    width: 64px;
-    height: 64px;
-  }
-  .profile-title.modern {
-    font-size: 1.3rem;
+  .profile-avatar-col, .profile-form-modern {
+    border-radius: 5px !important;
+    width: 98vw;
+    max-width: 99vw;
+    min-width: 0;
+    margin: 0 auto;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.08);
   }
 }
