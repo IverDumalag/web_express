@@ -17,10 +17,65 @@ import {
 // Register Chart.js components
 ChartJS.register(LineElement, PointElement, LinearScale, CategoryScale, Tooltip, Legend, Filler, ArcElement);
 
+// --- Add Gauge Chart plugin ---
+import { Chart } from "chart.js";
+import { useRef } from "react";
+
+// Simple Gauge Chart plugin for Chart.js
+function GaugeChart({ value, max = 100, width = 220, height = 120, color = "#2563eb" }) {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    if (!canvasRef.current) return;
+    const ctx = canvasRef.current.getContext("2d");
+    ctx.clearRect(0, 0, width, height);
+
+    // Draw background arc
+    ctx.beginPath();
+    ctx.lineWidth = 18;
+    ctx.strokeStyle = "#e5e7eb";
+    ctx.arc(width / 2, height, width / 2 - 18, Math.PI, 2 * Math.PI, false);
+    ctx.stroke();
+
+    // Draw value arc
+    ctx.beginPath();
+    ctx.lineWidth = 18;
+    ctx.strokeStyle = color;
+    const endAngle = Math.PI + (value / max) * Math.PI;
+    ctx.arc(width / 2, height, width / 2 - 18, Math.PI, endAngle, false);
+    ctx.stroke();
+
+    // Draw text
+    ctx.font = "bold 1.5em Arial";
+    ctx.fillStyle = color;
+    ctx.textAlign = "center";
+    ctx.fillText(`${value.toFixed(1)}%`, width / 2, height - 18);
+    ctx.font = "1em Arial";
+    ctx.fillStyle = "#6b7280";
+    ctx.fillText("Overall Match Rate", width / 2, height + 18);
+  }, [value, max, width, height, color]);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      width={width}
+      height={height + 30}
+      style={{ width, height: height + 30, display: "block", margin: "0 auto" }}
+      aria-label="Gauge Chart"
+    />
+  );
+}
+
+// --- API URLs ---
 const API_DAILY = import.meta.env.VITE_USERGROWTHOVERTIMEDAILY;
 const API_MONTHLY = import.meta.env.VITE_USERGROWTHOVERTIMEMONTHLY;
 const API_DEMOGRAPHICS_SEX = import.meta.env.VITE_ANALYTICS_DEMOGRAPHICS_SEX;
 const API_DEMOGRAPHICS_AGE = import.meta.env.VITE_ANALYTICS_DEMOGRAPHICS_AGE;
+const API_CONTENT_RATE = import.meta.env.VITE_ANALYTICS_CONTENTRATE;
+const API_CONTENT_MATCH = import.meta.env.VITE_ANALYTICS_CONTENTMATCH;
+
+
+// ...existing helpers...
 
 // Helper to get all dates between two dates (inclusive)
 function getDateRange(start, end) {
@@ -137,6 +192,15 @@ export default function AdminAnalytics() {
   const [ageData, setAgeData] = useState([]);
   const [loadingDemographics, setLoadingDemographics] = useState(true);
 
+  // Content Rate
+  const [contentRate, setContentRate] = useState({ overall: 0, monthly: [] });
+  const [loadingContentRate, setLoadingContentRate] = useState(true);
+
+  // Content Match
+  const [showContentMatchModal, setShowContentMatchModal] = useState(false);
+  const [contentMatchData, setContentMatchData] = useState([]);
+  const [loadingContentMatch, setLoadingContentMatch] = useState(false);
+
   useEffect(() => {
     async function fetchGrowth() {
       setLoading(true);
@@ -197,6 +261,45 @@ export default function AdminAnalytics() {
     fetchDemographics();
   }, []);
 
+  // Fetch content rate
+  useEffect(() => {
+    async function fetchContentRate() {
+      setLoadingContentRate(true);
+      try {
+        const res = await fetch(API_CONTENT_RATE);
+        const json = await res.json();
+        setContentRate({
+          overall: json.overall_match_rate || 0,
+          monthly: Array.isArray(json.monthly_trend) ? json.monthly_trend : [],
+        });
+      } catch {
+        setContentRate({ overall: 0, monthly: [] });
+      }
+      setLoadingContentRate(false);
+    }
+    fetchContentRate();
+  }, []);
+
+    useEffect(() => {
+    if (!showContentMatchModal) return;
+    setLoadingContentMatch(true);
+    fetch(API_CONTENT_MATCH)
+      .then(res => res.json())
+      .then(json => {
+        // Map to table format: label = words, count = is_matched ? "Matched" : "Not Matched"
+        setContentMatchData(
+          Array.isArray(json.data)
+            ? json.data.map(row => ({
+                label: row.words,
+                count: row.is_matched ? "Matched" : "Not Matched"
+              }))
+            : []
+        );
+      })
+      .catch(() => setContentMatchData([]))
+      .finally(() => setLoadingContentMatch(false));
+  }, [showContentMatchModal]);
+
   // Chart data and options (counts)
   const monthlyChartData = {
     labels: monthly.map(d => d.label),
@@ -241,6 +344,22 @@ export default function AdminAnalytics() {
     ],
   };
 
+  // Content Rate Line Chart
+  const contentRateLineData = {
+    labels: contentRate.monthly.map(m => m.creation_month),
+    datasets: [
+      {
+        label: "Monthly Match Rate (%)",
+        data: contentRate.monthly.map(m => m.monthly_match_rate),
+        fill: false,
+        borderColor: "#10b981",
+        backgroundColor: "#10b981",
+        pointBackgroundColor: "#10b981",
+        tension: 0.3,
+      },
+    ],
+  };
+
   // Find max count for y-axis step
   const maxDaily = Math.max(1, ...daily.map(d => d.count));
   const maxMonthly = Math.max(1, ...monthly.map(d => d.count));
@@ -277,21 +396,66 @@ export default function AdminAnalytics() {
     },
   };
 
+  // Content Rate Line Chart Options
+  const contentRateLineOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: ctx => ` ${ctx.parsed.y?.toFixed(1) ?? 0}%`,
+        },
+      },
+    },
+    scales: {
+      x: {
+        ticks: { color: "#10b981", font: { size: 14 } },
+        grid: { color: "rgba(16,185,129,0.08)" },
+      },
+      y: {
+        beginAtZero: true,
+        max: 100,
+        ticks: {
+          stepSize: 10,
+          callback: value => `${value}%`,
+          color: "#10b981",
+          font: { size: 14 },
+        },
+        grid: { color: "rgba(16,185,129,0.08)" },
+      },
+    },
+  };
+
   return (
     <>
       <style>{`
         body, #root {
           background: #f4f6fa !important;
         }
-        .growth-container {
+        .admin-analytics-container {
+          padding: 2vw;
+        }
+        .analytics-section {
+          background: #fff;
+          border-radius: 1.5vw;
+          box-shadow: 0 2px 16px rgba(37,99,235,0.08);
+          margin-bottom: 3vw;
+          padding: 2vw;
+        }
+        .section-title {
+          color: #2563eb;
+          font-size: 1.5em;
+          font-weight: 700;
+          margin-bottom: 2vw;
+          text-align: center;
+        }
+        .growth-chart-container {
           width: 95vw;
           max-width: 700px;
           margin: 0 auto;
-          padding: 4vw 0 8vw 0;
-          background: #f4f6fa;
-        }
-        .growth-chart-section {
-          margin-bottom: 7vw;
+          padding: 0;
+          background: #fff;
         }
         .growth-chart-label {
           color: #2563eb;
@@ -299,7 +463,7 @@ export default function AdminAnalytics() {
           font-weight: 600;
           margin-bottom: 1vw;
           text-align: left;
-          padding-left: 2vw;
+          padding-left: 0;
         }
         .growth-chart-box {
           width: 100%;
@@ -307,9 +471,9 @@ export default function AdminAnalytics() {
           min-height: 240px;
           max-height: 400px;
           background: #fff;
-          border-radius: 2vw;
+          border-radius: 1vw;
           box-shadow: 0 2px 16px rgba(37,99,235,0.08);
-          margin-bottom: 2vw;
+          margin-bottom: 1vw;
           padding: 2vw 2vw 1vw 2vw;
           box-sizing: border-box;
           cursor: pointer;
@@ -318,121 +482,262 @@ export default function AdminAnalytics() {
         .growth-chart-box:hover {
           box-shadow: 0 4px 24px rgba(37,99,235,0.18);
         }
-        .demographics-section {
+        .demographics-horizontal-scroll {
           display: flex;
-          flex-wrap: wrap;
+          overflow-x: auto;
           gap: 2vw;
-          justify-content: center;
-          margin-top: 3vw;
+          padding-bottom: 1vw;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: thin;
+          scrollbar-color: #2563eb rgba(37,99,235,0.08);
+        }
+        .demographics-horizontal-scroll::-webkit-scrollbar {
+          height: 0.8vw;
+        }
+        .demographics-horizontal-scroll::-webkit-scrollbar-track {
+          background: rgba(37,99,235,0.08);
+          border-radius: 10px;
+        }
+        .demographics-horizontal-scroll::-webkit-scrollbar-thumb {
+          background: #2563eb;
+          border-radius: 10px;
         }
         .demographics-card {
+          flex: 0 0 auto;
+          width: 300px;
+          min-width: 280px;
           background: #fff;
           border-radius: 1.5vw;
           box-shadow: 0 2px 16px rgba(37,99,235,0.08);
-          min-width: 260px;
-          max-width: 340px;
-          width: 90vw;
-          min-height: 320px;
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          padding: 2vw 2vw 2vw 2vw;
+          padding: 2vw;
+          box-sizing: border-box;
         }
         .demographics-title {
           color: #2563eb;
           font-size: 1.1em;
           font-weight: 600;
           margin-bottom: 1vw;
+          text-align: center;
+        }
+        /* --- Content Rate Section --- */
+        .content-rate-section {
+          background: #fff;
+          border-radius: 1.5vw;
+          box-shadow: 0 2px 16px rgba(16,185,129,0.08);
+          margin-bottom: 3vw;
+          padding: 2vw;
+        }
+        .content-rate-title {
+          color: #10b981;
+          font-size: 1.5em;
+          font-weight: 700;
+          margin-bottom: 2vw;
+          text-align: center;
+        }
+        .content-rate-gauge-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin-bottom: 2vw;
+        }
+        .content-rate-line-container {
+          width: 95vw;
+          max-width: 700px;
+          margin: 0 auto;
+          background: #fff;
+        }
+        .content-rate-line-box {
+          width: 100%;
+          height: 40vw;
+          min-height: 240px;
+          max-height: 400px;
+          background: #fff;
+          border-radius: 1vw;
+          box-shadow: 0 2px 16px rgba(16,185,129,0.08);
+          margin-bottom: 1vw;
+          padding: 2vw 2vw 1vw 2vw;
+          box-sizing: border-box;
+        }
+        @media (max-width: 900px) {
+          .demographics-card {
+            width: 40%;
+            min-width: 250px;
+          }
         }
         @media (max-width: 600px) {
+          .admin-analytics-container {
+            padding: 4vw 2vw;
+          }
+          .analytics-section,
+          .content-rate-section {
+            padding: 4vw;
+            margin-bottom: 5vw;
+          }
+          .section-title,
+          .content-rate-title {
+            font-size: 1.3em;
+            margin-bottom: 4vw;
+          }
           .growth-chart-label {
             font-size: 1em;
-            padding-left: 1vw;
+            padding-left: 0;
+            text-align: center;
           }
-          .growth-chart-box {
+          .growth-chart-box,
+          .content-rate-line-box {
             height: 60vw;
             min-height: 180px;
             padding: 3vw 1vw 2vw 1vw;
+            border-radius: 2vw;
           }
-          .demographics-section {
-            flex-direction: column;
+          .demographics-horizontal-scroll {
             gap: 4vw;
+            padding-bottom: 3vw;
           }
           .demographics-card {
-            min-width: 180px;
-            min-height: 220px;
-            padding: 3vw 1vw 2vw 1vw;
+            min-width: 220px;
+            width: 80vw;
+            padding: 4vw;
           }
         }
       `}</style>
       <AdminNavBar>
-        <div className="growth-container">
-          <div className="growth-chart-section">
-            <div className="growth-chart-label">Monthly User Growth Over Time</div>
-            <div
-              className="growth-chart-box"
-              onClick={() => setShowDailyModal(true)}
-              title="Click to show daily user growth"
-            >
-              {loading ? (
-                <div style={{ color: "#2563eb", textAlign: "center" }}>Loading monthly growth...</div>
-              ) : (
-                <Line data={monthlyChartData} options={{ ...chartOptions, onClick: undefined }} />
-              )}
+        <div className="admin-analytics-container">
+
+          {/* User Growth Section */}
+          <div className="analytics-section">
+            <h2 className="section-title">User Growth Over Time</h2>
+            <div className="growth-chart-container">
+              <div className="growth-chart-label">Monthly User Growth</div>
+              <div
+                className="growth-chart-box"
+                onClick={() => setShowDailyModal(true)}
+                title="Click to show daily user growth"
+              >
+                {loading ? (
+                  <div style={{ color: "#2563eb", textAlign: "center" }}>Loading monthly growth...</div>
+                ) : (
+                  <Line data={monthlyChartData} options={{ ...chartOptions, onClick: undefined }} />
+                )}
+              </div>
+              <Modal open={showDailyModal} onClose={() => setShowDailyModal(false)}>
+                <AdminTable
+                  title="Daily New Users"
+                  data={daily.filter(row => row.count > 0)}
+                  labelName="Date"
+                  countName="New Users"
+                  percentName={null}
+                />
+              </Modal>
             </div>
-            <Modal open={showDailyModal} onClose={() => setShowDailyModal(false)}>
+          </div>
+
+          {/* --- Content Rate Section --- */}
+          <div className="content-rate-section">
+            <h2 className="content-rate-title">Content Match Rate</h2>
+            <div
+              className="content-rate-gauge-container"
+              style={{ cursor: "pointer" }}
+              onClick={() => setShowContentMatchModal(true)}
+              title="Click to view content match table"
+            >
+              {loadingContentRate ? (
+                <div style={{ color: "#10b981", textAlign: "center" }}>Loading overall match rate...</div>
+              ) : (
+                <GaugeChart value={contentRate.overall} />
+              )}
+              <div style={{ color: "#10b981", fontSize: "1em", marginTop: "0.5em", textAlign: "center" }}>
+                Click to view content match table
+              </div>
+            </div>
+            <div className="content-rate-line-container">
+              <div className="growth-chart-label" style={{ color: "#10b981" }}>Monthly Match Rate Trend</div>
+              <div className="content-rate-line-box">
+                {loadingContentRate ? (
+                  <div style={{ color: "#10b981", textAlign: "center" }}>Loading trend...</div>
+                ) : (
+                  <Line data={contentRateLineData} options={contentRateLineOptions} />
+                )}
+              </div>
+            </div>
+            {/* Modal for Content Match Table */}
+            <Modal open={showContentMatchModal} onClose={() => setShowContentMatchModal(false)}>
               <AdminTable
-                title="Daily New Users"
-                data={daily.filter(row => row.count > 0)}
-                labelName="Date"
-                countName="New Users"
+                title="Content Match Table"
+                data={contentMatchData}
+                labelName="Word/Phrase"
+                countName="Match Status"
                 percentName={null}
               />
+              {loadingContentMatch && (
+                <div style={{ color: "#10b981", textAlign: "center" }}>Loading...</div>
+              )}
             </Modal>
           </div>
-          <div className="demographics-section">
-            <div className="demographics-card">
-              <div className="demographics-title">User Demographics by Sex</div>
-              {loadingDemographics ? (
-                <div style={{ color: "#2563eb", textAlign: "center" }}>Loading...</div>
-              ) : (
-                <Pie
-                  data={sexPieData}
-                  options={{
-                    plugins: {
-                      legend: { display: true, position: "bottom" },
-                      tooltip: {
-                        callbacks: {
-                          label: ctx =>
-                            `${ctx.label}: ${ctx.raw} (${sexData[ctx.dataIndex]?.percentage?.toFixed(1) || 0}%)`,
+
+          {/* User Demographics Section */}
+          <div className="analytics-section">
+            <h2 className="section-title">User Analytics</h2>
+            <div className="demographics-horizontal-scroll">
+              {/* Demographics by Sex Card */}
+              <div className="demographics-card">
+                <div className="demographics-title">By Sex</div>
+                {loadingDemographics ? (
+                  <div style={{ color: "#2563eb", textAlign: "center" }}>Loading...</div>
+                ) : (
+                  <Pie
+                    data={sexPieData}
+                    options={{
+                      plugins: {
+                        legend: { display: true, position: "bottom" },
+                        tooltip: {
+                          callbacks: {
+                            label: ctx =>
+                              `${ctx.label}: ${ctx.raw} (${sexData[ctx.dataIndex]?.percentage?.toFixed(1) || 0}%)`,
+                          },
                         },
                       },
-                    },
-                  }}
-                />
-              )}
-            </div>
-            <div className="demographics-card">
-              <div className="demographics-title">User Demographics by Age Group</div>
-              {loadingDemographics ? (
-                <div style={{ color: "#2563eb", textAlign: "center" }}>Loading...</div>
-              ) : (
-                <Pie
-                  data={agePieData}
-                  options={{
-                    plugins: {
-                      legend: { display: true, position: "bottom" },
-                      tooltip: {
-                        callbacks: {
-                          label: ctx =>
-                            `${ctx.label}: ${ctx.raw} users`,
+                    }}
+                  />
+                )}
+              </div>
+
+              {/* Demographics by Age Group Card */}
+              <div className="demographics-card">
+                <div className="demographics-title">By Age Group</div>
+                {loadingDemographics ? (
+                  <div style={{ color: "#2563eb", textAlign: "center" }}>Loading...</div>
+                ) : (
+                  <Pie
+                    data={agePieData}
+                    options={{
+                      plugins: {
+                        legend: { display: true, position: "bottom" },
+                        tooltip: {
+                          callbacks: {
+                            label: ctx =>
+                              `${ctx.label}: ${ctx.raw} users`,
+                          },
                         },
                       },
-                    },
-                  }}
-                />
-              )}
+                    }}
+                  />
+                )}
+              </div>
+
+              {/* You can add more demographic cards here */}
+              <div className="demographics-card">
+                <div className="demographics-title">More Coming Soon...</div>
+                {loadingDemographics ? (
+                  <div style={{ color: "#2563eb", textAlign: "center" }}>Loading...</div>
+                ) : (
+                  <p style={{textAlign: 'center', color: '#6b7280'}}>📈📊📉</p>
+                )}
+              </div>
             </div>
           </div>
         </div>
