@@ -43,9 +43,17 @@ export default function UserSettings() {
             <div>
               <div className="settings-btn-primary">Download for Mobile</div>
               <div className="settings-btn-secondary">Get the exPress app for your mobile device.</div>
-              <button className="settings-btn download-btn" onClick={() => window.open("https://drive.google.com/file/d/1D4QseDYlB9_3zezrNINM8eWWB3At1kVN/view?usp=sharing", "_blank")}>
-                Download for Mobile
-              </button>
+                <button
+                  className="settings-btn download-btn"
+                  onClick={() => {
+                    window.open(
+                      "https://drive.google.com/uc?export=download&id=1D4QseDYlB9_3zezrNINM8eWWB3At1kVN",
+                      "_blank"
+                    );
+                  }}
+                >
+                  Download for Mobile
+                </button>
             </div>
           </div>
           <div className="settings-logo-right">

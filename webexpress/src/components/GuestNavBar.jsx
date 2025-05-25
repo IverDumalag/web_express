@@ -108,14 +108,14 @@ const GuestNavBar = () => {
             </span>
 
             <div style={{ display: "flex", alignItems: "center" }}>
-               <a
+                  <a
                   className="download-link"
-                  href="https://drive.google.com/file/d/1D4QseDYlB9_3zezrNINM8eWWB3At1kVN/view?usp=sharing"
+                  href="https://drive.google.com/uc?export=download&id=1D4QseDYlB9_3zezrNINM8eWWB3At1kVN"
                   target="_blank"
                   rel="noopener noreferrer"
-               >
+                  >
                   Download App
-               </a>
+                  </a>
                <div className="account-container" ref={accountRef}>
                   <span className="account-icon" role="img" aria-label="account">
                      &#128100;
