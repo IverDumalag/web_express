@@ -6,52 +6,68 @@
   padding-right: 2%;
 }
 .card-item {
-  background: linear-gradient(135deg, #e3ecff 0%, #b6cfff 100%);
-  border-radius: 10px;
-  margin-bottom: 3%;
-  padding: 3% 4%;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  background: linear-gradient(135deg, rgba(227,236,255,0.92) 0%, rgba(182,207,255,0.92) 100%);
+  border-radius: 16px;
+  margin-bottom: 2.2vw;
+  padding: 2.2vw 3vw 2vw 3vw;
+  box-shadow: 0 4px 24px 0 rgba(51,78,123,0.10), 0 1.5px 8px rgba(51,78,123,0.10);
   display: flex;
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
-  transition: background 0.15s;
+  transition: box-shadow 0.18s, background 0.18s, transform 0.12s;
+  border: 1.5px solid #b6cfff;
+  backdrop-filter: blur(2px);
+  position: relative;
 }
 .card-item:hover {
-  background: #9eb5e4;
+  background: linear-gradient(135deg, #b6cfff 0%, #e3ecff 100%);
+  box-shadow: 0 8px 32px 0 rgba(51,78,123,0.16), 0 2px 12px rgba(51,78,123,0.10);
+  transform: translateY(-2px) scale(1.025);
+}
+.card-title {
+  font-weight: 700;
+  margin-bottom: 0.7vw;
+  font-size: 1.18em;
+  color: #334E7B;
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 2px rgba(51,78,123,0.08);
 }
 .card-content {
   flex: 1;
   min-width: 0;
-}
-.card-title {
-  font-weight: bold;
-  margin-bottom: 1vw;
-  font-size: 1.1em;
-  color: #334E7B;
+  color: #22365a;
+  font-size: 1.08em;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1.4;
 }
 .card-actions {
   display: flex;
   align-items: center;
-  gap: 0.8em;
-  margin-left: 4vw;
+  gap: 1.2em;
+  margin-left: 3vw;
 }
 .card-action-btn {
   background: none;
   border: none;
-  color: #334E7B;
-  font-size: 1.3em;
+  color: #ffffff;
+  font-size: 1.55em; /* Increased from 1.3em */
   cursor: pointer;
   padding: 0.2em;
-  transition: color 0.2s;
+  border-radius: 8px;
+  transition: color 0.2s, background 0.15s, transform 0.12s;
 }
+
 .card-action-btn.fav {
   color: #f7b801;
+  font-size: 1.7em; /* Make favorite icon a bit bigger */
 }
+
 .card-action-btn.speak {
   color: #334E7B;
   margin-left: 0;
-  font-size: 1.6em;
+  font-size: 1.85em; /* Make speak icon a bit bigger */
 }
 .card-action-btn.speak.active {
   color: #334E7B;
@@ -61,11 +77,18 @@
   cursor: not-allowed;
 }
 .card-action-btn:hover {
-  color: #007bff;
+  color: #fff;
+  background: #334E7B;
+  transform: scale(1.12);
 }
 @media (max-width: 600px) {
   .card-list {
     max-height: 36vh;
+  }
+  .card-item {
+    border-radius: 10px;
+    padding: 4vw 2vw 3vw 2vw;
+    margin-bottom: 4vw;
   }
   .card-actions {
     gap: 6vw;

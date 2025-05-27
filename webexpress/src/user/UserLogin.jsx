@@ -32,7 +32,7 @@ export default function UserLogin() {
         setPopup({ open: true, title: "Success", description: "Login successful!" });
         setTimeout(() => {
           setLoading(false);
-          navigate(res.data.user.role === 'admin' ? '/adminhome' : '/userhome');
+          navigate(res.data.user.role === 'admin' ? '/adminanalytics' : '/userhome');
         }, 1000);
       } else {
         setLoading(false);

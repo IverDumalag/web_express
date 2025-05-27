@@ -249,4 +249,5 @@ body, html {
   text-align: center;
   backdrop-filter: blur(10px);
   animation: fadeInUp 0.4s ease-in-out;
+
 }

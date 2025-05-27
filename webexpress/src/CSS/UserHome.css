@@ -31,6 +31,7 @@ html, body {
   box-sizing: border-box;
   overflow-x: hidden;
   z-index: 0;
+  padding-bottom: 60px; /* Prevent content from being hidden behind the fixed navbar */
 }
 
 /* Search Content Box */
@@ -187,36 +188,50 @@ html, body {
 .tab-row {
   display: flex;
   width: 100%;
-  justify-content: space-between;
-  align-items: stretch;
-  margin-bottom: 2vw; /* slightly less space below */
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 1.5vw;
   gap: 0;
-  background: none;
+  background: #1c2a47;
+  border-radius: 5px; /* <- updated from 8px to 5px */
+  overflow: hidden;
   position: relative;
-  top: -2vw; /* move the tab row even higher */
+  top: -2vw;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .tab-btn {
-  flex: 1 1 0;
-  color: #c7d3ea;
-  background: none;
-  border-bottom: 2px solid transparent; /* thinner underline */
-  font-size: 1.1em; /* smaller font */
-  cursor: pointer;
-  padding: 1vw 0; /* less vertical padding */
-  transition: color 0.2s, border-bottom 0.2s, background 0.2s;
+  flex: 1;
+  color: #b6cfff;
+  background: transparent;
+  border: none;
+  font-size: 1em;
+  font-weight: 500;
+  padding: 0.8vw 0;
+  transition: all 0.25s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 32px;
-  max-height: 40px;
+  min-height: 36px;
+  cursor: pointer;
+  position: relative;
+  border-radius: 0; /* keep flat unless individual rounding is needed */
+}
+
+.tab-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .tab-btn.active {
   color: #fff;
-  border-bottom: 2px solid #ffffff;
-  background: #4669a5;
+  background: #2c4170;
+  font-weight: 600;
+  box-shadow: inset 0 -3px 0 #ffffff;
+  border-radius: 0; /* Optional: if you want rounded active tab: 5px */
 }
+
+
 
 @media (max-width: 600px) {
   .tab-btn {
@@ -412,6 +427,16 @@ html, body {
   max-height: 720px;
 }
 
+.search-app-info-col,
+.search-content-box {
+  flex: 1 1 0;
+  max-width: 50%;
+  min-width: 0;
+  box-sizing: border-box;
+  /* Remove rigid vw widths */
+  width: auto;
+}
+
 .search-app-info-col {
   display: flex;
   flex-direction: column;
@@ -421,9 +446,6 @@ html, body {
   color: #111;
   border-radius: 5px 0 5px 5px;
   box-shadow: 0 16px 48px -4px rgba(0,0,0,0.38);
-  min-width: 320px;
-  max-width: 400px;
-  width: 32vw;
   padding: 5vw 4vw 5vw 4vw;
   position: relative;
   z-index: 0;
@@ -436,24 +458,24 @@ html, body {
 }
 
 .search-app-logo-row {
-  width: 100%;
+  width: 95%;
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
   margin-bottom: 2vw;
+  margin-left: 0;
+  aspect-ratio: 2 / 1;
+  min-height: 110px;
+  max-width: 600px;
 }
 
 .search-app-logo-img {
-  width: 180px;
-  height: 90px;
-  object-fit: contain;
-  margin: 0 0 1vw 0;
-  background: none;
-  border-radius: 0;
-  box-shadow: none;
-  position: static;
-  max-width: 100%;
+  height: 100%;
+  width: auto;
   max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  aspect-ratio: 2 / 1;
 }
 
 .search-app-title {
@@ -477,173 +499,141 @@ html, body {
 }
 
 @media (max-width: 900px) {
-  .search-app-info-col {
-    min-width: 180px;
+  .search-two-col-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    width: 99vw;
     max-width: 99vw;
-    width: 98vw;
-    border-radius: 4vw;
-    padding: 8vw 4vw 6vw 4vw;
+    min-width: 0;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    background: none;
+    border-radius: 0;
+    box-shadow: none;
+    overflow: visible;
   }
-  .search-app-logo-img {
-    width: 120px;
-    height: 60px;
-  }
-  .search-app-title {
-    font-size: 1.5em;
-    margin-bottom: 2vw;
-  }
-  .search-app-desc {
-    font-size: 1em;
+  .search-app-info-col,
+  .search-content-box {
+    max-width: 100%;
+    width: 100%;
+    flex: unset;
   }
 }
 
-/* Adjust right column (search-content-box) for two-column layout */
-.search-content-box {
-  width: 86vw;
-  max-width: 1400px;
-  min-width: 520px;
-  margin: 0;
-  box-sizing: border-box;
-  z-index: 1;
+.user-bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #fff; /* or match your app's theme */
+  z-index: 1000;
+}
+
+.ex-logo-e {
+  color: #000 !important;
+}
+
+.help-icon-btn {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  z-index: 3000;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.12s;
+}
+
+.help-icon-btn:active {
+  transform: scale(0.92);
+}
+
+.help-icon-btn:focus {
+  outline: 2px solid #334E7B;
+}
+
+/* Help Modal styles */
+.help-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.32);
+  z-index: 4000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.help-modal {
+  background: rgba(255,255,255,0.97);
+  color: #334E7B;
+  border-radius: 18px;
+  box-shadow: 0 12px 48px rgba(51,78,123,0.18), 0 1.5px 8px rgba(51,78,123,0.10);
+  padding: 3em 2.5em 2.5em 2.5em;
+  min-width: 340px;
+  max-width: 95vw;
+  width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   position: relative;
+  animation: modal-pop 0.2s;
+}
+
+.help-modal h2 {
+  color: #334E7B;
+  font-size: 2em;
+  font-weight: 700;
+  margin-bottom: 1.2em;
+  letter-spacing: 0.5px;
+}
+
+.help-modal ul {
+  color: #22365a;
+  font-size: 1.15em;
+  margin-bottom: 2em;
+  padding-left: 1.2em;
+}
+
+.help-modal li {
+  margin-bottom: 0.8em;
+  line-height: 1.5;
+}
+
+.help-modal-close {
+  align-self: flex-end;
   background: #334E7B;
   color: #fff;
-  border-radius: 0;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
-  box-shadow: 0 16px 48px -4px rgba(0,0,0,0.38); /* even more solid bottom drop shadow */
-  margin-left: 0; /* No margin, so containers touch */
-  min-height: 540px;
-  height: auto;
-  flex: 1 1 0;
-  padding-top: 6vw;
-  padding-bottom: 6vw;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7em 1.5em;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(51, 78, 123, 0.10);
+  transition: background 0.18s, transform 0.12s;
 }
-
-@media (max-width: 1100px) {
-  .search-two-col-container {
-    max-width: 99vw;
-    width: 99vw;
-    height: 540px;
-    min-height: 540px;
-    max-height: 540px;
-    gap: 2vw;
-    background: none;
-    border-radius: 0;
-    box-shadow: none;
-    overflow: visible;
-  }
-  .search-app-info-col {
-    min-width: 220px;
-    max-width: 320px;
-    width: 32vw;
-    padding: 6vw 2vw 5vw 2vw;
-    min-height: 340px;
-    height: auto;
-    flex: 1 1 0;
-    padding-top: 6vw;
-    padding-bottom: 6vw;
-  }
-  .search-content-box {
-    width: 98vw;
-    max-width: 99vw;
-    min-width: 0;
-    min-height: 340px;
-    border-radius: 12px;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.08);
-    height: auto;
-    flex: 1 1 0;
-    padding-top: 6vw;
-    padding-bottom: 6vw;
-  }
-}
-
-@media (max-width: 900px) {
-  .search-two-col-container {
-    height: 420px;
-    min-height: 420px;
-    max-height: 420px;
-    flex-direction: column;
-    align-items: center;
-    gap: 3vw;
-    width: 98vw;
-    max-width: 99vw;
-    background: none;
-    border-radius: 0;
-    box-shadow: none;
-    overflow: visible;
-  }
-  .search-app_info-col, .search-content_box {
-    width: 98vw;
-    max-width: 99vw;
-    min-width: 0;
-    margin: 0 auto;
-    border-radius: 12px;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.08);
-    min-height: 180px;
-    height: auto;
-    flex: 1 1 0;
-    padding-top: 6vw;
-    padding-bottom: 6vw;
-  }
-  .search-app-info-col {
-    margin-bottom: 2vw;
-    border-bottom-left-radius: 12px;
-    border-top-left-radius: 12px;
-  }
-  .search-content-box {
-    border-top-right-radius: 12px;
-    border-bottom-right-radius: 12px;
-  }
+.help-modal-close:hover {
+  background: #4766a6;
+  transform: translateY(-2px) scale(1.04);
 }
 
 @media (max-width: 600px) {
-  .search-main-container {
-    padding: 0;
-  }
-  .search-two-col-container {
-    height: 340px;
-    min-height: 340px;
-    max-height: 340px;
-    flex-direction: column;
-    gap: 4vw;
-    width: 100vw;
-    max-width: 100vw;
+  .help-modal {
     min-width: 0;
-    background: none;
+    width: 95vw;
+    padding: 1.2em 0.7em 1em 0.7em;
     border-radius: 0;
-    box-shadow: none;
-    overflow: visible;
   }
-  .search-app-info-col, .search-content-box {
-    width: 99vw;
-    max-width: 99vw;
-    min-width: 0;
-    border-radius: 4vw;
-    padding: 10vw 2vw 10vw 2vw;
-    box-shadow: 0 12px 32px -2px rgba(0,0,0,0.32); /* more solid shadow for mobile */
-    min-height: 120px;
-    height: auto;
-    flex: 1 1 0;
-    padding-top: 10vw;
-    padding-bottom: 10vw;
-  }
-  .search-app-logo-img, .search-app-logo-fallback {
-    width: 120px;
-    height: 120px;
-    font-size: 1.5em;
-  }
-  .search-app-title {
+  .help-modal h2 {
     font-size: 1.3em;
-    margin-bottom: 2vw;
   }
-  .search-app-desc {
+  .help-modal ul {
     font-size: 1em;
-    margin-bottom: 3vw;
   }
 }
 
-/* Set border-radius of containers */
-.left-container, .right-container {
-  border-radius: 10px !important;
-}

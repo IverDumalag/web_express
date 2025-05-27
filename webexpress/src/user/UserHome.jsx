@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaFilter, FaStar } from "react-icons/fa";
+import { FaFilter, FaStar, FaQuestionCircle } from "react-icons/fa";
 import { MdOutlineWavingHand } from "react-icons/md";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import UserBottomNavBar from '../components/UserBottomNavBar';
@@ -213,8 +213,35 @@ export default function UserHome() {
     setAddLoading(false);
   };
 
+  const [showHelpModal, setShowHelpModal] = useState(false);
+
   return (
     <>
+      {/* Help Icon - Top Left */}
+      <button
+        className="help-icon-btn"
+        title="Help"
+        onClick={() => setShowHelpModal(true)}
+      >
+        <FaQuestionCircle size={32} color="#334E7B" />
+      </button>
+      {showHelpModal && (
+        <div className="help-modal-overlay" onClick={() => setShowHelpModal(false)}>
+          <div className="help-modal" onClick={e => e.stopPropagation()}>
+            <h2>How to Use Your Cards</h2>
+            <ul>
+              <li><b>Search:</b> Use the search bar to quickly find cards by keyword.</li>
+              <li><b>Sort/Filter:</b> Click the filter icon to sort cards alphabetically or by date.</li>
+              <li><b>Favorite:</b> Click the star icon on a card to add it to your favorites tab.</li>
+              <li><b>Archive:</b> Use the meatball (three dots) menu to archive cards you no longer need.</li>
+              <li><b>Add:</b> Click the meatball menu and select "Add Word/Phrases" to create a new card.</li>
+              <li><b>Edit:</b> Click on a card to view or edit its details (if supported).</li>
+              <li><b>Restore:</b> Visit the Archive page to restore or permanently delete archived cards.</li>
+            </ul>
+            <button className="help-modal-close" onClick={() => setShowHelpModal(false)}>Close</button>
+          </div>
+        </div>
+      )}
       <div className="search-main-container">
         <div className="search-two-col-container">
           {/* Left: App Info */}
