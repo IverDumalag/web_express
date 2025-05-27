@@ -301,14 +301,12 @@ export default function UserProfile() {
         }
       `}</style>
       <div className="profile-main-container">
-        <div className="profile-card profile-card-modern">
-          <div className="profile-header-row">
-            <div className="profile-header-title-col">
-              <span className="profile-title modern">Account Settings</span><br></br><br/>
-              <span className="profile-desc">Edit your name, email, and other details below.</span>
-            </div>
-            <div className="profile-avatar-col"></div>
-
+        <div className="profile-card">
+          <div className="profile-title-row">
+            <span className="profile-title">My Profile</span>
+            <button className="profile-edit-btn" title="Edit Profile" onClick={handleEditOpen}>
+              <FaEdit />
+            </button>
           </div>
           {user ? (
             <>
@@ -369,6 +367,16 @@ export default function UserProfile() {
               className="profile-edit-input"
               name="l_name"
               value={editForm.l_name}
+              onChange={handleEditChange}
+              required
+              disabled={editLoading}
+            />
+            <label className="profile-edit-label">Email</label>
+            <input
+              className="profile-edit-input"
+              name="email"
+              type="email"
+              value={editForm.email}
               onChange={handleEditChange}
               required
               disabled={editLoading}
