@@ -81,7 +81,6 @@ export default function UserProfile() {
               <span className="profile-desc">Edit your name, email, and other details below.</span>
             </div>
             <div className="profile-avatar-col"></div>
-
           </div>
           {user ? (
             <>
@@ -108,6 +107,16 @@ export default function UserProfile() {
               <div className="profile-row">
                 <div className="profile-label">Birthdate:</div>
                 <div className="profile-value">{user.birthdate || "-"}</div>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '2rem' }}>
+                <button
+                  className="profile-edit-btn"
+                  type="button"
+                  onClick={handleEditOpen}
+                  style={{ minWidth: 120 }}
+                >
+                  <FaEdit style={{ marginRight: 8 }} /> Edit
+                </button>
               </div>
             </>
           ) : (
