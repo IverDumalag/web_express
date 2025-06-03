@@ -1,44 +1,35 @@
 import React from "react";
 import GuestNavBar from "../components/GuestNavBar";
-import backgroundImage from "../assets/home.png"; 
+import '../CSS/HomePage.css';
 
 const HomePage = () => {
-   return (
-      <>
-         <style>{`
-            .page-background {
-               background-image: url(${backgroundImage});
-               background-size: cover;
-               background-position: center;
-               min-height: 100vh;
-               width: 100%;
-            }
+  const pageStyle = {
+    backgroundColor: "#0F1A2B",
+    minHeight: "100vh",
+    width: "100%",
+    position: "relative",
+  };
 
-            .container {
-               max-width: 90%;
-               width: 100%;
-               margin: 8% auto 0 auto;
-               padding: 0 2%;
-               font-size: 1.2em;
-            }
-
-            @media (max-width: 600px) {
-               .container {
-                  max-width: 98%;
-                  margin: 16% auto 0 auto;
-                  font-size: 1em;
-               }
-            }
-         `}</style>
-
-         <div className="page-background">
-            <GuestNavBar />
-            <div className="container">
-               {}
+  return (
+    <>
+      <div className="page-background" style={pageStyle}>
+        <GuestNavBar />
+        <div className="container">
+        </div>
+        <div>
+          <div className="homepage-description-container">
+            <div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-end', width: '100%'}}>
+              <span className="homepage-description-text">Express is very good</span>
+              <span className="homepage-description-text2">Express is very good</span>
             </div>
-         </div>
-      </>
-   );
+          </div>
+          <div className="button-container">
+            <button className="under-logo-btn">Get Started</button>
+          </div>
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default HomePage;
