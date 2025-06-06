@@ -4,18 +4,9 @@ import '../CSS/UserBottomNavbar.css';
 
 const navs = [
   { label: "Home", path: "/userhome" },
-  { label: "Cards", path: "/usercards" }, // Cards handled specially
+  { label: "Cards", path: "/usercards" },
   { label: "Settings", path: "/usersettings" },
 ];
-
-const isAtCardsSection = () => {
-  if (window.location.pathname !== "/userhome") return false;
-  const section = document.getElementById("sign-language-cards-section");
-  if (!section) return false;
-  const rect = section.getBoundingClientRect();
-  // Consider 'active' if the section is near the top of the viewport
-  return rect.top <= 80 && rect.bottom > 80;
-};
 
 const UserBottomNavBar = () => {
   const navigate = useNavigate();
@@ -23,35 +14,11 @@ const UserBottomNavBar = () => {
   const [cardsActive, setCardsActive] = React.useState(false);
 
   React.useEffect(() => {
-    if (location === "/userhome") {
-      const onScroll = () => setCardsActive(isAtCardsSection());
-      window.addEventListener('scroll', onScroll, { passive: true });
-      onScroll();
-      return () => window.removeEventListener('scroll', onScroll);
-    } else {
-      setCardsActive(false);
-    }
+    setCardsActive(location === "/usercards");
   }, [location]);
 
   const handleNavClick = (nav) => {
-    if (nav.label === "Cards") {
-      if (location === "/userhome") {
-        const section = document.getElementById("sign-language-cards-section");
-        if (section) {
-          section.scrollIntoView({ behavior: 'smooth' });
-        }
-      } else {
-        navigate("/userhome");
-        setTimeout(() => {
-          const section = document.getElementById("sign-language-cards-section");
-          if (section) {
-            section.scrollIntoView({ behavior: 'smooth' });
-          }
-        }, 400);
-      }
-    } else {
-      navigate(nav.path);
-    }
+    navigate(nav.path);
   };
 
   return (
