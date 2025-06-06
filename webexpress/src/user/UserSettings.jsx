@@ -32,7 +32,7 @@ function Navbar({ navigate }) {
         <span
           className="guest-navbar-link"
           style={{ cursor: 'pointer', padding: '0 1vw', borderBottom: 'none' }}
-          onClick={() => navigate('/')}
+          onClick={() => navigate('/userhome')}
         >
           Home
         </span>

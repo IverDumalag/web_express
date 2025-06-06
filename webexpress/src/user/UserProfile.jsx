@@ -213,15 +213,44 @@ export default function UserProfile() {
         </div>
       )}
       {showSuccessPopup && (
-        <div className="profile-popup-center-bg">
-          <div className="profile-popup-center">
-            <MessagePopup
-              open={true}
-              title="Success!"
-              description="Profile updated!"
-              onClose={handleSuccessPopupClose}
-              style={{ zIndex: 4002 }}
-            />
+        <div className="profile-popup-center-bg" style={{ zIndex: 4002 }}>
+          <div className="profile-popup-center" style={{
+            background: '#fff',
+            borderRadius: '1.5em',
+            boxShadow: '0 8px 32px rgba(44,62,80,0.18)',
+            padding: '2.5em 3em',
+            minWidth: 320,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '1.2em',
+            border: '2px solid #2563eb',
+            fontFamily: 'Roboto Mono, monospace',
+            position: 'relative',
+          }}>
+            <button
+              onClick={handleSuccessPopupClose}
+              style={{
+                position: 'absolute',
+                top: 18,
+                right: 22,
+                background: 'none',
+                border: 'none',
+                fontSize: '1.5em',
+                color: '#2563eb',
+                cursor: 'pointer',
+                fontWeight: 700,
+                lineHeight: 1,
+              }}
+              aria-label="Close"
+            >
+              ×
+            </button>
+            <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="30" cy="30" r="30" fill="#e0f2fe"/>
+              <path d="M18 32L27 41L43 25" stroke="#2563eb" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <div style={{ fontWeight: 700, fontSize: '1.7em', color: '#2563eb', marginBottom: 4 }}>Profile updated!</div>
           </div>
         </div>
       )}

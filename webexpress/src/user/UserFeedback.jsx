@@ -80,17 +80,49 @@ export default function UserFeedback({ showModal, onCloseModal }) {
     <>
       {showSuccess && (
         <div className="profile-popup-center-bg" style={{ zIndex: 3005 }}>
-          <div className="profile-popup-center">
-            <MessagePopup
-              open={true}
-              title="Success!"
-              description="Feedback submitted. Thank you!"
-              onClose={() => {
+          <div className="profile-popup-center" style={{
+            background: '#fff',
+            borderRadius: '1.2em',
+            boxShadow: '0 8px 32px rgba(44,62,80,0.18)',
+            padding: '1.5em 1.7em',
+            minWidth: 220,
+            maxWidth: 320,
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '1em',
+            border: '2px solid #2563eb',
+            fontFamily: 'Roboto Mono, monospace',
+            position: 'relative',
+          }}>
+            <button
+              onClick={() => {
                 setShowSuccess(false);
                 handleCloseModal();
               }}
-              style={{ zIndex: 3006 }}
-            />
+              style={{
+                position: 'absolute',
+                top: 12,
+                right: 16,
+                background: 'none',
+                border: 'none',
+                fontSize: '1.3em',
+                color: '#2563eb',
+                cursor: 'pointer',
+                fontWeight: 700,
+                lineHeight: 1,
+              }}
+              aria-label="Close"
+            >
+              ×
+            </button>
+            <svg width="48" height="48" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="30" cy="30" r="30" fill="#e0f2fe"/>
+              <path d="M18 32L27 41L43 25" stroke="#2563eb" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <div style={{ fontWeight: 700, fontSize: '1.2em', color: '#2563eb', marginBottom: 2 }}>Success!</div>
+            <div style={{ color: '#42526E', fontSize: '1em', textAlign: 'center', marginBottom: 4 }}>Feedback submitted. Thank you!</div>
           </div>
         </div>
       )}
