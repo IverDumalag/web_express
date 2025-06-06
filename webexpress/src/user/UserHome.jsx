@@ -9,24 +9,12 @@ import { useNavigate } from "react-router-dom";
 import bgImage from '../assets/background.png';
 import expressLogo from '../assets/express_logo.png';
 import girlbg from '../assets/contentbg1.png';
+import UserBottomNavBar from '../components/UserBottomNavBar';
 
 const API_URL = import.meta.env.VITE_PHRASESWORDSBYIDGET;
 const INSERT_API_URL = import.meta.env.VITE_PHRASESWORDSINSERT;
 const TRYSEARCH_API_URL = import.meta.env.VITE_TRYSEARCH;
 const UPDATE_STATUS_API_URL = import.meta.env.VITE_PHRASESWORDSSTATUSUPDATE;
-
-function Navbar({ navigate }) {
-  const location = window.location.pathname;
-  return (
-    <nav className="guest-navbar" style={{ width: '100%', background: '#1C2E4A', minHeight: '60px', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'sticky', top: 0, zIndex: 10, fontFamily: 'Inder, monospace', fontSize: '1.3em', color: '#fff' }}>
-      <div className="guest-navbar-links" style={{ display: 'flex', gap: '3vw', alignItems: 'center', height: '60px' }}>
-        <span className={`guest-navbar-link${location === '/userhome' ? ' active' : ''}`} style={{ cursor: 'pointer', padding: '0 1vw', borderBottom: location === '/userhome' ? '3px solid #fff' : 'none' }} onClick={() => navigate('/userhome')}>Home</span>
-        <span className={`guest-navbar-link${location === '/usercards' ? ' active' : ''}`} style={{ cursor: 'pointer', padding: '0 1vw', borderBottom: location === '/usercards' ? '3px solid #fff' : 'none' }} onClick={() => navigate('/usercards')}>Cards</span>
-        <span className={`guest-navbar-link${location === '/usersettings' ? ' active' : ''}`} style={{ cursor: 'pointer', padding: '0 1vw', borderBottom: location === '/usersettings' ? '3px solid #fff' : 'none' }} onClick={() => navigate('/usersettings')}>Settings</span>
-      </div>
-    </nav>
-  );
-}
 
 export default function UserHome() {
   const [activeTab, setActiveTab] = useState("wave");
@@ -165,7 +153,7 @@ export default function UserHome() {
   const [showHelpModal, setShowHelpModal] = useState(false);
   return (
     <div style={{ minHeight: '100vh', height: '100%', overflowY: 'auto', background: '#fff' }}>
-      <Navbar navigate={navigate} />
+      <UserBottomNavBar />
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '2.5vw 2vw 0 2vw' }}>
         <div style={{ marginTop: '2.5vw', marginBottom: '1.5vw' }}>
           <div style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 600, fontSize: '2.7em', color: '#22365a', marginBottom: 8 }}>Good Morning, {userData?.f_name || 'User'}!</div>
@@ -186,7 +174,7 @@ export default function UserHome() {
           />
         </div>
         
-        <div style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: '1.5em', color: '#22365a', marginBottom: 18, marginTop: 18, textAlign: 'center' }}>Sign Language Cards</div>
+        <div id="sign-language-cards-section" style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: '1.5em', color: '#22365a', marginBottom: 18, marginTop: 18, textAlign: 'center' }}>Sign Language Cards</div>
         <div className="search-main-container">
           <div className="search-two-col-container">
             <div className="search-app-info-col">

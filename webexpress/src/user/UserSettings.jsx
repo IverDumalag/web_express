@@ -5,54 +5,7 @@ import ConfirmationPopup from '../components/ConfirmationPopup';
 import '../CSS/UserSettings.css';
 import expressLogo from '../assets/express_logo.png';
 import { getUserData, setUserData } from '../data/UserData';
-
-function Navbar({ navigate }) {
-  return (
-    <nav
-      className="guest-navbar"
-      style={{
-        width: '100%',
-        background: '#1C2E4A',
-        minHeight: '60px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        position: 'sticky',
-        top: 0,
-        zIndex: 10,
-        fontFamily: 'Inder, monospace',
-        fontSize: '1.3em',
-        color: '#fff',
-      }}
-    >
-      <div
-        className="guest-navbar-links"
-        style={{ display: 'flex', gap: '3vw', alignItems: 'center', height: '60px' }}
-      >
-        <span
-          className="guest-navbar-link"
-          style={{ cursor: 'pointer', padding: '0 1vw', borderBottom: 'none' }}
-          onClick={() => navigate('/userhome')}
-        >
-          Home
-        </span>
-        <span
-          className="guest-navbar-link"
-          style={{ cursor: 'pointer', padding: '0 1vw', borderBottom: 'none' }}
-          onClick={() => navigate('/usercards')}
-        >
-          Cards
-        </span>
-        <span
-          className="guest-navbar-link active"
-          style={{ cursor: 'pointer', padding: '0 1vw', borderBottom: '3px solid #fff' }}
-        >
-          Settings
-        </span>
-      </div>
-    </nav>
-  );
-}
+import UserBottomNavBar from '../components/UserBottomNavBar';
 
 function SideNav({ onFeedback, onLogout }) {
   return (
@@ -413,30 +366,28 @@ export default function UserSettings() {
   };
 
   return (
-    <>
-      <div style={{ background: '#fff', minHeight: '100vh', minWidth: '100vw' }}>
-        <Navbar navigate={navigate} />
-        <div
-          style={{
-            maxWidth: 1100,
-            margin: '40px auto',
-            background: '#fff',
-            borderRadius: '2em',
-            border: '2px solid #1C2E4A',
-            padding: '3vw 3vw 2vw 3vw',
-            minHeight: 500,
-            display: 'flex',
-            flexDirection: 'row',
-            gap: '2vw',
-            fontFamily: 'Fira Sans, Roboto Mono, monospace',
-            boxSizing: 'border-box',
-          }}
-        >
-          <SideNav onFeedback={() => setShowFeedback(true)} onLogout={handleLogout} />
-          <div style={{ flex: 1, minWidth: 320, display: 'flex', flexDirection: 'column', gap: '2vw' }}>
-            <UserProfileDisplay user={user} onEdit={handleEditOpen} />
-            <UserProfileFields user={user} />
-          </div>
+    <div style={{ minHeight: '100vh', background: '#fff' }}>
+      <UserBottomNavBar />
+      <div
+        style={{
+          maxWidth: 1100,
+          margin: '40px auto',
+          background: '#fff',
+          borderRadius: '2em',
+          border: '2px solid #1C2E4A',
+          padding: '3vw 3vw 2vw 3vw',
+          minHeight: 500,
+          display: 'flex',
+          flexDirection: 'row',
+          gap: '2vw',
+          fontFamily: 'Fira Sans, Roboto Mono, monospace',
+          boxSizing: 'border-box',
+        }}
+      >
+        <SideNav onFeedback={() => setShowFeedback(true)} onLogout={handleLogout} />
+        <div style={{ flex: 1, minWidth: 320, display: 'flex', flexDirection: 'column', gap: '2vw' }}>
+          <UserProfileDisplay user={user} onEdit={handleEditOpen} />
+          <UserProfileFields user={user} />
         </div>
       </div>
       {showEdit && (
@@ -461,6 +412,6 @@ export default function UserSettings() {
         onCancel={() => setShowLogoutConfirm(false)}
         loading={logoutLoading}
       />
-    </>
+    </div>
   );
 }
