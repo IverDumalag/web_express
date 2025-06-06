@@ -1,3 +1,5 @@
+
+
 import React, { useState, useEffect } from "react";
 import { FaFilter, FaStar, FaQuestionCircle } from "react-icons/fa";
 import { MdOutlineWavingHand } from "react-icons/md";
@@ -131,12 +133,9 @@ export default function UserHome() {
       });
       const insertJson = await insertRes.json();
       if (insertJson.status === 201 || insertJson.status === "201") {
-        setCards(prev => [
-          { entry_id: insertJson.entry_id, words: addInput, sign_language: sign_language_url, is_favorite: 0, created_at: new Date().toISOString(), status: "active" },
-          ...prev
-        ]);
         setShowAddModal(false);
         setAddInput("");
+        setReloadCards(prev => prev + 1); // Always reload cards from backend after add
         if (matchFound) {
           showPopup("Match Found!", "success");
         } else {
@@ -179,7 +178,6 @@ export default function UserHome() {
           <div className="search-two-col-container">
             <div className="search-app-info-col">
               <div className="search-app-logo-row">
-                <img src={expressLogo} alt="exPress Logo" className="search-app-logo-img" onError={e => {e.target.style.display='none'; e.target.parentNode.querySelector('.search-app-logo-fallback').style.display='block';}} />
                 <div className="search-app-logo-fallback" style={{display:'none'}}>
                   <div className="search-app-logo-text">
                     <span className="ex-logo-e">E</span><span className="ex-logo-x">X</span>
@@ -188,8 +186,7 @@ export default function UserHome() {
                   </div>
                 </div>
               </div>
-              <div className="search-app-title"><span className="ex-logo-e">ex</span><span className="ex-logo-p">Press</span></div>
-              <div className="search-app-desc">is a mobile and web application<br />designed to allow abled people to connect within<br />deaf-mute communities seamlessly. With features<br />like sign language to text and text/audio to sign<br />language conversion for mobile, and audio-text to<br />sign for web</div>
+              
               <div className="search-app-download-row">
                 <a href="#" className="search-app-social-link" title="Facebook" target="_blank" rel="noopener noreferrer"><i className="fa fa-facebook" /></a>
                 <a href="mailto:info@express.com" className="search-app-social-link" title="Email"><i className="fa fa-envelope" /></a>
