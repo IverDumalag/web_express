@@ -80,13 +80,13 @@ export default function UserHome() {
           <div style={{ display: 'flex', justifyContent: 'center', margin: '0 0 64px 0' }}>
             <div style={{
               background: '#5c6e81',
-              borderRadius: 48,
+              borderRadius: 25,
               width: '100vw',
               maxWidth: 1600,
               minHeight: 420,
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center',
+              justifyContent: 'center', 
               padding: '40px 0',
               boxSizing: 'border-box',
               boxShadow: '0 8px 40px rgba(51,78,123,0.18)'
@@ -103,18 +103,26 @@ export default function UserHome() {
                 <div style={{ fontFamily: 'Roboto Mono, monospace', fontSize: '1.35em', marginBottom: 32 }}>
                   Try and add cards for more information
                 </div>
-                <button style={{
-                  background: '#fff',
-                  color: '#22365a',
-                  fontFamily: 'Roboto Mono, monospace',
-                  fontWeight: 700,
-                  fontSize: '1.25em',
-                  border: 'none',
-                  borderRadius: 24,
-                  padding: '16px 48px',
-                  cursor: 'pointer',
-                  boxShadow: '0 2px 12px rgba(51,78,123,0.10)'
-                }}>
+                <button
+                  onClick={() => window.location.href = '/usercards'}
+                  style={{
+                    background: '#fff',
+                    color: '#22365a',
+                    fontFamily: 'Roboto Mono, monospace',
+                    fontWeight: 700,
+                    fontSize: '1.5em',
+                    border: 'none',
+                    borderRadius: 10,
+                    padding: '20px 64px',
+                    cursor: 'pointer',
+                    boxShadow: 'none',
+                    marginTop: 8,
+                    transition: 'background 0.2s',
+                    width: 420,
+                    textAlign: 'center',
+                    display: 'block',
+                  }}
+                >
                   Add Cards Now
                 </button>
               </div>
