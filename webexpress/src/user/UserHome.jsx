@@ -2,20 +2,68 @@ import React, { useState, useEffect } from "react";
 import { FaFilter, FaStar, FaQuestionCircle } from "react-icons/fa";
 import { MdOutlineWavingHand } from "react-icons/md";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import UserBottomNavBar from '../components/UserBottomNavBar';
 import UserCards from '../components/UserCards';
 import { getUserData } from '../data/UserData';
 import MessagePopup from '../components/MessagePopup';
 import { useNavigate } from "react-router-dom";
 import bgImage from '../assets/background.png'; // Import the background image
 import expressLogo from '../assets/express_logo.png';
-import '../CSS/UserHome.css';
 
-// Get the API endpoint from .env
+// Get the API endpoint from .envmove the bottom navbar from the bottom to the top, and do the same design of the navbar from userprofile
 const API_URL = import.meta.env.VITE_PHRASESWORDSBYIDGET;
 const INSERT_API_URL = import.meta.env.VITE_PHRASESWORDSINSERT;
 const TRYSEARCH_API_URL = import.meta.env.VITE_TRYSEARCH;
 const UPDATE_STATUS_API_URL = import.meta.env.VITE_PHRASESWORDSSTATUSUPDATE; // Assuming you have an API endpoint for status updates
+
+function Navbar({ navigate }) {
+  const location = window.location.pathname;
+  return (
+    <nav
+      className="guest-navbar"
+      style={{
+        width: '100%',
+        background: '#1C2E4A',
+        minHeight: '60px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'sticky',
+        top: 0,
+        zIndex: 10,
+        fontFamily: 'Inder, monospace',
+        fontSize: '1.3em',
+        color: '#fff',
+      }}
+    >
+      <div
+        className="guest-navbar-links"
+        style={{ display: 'flex', gap: '3vw', alignItems: 'center', height: '60px' }}
+      >
+        <span
+          className={`guest-navbar-link${location === '/userhome' ? ' active' : ''}`}
+          style={{ cursor: 'pointer', padding: '0 1vw', borderBottom: location === '/userhome' ? '3px solid #fff' : 'none' }}
+          onClick={() => navigate('/userhome')}
+        >
+          Home
+        </span>
+        <span
+          className={`guest-navbar-link${location === '/usercards' ? ' active' : ''}`}
+          style={{ cursor: 'pointer', padding: '0 1vw', borderBottom: location === '/usercards' ? '3px solid #fff' : 'none' }}
+          onClick={() => navigate('/usercards')}
+        >
+          Cards
+        </span>
+        <span
+          className={`guest-navbar-link${location === '/usersettings' ? ' active' : ''}`}
+          style={{ cursor: 'pointer', padding: '0 1vw', borderBottom: location === '/usersettings' ? '3px solid #fff' : 'none' }}
+          onClick={() => navigate('/usersettings')}
+        >
+          Settings
+        </span>
+      </div>
+    </nav>
+  );
+}
 
 export default function UserHome() {
   const [activeTab, setActiveTab] = useState("wave");
@@ -217,6 +265,7 @@ export default function UserHome() {
 
   return (
     <>
+      <Navbar navigate={navigate} />
       {/* Help Icon - Top Left */}
       <button
         className="help-icon-btn"
@@ -366,7 +415,6 @@ export default function UserHome() {
           </div>
         </div>
       </div>
-      <UserBottomNavBar />
 
       {/* Add Word/Phrases Modal */}
       {showAddModal && (

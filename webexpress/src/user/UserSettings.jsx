@@ -32,7 +32,7 @@ function Navbar({ navigate }) {
         <span
           className="guest-navbar-link"
           style={{ cursor: 'pointer', padding: '0 1vw', borderBottom: 'none' }}
-          onClick={() => navigate('/')}
+          onClick={() => navigate('/userhome')}
         >
           Home
         </span>
@@ -172,6 +172,7 @@ function EditProfilePopup({ editForm, editLoading, editError, onChange, onSubmit
         gap: '0.7em',
       }}>
         <div style={{ fontWeight: 700, fontSize: '2em', textAlign: 'center', marginBottom: '1.2em', fontFamily: 'Inconsolata, monospace' }}>Edit Profile</div>
+  
         {editError && <div className="profile-edit-error" style={{ color: '#ffb4b4', textAlign: 'center', marginBottom: '0.5em', fontSize: '1em' }}>{editError}</div>}
         <label style={{ fontWeight: 500, fontSize: '1.1em', marginBottom: 2 }}>First Name</label>
         <input
@@ -244,7 +245,7 @@ function EditProfilePopup({ editForm, editLoading, editError, onChange, onSubmit
             disabled={editLoading}
             style={{
               flex: 1,
-              background: 'none',
+              background: '#1C2E4A',
               color: '#fff',
               border: '2px solid #fff',
               borderRadius: 12,
@@ -265,7 +266,7 @@ function EditProfilePopup({ editForm, editLoading, editError, onChange, onSubmit
             disabled={editLoading}
             style={{
               flex: 1,
-              background: 'none',
+              background: '#52677D',
               color: '#fff',
               border: '2px solid #fff',
               borderRadius: 12,

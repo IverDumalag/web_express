@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import MessagePopup from '../components/MessagePopup';
 import { getUserData } from '../data/UserData';
+import '../CSS/UserProfile.css';
 
 const FEEDBACK_API_URL = import.meta.env.VITE_FEEDBACKINSERT;
 
@@ -13,21 +14,19 @@ const MAIN_CONCERN_OPTIONS = [
 export default function UserFeedback({ showModal, onCloseModal }) {
   const [mainConcern, setMainConcern] = useState("");
   const [details, setDetails] = useState("");
-  const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [popup, setPopup] = useState({ open: false, message: "", type: "info" });
   const [showSuccess, setShowSuccess] = useState(false);
 
   const userData = getUserData();
   const user_id = userData?.user_id || "";
-  const [user_email, setUserEmail] = useState(userData?.email||"");
+  const [user_email] = useState(userData?.email || "");
 
   // Reset form when modal opens/closes
   useEffect(() => {
     if (showModal) {
       setMainConcern("");
       setDetails("");
-      setEmail("");
       setShowSuccess(false);
     }
   }, [showModal]);
@@ -36,7 +35,8 @@ export default function UserFeedback({ showModal, onCloseModal }) {
     if (onCloseModal) onCloseModal();
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e?.preventDefault();
     if (!user_id) {
       setPopup({ open: true, message: "User not logged in. Please log in again.", type: "error" });
       return;
@@ -64,7 +64,7 @@ export default function UserFeedback({ showModal, onCloseModal }) {
         setTimeout(() => {
           setShowSuccess(false);
           handleCloseModal();
-        }, 5000);
+        }, 3000);
       } else {
         setPopup({ open: true, message: json.message || "Failed to submit feedback.", type: "error" });
       }
@@ -78,184 +78,178 @@ export default function UserFeedback({ showModal, onCloseModal }) {
 
   return (
     <>
-      <style>{`
-        .feedback-modal-overlay {
-          position: fixed;
-          z-index: 2000;
-          top: 0; left: 0; right: 0; bottom: 0;
-          background: rgba(244,246,250,0.95);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 1rem;
-        }
-        .feedback-modal {
-          background: #fff;
-          border-radius: 12px;
-          box-shadow: 0 4px 32px rgba(0, 0, 0, 0.18);
-          width: 100%;
-          max-width: 480px;
-          padding: 2rem;
-          display: flex;
-          flex-direction: column;
-        }
-        .feedback-modal h3 {
-          margin-bottom: 1.5rem;
-          text-align: center;
-          font-size: 1.5rem;
-        }
-        .feedback-modal-label {
-          font-weight: 500;
-          margin-bottom: 0.5rem;
-          font-size: 1rem;
-        }
-        .feedback-modal-input,
-        .feedback-modal-textarea {
-          padding: 0.75rem;
-          font-size: 1rem;
-          border: 1px solid #ccc;
-          border-radius: 8px;
-          margin-bottom: 1rem;
-          width: 100%;
-          box-sizing: border-box;
-        }
-        .feedback-modal-textarea {
-          min-height: 120px;
-          resize: vertical;
-        }
-        .feedback-modal-actions {
-          display: flex;
-          justify-content: space-between;
-          gap: 1rem;
-          margin-top: 1rem;
-        }
-        .feedback-modal-btn {
-          flex: 1;
-          background: #6c63ff;
-          color: #fff;
-          border: none;
-          border-radius: 8px;
-          padding: 0.75rem 1rem;
-          font-size: 1rem;
-          cursor: pointer;
-          transition: background 0.2s ease-in-out;
-        }
-        .feedback-modal-btn.cancel {
-          background: #bbb;
-        }
-        .feedback-modal-btn:disabled {
-          background: #eee;
-          color: #aaa;
-          cursor: not-allowed;
-        }
-        .feedback-popup-center-bg {
-          position: fixed;
-          z-index: 3004;
-          top: 0; left: 0; right: 0; bottom: 0;
-          background: rgba(0,0,0,0.25);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        .feedback-popup-center {
-          z-index: 3005;
-          min-width: 220px;
-          max-width: 90vw;
-        }
-        @media (max-width: 480px) {
-          .feedback-modal {
-            padding: 1.5rem;
-          }
-          .feedback-popup-center {
-            width: 90%;
-            max-width: 300px;
-          }
-        }
-      `}</style>
-       {showSuccess && (
-        <div className="feedback-popup-center-bg" style={{ zIndex: 3005 }}>
-          <div className="feedback-popup-center">
-            <MessagePopup
-              open={true}
-              title="Success!"
-              description="Feedback submitted. Thank you!"
-              onClose={() => {
+      {showSuccess && (
+        <div className="profile-popup-center-bg" style={{ zIndex: 3005 }}>
+          <div className="profile-popup-center" style={{
+            background: '#fff',
+            borderRadius: '1.2em',
+            boxShadow: '0 8px 32px rgba(44,62,80,0.18)',
+            padding: '1.5em 1.7em',
+            minWidth: 220,
+            maxWidth: 320,
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '1em',
+            border: '2px solid #2563eb',
+            fontFamily: 'Roboto Mono, monospace',
+            position: 'relative',
+          }}>
+            <button
+              onClick={() => {
                 setShowSuccess(false);
                 handleCloseModal();
               }}
-              style={{ zIndex: 3006 }}
-            />
+              style={{
+                position: 'absolute',
+                top: 12,
+                right: 16,
+                background: 'none',
+                border: 'none',
+                fontSize: '1.3em',
+                color: '#2563eb',
+                cursor: 'pointer',
+                fontWeight: 700,
+                lineHeight: 1,
+              }}
+              aria-label="Close"
+            >
+              ×
+            </button>
+            <svg width="48" height="48" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="30" cy="30" r="30" fill="#e0f2fe"/>
+              <path d="M18 32L27 41L43 25" stroke="#2563eb" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <div style={{ fontWeight: 700, fontSize: '1.2em', color: '#2563eb', marginBottom: 2 }}>Success!</div>
+            <div style={{ color: '#42526E', fontSize: '1em', textAlign: 'center', marginBottom: 4 }}>Feedback submitted. Thank you!</div>
           </div>
         </div>
       )}
       {popup.open && (
-        <div className="feedback-popup-center-bg" style={{ zIndex: 3007 }}>
-          <div className="feedback-popup-center">
+        <div className="profile-popup-center-bg" style={{ zIndex: 3007 }}>
+          <div className="profile-popup-center">
             <MessagePopup
               open={popup.open}
               title={popup.type === "success" ? "Success!" : popup.type === "error" ? "Error" : "Info"}
               description={popup.message}
-              onClose={() => {
-                setPopup(p => ({ ...p, open: false }));
-                handleCloseModal();
-              }}
+              onClose={() => setPopup(p => ({ ...p, open: false }))}
               style={{ zIndex: 3008 }}
             />
           </div>
         </div>
       )}
-      <div className="feedback-modal-overlay">
-        <div className="feedback-modal">
-          <h3>Submit Feedback</h3>
-          <label className="feedback-modal-label" htmlFor="main-concern">Main Concern</label>
+      <div className="profile-edit-popup-bg" style={{ position: 'fixed', zIndex: 3002, top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <form className="profile-edit-popup" onSubmit={handleSubmit} style={{
+          background: '#2B4066',
+          borderRadius: '2.2em',
+          boxShadow: '0 0.25rem 2rem rgba(0,0,0,0.18)',
+          width: '95%',
+          maxWidth: 440,
+          padding: '2.5em 2.5em 2em 2.5em',
+          display: 'flex',
+          flexDirection: 'column',
+          boxSizing: 'border-box',
+          color: '#fff',
+          fontFamily: 'Roboto Mono, monospace',
+          alignItems: 'stretch',
+          gap: '0.7em',
+          position: 'relative',
+        }}>
+          <div style={{ fontWeight: 700, fontSize: '2em', textAlign: 'center', marginBottom: '1.2em', fontFamily: 'Inconsolata, monospace' }}>Submit Feedback</div>
+          {/* Success/Error message can be added here if needed */}
+          <label style={{ fontWeight: 500, fontSize: '1.1em', marginBottom: 2 }} htmlFor="main-concern">Main Concern</label>
           <input
-            list="main-concern-options"
-            className="feedback-modal-input"
+            className="profile-edit-input"
             id="main-concern"
+            list="main-concern-options"
             value={mainConcern}
             onChange={e => setMainConcern(e.target.value)}
             placeholder="Select or type main concern"
             autoComplete="off"
+            disabled={loading}
+            style={{
+              background: '#fff', color: '#2563eb', fontWeight: 600, fontSize: '1.1em', border: 'none', borderRadius: 8, padding: '0.6em 1em', marginBottom: 8, fontFamily: 'Inconsolata, monospace', outline: 'none', boxSizing: 'border-box',
+            }}
           />
           <datalist id="main-concern-options">
             {MAIN_CONCERN_OPTIONS.map(opt => (
               <option value={opt} key={opt} />
             ))}
           </datalist>
-          <label className="feedback-modal-label" htmlFor="details">Details</label>
+          <label style={{ fontWeight: 500, fontSize: '1.1em', marginBottom: 2 }} htmlFor="details">Details</label>
           <textarea
-            className="feedback-modal-textarea"
+            className="profile-edit-input"
             id="details"
             value={details}
             onChange={e => setDetails(e.target.value)}
             placeholder="Describe your concern or suggestion"
+            disabled={loading}
+            style={{ minHeight: 100, background: '#fff', color: '#2563eb', fontWeight: 600, fontSize: '1.1em', border: 'none', borderRadius: 8, padding: '0.6em 1em', marginBottom: 8, fontFamily: 'Inconsolata, monospace', outline: 'none', boxSizing: 'border-box', resize: 'vertical' }}
           />
-          <label className="feedback-modal-label" htmlFor="email">Email</label>
+          <label style={{ fontWeight: 500, fontSize: '1.1em', marginBottom: 2 }} htmlFor="email">Email</label>
           <input
-            className="feedback-modal-input"
+            className="profile-edit-input"
             id="email"
             type="email"
             value={user_email}
             placeholder="Your email"
             disabled
+            style={{ background: '#fff', color: '#2563eb', fontWeight: 600, fontSize: '1.1em', border: 'none', borderRadius: 8, padding: '0.6em 1em', marginBottom: 8, fontFamily: 'Inconsolata, monospace', outline: 'none', boxSizing: 'border-box' }}
           />
-          <div className="feedback-modal-actions">
+          <div style={{ display: 'flex', gap: '1em', marginTop: '1.5em' }}>
             <button
-              className="feedback-modal-btn"
-              onClick={handleSubmit}
+              className="profile-edit-btn"
+              type="submit"
               disabled={loading}
+              style={{
+                flex: 1,
+                background: '#1C2E4A',
+                color: '#fff',
+                border: '2px solid #fff',
+                borderRadius: 12,
+                padding: '0.7em 0',
+                fontWeight: 700,
+                fontSize: '1.1em',
+                fontFamily: 'Inconsolata, monospace',
+                cursor: 'pointer',
+                transition: 'background 0.2s, color 0.2s',
+              }}
             >
               {loading ? "Submitting..." : "Submit"}
             </button>
             <button
-              className="feedback-modal-btn cancel"
+              className="profile-edit-btn cancel"
+              type="button"
               onClick={handleCloseModal}
               disabled={loading}
+              style={{
+                flex: 1,
+                background: '#52677D',
+                color: '#fff',
+                border: '2px solid #fff',
+                borderRadius: 12,
+                padding: '0.7em 0',
+                fontWeight: 700,
+                fontSize: '1.1em',
+                fontFamily: 'Inconsolata, monospace',
+                cursor: 'pointer',
+                transition: 'background 0.2s, color 0.2s',
+              }}
             >
               Cancel
             </button>
+            <button
+              type="button"
+              className="profile-edit-btn cancel"
+              title="Close"
+              onClick={handleCloseModal}
+              style={{ background: 'none', color: '#fff', border: 'none', fontSize: '2em', fontWeight: 700, marginLeft: 8, marginTop: -8, lineHeight: 1, padding: 0, minWidth: 0, position: 'absolute', top: 20, right: 20 }}
+            >
+              &times;
+            </button>
           </div>
-        </div>
+        </form>
       </div>
     </>
   );
