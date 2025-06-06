@@ -25,7 +25,7 @@ function SideNav({ onFeedback, onLogout }) {
         alignItems: 'flex-start',
       }}
     >
-      <div style={{ display: 'flex', alignItems: 'center', fontWeight: 600, color: '#1C2E4A' }}>
+      <div style={{ display: 'flex', alignItems: 'center', fontWeight: 500, color: '#4B5A6A' }}>
         Profile
       </div>
       <div style={{ cursor: 'pointer', color: '#4B5A6A', fontWeight: 500 }} onClick={onFeedback}>
@@ -41,7 +41,7 @@ function SideNav({ onFeedback, onLogout }) {
           Download our App
         </a>
       </div>
-      <div style={{ cursor: 'pointer', color: '#4B5A6A', fontWeight: 500 }} onClick={onLogout}>
+      <div style={{ cursor: 'pointer', color: '#1C2E4A', fontWeight: 600 }} onClick={onLogout}>
         Logout
       </div>
     </div>
