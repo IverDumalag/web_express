@@ -1,56 +1,72 @@
 import React from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { FaChevronDown } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import '../CSS/UserBottomNavbar.css';
 
 const navs = [
-  { label: "HOME", path: "/userhome" },
-  { label: "SETTINGS", path: "/usersettings" },
-  { label: "PROFILE", path: "/userprofile" },
+  { label: "Home", path: "/userhome" },
+  { label: "Cards", path: "/usercards" },
+  { label: "Settings", path: "/usersettings" },
 ];
 
 const UserBottomNavBar = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const [openIndex, setOpenIndex] = React.useState(null);
+  const location = window.location.pathname;
+  const [cardsActive, setCardsActive] = React.useState(false);
 
-  const handleNavClick = (idx, path) => {
-    setOpenIndex(idx === openIndex ? null : idx);
-    navigate(path);
+  React.useEffect(() => {
+    setCardsActive(location === "/usercards");
+  }, [location]);
+
+  const handleNavClick = (nav) => {
+    navigate(nav.path);
   };
 
   return (
-    <>
-      <nav className="user-bottom-nav">
-        <div className="nav-group">
-          {navs.map((nav, idx) => (
-            <button
+    <nav
+      className="guest-navbar"
+      style={{
+        width: '100%',
+        background: '#1C2E4A',
+        minHeight: '60px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'sticky',
+        top: 0,
+        zIndex: 10,
+        fontFamily: 'Inder, monospace',
+        fontSize: '1.3em',
+        color: '#fff',
+      }}
+    >
+      <div
+        className="guest-navbar-links"
+        style={{ display: 'flex', gap: '3vw', alignItems: 'center', height: '60px' }}
+      >
+        {navs.map((nav) => {
+          let isActive = false;
+          if (nav.label === "Cards") {
+            isActive = cardsActive;
+          } else {
+            isActive = location === nav.path && !cardsActive;
+          }
+          return (
+            <span
               key={nav.path}
-              className={`nav-item${location.pathname === nav.path ? " active" : ""}`}
-              onClick={() => handleNavClick(idx, nav.path)}
-              onBlur={() => setOpenIndex(null)}
+              className={`guest-navbar-link${isActive ? ' active' : ''}`}
+              style={{
+                cursor: 'pointer',
+                padding: '0 1vw',
+                borderBottom: isActive ? '3px solid #fff' : 'none',
+              }}
+              onClick={() => handleNavClick(nav)}
             >
-              <span style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
-                {openIndex === idx && (
-                  <FaChevronDown
-                    className="nav-arrow"
-                    style={{
-                      marginBottom: 2,
-                      transition: 'transform 0.2s',
-                      transform: location.pathname === nav.path ? 'rotate(180deg)' : 'rotate(0deg)',
-                      color: location.pathname === nav.path ? '#007bff' : '#888',
-                      fontSize: '1em',
-                    }}
-                  />
-                )}
-                {nav.label}
-              </span>
-            </button>
-          ))}
-        </div>
-        <span className="owlets">OWLETS</span>
-      </nav>
-    </>
+              {nav.label}
+            </span>
+          );
+        })}
+      </div>
+    </nav>
   );
 };
 

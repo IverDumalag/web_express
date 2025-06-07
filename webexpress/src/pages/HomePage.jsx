@@ -269,6 +269,7 @@ const HomePage = () => {
 
         {/* FeaturesPage section with smooth scroll ref */}
         <FeaturesPage ref={featuresPageRef} />
+
       </div>
     </>
   );

@@ -14,6 +14,7 @@ import UserArchived from './user/UserArchived';
 import AdminHome from './admin/AdminHome';
 import AdminAnalytics from './admin/AdminAnalytics';
 import AdminLogs from './admin/AdminLogs';
+import UserCardsPage from './user/UserCardsPage';
 
 export default function App() {
   return (
@@ -32,6 +33,7 @@ export default function App() {
           <Route path="/usersettings" element={<UserSettings />} />
           <Route path="/userprofile" element={<UserProfile />} />
           <Route path="/userarchived" element={<UserArchived />} />
+          <Route path="/usercards" element={<UserCardsPage />} />
         </Route>
 
         {/* Admin Protected Routes */}

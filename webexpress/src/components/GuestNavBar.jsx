@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import '../CSS/GuestNavBar.css';
 
 const GuestNavBar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import AdminNavBar from '../components/AdminNavBar';
 import AdminTable from './AdminTable';
 import { Line, Pie } from "react-chartjs-2";
+import '../CSS/AdminAnalytics.css';
 import {
   Chart as ChartJS,
   LineElement,
@@ -134,45 +135,6 @@ function Modal({ open, onClose, children }) {
   if (!open) return null;
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <style>{`
-        .modal-overlay {
-          position: fixed;
-          z-index: 1000;
-          left: 0; top: 0; right: 0; bottom: 0;
-          background: rgba(37,99,235,0.18);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        .modal-content {
-          background: #fff;
-          border-radius: 1vw;
-          box-shadow: 0 4px 32px rgba(37,99,235,0.18);
-          padding: 2vw;
-          max-width: 95vw;
-          max-height: 90vh;
-          overflow-y: auto;
-          position: relative;
-        }
-        .modal-close-btn {
-          position: absolute;
-          top: 1vw;
-          right: 1vw;
-          background: #2563eb;
-          color: #fff;
-          border: none;
-          border-radius: 50%;
-          width: 2em;
-          height: 2em;
-          font-size: 1.2em;
-          cursor: pointer;
-        }
-        @media (max-width: 600px) {
-          .modal-content {
-            padding: 3vw 1vw 2vw 1vw;
-          }
-        }
-      `}</style>
       <div className="modal-content" onClick={e => e.stopPropagation()}>
         <button className="modal-close-btn" onClick={onClose} aria-label="Close">&times;</button>
         {children}
@@ -429,185 +391,8 @@ export default function AdminAnalytics() {
 
   return (
     <>
-      <style>{`
-        body, #root {
-          background: #f4f6fa !important;
-        }
-        .admin-analytics-container {
-          padding: 2vw;
-        }
-        .analytics-section {
-          background: #fff;
-          border-radius: 1.5vw;
-          box-shadow: 0 2px 16px rgba(37,99,235,0.08);
-          margin-bottom: 3vw;
-          padding: 2vw;
-        }
-        .section-title {
-          color: #2563eb;
-          font-size: 1.5em;
-          font-weight: 700;
-          margin-bottom: 2vw;
-          text-align: center;
-        }
-        .growth-chart-container {
-          width: 95vw;
-          max-width: 700px;
-          margin: 0 auto;
-          padding: 0;
-          background: #fff;
-        }
-        .growth-chart-label {
-          color: #2563eb;
-          font-size: 1.2em;
-          font-weight: 600;
-          margin-bottom: 1vw;
-          text-align: left;
-          padding-left: 0;
-        }
-        .growth-chart-box {
-          width: 100%;
-          height: 40vw;
-          min-height: 240px;
-          max-height: 400px;
-          background: #fff;
-          border-radius: 1vw;
-          box-shadow: 0 2px 16px rgba(37,99,235,0.08);
-          margin-bottom: 1vw;
-          padding: 2vw 2vw 1vw 2vw;
-          box-sizing: border-box;
-          cursor: pointer;
-          transition: box-shadow 0.2s;
-        }
-        .growth-chart-box:hover {
-          box-shadow: 0 4px 24px rgba(37,99,235,0.18);
-        }
-        .demographics-horizontal-scroll {
-          display: flex;
-          overflow-x: auto;
-          gap: 2vw;
-          padding-bottom: 1vw;
-          -webkit-overflow-scrolling: touch;
-          scrollbar-width: thin;
-          scrollbar-color: #2563eb rgba(37,99,235,0.08);
-        }
-        .demographics-horizontal-scroll::-webkit-scrollbar {
-          height: 0.8vw;
-        }
-        .demographics-horizontal-scroll::-webkit-scrollbar-track {
-          background: rgba(37,99,235,0.08);
-          border-radius: 10px;
-        }
-        .demographics-horizontal-scroll::-webkit-scrollbar-thumb {
-          background: #2563eb;
-          border-radius: 10px;
-        }
-        .demographics-card {
-          flex: 0 0 auto;
-          width: 300px;
-          min-width: 280px;
-          background: #fff;
-          border-radius: 1.5vw;
-          box-shadow: 0 2px 16px rgba(37,99,235,0.08);
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          padding: 2vw;
-          box-sizing: border-box;
-        }
-        .demographics-title {
-          color: #2563eb;
-          font-size: 1.1em;
-          font-weight: 600;
-          margin-bottom: 1vw;
-          text-align: center;
-        }
-        /* --- Content Rate Section --- */
-        .content-rate-section {
-          background: #fff;
-          border-radius: 1.5vw;
-          box-shadow: 0 2px 16px rgba(16,185,129,0.08);
-          margin-bottom: 3vw;
-          padding: 2vw;
-        }
-        .content-rate-title {
-          color: #10b981;
-          font-size: 1.5em;
-          font-weight: 700;
-          margin-bottom: 2vw;
-          text-align: center;
-        }
-        .content-rate-gauge-container {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          margin-bottom: 2vw;
-        }
-        .content-rate-line-container {
-          width: 95vw;
-          max-width: 700px;
-          margin: 0 auto;
-          background: #fff;
-        }
-        .content-rate-line-box {
-          width: 100%;
-          height: 40vw;
-          min-height: 240px;
-          max-height: 400px;
-          background: #fff;
-          border-radius: 1vw;
-          box-shadow: 0 2px 16px rgba(16,185,129,0.08);
-          margin-bottom: 1vw;
-          padding: 2vw 2vw 1vw 2vw;
-          box-sizing: border-box;
-        }
-        @media (max-width: 900px) {
-          .demographics-card {
-            width: 40%;
-            min-width: 250px;
-          }
-        }
-        @media (max-width: 600px) {
-          .admin-analytics-container {
-            padding: 4vw 2vw;
-          }
-          .analytics-section,
-          .content-rate-section {
-            padding: 4vw;
-            margin-bottom: 5vw;
-          }
-          .section-title,
-          .content-rate-title {
-            font-size: 1.3em;
-            margin-bottom: 4vw;
-          }
-          .growth-chart-label {
-            font-size: 1em;
-            padding-left: 0;
-            text-align: center;
-          }
-          .growth-chart-box,
-          .content-rate-line-box {
-            height: 60vw;
-            min-height: 180px;
-            padding: 3vw 1vw 2vw 1vw;
-            border-radius: 2vw;
-          }
-          .demographics-horizontal-scroll {
-            gap: 4vw;
-            padding-bottom: 3vw;
-          }
-          .demographics-card {
-            min-width: 220px;
-            width: 80vw;
-            padding: 4vw;
-          }
-        }
-      `}</style>
       <AdminNavBar>
         <div className="admin-analytics-container">
-
           {/* User Growth Section */}
           <div className="analytics-section">
             <h2 className="section-title">User Growth Over Time</h2>
@@ -619,7 +404,7 @@ export default function AdminAnalytics() {
                 title="Click to show daily user growth"
               >
                 {loading ? (
-                  <div style={{ color: "#2563eb", textAlign: "center" }}>Loading monthly growth...</div>
+                  <div className="admin-analytics-loading">Loading monthly growth...</div>
                 ) : (
                   <Line data={monthlyChartData} options={{ ...chartOptions, onClick: undefined }} />
                 )}
@@ -641,24 +426,23 @@ export default function AdminAnalytics() {
             <h2 className="content-rate-title">Content Match Rate</h2>
             <div
               className="content-rate-gauge-container"
-              style={{ cursor: "pointer" }}
               onClick={() => setShowContentMatchModal(true)}
               title="Click to view content match table"
             >
               {loadingContentRate ? (
-                <div style={{ color: "#10b981", textAlign: "center" }}>Loading overall match rate...</div>
+                <div className="admin-analytics-loading-green">Loading overall match rate...</div>
               ) : (
                 <GaugeChart value={contentRate.overall} />
               )}
-              <div style={{ color: "#10b981", fontSize: "1em", marginTop: "0.5em", textAlign: "center" }}>
+              <div className="admin-analytics-gauge-label">
                 Click to view content match table
               </div>
             </div>
             <div className="content-rate-line-container">
-              <div className="growth-chart-label" style={{ color: "#10b981" }}>Monthly Match Rate Trend</div>
+              <div className="growth-chart-label admin-analytics-green">Monthly Match Rate Trend</div>
               <div className="content-rate-line-box">
                 {loadingContentRate ? (
-                  <div style={{ color: "#10b981", textAlign: "center" }}>Loading trend...</div>
+                  <div className="admin-analytics-loading-green">Loading trend...</div>
                 ) : (
                   <Line data={contentRateLineData} options={contentRateLineOptions} />
                 )}
@@ -674,7 +458,7 @@ export default function AdminAnalytics() {
                 percentName={null}
               />
               {loadingContentMatch && (
-                <div style={{ color: "#10b981", textAlign: "center" }}>Loading...</div>
+                <div className="admin-analytics-loading-green">Loading...</div>
               )}
             </Modal>
           </div>
@@ -687,7 +471,7 @@ export default function AdminAnalytics() {
               <div className="demographics-card">
                 <div className="demographics-title">By Sex</div>
                 {loadingDemographics ? (
-                  <div style={{ color: "#2563eb", textAlign: "center" }}>Loading...</div>
+                  <div className="admin-analytics-loading">Loading...</div>
                 ) : (
                   <Pie
                     data={sexPieData}
@@ -710,7 +494,7 @@ export default function AdminAnalytics() {
               <div className="demographics-card">
                 <div className="demographics-title">By Age Group</div>
                 {loadingDemographics ? (
-                  <div style={{ color: "#2563eb", textAlign: "center" }}>Loading...</div>
+                  <div className="admin-analytics-loading">Loading...</div>
                 ) : (
                   <Pie
                     data={agePieData}
@@ -733,9 +517,9 @@ export default function AdminAnalytics() {
               <div className="demographics-card">
                 <div className="demographics-title">More Coming Soon...</div>
                 {loadingDemographics ? (
-                  <div style={{ color: "#2563eb", textAlign: "center" }}>Loading...</div>
+                  <div className="admin-analytics-loading">Loading...</div>
                 ) : (
-                  <p style={{textAlign: 'center', color: '#6b7280'}}>📈📊📉</p>
+                  <p className="admin-analytics-coming-soon">📈📊📉</p>
                 )}
               </div>
             </div>

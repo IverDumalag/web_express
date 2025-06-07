@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400&display=swap');
+
+.container {
+  margin: 420px 0 0 860px;
+  max-width: 90%;
+  width: 100%;
+  margin: 8% auto 0 auto;
+  padding: 0 2%;
+  font-size: 1.2em;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .container {
+    max-width: 98%;
+    margin: 16% auto 0 auto;
+    font-size: 1em;
+  }
+}
+
+.under-logo-btn {
+  margin: 320px 0 0 860px;
+  padding: 16px 28px;
+  background: #334E7B;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.1em;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.under-logo-btn:hover {
+  background: #22365a;
+}
+
+.homepage-description-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 60vh;
+  margin: 0 8vw 0 0;
+}
+
+.homepage-description-text {
+  text-align: right;
+  font-size: 2.10em;
+  font-weight: 600;
+  color: #ffffff;
+  max-width: 500px;
+  font-family: 'Inder', monospace;
+}
+
+.homepage-description-text2 {
+  text-align: right;
+  font-size: 1.60em;
+  font-weight: 300;
+  color: #ffffff;
+  max-width: 500px;
+  font-family: 'Roboto mono', monospace;
+}
+
+@media (max-width: 900px) {
+  .homepage-description-container {
+    justify-content: center;
+    margin: 0;
+    height: auto;
+  }
+  .homepage-description-text {
+    text-align: center;
+    font-size: 1em;
+  }
+}

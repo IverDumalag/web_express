@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import AdminNavBar from '../components/AdminNavBar';
 import AdminTable from './AdminTable';
 import { Bar } from "react-chartjs-2";
+import '../CSS/AdminLogs.css';
 import {
    Chart as ChartJS,
    BarElement,
@@ -23,45 +24,6 @@ function Modal({ open, onClose, children }) {
    if (!open) return null;
    return (
       <div className="modal-overlay" onClick={onClose}>
-         <style>{`
-            .modal-overlay {
-               position: fixed;
-               z-index: 1000;
-               left: 0; top: 0; right: 0; bottom: 0;
-               background: rgba(37,99,235,0.18);
-               display: flex;
-               align-items: center;
-               justify-content: center;
-            }
-            .modal-content {
-               background: #fff;
-               border-radius: 1vw;
-               box-shadow: 0 4px 32px rgba(37,99,235,0.18);
-               padding: 2vw;
-               max-width: 95vw;
-               max-height: 90vh;
-               overflow-y: auto;
-               position: relative;
-            }
-            .modal-close-btn {
-               position: absolute;
-               top: 1vw;
-               right: 1vw;
-               background: #2563eb;
-               color: #fff;
-               border: none;
-               border-radius: 50%;
-               width: 2em;
-               height: 2em;
-               font-size: 1.2em;
-               cursor: pointer;
-            }
-            @media (max-width: 600px) {
-               .modal-content {
-                  padding: 3vw 1vw 2vw 1vw;
-               }
-            }
-         `}</style>
          <div className="modal-content" onClick={e => e.stopPropagation()}>
             <button className="modal-close-btn" onClick={onClose} aria-label="Close">&times;</button>
             {children}
@@ -158,60 +120,6 @@ export default function AdminLogs() {
 
    return (
       <>
-         <style>{`
-            .admin-logs-container {
-               padding: 2vw;
-            }
-            .analytics-section {
-               background: #fff;
-               border-radius: 1.5vw;
-               box-shadow: 0 2px 16px rgba(37,99,235,0.08);
-               margin-bottom: 3vw;
-               padding: 2vw;
-            }
-            .section-title {
-               color: #2563eb;
-               font-size: 1.5em;
-               font-weight: 700;
-               margin-bottom: 2vw;
-               text-align: center;
-            }
-            .bar-chart-box {
-               width: 100%;
-               max-width: 700px;
-               margin: 0 auto 2vw auto;
-               height: 350px;
-               background: #fff;
-               border-radius: 1vw;
-               box-shadow: 0 2px 16px rgba(37,99,235,0.08);
-               padding: 2vw 2vw 1vw 2vw;
-               box-sizing: border-box;
-               cursor: pointer;
-               transition: box-shadow 0.2s;
-            }
-            .bar-chart-box:hover {
-               box-shadow: 0 4px 24px rgba(37,99,235,0.18);
-            }
-            @media (max-width: 600px) {
-               .admin-logs-container {
-                  padding: 4vw 2vw;
-               }
-               .analytics-section {
-                  padding: 4vw;
-                  margin-bottom: 5vw;
-               }
-               .section-title {
-                  font-size: 1.3em;
-                  margin-bottom: 4vw;
-               }
-               .bar-chart-box {
-                  height: 60vw;
-                  min-height: 180px;
-                  padding: 3vw 1vw 2vw 1vw;
-                  border-radius: 2vw;
-               }
-            }
-         `}</style>
          <AdminNavBar>
             <div className="admin-logs-container">
                {/* Section 1: Main Concern Bar Chart */}
@@ -223,7 +131,7 @@ export default function AdminLogs() {
                      onClick={() => setShowFeedbackModal(true)}
                   >
                      {loadingMain ? (
-                        <div style={{ color: "#2563eb", textAlign: "center" }}>Loading...</div>
+                        <div className="admin-logs-loading">Loading...</div>
                      ) : (
                         <Bar data={barData} options={barOptions} />
                      )}
@@ -243,7 +151,7 @@ export default function AdminLogs() {
                         percentName={null}
                      />
                      {loadingFeedback && (
-                        <div style={{ color: "#2563eb", textAlign: "center" }}>Loading...</div>
+                        <div className="admin-logs-loading">Loading...</div>
                      )}
                   </Modal>
                </div>
@@ -252,26 +160,14 @@ export default function AdminLogs() {
                <div className="analytics-section">
                   <h2 className="section-title">Logs</h2>
                   {loadingLogs ? (
-                     <div style={{ color: "#2563eb", textAlign: "center" }}>Loading...</div>
+                     <div className="admin-logs-loading">Loading...</div>
                   ) : (
-                     <div style={{ overflowX: "auto" }}>
-                        <table style={{ width: "100%", borderCollapse: "collapse", background: "#fff" }}>
+                     <div className="admin-logs-table-wrapper">
+                        <table className="admin-logs-table">
                            <thead>
                               <tr>
-                                 {/* Map over desiredLogColumns to create table headers */}
                                  {desiredLogColumns.map(col => (
-                                    <th
-                                       key={col}
-                                       style={{
-                                          border: "1px solid #e5e7eb",
-                                          padding: "8px",
-                                          background: "#f4f6fa",
-                                          color: "#2563eb",
-                                          fontWeight: 700,
-                                          fontSize: "1em",
-                                       }}
-                                    >
-                                       {/* Format column names for display */}
+                                    <th className="admin-logs-th" key={col}>
                                        {col.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase())}
                                     </th>
                                  ))}
@@ -280,18 +176,10 @@ export default function AdminLogs() {
                            <tbody>
                               {logs.map((row, idx) => (
                                  <tr key={row.log_id || idx}>
-                                    {/* Map over desiredLogColumns to display cell data */}
                                     {desiredLogColumns.map(col => (
                                        <td
+                                          className={`admin-logs-td${idx % 2 === 0 ? '' : ' alt'}`}
                                           key={col}
-                                          style={{
-                                             border: "1px solid #e5e7eb",
-                                             padding: "8px",
-                                             fontSize: "0.98em",
-                                             color: "#22223b",
-                                             wordBreak: "break-all",
-                                             background: idx % 2 === 0 ? "#fff" : "#f9fafb",
-                                          }}
                                        >
                                           {row[col]}
                                        </td>
