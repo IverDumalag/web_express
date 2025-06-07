@@ -3,6 +3,10 @@ import girlbg from '../assets/contentbg1.png';
 import UserBottomNavBar from '../components/UserBottomNavBar';
 import graphic from '../assets/graphic.png';
 import weloveto from '../assets/weloveto.png';
+import helloVideo from '../assets/hello_rfyswh.mp4';
+import howareyouVideo from '../assets/howareyou_bwzgiu.mp4';
+import thankyouVideo from '../assets/thankyou_huzpb0.mp4';
+import goodmorningVideo from '../assets/goodmorning_wgwhib.mp4';
 
 
 export default function UserHome() {
@@ -54,18 +58,18 @@ export default function UserHome() {
             display: 'grid',
             gridTemplateColumns: 'repeat(2, 1fr)',
             gridTemplateRows: 'repeat(2, 1fr)',
-            gap: '48px',
+            gap: '64px', // bigger gap
             justifyContent: 'center',
             alignItems: 'center',
-            maxWidth: 1000,
+            maxWidth: 1200, // make grid area bigger
             margin: '0 auto 56px auto',
           }}>
             {[0,1,2,3].map(i => (
               <div key={i} style={{
                 background: '#22365a',
                 borderRadius: '32px',
-                minHeight: 320,
-                minWidth: 380,
+                minHeight: 400,
+                minWidth: 480,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -73,11 +77,118 @@ export default function UserHome() {
                 fontSize: '1.3em',
                 fontWeight: 500,
                 boxShadow: '0 4px 24px rgba(51,78,123,0.13)',
+                position: 'relative',
+                overflow: 'hidden',
+                padding: 0,
               }}>
-                {/* Leave blank for default */}
+                {i === 0 && (
+                  <>
+                    <video
+                      src={helloVideo}
+                      style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', margin: 0, padding: 0, border: 'none' }}
+                      controls
+                    />
+                    <div style={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      color: '#fff',
+                      fontWeight: 700,
+                      fontSize: '2em',
+                      textShadow: '0 2px 8px #22365a, 0 0 16px #0008',
+                      pointerEvents: 'none',
+                      fontFamily: 'Inder, sans-serif',
+                      zIndex: 2,
+                    }}>Hello</div>
+                  </>
+                )}
+                {i === 1 && (
+                  <>
+                    <video
+                      src={howareyouVideo}
+                      style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', margin: 0, padding: 0, border: 'none' }}
+                      controls
+                    />
+                    <div style={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      color: '#fff',
+                      fontWeight: 700,
+                      fontSize: '2em',
+                      textShadow: '0 2px 8px #22365a, 0 0 16px #0008',
+                      pointerEvents: 'none',
+                      fontFamily: 'Inder, sans-serif',
+                      zIndex: 2,
+                    }}>How are you</div>
+                  </>
+                )}
+                {i === 2 && (
+                  <>
+                    <video
+                      src={thankyouVideo}
+                      style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', margin: 0, padding: 0, border: 'none' }}
+                      controls
+                    />
+                    <div style={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      color: '#fff',
+                      fontWeight: 700,
+                      fontSize: '2em',
+                      textShadow: '0 2px 8px #22365a, 0 0 16px #0008',
+                      pointerEvents: 'none',
+                      fontFamily: 'Inder, sans-serif',
+                      zIndex: 2,
+                    }}>Thank you</div>
+                  </>
+                )}
+                {i === 3 && (
+                  <>
+                    <video
+                      src={goodmorningVideo}
+                      style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', margin: 0, padding: 0, border: 'none' }}
+                      controls
+                    />
+                    <div style={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      color: '#fff',
+                      fontWeight: 700,
+                      fontSize: '2em',
+                      textShadow: '0 2px 8px #22365a, 0 0 16px #0008',
+                      pointerEvents: 'none',
+                      fontFamily: 'Inder, sans-serif',
+                      zIndex: 2,
+                    }}>Good morning</div>
+                  </>
+                )}
               </div>
             ))}
           </div>
+          {/* Responsive grid: keep 2 columns on small screens */}
+          <style>
+            {`
+              @media (max-width: 900px) {
+                .sign-card-grid {
+                  grid-template-columns: repeat(2, 1fr) !important;
+                  grid-template-rows: repeat(2, 1fr) !important;
+                }
+              }
+              @media (max-width: 700px) {
+                .sign-card-grid {
+                  grid-template-columns: 1fr !important;
+                  grid-template-rows: repeat(4, 1fr) !important;
+                }
+              }
+            `}
+          </style>
           <div style={{ display: 'flex', justifyContent: 'center', margin: '0 0 64px 0' }}>
             <div style={{
               background: '#5c6e81',
