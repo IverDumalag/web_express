@@ -165,9 +165,9 @@ export default function UserHome() {
                 <img
                   src={graphic}
                   alt="Add More Card Illustration"
-                  style={{ maxWidth: 520, width: '40%', height: 'auto', borderRadius: 32, marginRight: 96 }}
+                  style={{ maxWidth: 640, width: '40%', height: 'auto', borderRadius: 32, marginRight: 96 }}
                 />
-                <div style={{ textAlign: 'left', color: '#fff', flex: 1, marginLeft: 270 }}>
+                <div style={{ textAlign: 'left', color: '#fff', flex: 1, marginLeft: 180 }}>
                   <div style={{ fontFamily: 'League Spartan, monospace', fontWeight: 900, fontSize: '5em', marginBottom: 16 }}>
                     Add More Card?
                   </div>
@@ -179,17 +179,17 @@ export default function UserHome() {
                     style={{
                       background: '#fff',
                       color: '#22365a',
-                      fontFamily: 'Roboto Mono, monospace',
-                      fontWeight: 700,
-                      fontSize: '1.5em',
+                      fontFamily: 'Poppins, monospace',
+                      fontWeight: 900,
+                      fontSize: '1.6em',
                       border: 'none',
-                      borderRadius: 10,
-                      padding: '20px 64px',
+                      borderRadius: 5,
+                      padding: '22px 64px',
                       cursor: 'pointer',
                       boxShadow: 'none',
                       marginTop: 8,
                       transition: 'background 0.2s',
-                      width: 420,
+                      width: 320,
                       textAlign: 'center',
                       display: 'block',
                     }}
@@ -253,7 +253,7 @@ export default function UserHome() {
               className="welove-btn-pos"
               style={{
                 position: 'absolute',
-                right: '8vw', // moved more to the right
+                right: '7vw', // moved more to the right
                 top: '69%',
                 transform: 'translateY(-50%)',
                 display: 'flex',

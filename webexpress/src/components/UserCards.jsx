@@ -99,7 +99,20 @@ export default function UserCards({ cards: initialCards, onCardUpdated }) {
 
   return (
     <>
-      <div className="card-list">
+      <style>{`
+        @media (max-width: 700px) {
+          .card-list {
+            grid-template-columns: 1fr !important;
+          }
+        }
+      `}</style>
+      <div className="card-list" style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(2, 1fr)',
+        gap: '2vw',
+        marginTop: '2vw',
+        marginBottom: '2vw',
+      }}>
         {cards.length === 0 ? (
           <div style={{ textAlign: "center", color: "#aaa", marginTop: "4vw" }}>
             No cards found.
@@ -110,36 +123,41 @@ export default function UserCards({ cards: initialCards, onCardUpdated }) {
               className="card-item"
               key={card.entry_id}
               onClick={e => {
-                // Prevent modal open when clicking favorite/speak buttons
                 if (e.target.closest('.card-action-btn')) return;
                 setSelectedCard(card);
               }}
+              style={{
+                display: 'flex',
+                flexDirection: 'row', // Ensure horizontal layout
+                alignItems: 'center',
+                background: '#fff',
+                border: '1.5px solid #bfc9d1',
+                borderRadius: '20px',
+                minHeight: 60,
+                height: 150,
+                width: '80vw',
+                maxWidth: 650,
+                margin: '0 auto',
+                padding: 0,
+                cursor: 'pointer',
+                transition: 'box-shadow 0.2s',
+                boxShadow: 'none',
+                fontFamily: 'Roboto Mono, sans-serif',
+                overflow: 'hidden',
+              }}
             >
-              <div className="card-content">
-                <div className="card-title">{card.words}</div>
-              </div>
-              <div className="card-actions">
-                <button
-                  className={`card-action-btn speak${speakingId === card.entry_id ? " active" : ""}`}
-                  title="Speak"
-                  onClick={e => {
-                    e.stopPropagation();
-                    handleSpeak(card);
-                  }}
-                >
-                  {speakingId === card.entry_id ? <RiSpeakerFill /> : <MdSpeakerPhone />}
-                </button>
-                <button
-                  className={`card-action-btn${card.is_favorite ? " fav" : ""}`}
-                  title={card.is_favorite ? "Unfavorite" : "Favorite"}
-                  onClick={e => {
-                    e.stopPropagation();
-                    handleFavorite(card, card.is_favorite); {/* Pass the full card object */}
-                  }}
-                  disabled={updatingId === card.entry_id}
-                >
-                  {card.is_favorite ? <FaStar /> : <FaRegStar />}
-                </button>
+              <div style={{
+                width: 150, // Increased from 28 to 44 for a wider navy rectangle
+                height: '100%',
+                background: '#1d2e4e',
+                borderRadius: '18px 0 0 18px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0,
+              }} />
+              <div style={{ flex: 1, height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
+                <div className="card-title" style={{ fontWeight: 600, fontSize: '1.18em', color: '#22223b', letterSpacing: '0.01em', fontFamily: 'Roboto Mono, monospace', textAlign: 'center', width: '100%' }}>{card.words}</div>
               </div>
             </div>
           ))
