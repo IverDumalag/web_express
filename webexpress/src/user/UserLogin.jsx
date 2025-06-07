@@ -3,9 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import MessagePopup from '../components/MessagePopup';
 import { setUserData } from '../data/UserData';
-import GuestNavBar from "../components/GuestNavBar";
-import backgroundImg from '../assets/bg.png';
 import logo from '../assets/logo.png';
+import bgImage from '../assets/bglogin.png';
+import '../CSS/UserLogin.css';
 
 export default function UserLogin() {
   const [form, setForm] = useState({ email: '', password: '' });
@@ -13,14 +13,16 @@ export default function UserLogin() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleChange = e => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async e => {
     e.preventDefault();
     setLoading(true);
-    setPopup({ open: true, title: "Please wait", description: "Please wait for a moment as the server is currently starting up..." });
+    setPopup({
+      open: true,
+      title: "Please wait",
+      description: "The server is starting up, please wait a moment..."
+    });
     try {
       const res = await axios.post(
         'https://express-php.onrender.com/api/userLogin.php',
@@ -36,80 +38,53 @@ export default function UserLogin() {
         }, 1000);
       } else {
         setLoading(false);
-        setPopup({ open: true, title: "Login Failed", description: res.data.message || 'Login failed.' });
+        setPopup({
+          open: true,
+          title: "Login Failed",
+          description: res.data.message || 'Login failed.'
+        });
       }
     } catch (err) {
       setLoading(false);
-      setPopup({ open: true, title: "Error", description: err.response?.data?.message || 'Server error' });
+      setPopup({
+        open: true,
+        title: "Error",
+        description: err.response?.data?.message || 'Server error'
+      });
     }
   };
 
-  const mainColor = "#334E7B";
-
   return (
-    <>
-      <GuestNavBar />
-      <div
-        style={{
-          backgroundImage: `url(${backgroundImg})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          minHeight: '90vh',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          padding: '2rem',
-          fontFamily: 'Poppins, sans-serif',
-        }}
-      >
-        <MessagePopup
-          open={popup.open}
-          title={popup.title}
-          description={popup.description}
-          onClose={() => setPopup({ ...popup, open: false })}
-        />
+    <div className="login-bg">
+      {/* Background block */}
+      <div className="login-bg-block" />
 
-        <div
-          style={{
-            width: '100%',
-            maxWidth: 420,
-            padding: '3rem',
-            borderRadius: '24px',
-            backdropFilter: 'blur(12px)',
-            backgroundColor: 'rgba(255, 255, 255, 0.85)',
-            boxShadow: '0 12px 30px rgba(0, 0, 0, 0.2)',
-            color: '#000',
-            animation: 'fadeInUp 0.7s ease forwards',
-            opacity: 0, 
-            transform: 'translateY(20px)', 
-          }}
-        >
-          <div
-            style={{
-              textAlign: 'center',
-              marginBottom: '1.5rem',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <img
-              src={logo}
-              alt="Logo"
-              style={{ width: 80, height: 80, objectFit: 'contain' }}
-            />
-          </div>
+      {/* Left Welcome Section (inside blue container) */}
+      <div className="login-left">
+        <div className="login-brand" onClick={() => navigate('/')} style={{cursor: 'pointer'}}>exPress</div>
+        <div className="login-welcome-bottom">
+          <h1 className="login-welcome">WELCOME<br /><span className="login-back">BACK!</span></h1>
+        </div>
+      </div>
 
-          <h2 style={{ textAlign: 'center', marginBottom: '0.5rem', fontSize: '1.8rem', color: mainColor }}>
-            Welcome Back
-          </h2>
-          <p style={{ textAlign: 'center', color: '#555', marginBottom: '2rem', fontSize: '0.95rem' }}>
-            Sign in to continue to your account
-          </p>
+      {/* Right Login Form */}
+      <div className="login-right">
+        <div className="login-container">
+          <header className="login-header">
+            <h2>Log In</h2>
+            <p>Sign in to continue to your account</p>
+          </header>
 
-          <form onSubmit={handleSubmit} autoComplete="off">
-            <label style={{ display: 'block', marginBottom: '1.2rem' }}>
-              <span style={{ display: 'block', marginBottom: 6 }}>Email</span>
+          <MessagePopup
+            open={popup.open}
+            title={popup.title}
+            description={popup.description}
+            onClose={() => setPopup({ ...popup, open: false })}
+          />
+
+          <form onSubmit={handleSubmit} autoComplete="off" className="login-form">
+            <div className="login-form-group">
+              <label>Email</label>
               <input
                 type="email"
                 name="email"
@@ -117,24 +92,11 @@ export default function UserLogin() {
                 onChange={handleChange}
                 required
                 disabled={loading}
-                style={{
-                  width: '94%',
-                  padding: '12px',
-                  borderRadius: '12px',
-                  border: '1px solid #ccc',
-                  fontSize: '1rem',
-                  backgroundColor: '#fff',
-                  color: '#000',
-                  outline: 'none',
-                  transition: 'box-shadow 0.3s ease',
-                }}
-                onFocus={(e) => e.target.style.boxShadow = `0 0 0 2px ${mainColor}`}
-                onBlur={(e) => e.target.style.boxShadow = 'none'}
               />
-            </label>
+            </div>
 
-            <label style={{ display: 'block', marginBottom: '2rem' }}>
-              <span style={{ display: 'block', marginBottom: 6 }}>Password</span>
+            <div className="login-form-group">
+              <label>Password</label>
               <input
                 type="password"
                 name="password"
@@ -142,84 +104,30 @@ export default function UserLogin() {
                 onChange={handleChange}
                 required
                 disabled={loading}
-                style={{
-                  width: '94%',
-                  padding: '12px',
-                  borderRadius: '12px',
-                  border: '1px solid #ccc',
-                  fontSize: '1rem',
-                  backgroundColor: '#fff',
-                  color: '#000',
-                  outline: 'none',
-                  transition: 'box-shadow 0.3s ease',
-                }}
-                onFocus={(e) => e.target.style.boxShadow = `0 0 0 2px ${mainColor}`}
-                onBlur={(e) => e.target.style.boxShadow = 'none'}
               />
-            </label>
+              <div className="login-forgot">
+                <Link to="/forgot-password">Forgot Password?</Link>
+              </div>
+            </div>
 
             <button
               type="submit"
               disabled={loading}
-              style={{
-                width: '100%',
-                padding: '14px',
-                backgroundColor: mainColor,
-                color: '#fff',
-                border: 'none',
-                borderRadius: 12,
-                fontWeight: 600,
-                fontSize: '1rem',
-                cursor: loading ? 'not-allowed' : 'pointer',
-                transition: 'background-color 0.3s ease, transform 0.2s',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                gap: '10px',
-              }}
-              onMouseOver={(e) => !loading && (e.currentTarget.style.backgroundColor = '#2a416b')}
-              onMouseOut={(e) => !loading && (e.currentTarget.style.backgroundColor = mainColor)}
-              onMouseDown={(e) => !loading && (e.currentTarget.style.transform = 'scale(0.98)')}
-              onMouseUp={(e) => !loading && (e.currentTarget.style.transform = 'scale(1)')}
+              className="login-btn login-btn-main"
             >
-              {loading && (
-                <div
-                  style={{
-                    border: '3px solid #fff',
-                    borderTop: '3px solid transparent',
-                    borderRadius: '50%',
-                    width: '16px',
-                    height: '16px',
-                    animation: 'spin 1s linear infinite',
-                  }}
-                />
-              )}
-              {loading ? "Logging in..." : "Login"}
+              {loading ? "Logging in..." : "Log In"}
+            </button>
+            <div className="login-or">or</div>
+            <button
+              type="button"
+              onClick={() => navigate('/register')}
+              className="login-btn login-btn-register"
+            >
+              Register
             </button>
           </form>
-
-          <div style={{ marginTop: '1.5rem', textAlign: 'center', fontSize: '0.9rem' }}>
-            <span>Don't have an account? </span>
-            <Link to="/register" style={{ color: mainColor, textDecoration: 'underline' }}>
-              Register
-            </Link>
-          </div>
         </div>
       </div>
-
-      <style>{`
-        @keyframes spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-
-        @keyframes fadeInUp {
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
-    </>
+    </div>
   );
 }
