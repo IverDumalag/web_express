@@ -1,16 +1,311 @@
 import React, { useState } from 'react';
-import UserBottomNavBar from '../components/UserBottomNavBar';
 import { useNavigate } from "react-router-dom";
 import UserFeedback from './UserFeedback';
 import ConfirmationPopup from '../components/ConfirmationPopup';
 import '../CSS/UserSettings.css';
 import expressLogo from '../assets/express_logo.png';
+import { getUserData, setUserData } from '../data/UserData';
+import UserBottomNavBar from '../components/UserBottomNavBar';
+
+function SideNav({ onFeedback, onLogout }) {
+  return (
+    <div
+      style={{
+        minWidth: 220,
+        maxWidth: 260,
+        flex: '0 0 220px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '1.5em',
+        fontFamily: 'Roboto Mono, monospace',
+        fontSize: '1.25em',
+        color: '#2d3a5a',
+        marginTop: '10vw',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+      }}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', fontWeight: 500, color: '#4B5A6A' }}>
+        Profile
+      </div>
+      <div style={{ cursor: 'pointer', color: '#4B5A6A', fontWeight: 500 }} onClick={onFeedback}>
+        Give us feedback!
+      </div>
+      <div style={{ cursor: 'pointer', color: '#4B5A6A', fontWeight: 500 }}>
+        <a
+          href="https://drive.google.com/uc?export=download&id=1D4QseDYlB9_3zezrNINM8eWWB3At1kVN"
+          style={{ color: 'inherit', textDecoration: 'none' }}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Download our App
+        </a>
+      </div>
+      <div style={{ cursor: 'pointer', color: '#1C2E4A', fontWeight: 600 }} onClick={onLogout}>
+        Logout
+      </div>
+    </div>
+  );
+}
+
+function UserProfileDisplay({ user, onEdit }) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', marginBottom: '2vw', gap: '2vw', position: 'relative', minHeight: '3.5em' }}>
+      <div style={{
+        fontFamily: 'Roboto Mono, monospace',
+        fontWeight: 800,
+        fontSize: '3em',
+        color: '#1C2E4A',
+        letterSpacing: '-2px',
+        textAlign: 'left',
+        position: 'static',
+        marginBottom: '0.5em',
+      }}>Settings</div>
+      <div style={{ flex: 1 }}></div>
+      <div style={{ textAlign: 'right', marginTop: '0.5vw' }}>
+        <div style={{ fontFamily: 'Roboto Mono, monospace', fontWeight: 700, fontSize: '1.4em', color: '#42526E' }}>{user?.f_name} {user?.m_name} {user?.l_name}</div>
+        <div style={{ fontFamily: 'Fira Sans, monospace', color: '#2563eb', fontSize: '1.1em', marginBottom: 8 }}>{user?.email}</div>
+        <button
+          style={{
+            background: '#1C2E4A',
+            color: '#fff',
+            border: 'none',
+            borderRadius: 12,
+            padding: '0.4em 1.2em',
+            fontFamily: 'Roboto Mono, monospace',
+            fontWeight: 600,
+            fontSize: '1em',
+            cursor: 'pointer',
+            marginTop: 2,
+          }}
+          onClick={onEdit}
+        >
+          Edit Profile
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function UserProfileFields({ user }) {
+  return (
+    <form style={{ display: 'flex', flexDirection: 'column', gap: '1.2em', maxWidth: 480, fontFamily: 'Fira Sans, monospace', fontSize: '1.15em', color: '#1C2E4A' }}>
+      <label style={{ fontFamily: 'Roboto Mono, monospace', fontWeight: 500 }}>First Name</label>
+      <input style={{ fontFamily: 'Fira Sans, monospace', fontSize: '1.1em', border: '1px solid #22223b', borderRadius: 8, padding: '0.4em 0.8em', color: '#2563eb', marginBottom: 4 }} value={user?.f_name || ''} readOnly />
+      <label style={{ fontFamily: 'Roboto Mono, monospace', fontWeight: 500 }}>Middle Name</label>
+      <input style={{ fontFamily: 'Fira Sans, monospace', fontSize: '1.1em', border: '1px solid #22223b', borderRadius: 8, padding: '0.4em 0.8em', color: '#2563eb', marginBottom: 4 }} value={user?.m_name || ''} readOnly />
+      <label style={{ fontFamily: 'Roboto Mono, monospace', fontWeight: 500 }}>Last Name</label>
+      <input style={{ fontFamily: 'Fira Sans, monospace', fontSize: '1.1em', border: '1px solid #22223b', borderRadius: 8, padding: '0.4em 0.8em', color: '#2563eb', marginBottom: 4 }} value={user?.l_name || ''} readOnly />
+      <label style={{ fontFamily: 'Roboto Mono, monospace', fontWeight: 500 }}>Email</label>
+      <input style={{ fontFamily: 'Fira Sans, monospace', fontSize: '1.1em', border: '1px solid #22223b', borderRadius: 8, padding: '0.4em 0.8em', color: '#2563eb', marginBottom: 4 }} value={user?.email || ''} readOnly />
+      <label style={{ fontFamily: 'Roboto Mono, monospace', fontWeight: 500 }}>Birthdate</label>
+      <input style={{ fontFamily: 'Fira Sans, monospace', fontSize: '1.1em', border: '1px solid #22223b', borderRadius: 8, padding: '0.4em 0.8em', color: '#2563eb', marginBottom: 4 }} value={user?.birthdate || ''} readOnly />
+      <label style={{ fontFamily: 'Roboto Mono, monospace', fontWeight: 500 }}>Sex</label>
+      <input style={{ fontFamily: 'Fira Sans, monospace', fontSize: '1.1em', border: '1px solid #22223b', borderRadius: 8, padding: '0.4em 0.8em', color: '#2563eb', marginBottom: 4 }} value={user?.sex || ''} readOnly />
+    </form>
+  );
+}
+
+function EditProfilePopup({ editForm, editLoading, editError, onChange, onSubmit, onCancel }) {
+  return (
+    <div className="profile-edit-popup-bg" style={{ position: 'fixed', zIndex: 3002, top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <form className="profile-edit-popup" onSubmit={onSubmit} style={{
+        background: '#2B4066',
+        borderRadius: '2.2em',
+        boxShadow: '0 0.25rem 2rem rgba(0,0,0,0.18)',
+        width: '95%',
+        maxWidth: 440,
+        padding: '2.5em 2.5em 2em 2.5em',
+        display: 'flex',
+        flexDirection: 'column',
+        boxSizing: 'border-box',
+        color: '#fff',
+        fontFamily: 'Roboto Mono, monospace',
+        alignItems: 'stretch',
+        gap: '0.7em',
+      }}>
+        <div style={{ fontWeight: 700, fontSize: '2em', textAlign: 'center', marginBottom: '1.2em', fontFamily: 'Inconsolata, monospace' }}>Edit Profile</div>
+  
+        {editError && <div className="profile-edit-error" style={{ color: '#ffb4b4', textAlign: 'center', marginBottom: '0.5em', fontSize: '1em' }}>{editError}</div>}
+        <label style={{ fontWeight: 500, fontSize: '1.1em', marginBottom: 2 }}>First Name</label>
+        <input
+          className="profile-edit-input"
+          name="f_name"
+          value={editForm.f_name}
+          onChange={onChange}
+          required
+          disabled={editLoading}
+          style={{
+            background: '#fff', color: '#2563eb', fontWeight: 600, fontSize: '1.1em', border: 'none', borderRadius: 8, padding: '0.6em 1em', marginBottom: 8, fontFamily: 'Inconsolata, monospace', outline: 'none', boxSizing: 'border-box',
+          }}
+        />
+        <label style={{ fontWeight: 500, fontSize: '1.1em', marginBottom: 2 }}>Middle Name</label>
+        <input
+          className="profile-edit-input"
+          name="m_name"
+          value={editForm.m_name}
+          onChange={onChange}
+          disabled={editLoading}
+          style={{
+            background: '#fff', color: '#2563eb', fontWeight: 600, fontSize: '1.1em', border: 'none', borderRadius: 8, padding: '0.6em 1em', marginBottom: 8, fontFamily: 'Inconsolata, monospace', outline: 'none', boxSizing: 'border-box',
+          }}
+        />
+        <label style={{ fontWeight: 500, fontSize: '1.1em', marginBottom: 2 }}>Last Name</label>
+        <input
+          className="profile-edit-input"
+          name="l_name"
+          value={editForm.l_name}
+          onChange={onChange}
+          required
+          disabled={editLoading}
+          style={{
+            background: '#fff', color: '#2563eb', fontWeight: 600, fontSize: '1.1em', border: 'none', borderRadius: 8, padding: '0.6em 1em', marginBottom: 8, fontFamily: 'Inconsolata, monospace', outline: 'none', boxSizing: 'border-box',
+          }}
+        />
+        <label style={{ fontWeight: 500, fontSize: '1.1em', marginBottom: 2 }}>Sex</label>
+        <select
+          className="profile-edit-input"
+          name="sex"
+          value={editForm.sex}
+          onChange={onChange}
+          required
+          disabled={editLoading}
+          style={{
+            background: '#fff', color: '#2563eb', fontWeight: 600, fontSize: '1.1em', border: 'none', borderRadius: 8, padding: '0.6em 1em', marginBottom: 8, fontFamily: 'Inconsolata, monospace', outline: 'none', boxSizing: 'border-box',
+          }}
+        >
+          <option value="">Select</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select>
+        <label style={{ fontWeight: 500, fontSize: '1.1em', marginBottom: 2 }}>Birthdate</label>
+        <input
+          className="profile-edit-input"
+          name="birthdate"
+          type="date"
+          value={editForm.birthdate}
+          onChange={onChange}
+          required
+          disabled={editLoading}
+          style={{
+            background: '#fff', color: '#2563eb', fontWeight: 600, fontSize: '1.1em', border: 'none', borderRadius: 8, padding: '0.6em 1em', marginBottom: 8, fontFamily: 'Inconsolata, monospace', outline: 'none', boxSizing: 'border-box',
+          }}
+        />
+        <div style={{ display: 'flex', gap: '1em', marginTop: '1.5em' }}>
+          <button
+            className="profile-edit-btn"
+            type="submit"
+            disabled={editLoading}
+            style={{
+              flex: 1,
+              background: '#1C2E4A',
+              color: '#fff',
+              border: '2px solid #fff',
+              borderRadius: 12,
+              padding: '0.7em 0',
+              fontWeight: 700,
+              fontSize: '1.1em',
+              fontFamily: 'Inconsolata, monospace',
+              cursor: 'pointer',
+              transition: 'background 0.2s, color 0.2s',
+            }}
+          >
+            {editLoading ? "Saving..." : "Save"}
+          </button>
+          <button
+            className="profile-edit-btn cancel"
+            type="button"
+            onClick={onCancel}
+            disabled={editLoading}
+            style={{
+              flex: 1,
+              background: '#52677D',
+              color: '#fff',
+              border: '2px solid #fff',
+              borderRadius: 12,
+              padding: '0.7em 0',
+              fontWeight: 700,
+              fontSize: '1.1em',
+              fontFamily: 'Inconsolata, monospace',
+              cursor: 'pointer',
+              transition: 'background 0.2s, color 0.2s',
+            }}
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+}
+
+function SuccessPopup({ onClose }) {
+  return (
+    <div style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '100vw',
+      height: '100vh',
+      background: 'rgba(44, 62, 80, 0.18)',
+      zIndex: 4000,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}>
+      <div style={{
+        background: '#fff',
+        borderRadius: '1.5em',
+        boxShadow: '0 8px 32px rgba(44,62,80,0.18)',
+        padding: '2.5em 3em',
+        minWidth: 320,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '1.2em',
+        border: '2px solid #2563eb',
+        fontFamily: 'Roboto Mono, monospace',
+        position: 'relative',
+      }}>
+        <button
+          onClick={onClose}
+          style={{
+            position: 'absolute',
+            top: 18,
+            right: 22,
+            background: 'none',
+            border: 'none',
+            fontSize: '1.5em',
+            color: '#2563eb',
+            cursor: 'pointer',
+            fontWeight: 700,
+            lineHeight: 1,
+          }}
+          aria-label="Close"
+        >
+          ×
+        </button>
+        <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="30" cy="30" r="30" fill="#e0f2fe"/>
+          <path d="M18 32L27 41L43 25" stroke="#2563eb" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+        <div style={{ fontWeight: 700, fontSize: '1.7em', color: '#2563eb', marginBottom: 4 }}>Profile updated!</div>
+      </div>
+    </div>
+  );
+}
 
 export default function UserSettings() {
   const navigate = useNavigate();
   const [showFeedback, setShowFeedback] = useState(false);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [logoutLoading, setLogoutLoading] = useState(false);
+  const [user, setUser] = useState(() => getUserData());
+  const [showEdit, setShowEdit] = useState(false);
+  const [editForm, setEditForm] = useState({});
+  const [editLoading, setEditLoading] = useState(false);
+  const [editError, setEditError] = useState('');
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
   const handleLogout = () => {
     setShowLogoutConfirm(true);
@@ -24,63 +319,90 @@ export default function UserSettings() {
       setLogoutLoading(false);
       setShowLogoutConfirm(false);
       navigate("/login");
-    }, 600); // Optional: short delay for UX
+    }, 600);
+  };
+
+  const handleEditOpen = () => {
+    setEditForm({
+      f_name: user?.f_name || "",
+      m_name: user?.m_name || "",
+      l_name: user?.l_name || "",
+      email: user?.email || "",
+      sex: user?.sex || "",
+      birthdate: user?.birthdate || "",
+      user_id: user?.user_id || "",
+    });
+    setEditError('');
+    setShowEdit(true);
+  };
+
+  const handleEditChange = e => {
+    setEditForm({ ...editForm, [e.target.name]: e.target.value });
+  };
+
+  const handleEditSubmit = async e => {
+    e.preventDefault();
+    setEditLoading(true);
+    setEditError('');
+    try {
+      const res = await fetch(import.meta.env.VITE_USEREDIT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(editForm)
+      });
+      const json = await res.json();
+      if (json.status === 200 || json.status === "200") {
+        setUserData(json.user || editForm);
+        setUser(json.user || editForm);
+        setShowSuccessPopup(true);
+        setShowEdit(false);
+      } else {
+        setEditError(json.message || "Failed to update profile.");
+      }
+    } catch (err) {
+      setEditError("Network error.");
+    }
+    setEditLoading(false);
   };
 
   return (
-    <>
-      <div className="settings-main-container">
-        <div className="settings-content-box">
-          <div className="settings-title">settings</div>
-          <div className="settings-btn-row" style={{ marginTop: '1vw', marginBottom: '0.5vw', justifyContent: 'flex-start', paddingLeft: '4vw', flexDirection: 'column', alignItems: 'flex-start', gap: '1vw' }}>
-            <div style={{marginBottom: '0.2em'}}>
-              <div className="settings-btn-primary">Give Us Feedback</div>
-              <div className="settings-btn-secondary">Let us know your thoughts or report an issue.</div>
-              <button className="settings-btn feedback-btn" onClick={() => setShowFeedback(true)}>
-                Give Us Feedback
-              </button>
-            </div>
-            <div>
-              <div className="settings-btn-primary">Download for Mobile</div>
-              <div className="settings-btn-secondary">Get the exPress app for your mobile device.</div>
-                <button
-                  className="settings-btn download-btn"
-                  onClick={() => {
-                    window.open(
-                      "https://drive.google.com/uc?export=download&id=1D4QseDYlB9_3zezrNINM8eWWB3At1kVN",
-                      "_blank"
-                    );
-                  }}
-                >
-                  Download for Mobile
-                </button>
-            </div>
-          </div>
-          <div className="settings-logo-right">
-            <img src={expressLogo} alt="exPress Logo" className="settings-app-logo" />
-          </div>
-          <div className="settings-btn-row logout-row" style={{ marginTop: '2vw', marginBottom: '0.5vw' }}>
-            <button
-              className="settings-btn logout"
-              onClick={handleLogout}
-            >
-              <span>Logout</span>
-              <span style={{display: 'flex', alignItems: 'center'}}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 71 71" fill="none">
-                  <path d="M13.8058 11.8331H45.3613V31.1609H49.3058V11.8331C49.3058 10.787 48.8902 9.7837 48.1505 9.04397C47.4107 8.30425 46.4075 7.88867 45.3613 7.88867H13.8058C12.7596 7.88867 11.7564 8.30425 11.0166 9.04397C10.2769 9.7837 9.86133 10.787 9.86133 11.8331V59.1664C9.86133 60.2126 10.2769 61.2159 11.0166 61.9556C11.7564 62.6953 12.7596 63.1109 13.8058 63.1109H45.3613C46.4075 63.1109 47.4107 62.6953 48.1505 61.9556C48.8902 61.2159 49.3058 60.2126 49.3058 59.1664H13.8058V11.8331Z" fill="#334E7B"/>
-                  <path d="M55.5377 34.0802C55.1604 33.7571 54.6751 33.5883 54.1787 33.6074C53.6824 33.6266 53.2115 33.8324 52.8603 34.1836C52.509 34.5349 52.3033 35.0057 52.2841 35.5021C52.2649 35.9984 52.4337 36.4837 52.7568 36.861L59.423 43.3891H30.8257C30.3027 43.3891 29.801 43.5969 29.4312 43.9667C29.0613 44.3366 28.8535 44.8382 28.8535 45.3613C28.8535 45.8844 29.0613 46.386 29.4312 46.7559C29.801 47.1257 30.3027 47.3335 30.8257 47.3335H59.423L52.7568 54.1574C52.5504 54.3342 52.3827 54.5518 52.2643 54.7965C52.146 55.0412 52.0794 55.3077 52.0689 55.5793C52.0584 55.8509 52.1042 56.1217 52.2034 56.3748C52.3025 56.6279 52.4529 56.8578 52.6451 57.05C52.8373 57.2422 53.0672 57.3926 53.3203 57.4917C53.5734 57.5909 53.8442 57.6366 54.1158 57.6262C54.3874 57.6157 54.6539 57.5491 54.8986 57.4308C55.1433 57.3124 55.3609 57.1447 55.5377 56.9382L67.0555 45.4994L55.5377 34.0802Z" fill="#334E7B"/>
-                </svg>
-              </span>
-            </button>
-          </div>
-          <div className="settings-divider" />
+    <div style={{ minHeight: '100vh', background: '#fff' }}>
+      <UserBottomNavBar />
+      <div
+        style={{
+          maxWidth: 1100,
+          margin: '40px auto',
+          background: '#fff',
+          borderRadius: '2em',
+          border: '2px solid #1C2E4A',
+          padding: '3vw 3vw 2vw 3vw',
+          minHeight: 500,
+          display: 'flex',
+          flexDirection: 'row',
+          gap: '2vw',
+          fontFamily: 'Fira Sans, Roboto Mono, monospace',
+          boxSizing: 'border-box',
+        }}
+      >
+        <SideNav onFeedback={() => setShowFeedback(true)} onLogout={handleLogout} />
+        <div style={{ flex: 1, minWidth: 320, display: 'flex', flexDirection: 'column', gap: '2vw' }}>
+          <UserProfileDisplay user={user} onEdit={handleEditOpen} />
+          <UserProfileFields user={user} />
         </div>
       </div>
-      {showFeedback && (
-        <UserFeedback
-          showModal={true}
-          onCloseModal={() => setShowFeedback(false)}
+      {showEdit && (
+        <EditProfilePopup
+          editForm={editForm}
+          editLoading={editLoading}
+          editError={editError}
+          onChange={handleEditChange}
+          onSubmit={handleEditSubmit}
+          onCancel={() => setShowEdit(false)}
         />
+      )}
+      {showSuccessPopup && <SuccessPopup onClose={() => setShowSuccessPopup(false)} />}
+      {showFeedback && (
+        <UserFeedback showModal={true} onCloseModal={() => setShowFeedback(false)} />
       )}
       <ConfirmationPopup
         open={showLogoutConfirm}
@@ -90,7 +412,6 @@ export default function UserSettings() {
         onCancel={() => setShowLogoutConfirm(false)}
         loading={logoutLoading}
       />
-      <UserBottomNavBar />
-    </>
+    </div>
   );
 }

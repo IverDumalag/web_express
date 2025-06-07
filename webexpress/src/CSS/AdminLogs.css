@@ -1,0 +1,118 @@
+.modal-overlay {
+  position: fixed;
+  z-index: 1000;
+  left: 0; top: 0; right: 0; bottom: 0;
+  background: rgba(37,99,235,0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-content {
+  background: #fff;
+  border-radius: 1vw;
+  box-shadow: 0 4px 32px rgba(37,99,235,0.18);
+  padding: 2vw;
+  max-width: 95vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+.modal-close-btn {
+  position: absolute;
+  top: 1vw;
+  right: 1vw;
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 2em;
+  height: 2em;
+  font-size: 1.2em;
+  cursor: pointer;
+}
+.admin-logs-container {
+  padding: 2vw;
+}
+.analytics-section {
+  background: #fff;
+  border-radius: 1.5vw;
+  box-shadow: 0 2px 16px rgba(37,99,235,0.08);
+  margin-bottom: 3vw;
+  padding: 2vw;
+}
+.section-title {
+  color: #2563eb;
+  font-size: 1.5em;
+  font-weight: 700;
+  margin-bottom: 2vw;
+  text-align: center;
+}
+.bar-chart-box {
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto 2vw auto;
+  height: 350px;
+  background: #fff;
+  border-radius: 1vw;
+  box-shadow: 0 2px 16px rgba(37,99,235,0.08);
+  padding: 2vw 2vw 1vw 2vw;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+.bar-chart-box:hover {
+  box-shadow: 0 4px 24px rgba(37,99,235,0.18);
+}
+.admin-logs-loading {
+  color: #2563eb;
+  text-align: center;
+}
+.admin-logs-table-wrapper {
+  overflow-x: auto;
+}
+.admin-logs-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+.admin-logs-th {
+  border: 1px solid #e5e7eb;
+  padding: 8px;
+  background: #f4f6fa;
+  color: #2563eb;
+  font-weight: 700;
+  font-size: 1em;
+}
+.admin-logs-td {
+  border: 1px solid #e5e7eb;
+  padding: 8px;
+  font-size: 0.98em;
+  color: #22223b;
+  word-break: break-all;
+  background: #fff;
+}
+.admin-logs-td.alt {
+  background: #f9fafb;
+}
+@media (max-width: 600px) {
+  .modal-content {
+    padding: 3vw 1vw 2vw 1vw;
+  }
+  .admin-logs-container {
+    padding: 4vw 2vw;
+  }
+  .analytics-section {
+    padding: 4vw;
+    margin-bottom: 5vw;
+  }
+  .section-title {
+    font-size: 1.3em;
+    margin-bottom: 4vw;
+  }
+  .bar-chart-box {
+    height: 60vw;
+    min-height: 180px;
+    padding: 3vw 1vw 2vw 1vw;
+    border-radius: 2vw;
+  }
+}
