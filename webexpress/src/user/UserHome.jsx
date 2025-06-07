@@ -49,6 +49,8 @@ export default function UserHome() {
             }}
           />
         </div>
+        {/* Add gap between image and cards */}
+        <div style={{ height: 40 }} />
         {/* Sign Language Card Section - moved after main illustration */}
         <div style={{ margin: '40px 0 24px 0', textAlign: 'center' }}>
           <div style={{ fontFamily: 'Inder, sans-serif', fontWeight: 700, fontSize: '2.2em', color: '#22365a', marginBottom: 24 }}>
@@ -58,14 +60,14 @@ export default function UserHome() {
             display: 'grid',
             gridTemplateColumns: 'repeat(2, 1fr)',
             gridTemplateRows: 'repeat(2, 1fr)',
-            gap: '64px', // bigger gap
+            gap: '64px',
             justifyContent: 'center',
             alignItems: 'center',
-            maxWidth: 1200, // make grid area bigger
+            maxWidth: 1200,
             margin: '0 auto 56px auto',
           }}>
             {[0,1,2,3].map(i => (
-              <div key={i} style={{
+              <div key={i} className="sign-card-video-box" style={{
                 background: '#22365a',
                 borderRadius: '32px',
                 minHeight: 400,
@@ -81,13 +83,24 @@ export default function UserHome() {
                 overflow: 'hidden',
                 padding: 0,
               }}>
-                {i === 0 && (
+                {(i === 0 || i === 1 || i === 2 || i === 3) && (
                   <>
                     <video
-                      src={helloVideo}
+                      src={i === 0 ? helloVideo : i === 1 ? howareyouVideo : i === 2 ? thankyouVideo : goodmorningVideo}
                       style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', margin: 0, padding: 0, border: 'none' }}
                       controls
                     />
+                    <div className="sign-card-video-overlay" style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      width: '100%',
+                      height: '100%',
+                      background: 'rgba(30,40,60,0.55)',
+                      transition: 'background 0.3s',
+                      zIndex: 1,
+                      pointerEvents: 'none',
+                    }} />
                     <div style={{
                       position: 'absolute',
                       top: '50%',
@@ -100,78 +113,21 @@ export default function UserHome() {
                       pointerEvents: 'none',
                       fontFamily: 'Inder, sans-serif',
                       zIndex: 2,
-                    }}>Hello</div>
-                  </>
-                )}
-                {i === 1 && (
-                  <>
-                    <video
-                      src={howareyouVideo}
-                      style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', margin: 0, padding: 0, border: 'none' }}
-                      controls
-                    />
-                    <div style={{
-                      position: 'absolute',
-                      top: '50%',
-                      left: '50%',
-                      transform: 'translate(-50%, -50%)',
-                      color: '#fff',
-                      fontWeight: 700,
-                      fontSize: '2em',
-                      textShadow: '0 2px 8px #22365a, 0 0 16px #0008',
-                      pointerEvents: 'none',
-                      fontFamily: 'Inder, sans-serif',
-                      zIndex: 2,
-                    }}>How are you</div>
-                  </>
-                )}
-                {i === 2 && (
-                  <>
-                    <video
-                      src={thankyouVideo}
-                      style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', margin: 0, padding: 0, border: 'none' }}
-                      controls
-                    />
-                    <div style={{
-                      position: 'absolute',
-                      top: '50%',
-                      left: '50%',
-                      transform: 'translate(-50%, -50%)',
-                      color: '#fff',
-                      fontWeight: 700,
-                      fontSize: '2em',
-                      textShadow: '0 2px 8px #22365a, 0 0 16px #0008',
-                      pointerEvents: 'none',
-                      fontFamily: 'Inder, sans-serif',
-                      zIndex: 2,
-                    }}>Thank you</div>
-                  </>
-                )}
-                {i === 3 && (
-                  <>
-                    <video
-                      src={goodmorningVideo}
-                      style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', margin: 0, padding: 0, border: 'none' }}
-                      controls
-                    />
-                    <div style={{
-                      position: 'absolute',
-                      top: '50%',
-                      left: '50%',
-                      transform: 'translate(-50%, -50%)',
-                      color: '#fff',
-                      fontWeight: 700,
-                      fontSize: '2em',
-                      textShadow: '0 2px 8px #22365a, 0 0 16px #0008',
-                      pointerEvents: 'none',
-                      fontFamily: 'Inder, sans-serif',
-                      zIndex: 2,
-                    }}>Good morning</div>
+                    }}>
+                      {i === 0 ? 'Hello' : i === 1 ? 'How are you' : i === 2 ? 'Thank you' : 'Good morning'}
+                    </div>
                   </>
                 )}
               </div>
             ))}
           </div>
+          <style>
+            {`
+              .sign-card-video-box:hover .sign-card-video-overlay {
+                background: rgba(30,40,60,0.05) !important;
+              }
+            `}
+          </style>
           {/* Responsive grid: keep 2 columns on small screens */}
           <style>
             {`
@@ -192,51 +148,55 @@ export default function UserHome() {
           <div style={{ display: 'flex', justifyContent: 'center', margin: '0 0 64px 0' }}>
             <div style={{
               background: '#5c6e81',
-              borderRadius: 25,
+              borderRadius: 0,
               width: '100vw',
-              maxWidth: 1600,
+              maxWidth: 'none', // allow full stretch
               minHeight: 420,
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center', 
+              justifyContent: 'center',
               padding: '40px 0',
               boxSizing: 'border-box',
-              boxShadow: '0 8px 40px rgba(51,78,123,0.18)'
+              boxShadow: '0 8px 40px rgba(51,78,123,0.18)',
+              marginLeft: 'calc(-50vw + 50%)', // stretch background to full width
+              marginRight: 'calc(-50vw + 50%)',
             }}>
-              <img
-                src={graphic}
-                alt="Add More Card Illustration"
-                style={{ maxWidth: 520, width: '40%', height: 'auto', borderRadius: 32, marginRight: 48 }}
-              />
-              <div style={{ textAlign: 'left', color: '#fff', flex: 1 }}>
-                <div style={{ fontFamily: 'Roboto Mono, monospace', fontWeight: 700, fontSize: '3em', marginBottom: 16 }}>
-                  Add More Card?
+              <div style={{ width: '100%', maxWidth: 1600, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <img
+                  src={graphic}
+                  alt="Add More Card Illustration"
+                  style={{ maxWidth: 520, width: '40%', height: 'auto', borderRadius: 32, marginRight: 96 }}
+                />
+                <div style={{ textAlign: 'left', color: '#fff', flex: 1, marginLeft: 320 }}>
+                  <div style={{ fontFamily: 'Roboto Mono, monospace', fontWeight: 700, fontSize: '3em', marginBottom: 16 }}>
+                    Add More Card?
+                  </div>
+                  <div style={{ fontFamily: 'Roboto Mono, monospace', fontSize: '1.35em', marginBottom: 32 }}>
+                    Try and add cards for more information
+                  </div>
+                  <button
+                    onClick={() => window.location.href = '/usercards'}
+                    style={{
+                      background: '#fff',
+                      color: '#22365a',
+                      fontFamily: 'Roboto Mono, monospace',
+                      fontWeight: 700,
+                      fontSize: '1.5em',
+                      border: 'none',
+                      borderRadius: 10,
+                      padding: '20px 64px',
+                      cursor: 'pointer',
+                      boxShadow: 'none',
+                      marginTop: 8,
+                      transition: 'background 0.2s',
+                      width: 420,
+                      textAlign: 'center',
+                      display: 'block',
+                    }}
+                  >
+                    Add Cards Now
+                  </button>
                 </div>
-                <div style={{ fontFamily: 'Roboto Mono, monospace', fontSize: '1.35em', marginBottom: 32 }}>
-                  Try and add cards for more information
-                </div>
-                <button
-                  onClick={() => window.location.href = '/usercards'}
-                  style={{
-                    background: '#fff',
-                    color: '#22365a',
-                    fontFamily: 'Roboto Mono, monospace',
-                    fontWeight: 700,
-                    fontSize: '1.5em',
-                    border: 'none',
-                    borderRadius: 10,
-                    padding: '20px 64px',
-                    cursor: 'pointer',
-                    boxShadow: 'none',
-                    marginTop: 8,
-                    transition: 'background 0.2s',
-                    width: 420,
-                    textAlign: 'center',
-                    display: 'block',
-                  }}
-                >
-                  Add Cards Now
-                </button>
               </div>
             </div>
           </div>
