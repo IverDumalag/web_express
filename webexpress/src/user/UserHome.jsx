@@ -167,8 +167,8 @@ export default function UserHome() {
                   alt="Add More Card Illustration"
                   style={{ maxWidth: 520, width: '40%', height: 'auto', borderRadius: 32, marginRight: 96 }}
                 />
-                <div style={{ textAlign: 'left', color: '#fff', flex: 1, marginLeft: 320 }}>
-                  <div style={{ fontFamily: 'Roboto Mono, monospace', fontWeight: 700, fontSize: '3em', marginBottom: 16 }}>
+                <div style={{ textAlign: 'left', color: '#fff', flex: 1, marginLeft: 270 }}>
+                  <div style={{ fontFamily: 'League Spartan, monospace', fontWeight: 900, fontSize: '5em', marginBottom: 16 }}>
                     Add More Card?
                   </div>
                   <div style={{ fontFamily: 'Roboto Mono, monospace', fontSize: '1.35em', marginBottom: 32 }}>
