@@ -15,6 +15,7 @@ import AdminHome from './admin/AdminHome';
 import AdminAnalytics from './admin/AdminAnalytics';
 import AdminLogs from './admin/AdminLogs';
 import UserCardsPage from './user/UserCardsPage';
+import AdminMainConcern from './admin/AdminMainConcern';
 
 export default function App() {
   return (
@@ -42,6 +43,7 @@ export default function App() {
            <Route path="/adminhome" element={<AdminHome />} />
            <Route path="/adminanalytics" element={<AdminAnalytics/>} />
            <Route path="/adminlogs" element={<AdminLogs/>} />
+           <Route path="/adminmainconcern" element={<AdminMainConcern/>} />
         </Route>
 
       </Routes>

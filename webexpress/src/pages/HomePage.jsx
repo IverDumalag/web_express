@@ -4,6 +4,7 @@ import GuestNavBar from "../components/GuestNavBar";
 import signLanguageImage from "../assets/logo.png";
 import AboutPage from "../pages/AboutPage";
 import FeaturesPage from "../pages/FeaturePage";
+import MorePage from "../pages/MorePage";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -22,6 +23,11 @@ const HomePage = () => {
     }
   };
 
+    const scrollToMorePage = () => {
+    if (morePageRef.current) {
+      morePageRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
   return (
     <>
       <style>{`

@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;600;700&display=swap');
 .admin-profile-popup-bg {
   position: fixed;
   z-index: 3002;
@@ -9,125 +10,198 @@
   padding: 1rem;
 }
 .admin-profile-popup {
-  background: #fff;
-  border-radius: 1.5rem;
-  box-shadow: 0 0.25rem 2rem rgba(0,0,0,0.18);
+  background: #334E7B;
+  border-radius: 1.5vw;
+  box-shadow: 0 4px 32px rgba(37,99,235,0.13);
   width: 95%;
-  max-width: 400px;
-  padding: 1.5rem;
+  max-width: 420px;
+  padding: 2.5rem 2.5rem 2rem 2.5rem;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
   position: relative;
+  color: #fff;
 }
 .admin-profile-title-row {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   margin-bottom: 1.5rem;
 }
 .admin-profile-title {
-  font-weight: bold;
+  color: #fff;
   font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 1px;
   text-align: center;
   flex-grow: 1;
+  margin-bottom: 1.5rem;
 }
 .admin-profile-edit-btn, .admin-profile-close-btn {
   background: none;
   border: none;
-  color: #2563eb;
+  color: #ffffff;
   font-size: 1.2rem;
-  margin-left: 0.5rem;
+  margin-left: 0.7em;
   cursor: pointer;
   transition: color 0.2s;
   padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
 }
-.admin-profile-edit-btn:hover, .admin-profile-close-btn:hover {
-  color: #e11d48;
+.admin-profile-edit-btn {
+  flex: 1 1 0;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: 2px solid #fff;
+  border-radius: 8px;
+  background: #334E7B;
+  color: #fff;
+  padding: 0.7em 0;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.admin-profile-edit-btn:hover {
+  background: #fff;
+  color: #334E7B;
+}
+.admin-profile-close-btn {
+  font-size: 2em;
+  font-weight: 700;
+  cursor: pointer;
+  margin-left: 0.7em;
+  line-height: 1;
+}
+.admin-profile-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+.admin-profile-avatar {
+  font-size: 4.5rem;
+  color: #a5b4fc;
+  margin-bottom: 0.5rem;
+}
+.admin-profile-info {
+  width: 100%;
 }
 .admin-profile-row {
   display: flex;
-  margin-bottom: 1rem;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.7rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid #e5e7eb;
 }
 .admin-profile-label {
-  flex: 0 0 40%;
-  font-weight: 500;
-  color: #2563eb;
-  font-size: 1rem;
-  word-break: break-word;
+  color: #e5e7eb;
+  font-weight: 600;
+  font-size: 1em;
 }
 .admin-profile-value {
-  flex: 1;
-  color: #333;
-  font-size: 1rem;
-  word-break: break-all;
+  color: #e5e7eb;
+  font-size: 1em;
+  font-weight: 500;
+}
+.admin-profile-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  align-items: stretch;
 }
 .admin-profile-edit-title {
-  font-weight: bold;
-  font-size: 1.3rem;
-  margin-bottom: 1.5rem;
+  color: #fff;
+  font-size: 1.2em;
+  font-weight: 700;
+  margin-bottom: 0.7rem;
   text-align: center;
 }
 .admin-profile-edit-label {
-  font-weight: 500;
-  margin-bottom: 0.25rem;
-  font-size: 0.95rem;
+  color: #fff;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+  margin-left: 0.1rem;
+  text-align: left;
 }
 .admin-profile-edit-input {
-  padding: 0.75rem;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 0.5rem;
-  margin-bottom: 1rem;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7em 1em;
+  background: #fff;
+  color: #334E7B;
+  margin-bottom: 0.2rem;
+  outline: none;
+  box-shadow: 0 1px 4px rgba(37,99,235,0.08);
+  transition: box-shadow 0.18s;
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
   box-sizing: border-box;
+  text-align: left;
+}
+.admin-profile-edit-input:focus {
+  box-shadow: 0 2px 8px #2563eb33;
 }
 .admin-profile-edit-actions {
   display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-.admin-profile-edit-btn {
-  flex: 1;
-  background: #2563eb;
-  color: #fff;
-  border: none;
-  border-radius: 0.5rem;
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.2s;
+  gap: 1.2rem;
+  margin-top: 1.2rem;
 }
 .admin-profile-edit-btn.cancel {
-  background: #bbb;
+  background: #6c7a8a;
+  color: #fff;
+  border: 2px solid #fff;
 }
-.admin-profile-edit-btn:disabled {
-  background: #eee;
-  color: #aaa;
-  cursor: not-allowed;
+.admin-profile-edit-btn.cancel:hover {
+  background: #fff;
+  color: #6c7a8a;
 }
 .admin-profile-edit-error {
-  color: #e74c3c;
+  color: #e11d48;
+  font-size: 0.98em;
+  margin-bottom: 0.5em;
   text-align: center;
-  margin-bottom: 0.5rem;
-  font-size: 0.9rem;
 }
-.admin-profile-edit-success {
-  color: #27ae60;
+.admin-profile-loading {
+  color: #2563eb;
   text-align: center;
-  margin-bottom: 0.5rem;
-  font-size: 0.9rem;
+  font-size: 1.1em;
+  margin: 2em 0;
+}
+.admin-profile-bottom-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+.admin-profile-bottom-actions .admin-profile-edit-btn {
+  width: 100%;
+  max-width: 220px;
+  font-size: 1.15rem;
+  padding: 0.9em 0;
+  border-radius: 10px;
+  font-weight: 700;
 }
 @media (max-width: 600px) {
   .admin-profile-popup {
-    width: 98%;
-    border-radius: 1rem;
-    padding: 1rem;
+    padding: 1.2rem 0.5rem 1.2rem 0.5rem;
+    max-width: 98vw;
   }
   .admin-profile-title {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
+  }
+  .admin-profile-avatar {
+    font-size: 3rem;
   }
   .admin-profile-row {
     flex-direction: column;
@@ -146,9 +220,8 @@
     font-size: 1.2rem;
   }
   .admin-profile-edit-input {
+    font-size: 1rem;
     padding: 0.6rem;
-    font-size: 0.9rem;
-    margin-bottom: 0.75rem;
   }
   .admin-profile-edit-actions {
     flex-direction: column;
@@ -156,7 +229,15 @@
     margin-top: 0.75rem;
   }
   .admin-profile-edit-btn {
-    padding: 0.6rem 1rem;
-    font-size: 0.95rem;
+    padding: 0.6rem 0;
+    font-size: 0.98rem;
+  }
+  .admin-profile-bottom-actions {
+    margin-top: 1.2rem;
+  }
+  .admin-profile-bottom-actions .admin-profile-edit-btn {
+    max-width: 100%;
+    font-size: 1rem;
+    padding: 0.7em 0;
   }
 }
