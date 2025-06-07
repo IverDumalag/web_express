@@ -69,7 +69,7 @@ export default function UserHome() {
             {[0,1,2,3].map(i => (
               <div key={i} className="sign-card-video-box" style={{
                 background: '#22365a',
-                borderRadius: '32px',
+                borderRadius: '20px',
                 minHeight: 400,
                 minWidth: 480,
                 display: 'flex',
@@ -167,7 +167,7 @@ export default function UserHome() {
                   alt="Add More Card Illustration"
                   style={{ maxWidth: 640, width: '40%', height: 'auto', borderRadius: 32, marginRight: 96 }}
                 />
-                <div style={{ textAlign: 'left', color: '#fff', flex: 1, marginLeft: 180 }}>
+                <div style={{ textAlign: 'left', color: '#fff', flex: 1, marginLeft: 120 }}>
                   <div style={{ fontFamily: 'League Spartan, monospace', fontWeight: 900, fontSize: '5em', marginBottom: 16 }}>
                     Add More Card?
                   </div>
