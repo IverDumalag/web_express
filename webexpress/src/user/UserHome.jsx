@@ -40,7 +40,8 @@ export default function UserHome() {
               height: 'auto',
               borderRadius: 18,
               background: '#fff',
-              boxShadow: 'none'
+              boxShadow: 'none',
+              marginLeft: '40px' // move image a bit to the right
             }}
           />
         </div>
@@ -80,13 +81,13 @@ export default function UserHome() {
           <div style={{ display: 'flex', justifyContent: 'center', margin: '0 0 64px 0' }}>
             <div style={{
               background: '#5c6e81',
-              borderRadius: 48,
+              borderRadius: 25,
               width: '100vw',
               maxWidth: 1600,
               minHeight: 420,
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center',
+              justifyContent: 'center', 
               padding: '40px 0',
               boxSizing: 'border-box',
               boxShadow: '0 8px 40px rgba(51,78,123,0.18)'
@@ -103,29 +104,115 @@ export default function UserHome() {
                 <div style={{ fontFamily: 'Roboto Mono, monospace', fontSize: '1.35em', marginBottom: 32 }}>
                   Try and add cards for more information
                 </div>
-                <button style={{
-                  background: '#fff',
-                  color: '#22365a',
-                  fontFamily: 'Roboto Mono, monospace',
-                  fontWeight: 700,
-                  fontSize: '1.25em',
-                  border: 'none',
-                  borderRadius: 24,
-                  padding: '16px 48px',
-                  cursor: 'pointer',
-                  boxShadow: '0 2px 12px rgba(51,78,123,0.10)'
-                }}>
+                <button
+                  onClick={() => window.location.href = '/usercards'}
+                  style={{
+                    background: '#fff',
+                    color: '#22365a',
+                    fontFamily: 'Roboto Mono, monospace',
+                    fontWeight: 700,
+                    fontSize: '1.5em',
+                    border: 'none',
+                    borderRadius: 10,
+                    padding: '20px 64px',
+                    cursor: 'pointer',
+                    boxShadow: 'none',
+                    marginTop: 8,
+                    transition: 'background 0.2s',
+                    width: 420,
+                    textAlign: 'center',
+                    display: 'block',
+                  }}
+                >
                   Add Cards Now
                 </button>
               </div>
             </div>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'center', margin: '64px 0 0 0' }}>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: '64px 0 0 0',
+              position: 'relative',
+              width: '100%',
+            }}
+          >
+            {/* Responsive style for button */}
+            <style>
+              {`
+                @media (max-width: 900px) {
+                  .welove-btn-pos {
+                    position: static !important;
+                    right: unset !important;
+                    top: unset !important;
+                    transform: none !important;
+                    align-items: center !important;
+                    margin-top: 24px !important;
+                  }
+                  .welove-btn {
+                    font-size: 1em !important;
+                    padding: 12px 28px !important;
+                  }
+                }
+                @media (min-width: 901px) {
+                  .welove-btn {
+                    font-size: 1.6em !important;
+                    padding: 22px 64px !important;
+                  }
+                }
+              `}
+            </style>
             <img
               src={weloveto}
               alt="We Love To Illustration"
-              style={{ maxWidth: 1800, width: '100vw', height: 'auto', borderRadius: 24, boxShadow: 'none', padding: 0 }}
+              style={{
+                maxWidth: 1800,
+                width: '100vw',
+                height: 'auto',
+                borderRadius: 24,
+                boxShadow: 'none',
+                padding: 0,
+                display: 'block'
+              }}
             />
+            <div
+              className="welove-btn-pos"
+              style={{
+                position: 'absolute',
+                right: '8vw', // moved more to the right
+                top: '69%',
+                transform: 'translateY(-50%)',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'flex-end',
+                zIndex: 2
+              }}
+            >
+              <button
+                className="welove-btn"
+                onClick={() => window.location.href = '/usersettings'}
+                style={{
+                  background: '#22365a',
+                  color: '#fff',
+                  fontFamily: 'Roboto Mono, monospace',
+                  fontWeight: 700,
+                  fontSize: '1.6em',
+                  border: 'none',
+                  borderRadius: 10,
+                  padding: '22px 64px',
+                  cursor: 'pointer',
+                  boxShadow: '0 2px 12px rgba(51,78,123,0.13)',
+                  letterSpacing: 1,
+                  transition: 'background 0.2s, font-size 0.2s, padding 0.2s',
+                  marginLeft: '48px'
+                }}
+              >
+                Let us know
+              </button>
+            </div>
           </div>
         </div>
         {/* End Sign Language Card Section */}
