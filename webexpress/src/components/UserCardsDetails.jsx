@@ -40,6 +40,8 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
   const userData = getUserData();
   const userId = userData?.user_id || "";
 
+  const [showMeatballModal, setShowMeatballModal] = useState(false);
+
   useEffect(() => {
     if (!userId || !card) return;
     if (!editMode) return;
@@ -257,44 +259,146 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
 
   return (
     <div className="ucd-modal-overlay">
-      <div className="ucd-modal">
+      <div className="ucd-modal" style={{
+        borderRadius: 20,
+        border: '1px solid rgba(255, 255, 255, 0.18)',
+        background: 'rgba(255, 255, 255, 0.69)',
+        boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.18)',
+        backdropFilter: 'blur(50px)',
+        WebkitBackdropFilter: 'blur(24px)',
+      }}>
         <div className="ucd-modal-header">
           <button className="ucd-back-btn" onClick={onClose} title="Back">
             <MdArrowBack />
           </button>
           <div style={{ flex: 1 }} />
-          {!editMode && (
-            <button className="ucd-icon-btn" title="Edit" onClick={handleEdit}>
-              <FaEdit />
-            </button>
-          )}
-          <button className="ucd-icon-btn" title="Archive" onClick={() => setShowConfirm(true)} disabled={deleteLoading}>
-            <FaTrash />
-          </button>
         </div>
         <div className="ucd-modal-body">
-          <div className="ucd-words-row">
-            {editMode ? (
-              <input
-                className="ucd-edit-input"
-                value={editWords}
-                onChange={e => setEditWords(e.target.value)}
-                disabled={editLoading}
-                style={{ flex: 1, fontSize: "1.1em", marginRight: "2%" }}
-              />
-            ) : (
-              <span className="ucd-words">{card.words}</span>
-            )}
-            {!editMode && (
-              <button
-                className={`ucd-speak-btn${speaking ? " active" : ""}`}
-                title="Hear aloud"
-                onClick={handleSpeak}
-              >
-                {speaking ? <RiSpeakerFill /> : <MdSpeakerPhone />}
-              </button>
-            )}
+          {/* Centered top word and speak button */}
+          <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 4 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <span className="ucd-words" style={{ fontSize: '3.0em', fontWeight: 600, textAlign: 'center' }}>{card.words}</span>
+              {!editMode && (
+                <button
+                  className={`ucd-speak-btn${speaking ? " active" : ""}`}
+                  title="Hear aloud"
+                  onClick={handleSpeak}
+                  style={{ padding: 0, background: 'none', border: 'none', boxShadow: 'none', minWidth: 0, minHeight: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                >
+                  {speaking ? <MdSpeakerPhone size={60} /> : <RiSpeakerFill size={60} />}
+                </button>
+              )}
+            </div>
           </div>
+          <div className="ucd-words-row" style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+            <div style={{ flex: 1 }} />
+            <button
+              className="ucd-meatball-btn"
+              title="More options"
+              style={{
+                background: 'none',
+                border: 'none',
+                padding: 0,
+                marginLeft: 0,
+                marginRight: 8,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                position: 'relative',
+                top: '-6px', // move up
+                left: '-6px', // move left
+              }}
+              onClick={() => setShowMeatballModal(true)}
+            >
+              <svg width="24" height="32" viewBox="0 0 24 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="6" r="2.5" fill="#444"/>
+                <circle cx="12" cy="16" r="2.5" fill="#444"/>
+                <circle cx="12" cy="26" r="2.5" fill="#444"/>
+              </svg>
+            </button>
+          </div>
+          {/* Meatball Modal */}
+          {showMeatballModal && (
+            <div style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              width: '100vw',
+              height: '100vh',
+              background: 'rgba(0,0,0,0.01)', // almost transparent
+              zIndex: 3002,
+            }}
+              onClick={() => setShowMeatballModal(false)}
+            >
+              <div
+                style={{
+                  position: 'absolute',
+                  top: 'calc(var(--meatball-top, 120px) + 36px)', // fallback if not set
+                  left: 'var(--meatball-left, 80vw)', // fallback if not set
+                  minWidth: 0,
+                  width: 180,
+                  background: '#fff',
+                  borderRadius: 10,
+                  boxShadow: '0 4px 16px rgba(0,0,0,0.10)',
+                  padding: '0.5em 0.7em',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'stretch',
+                  fontFamily: 'inherit',
+                  fontSize: '1.08em',
+                  border: '1px solid #e0e0e0',
+                }}
+                onClick={e => e.stopPropagation()}
+                ref={el => {
+                  if (el) {
+                    // Try to position beside the meatball button
+                    const btn = document.querySelector('.ucd-meatball-btn');
+                    if (btn) {
+                      const rect = btn.getBoundingClientRect();
+                      el.style.top = `${rect.top + rect.height + 4}px`;
+                      el.style.left = `${rect.left - 120 + rect.width}px`;
+                    }
+                  }
+                }}
+              >
+                <button
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    fontWeight: 700,
+                    fontSize: '1.08em',
+                    color: '#334E7B',
+                    textAlign: 'left',
+                    padding: '0.5em 0.2em',
+                    cursor: 'pointer',
+                    fontFamily: 'inherit',
+                  }}
+                  onClick={() => { setShowMeatballModal(false); handleEdit(); }}
+                >
+                  Edit Text
+                </button>
+                <hr style={{ border: 'none', borderTop: '1px solid #d3dbe6', margin: '0.2em 0 0.2em 0' }} />
+                <button
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    fontWeight: 700,
+                    fontSize: '1.08em',
+                    color: '#22314a',
+                    textAlign: 'left',
+                    padding: '0.5em 0.2em',
+                    cursor: 'pointer',
+                    fontFamily: 'inherit',
+                  }}
+                  onClick={() => { setShowMeatballModal(false); setShowConfirm(true); }}
+                  disabled={deleteLoading}
+                >
+                  Archive
+                </button>
+              </div>
+            </div>
+          )}
           <div className="ucd-media-row">
             {(() => {
               const isVideo = (editMode ? card.sign_language : card.sign_language) && (card.sign_language || "").toLowerCase().endsWith(".mp4");
@@ -313,36 +417,8 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
                           src={mediaUrl}
                           controls
                           className="ucd-media-content"
+                          style={{ width: '100%', height: '540px', maxHeight: '48vw', borderRadius: 5, objectFit: 'cover', background: '#e9eef7' }}
                         />
-                      </div>
-                      <input
-                        type="range"
-                        min={0}
-                        max={videoDuration}
-                        step={0.01}
-                        value={videoTime}
-                        onChange={handleSliderChange}
-                        style={{ width: "100%" }}
-                      />
-                      <div className="ucd-video-extra-controls">
-                        <label style={{ fontSize: "90%" }}>
-                          Speed:
-                          <select
-                            value={playbackRate}
-                            onChange={handlePlaybackRateChange}
-                            style={{ marginLeft: "4%" }}
-                          >
-                            <option value={0.5}>0.5x</option>
-                            <option value={0.75}>0.75x</option>
-                            <option value={1}>1x</option>
-                            <option value={1.25}>1.25x</option>
-                            <option value={1.5}>1.5x</option>
-                            <option value={2}>2x</option>
-                          </select>
-                        </label>
-                        <span style={{ float: "right", fontSize: "90%" }}>
-                          {Math.floor(videoTime)}/{Math.floor(videoDuration)}s
-                        </span>
                       </div>
                       <div className="ucd-prev-next-row">
                         <button
@@ -396,7 +472,7 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
               } else {
                 return (
                   <>
-                    <div style={{ color: "#aaa", textAlign: "center" }}>No media available</div>
+                    <div style={{ color: "#1C2E4A", fontFamily: 'Roboto Mono, monospace' , fontWeight: '400' ,textAlign: "center", fontSize: '1.3em' }}>No media available yet, please wait for future's updates</div>
                     <div className="ucd-prev-next-row">
                       <button
                         className="ucd-prevnext-btn"
@@ -420,25 +496,92 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
             })()}
           </div>
           {editMode && (
-            <div style={{ marginTop: "2em", display: "flex", gap: "1.2em", justifyContent: "center", alignItems: "center", width: "100%" }}>
-              <button
-                className="ucd-prevnext-btn ucd-save-btn"
-                onClick={handleEditSave}
-                disabled={editLoading || !editWords.trim()}
-                style={{ width: "40%" }}
-              >
-                {editLoading ? "Saving..." : "Save"}
-              </button>
-              <button
-                className="ucd-prevnext-btn ucd-cancel-btn"
-                onClick={handleEditCancel}
-                disabled={editLoading}
-                style={{ width: "40%" }}
-              >
-                Cancel
-              </button>
-              {editError && <span style={{ color: "red", marginLeft: "2%" }}>{editError}</span>}
-              {editSuccess && <span style={{ color: "green", marginLeft: "2%" }}>{editSuccess}</span>}
+            <div className="ucd-edit-modal-bg" style={{
+              position: 'fixed',
+              zIndex: 3002,
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'rgba(0,0,0,0.08)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+              <form className="ucd-edit-modal" onSubmit={e => { e.preventDefault(); handleEditSave(); }} style={{
+                borderRadius: 20,
+                border: '1px solid rgba(255, 255, 255, 0.10)',
+                background: 'rgba(255, 255, 255, 0.10)',
+                boxShadow: '0 0.25rem 2rem rgba(0,0,0,0.18)',
+                backdropFilter: 'blur(18.3px)',
+                WebkitBackdropFilter: 'blur(18.3px)',
+                width: '95%',
+                maxWidth: 440,
+                padding: '2.5em 2.5em 2em 2.5em',
+                display: 'flex',
+                flexDirection: 'column',
+                boxSizing: 'border-box',
+                color: '#fff',
+                fontFamily: 'Roboto Mono, monospace',
+                alignItems: 'stretch',
+                gap: '0.7em',
+                position: 'relative',
+              }}>
+                <div style={{ fontWeight: 700, fontSize: '2em', textAlign: 'center', marginBottom: '1.2em', fontFamily: 'Inconsolata, monospace' }}>Edit Card Text</div>
+                {editError && <div style={{ color: '#ffb4b4', textAlign: 'center', marginBottom: '0.5em', fontSize: '1em' }}>{editError}</div>}
+                <label style={{ fontWeight: 500, fontSize: '1.1em', marginBottom: 2 }}>Word or Phrase</label>
+                <input
+                  className="ucd-edit-input"
+                  value={editWords}
+                  onChange={e => setEditWords(e.target.value)}
+                  disabled={editLoading}
+                  required
+                  style={{
+                    background: '#fff', color: '#2563eb', fontWeight: 600, fontSize: '1.1em', border: 'none', borderRadius: 8, padding: '0.6em 1em', marginBottom: 8, fontFamily: 'Inconsolata, monospace', outline: 'none', boxSizing: 'border-box',
+                  }}
+                />
+                <div style={{ display: 'flex', gap: '1em', marginTop: '1.5em' }}>
+                  <button
+                    type="submit"
+                    disabled={editLoading || !editWords.trim()}
+                    style={{
+                      flex: 1,
+                      background: '#1C2E4A',
+                      color: '#fff',
+                      border: '2px solid #fff',
+                      borderRadius: 12,
+                      padding: '0.7em 0',
+                      fontWeight: 700,
+                      fontSize: '1.1em',
+                      fontFamily: 'Inconsolata, monospace',
+                      cursor: 'pointer',
+                      transition: 'background 0.2s, color 0.2s',
+                    }}
+                  >
+                    {editLoading ? 'Saving...' : 'Save'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleEditCancel}
+                    disabled={editLoading}
+                    style={{
+                      flex: 1,
+                      background: '#52677D',
+                      color: '#fff',
+                      border: '2px solid #fff',
+                      borderRadius: 12,
+                      padding: '0.7em 0',
+                      fontWeight: 700,
+                      fontSize: '1.1em',
+                      fontFamily: 'Inconsolata, monospace',
+                      cursor: 'pointer',
+                      transition: 'background 0.2s, color 0.2s',
+                    }}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
             </div>
           )}
         </div>
