@@ -3,7 +3,7 @@ import { FaStar, FaRegStar } from "react-icons/fa";
 import { MdSpeakerPhone } from "react-icons/md";
 import { RiSpeakerFill } from "react-icons/ri";
 import UserCardDetailsModal from "./UserCardsDetails";
-import '../CSS/UserCards.css';
+
 
 const FAVORITE_API_URL = import.meta.env.VITE_PHRASESWORDSISFAVORITEUPDATE;
 
@@ -128,7 +128,7 @@ export default function UserCards({ cards: initialCards, onCardUpdated }) {
               }}
               style={{
                 display: 'flex',
-                flexDirection: 'row', // Ensure horizontal layout
+                flexDirection: 'row',
                 alignItems: 'center',
                 background: '#fff',
                 border: '1.5px solid #bfc9d1',
@@ -144,10 +144,11 @@ export default function UserCards({ cards: initialCards, onCardUpdated }) {
                 boxShadow: 'none',
                 fontFamily: 'Roboto Mono, sans-serif',
                 overflow: 'hidden',
+                position: 'relative', // for absolute positioning of action row
               }}
             >
               <div style={{
-                width: 150, // Increased from 28 to 44 for a wider navy rectangle
+                width: 150,
                 height: '100%',
                 background: '#1d2e4e',
                 borderRadius: '18px 0 0 18px',
@@ -158,6 +159,53 @@ export default function UserCards({ cards: initialCards, onCardUpdated }) {
               }} />
               <div style={{ flex: 1, height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
                 <div className="card-title" style={{ fontWeight: 600, fontSize: '1.18em', color: '#22223b', letterSpacing: '0.01em', fontFamily: 'Roboto Mono, monospace', textAlign: 'center', width: '100%' }}>{card.words}</div>
+              </div>
+              {/* Favorite and Speaker Buttons - row, bottom right */}
+              <div style={{
+                position: 'absolute',
+                right: 18,
+                bottom: 18,
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 16,
+                zIndex: 2
+              }}>
+                <button
+                  className="card-action-btn"
+                  title={card.is_favorite ? 'Unfavorite' : 'Favorite'}
+                  onClick={e => { e.stopPropagation(); handleFavorite(card, card.is_favorite); }}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    outline: 'none',
+                    fontSize: '1.7em',
+                    color: card.is_favorite ? '#f7b731' : '#bfc9d1',
+                    transition: 'color 0.2s',
+                    padding: 0,
+                  }}
+                  disabled={updatingId === card.entry_id}
+                >
+                  {card.is_favorite ? <FaStar /> : <FaRegStar />}
+                </button>
+                <button
+                  className="card-action-btn"
+                  title="Speak"
+                  onClick={e => { e.stopPropagation(); handleSpeak(card); }}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    outline: 'none',
+                    fontSize: '1.7em',
+                    color: speakingId === card.entry_id ? '#3a7bd5' : '#bfc9d1',
+                    transition: 'color 0.2s',
+                    padding: 0,
+                  }}
+                >
+                  {speakingId === card.entry_id ? <MdSpeakerPhone /> : <RiSpeakerFill />}
+                </button>
               </div>
             </div>
           ))

@@ -36,32 +36,20 @@ export default function UserHome() {
     if (!block) return;
     let animation;
     let running = true;
-    let toRight = true;
     const animateBlock = () => {
       if (!running) return;
-      if (toRight) {
-        animation = block.animate([
-          { transform: 'translateX(0%)' },
-          { transform: 'translateX(101%)' }
-        ], {
-          duration: 1200,
-          easing: 'cubic-bezier(.77,0,.18,1)',
-          fill: 'forwards'
-        });
-      } else {
-        animation = block.animate([
-          { transform: 'translateX(101%)' },
-          { transform: 'translateX(0%)' }
-        ], {
-          duration: 1200,
-          easing: 'cubic-bezier(.77,0,.18,1)',
-          fill: 'forwards'
-        });
-      }
+      animation = block.animate([
+        { transform: 'translateX(0%)' },
+        { transform: 'translateX(101%)' }
+      ], {
+        duration: 1200,
+        easing: 'cubic-bezier(.77,0,.18,1)',
+        fill: 'forwards'
+      });
       animation.onfinish = () => {
         if (!running) return;
-        toRight = !toRight;
-        setTimeout(animateBlock, toRight ? 800 : 900000); // 300 seconds wait when revealed
+        block.style.transform = 'translateX(0%)';
+        setTimeout(animateBlock, 800);
       };
     };
     animateBlock();
