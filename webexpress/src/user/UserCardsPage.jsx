@@ -7,6 +7,8 @@ import { getUserData } from '../data/UserData';
 import MessagePopup from '../components/MessagePopup';
 import { useNavigate } from "react-router-dom";
 import UserBottomNavBar from '../components/UserBottomNavBar';
+import boyImg from '../assets/boy.png';
+
 
 const API_URL = import.meta.env.VITE_PHRASESWORDSBYIDGET;
 const INSERT_API_URL = import.meta.env.VITE_PHRASESWORDSINSERT;
@@ -144,6 +146,16 @@ export default function UserCardsPage() {
     }
     setAddLoading(false);
   };
+  // Show the boy and speech bubble for a longer period (e.g., 10 seconds)
+  const [showBoyBubble, setShowBoyBubble] = useState(true);
+  useEffect(() => {
+    if (!showBoyBubble) return;
+    const timer = setTimeout(() => setShowBoyBubble(false), 10000); // 10 seconds
+    return () => clearTimeout(timer);
+  }, [showBoyBubble]);
+
+  // Speech bubble message for this page
+  const boyBubbleMessage = "welcome, these are your cards";
 
   return (
     <div style={{ minHeight: '100vh', background: '#fff' }}>
@@ -505,6 +517,88 @@ export default function UserCardsPage() {
       )}
       {!showAddModal && (
         <MessagePopup open={popup.open} title={popup.type === "success" ? "Success!" : popup.type === "error" ? "Error" : "Info"} description={popup.message} onClose={() => setPopup(p => ({ ...p, open: false }))} />
+      )}
+      {showBoyBubble && (
+        <div style={{
+          position: 'fixed',
+          bottom: '38px',
+          right: '38px',
+          zIndex: 1000,
+          display: 'flex',
+          alignItems: 'flex-end',
+          pointerEvents: 'none',
+          animation: 'boyFloat 2.2s ease-in-out infinite alternate',
+        }}>
+          <style>{`
+            @keyframes boyFloat {
+              0% { transform: translateY(0); }
+              100% { transform: translateY(-18px); }
+            }
+            .speech-bubble {
+              position: absolute;
+              bottom: 90px;
+              right: 70px;
+              background: rgba(255,255,255,0.97);
+              color: #1C2E4A;
+              border-radius: 18px;
+              box-shadow: 0 2px 12px #1C2E4A22;
+              padding: 0.9em 1.5em 0.9em 1.5em;
+              font-family: 'Roboto Mono', monospace;
+              font-weight: 600;
+              font-size: 1.08em;
+              white-space: nowrap;
+              pointer-events: auto;
+              border: 1.5px solid #1C2E4A;
+              min-width: 210px;
+              max-width: 320px;
+              text-align: center;
+              z-index: 2;
+            }
+            .speech-bubble-tail {
+              position: absolute;
+              bottom: -18px;
+              right: 38px;
+              width: 0;
+              height: 0;
+              border-left: 16px solid transparent;
+              border-right: 16px solid transparent;
+              border-top: 18px solid #fff;
+              filter: drop-shadow(0 2px 4px #1C2E4A22);
+              z-index: 1;
+              pointer-events: none;
+            }
+            .speech-bubble-tail-border {
+              position: absolute;
+              bottom: -20px;
+              right: 36px;
+              width: 0;
+              height: 0;
+              border-left: 18px solid transparent;
+              border-right: 18px solid transparent;
+              border-top: 20px solid #1C2E4A;
+              z-index: 0;
+              pointer-events: none;
+            }
+          `}</style>
+          <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div className="speech-bubble">
+              {boyBubbleMessage}
+              <span className="speech-bubble-tail" />
+              <span className="speech-bubble-tail-border" />
+            </div>
+            <img
+              src={boyImg}
+              alt="boy"
+              style={{
+                width: 90,
+                height: 'auto',
+                filter: 'drop-shadow(0 4px 16px rgba(44,62,80,0.18))',
+                userSelect: 'none',
+                pointerEvents: 'auto',
+              }}
+            />
+          </div>
+        </div>
       )}
     </div>
   );
