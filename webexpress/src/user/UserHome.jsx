@@ -11,15 +11,19 @@ import goodmorningVideo from '../assets/goodmorning_wgwhib.mp4';
 
 export default function UserHome() {
   const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-  const [showFooter, setShowFooter] = useState(false);
   const pageEndRef = useRef(null);
+  const [showFooter, setShowFooter] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (!pageEndRef.current) return;
-      const rect = pageEndRef.current.getBoundingClientRect();
-      // Show footer if the bottom of the page is in view
-      setShowFooter(rect.top <= window.innerHeight);
+      const scrollY = window.scrollY || window.pageYOffset;
+      const windowHeight = window.innerHeight;
+      const bodyHeight = document.body.offsetHeight;
+      if (scrollY + windowHeight >= bodyHeight - 10) {
+        setShowFooter(true);
+      } else {
+        setShowFooter(false);
+      }
     };
     window.addEventListener('scroll', handleScroll);
     handleScroll();
@@ -233,6 +237,30 @@ export default function UserHome() {
                 display: 'block'
               }}
             />
+            {showFooter && (
+              <footer
+                style={{
+                  width: '100vw',
+                  background: '#1C2E4A',
+                  textAlign: 'center',
+                  position: 'fixed',
+                  left: 0,
+                  bottom: 0,
+                  zIndex: 100,
+                  padding: '20px 0 16px 0',
+                  color: '#fff',
+                  fontFamily: 'Roboto Mono, sans-serif',
+                  fontWeight: 700,
+                  fontSize: '1.3em',
+                  letterSpacing: 2,
+                  opacity: 1,
+                  pointerEvents: 'auto',
+                  transition: 'opacity 0.3s',
+                }}
+              >
+                exPress 2025
+              </footer>
+            )}
             <div
               className="welove-btn-pos"
               style={{
@@ -271,27 +299,8 @@ export default function UserHome() {
           </div>
         </div>
         {/* End Sign Language Card Section */}
-        <div ref={pageEndRef} />
+        <div ref={pageEndRef} style={{ height: 120 }} />
       </div>
-      {showFooter && (
-        <footer style={{
-          width: '100vw',
-          background: '#1C2E4A',
-          textAlign: 'center',
-          position: 'fixed',
-          left: 0,
-          bottom: 0,
-          zIndex: 100,
-          padding: '32px 0 16px 0',
-          color: '#fff',
-          fontFamily: 'Poppins, sans-serif',
-          fontWeight: 700,
-          fontSize: '1.3em',
-          letterSpacing: 2
-        }}>
-          exPress 2025
-        </footer>
-      )}
     </div>
   );
 }
