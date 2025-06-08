@@ -30,6 +30,31 @@ export default function UserHome() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Trigger the block reveal animation for the heading on mount
+  useEffect(() => {
+    const block = document.getElementById('sign-cards-block');
+    if (!block) return;
+    let animation;
+    const animateBlock = () => {
+      animation = block.animate([
+        { transform: 'translateX(0%)' },
+        { transform: 'translateX(101%)' }
+      ], {
+        duration: 1200,
+        easing: 'cubic-bezier(.77,0,.18,1)',
+        fill: 'forwards'
+      });
+      animation.onfinish = () => {
+        block.style.transform = 'translateX(0%)';
+        setTimeout(animateBlock, 800); // pause before repeating
+      };
+    };
+    animateBlock();
+    return () => {
+      if (animation) animation.cancel();
+    };
+  }, []);
+
   // Determine greeting based on current hour
   const getGreeting = () => {
     const hour = new Date().getHours();
@@ -65,9 +90,22 @@ export default function UserHome() {
         <div style={{ height: 40 }} />
         {/* Sign Language Card Section - moved after main illustration */}
         <div style={{ margin: '40px 0 24px 0', textAlign: 'center' }}>
-          <div style={{ fontFamily: 'Inder, sans-serif', fontWeight: 700, fontSize: '2.2em', color: '#22365a', marginBottom: 24 }}>
-            Sign Language Cards
+          <div style={{ position: 'relative', display: 'inline-block', marginBottom: 24, fontFamily: 'Inder, sans-serif', fontWeight: 700, fontSize: '2.2em', color: '#22365a', overflow: 'hidden' }}>
+            <span id="sign-cards-title" style={{ position: 'relative', zIndex: 2 }}>Sign Language Cards</span>
+            <span id="sign-cards-block" style={{
+              position: 'absolute',
+              left: 0,
+              top: 0,
+              width: '100%',
+              height: '100%',
+              background: '#22365a',
+              zIndex: 3,
+              transform: 'translateX(0%)',
+              pointerEvents: 'none',
+              willChange: 'transform',
+            }}></span>
           </div>
+          <div style={{ height: 60 }} />
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(2, 1fr)',
@@ -156,7 +194,7 @@ export default function UserHome() {
                 alt="Add More Card Illustration"
                 style={{ maxWidth: 640, width: '40%', height: 'auto', borderRadius: 32, marginRight: 96 }}
               />
-              <div style={{ textAlign: 'left', color: '#fff', flex: 1, marginLeft: 120 }}>
+              <div style={{ textAlign: 'left', color: '#FFFFFF', flex: 1, marginLeft: 120 }}>
                 <div style={{ fontFamily: 'League Spartan, monospace', fontWeight: 900, fontSize: '5em', marginBottom: 16 }}>
                   Add More Card?
                 </div>
@@ -166,21 +204,24 @@ export default function UserHome() {
                 <button
                   onClick={() => window.location.href = '/usercards'}
                   style={{
-                    background: '#fff',
-                    color: '#22365a',
+                    background: 'rgba(255, 255, 255, 0.2)',
+                    backdropFilter: 'blur(30px)',
+                    WebkitBackdropFilter: 'blur(70px)',
+                    border: '1px solid rgba(255, 255, 255, 0.83)',
+                    borderRadius: 15,
+                    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                    padding: 20,
+                    width: 320,
+                    color: '#FFFFFF',
                     fontFamily: 'Poppins, monospace',
                     fontWeight: 900,
                     fontSize: '1.6em',
-                    border: 'none',
-                    borderRadius: 5,
-                    padding: '22px 64px',
                     cursor: 'pointer',
-                    boxShadow: 'none',
                     marginTop: 8,
                     transition: 'background 0.2s',
-                    width: 320,
                     textAlign: 'center',
                     display: 'block',
+                    borderStyle: 'solid',
                   }}
                 >
                   Add Cards Now
