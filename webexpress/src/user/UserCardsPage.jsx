@@ -294,90 +294,92 @@ export default function UserCardsPage() {
             </div>
           </div>
           {/* Search bar and actions row */}
-          <div style={{display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '1vw', flexWrap: 'wrap'}}>
-            <div style={{flex: 1, minWidth: 220, maxWidth: 420, position: 'relative', display: 'flex', justifyContent: 'flex-start', marginLeft: '-4vw'}}>
-              <span style={{
-                position: 'absolute',
-                left: '0.8em',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                color: '#bfc9d1',
-                pointerEvents: 'none',
-                display: 'flex',
-                alignItems: 'center',
-                fontSize: '1.25em',
-                zIndex: 2,
-              }}>
-                <svg width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-              </span>
-              <input className="search-input" style={{
-                width: '100%',
-                padding: '0.9em 1.2em 0.9em 2.7em', // left padding for icon
-                borderRadius: '5px',
-                border: '1.5px solid #bfc9d1',
-                background: 'rgba(255,255,255,0.7)',
-                fontFamily: 'Poppins, sans-serif',
-                fontSize: '1.1em',
-                color: '#22365a',
-                boxShadow: '0 2px 8px #2221',
-                outline: 'none',
-                marginLeft: 0,
-                marginTop: 0,
-                maxWidth: 420,
-              }} placeholder="" value={search} onChange={e => setSearch(e.target.value)} />
+          <div className="search-main-container">
+            <div className="tab-row" style={{ marginLeft: '-4vw', display: 'flex', gap: '1em', marginBottom: '1.5em' }}>
+              <button
+                className={`tab-btn${activeTab === "wave" ? " active" : ""}`}
+                onClick={() => setActiveTab("wave")}
+                title="Your cards"
+                style={{
+                  background: activeTab === "wave" ? '#1C2E4A' : '#52677D',
+                  color: '#fff',
+                  border: '2px solid #fff',
+                  borderRadius: 6,
+                  padding: '0.7em 3.0em',
+                  fontWeight: 700,
+                  fontSize: '1.1em',
+                  fontFamily: 'Inconsolata, monospace',
+                  cursor: 'pointer',
+                  transition: 'background 0.18s, color 0.18s, box-shadow 0.18s',
+                  opacity: activeTab === "wave" ? 1 : 0.85,
+                  boxShadow: activeTab === "wave" ? '0 2px 12px #2563eb33' : 'none',
+                  outline: 'none',
+                }}
+              >
+                <MdOutlineWavingHand style={{ marginRight: 8, fontSize: '1.2em', verticalAlign: 'middle' }} />
+                Your cards
+              </button>
+              <button
+                className={`tab-btn${activeTab === "favorite" ? " active" : ""}`}
+                onClick={() => setActiveTab("favorite")}
+                title="Favorite"
+                style={{
+                  background: activeTab === "favorite" ? '#1C2E4A' : '#52677D',
+                  color: '#fff',
+                  border: '2px solid #fff',
+                  borderRadius: 6,
+                  padding: '0.7em 2.0em',
+                  fontWeight: 700,
+                  fontSize: '1.1em',
+                  fontFamily: 'Inconsolata, monospace',
+                  cursor: 'pointer',
+                  transition: 'background 0.18s, color 0.18s, box-shadow 0.18s',
+                  opacity: activeTab === "favorite" ? 1 : 0.85,
+                  boxShadow: activeTab === "favorite" ? '0 2px 12px #2563eb33' : 'none',
+                  outline: 'none',
+                }}
+              >
+                <FaStar style={{ marginRight: 8, fontSize: '1.1em', verticalAlign: 'middle' }} />
+                Favorited Cards
+              </button>
+            </div>
+            <div style={{display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '1vw', flexWrap: 'wrap'}}>
+              <div style={{flex: 1, minWidth: 220, maxWidth: 420, position: 'relative', display: 'flex', justifyContent: 'flex-start', marginLeft: '-4vw'}}>
+                <span style={{
+                  position: 'absolute',
+                  left: '0.8em',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  color: '#bfc9d1',
+                  pointerEvents: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  fontSize: '1.25em',
+                  zIndex: 2,
+                }}>
+                  <svg width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                </span>
+                <input className="search-input" style={{
+                  width: '100%',
+                  padding: '0.9em 2.9em 0.6em 3.4em', // left padding for icon
+                  borderRadius: '5px',
+                  border: '1.5px solid #bfc9d1',
+                  background: 'rgba(255,255,255,0.7)',
+                  fontFamily: 'Roboto Mono, sans-serif',
+                  fontSize: '1.0em',
+                  color: '#22365a',
+                  boxShadow: '0 2px 4px #2221',
+                  outline: 'none',
+                  marginLeft: 0,
+                  marginTop: 0,
+                  maxWidth: 420,
+                }} placeholder="" value={search} onChange={e => setSearch(e.target.value)} />
+              </div>
             </div>
           </div>
         </div>
         {/* End reference layout section */}
         <div className="search-main-container">
-          <div className="tab-row" style={{ marginLeft: '-4vw', display: 'flex', gap: '1em', marginBottom: '1.5em' }}>
-            <button
-              className={`tab-btn${activeTab === "wave" ? " active" : ""}`}
-              onClick={() => setActiveTab("wave")}
-              title="Your cards"
-              style={{
-                background: activeTab === "wave" ? '#2563eb' : '#52677D',
-                color: '#fff',
-                border: '2px solid #fff',
-                borderRadius: 12,
-                padding: '0.7em 1.7em',
-                fontWeight: 700,
-                fontSize: '1.1em',
-                fontFamily: 'Inconsolata, monospace',
-                cursor: 'pointer',
-                transition: 'background 0.18s, color 0.18s, box-shadow 0.18s',
-                opacity: activeTab === "wave" ? 1 : 0.85,
-                boxShadow: activeTab === "wave" ? '0 2px 12px #2563eb33' : 'none',
-                outline: 'none',
-              }}
-            >
-              <MdOutlineWavingHand style={{ marginRight: 8, fontSize: '1.2em', verticalAlign: 'middle' }} />
-              Your cards
-            </button>
-            <button
-              className={`tab-btn${activeTab === "favorite" ? " active" : ""}`}
-              onClick={() => setActiveTab("favorite")}
-              title="Favorite"
-              style={{
-                background: activeTab === "favorite" ? '#2563eb' : '#52677D',
-                color: '#fff',
-                border: '2px solid #fff',
-                borderRadius: 12,
-                padding: '0.7em 1.7em',
-                fontWeight: 700,
-                fontSize: '1.1em',
-                fontFamily: 'Inconsolata, monospace',
-                cursor: 'pointer',
-                transition: 'background 0.18s, color 0.18s, box-shadow 0.18s',
-                opacity: activeTab === "favorite" ? 1 : 0.85,
-                boxShadow: activeTab === "favorite" ? '0 2px 12px #2563eb33' : 'none',
-                outline: 'none',
-              }}
-            >
-              <FaStar style={{ marginRight: 8, fontSize: '1.1em', verticalAlign: 'middle' }} />
-              Favorite
-            </button>
-          </div>
           {loading ? (
             <div style={{ textAlign: "center", color: "#aaa", marginTop: "4vw" }}>Loading...</div>
           ) : (
