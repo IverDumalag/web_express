@@ -349,7 +349,7 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
                   alignItems: 'stretch',
                   fontFamily: 'inherit',
                   fontSize: '1.08em',
-                  border: '1px solid #e0e0e0',
+                  border: '1px solid #1C2E4A', // updated border color
                   zIndex: 3003,
                 }}
                 onClick={e => e.stopPropagation()}

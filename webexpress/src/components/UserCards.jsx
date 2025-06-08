@@ -131,7 +131,7 @@ export default function UserCards({ cards: initialCards, onCardUpdated }) {
                 flexDirection: 'row',
                 alignItems: 'center',
                 background: '#fff',
-                border: '1.5px solid #bfc9d1',
+                border: '1.5px solid #1C2E4A',
                 borderRadius: '20px',
                 minHeight: 60,
                 height: 150,
@@ -169,7 +169,8 @@ export default function UserCards({ cards: initialCards, onCardUpdated }) {
                 flexDirection: 'row',
                 alignItems: 'center',
                 gap: 16,
-                zIndex: 2
+                zIndex: 2,
+                color: '#1C2E4A', // set color for the flex container
               }}>
                 <button
                   className="card-action-btn"
