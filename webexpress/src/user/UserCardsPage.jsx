@@ -150,6 +150,32 @@ export default function UserCardsPage() {
       <UserBottomNavBar />
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '2vw' }}>
         <div style={{
+          width: '100%',
+          overflow: 'hidden',
+          marginBottom: '1vw',
+          position: 'relative',
+        }}>
+          <div style={{
+            display: 'inline-block',
+            whiteSpace: 'nowrap',
+            animation: 'crawl-left 18s linear infinite',
+            fontFamily: 'Poppins, sans-serif',
+            fontWeight: 600,
+            fontSize: '1.25em',
+            color: '#22365a',
+            letterSpacing: '0.04em',
+            padding: '0.5em 0',
+          }}>
+            Welcome to the Sign Language Cards Section! &nbsp;|&nbsp; Practice, learn, and grow your skills every day! &nbsp;|&nbsp; Add new words and phrases to expand your vocabulary!
+          </div>
+          <style>{`
+            @keyframes crawl-left {
+              0% { transform: translateX(100%); }
+              100% { transform: translateX(-100%); }
+            }
+          `}</style>
+        </div>
+        <div style={{
           background: '#97A7B6',
           borderRadius: '28px',
           margin: '2vw 0 3vw 0',
@@ -168,57 +194,14 @@ export default function UserCardsPage() {
         </div>
         {/* Reference layout below the SIGN LANGUAGE CARDS flex container */}
         <div style={{margin: '3vw 0 2vw 0'}}>
-          {/* Headings stacked vertically */}
-          <div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '2vw', marginBottom: '1.5vw'}}>
+          {/* Headings stacked vertically and action buttons row */}
+          <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: '2vw', marginBottom: '1.5vw'}}>
             <div style={{fontFamily: 'Poppins, sans-serif', fontWeight: 500, fontSize: '2em', color: '#22365a', letterSpacing: '0.02em'}}>
-              Favorites <span style={{fontSize: '0.8em', verticalAlign: 'middle'}}></span>
+               <span style={{fontSize: '0.8em', verticalAlign: 'middle'}}></span>
             </div>
-            <div style={{fontFamily: 'Poppins, sans-serif', fontWeight: 500, fontSize: '1.45em', color: '#22365a', letterSpacing: '0.01em'}}>
-              Words/ Phrases <span style={{fontSize: '0.8em', verticalAlign: 'middle'}}></span>
-            </div>
-          </div>
-          {/* Search bar and actions row */}
-          <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1vw', flexWrap: 'wrap'}}>
-            <div style={{flex: 1, minWidth: 220, maxWidth: 420}}>
-              <input className="search-input" style={{
-                width: '100%',
-                padding: '0.9em 1.2em',
-                borderRadius: '12px',
-                border: '1.5px solid #bfc9d1',
-                background: 'rgba(255,255,255,0.7)',
-                fontFamily: 'Poppins, sans-serif',
-                fontSize: '1.1em',
-                color: '#22365a',
-                boxShadow: '0 2px 8px #2221',
-                outline: 'none',
-                marginTop: 0,
-              }} placeholder="" value={search} onChange={e => setSearch(e.target.value)} />
-            </div>
-            <div style={{display: 'flex', alignItems: 'center', gap: '1vw', marginLeft: 'auto'}}>
-              <button onClick={() => setShowAddModal(true)} style={{fontSize: '2em', background: 'none', border: 'none', color: '#22365a', cursor: 'pointer', lineHeight: 1}} title="Add">
-                +
-              </button>
-              <div style={{position: 'relative', display: 'inline-block'}}>
-                <button className="filter-icon-btn" title="Sort" onClick={() => { setShowFilter(v => !v); setShowMeatball(false); }}
-                  style={{
-                    background: '#e5e5e5',
-                    border: 'none',
-                    borderRadius: '12px',
-                    padding: '0.5em 1.3em',
-                    fontFamily: 'Poppins, sans-serif',
-                    fontWeight: 500,
-                    fontSize: '1.1em',
-                    color: '#22365a',
-                    boxShadow: '0 2px 8px #2222',
-                    cursor: 'pointer',
-                    outline: 'none',
-                    minWidth: 90,
-                    position: 'relative', // Prevent layout shift
-                    zIndex: 11,
-                  }}
-                >
-                  <FaFilter />
-                </button>
+            <div style={{display: 'flex', alignItems: 'center', gap: '1vw'}}>
+              <button className="filter-icon-btn" title="Sort" onClick={() => setShowFilter(v => !v)}>
+                <FaFilter />
                 {showFilter && (
                   <div className="filter-dropdown" style={{
                     position: 'absolute',
@@ -234,72 +217,287 @@ export default function UserCardsPage() {
                     transition: 'opacity 0.18s',
                   }}>
                     {sortOptions.map(opt => (
-                      <button key={opt.value} className={`filter-option${sortBy === opt.value ? " selected" : ""}`} style={{
-                        display: 'block',
-                        width: '100%',
-                        textAlign: 'left',
-                        background: 'none',
-                        border: 'none',
-                        padding: '0.7em 1.2em',
-                        fontFamily: 'Poppins, sans-serif',
-                        fontSize: '1em',
-                        color: '#22365a',
-                        cursor: 'pointer',
-                        fontWeight: sortBy === opt.value ? 700 : 400,
-                        backgroundColor: sortBy === opt.value ? '#e6eaf1' : 'transparent',
-                        borderRadius: 8,
-                        transition: 'background 0.15s',
-                      }} onClick={() => { setSortBy(opt.value); setShowFilter(false); }}>{opt.label}</button>
+                      <button
+                        key={opt.value}
+                        className={`filter-option${sortBy === opt.value ? ' selected' : ''}`}
+                        style={{
+                          display: 'block',
+                          width: '100%',
+                          textAlign: 'left',
+                          background: 'none',
+                          border: 'none',
+                          padding: '0.7em 1.2em',
+                          fontFamily: 'Poppins, sans-serif',
+                          fontSize: '1em',
+                          color: '#22365a',
+                          cursor: 'pointer',
+                          fontWeight: sortBy === opt.value ? 700 : 400,
+                          backgroundColor: sortBy === opt.value ? '#e6eaf1' : 'transparent',
+                          borderRadius: 8,
+                          transition: 'background 0.15s',
+                        }}
+                        onClick={() => { setSortBy(opt.value); setShowFilter(false); }}
+                      >
+                        {opt.label}
+                      </button>
                     ))}
+                  </div>
+                )}
+              </button>
+              <div style={{ position: 'relative' }}>
+                <button className="meatball-icon-btn" title="Menu" onClick={() => { setShowMeatball(v => !v); setShowFilter(false); }}><BsThreeDotsVertical /></button>
+                {showMeatball && (
+                  <div className="meatball-dropdown" style={{
+                    position: 'absolute',
+                    top: '110%',
+                    right: 0,
+                    background: '#fff',
+                    borderRadius: 10,
+                    boxShadow: '0 4px 16px #2223',
+                    zIndex: 12,
+                    minWidth: 150,
+                    padding: '0.5em 0',
+                    border: '1px solid #e5e5e5',
+                    transition: 'opacity 0.18s',
+                  }}>
+                    <button className="meatball-option" style={{
+                      display: 'block',
+                      width: '100%',
+                      textAlign: 'left',
+                      background: 'none',
+                      border: 'none',
+                      padding: '0.7em 1.2em',
+                      fontFamily: 'Poppins, sans-serif',
+                      fontSize: '1em',
+                      color: '#22365a',
+                      cursor: 'pointer',
+                      borderRadius: 8,
+                      transition: 'background 0.15s',
+                    }} onClick={() => { setShowMeatball(false); navigate("/userarchived"); }}>Archive</button>
+                    <button className="meatball-option" style={{
+                      display: 'block',
+                      width: '100%',
+                      textAlign: 'left',
+                      background: 'none',
+                      border: 'none',
+                      padding: '0.7em 1.2em',
+                      fontFamily: 'Poppins, sans-serif',
+                      fontSize: '1em',
+                      color: '#22365a',
+                      cursor: 'pointer',
+                      borderRadius: 8,
+                      transition: 'background 0.15s',
+                    }} onClick={() => { setShowMeatball(false); setShowAddModal(true); }}>Add Word/Phrases</button>
                   </div>
                 )}
               </div>
             </div>
           </div>
+          {/* Search bar and actions row */}
+          <div style={{display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '1vw', flexWrap: 'wrap'}}>
+            <div style={{flex: 1, minWidth: 220, maxWidth: 420, position: 'relative', display: 'flex', justifyContent: 'flex-start', marginLeft: '-4vw'}}>
+              <span style={{
+                position: 'absolute',
+                left: '0.8em',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                color: '#bfc9d1',
+                pointerEvents: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                fontSize: '1.25em',
+                zIndex: 2,
+              }}>
+                <svg width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              </span>
+              <input className="search-input" style={{
+                width: '100%',
+                padding: '0.9em 1.2em 0.9em 2.7em', // left padding for icon
+                borderRadius: '5px',
+                border: '1.5px solid #bfc9d1',
+                background: 'rgba(255,255,255,0.7)',
+                fontFamily: 'Poppins, sans-serif',
+                fontSize: '1.1em',
+                color: '#22365a',
+                boxShadow: '0 2px 8px #2221',
+                outline: 'none',
+                marginLeft: 0,
+                marginTop: 0,
+                maxWidth: 420,
+              }} placeholder="" value={search} onChange={e => setSearch(e.target.value)} />
+            </div>
+          </div>
         </div>
         {/* End reference layout section */}
         <div className="search-main-container">
-          <div className="search-bar-row">
-            <input className="search-input" placeholder="Search..." value={search} onChange={e => setSearch(e.target.value)} />
-            <button className="filter-icon-btn" title="Sort" onClick={() => { setShowFilter(v => !v); setShowMeatball(false); }}><FaFilter /></button>
-            {showFilter && (
-              <div className="filter-dropdown">
-                {sortOptions.map(opt => (
-                  <button key={opt.value} className={`filter-option${sortBy === opt.value ? " selected" : ""}`} onClick={() => { setSortBy(opt.value); setShowFilter(false); }}>{opt.label}</button>
-                ))}
-              </div>
-            )}
-            <button className="meatball-icon-btn" title="Menu" onClick={() => { setShowMeatball(v => !v); setShowFilter(false); }}><BsThreeDotsVertical /></button>
-            {showMeatball && (
-              <div className="meatball-dropdown">
-                <button className="meatball-option" onClick={() => { setShowMeatball(false); navigate("/userarchived"); }}>Archive</button>
-                <button className="meatball-option" onClick={() => { setShowMeatball(false); setShowAddModal(true); }}>Add Word/Phrases</button>
-              </div>
-            )}
-          </div>
-          <div className="tab-row">
-            <button className={`tab-btn${activeTab === "wave" ? " active" : ""}`} onClick={() => setActiveTab("wave")} title="Your cards"><MdOutlineWavingHand /></button>
-            <button className={`tab-btn${activeTab === "favorite" ? " active" : ""}`} onClick={() => setActiveTab("favorite")} title="Favorite"><FaStar /></button>
+          <div className="tab-row" style={{ marginLeft: '-4vw', display: 'flex', gap: '1em', marginBottom: '1.5em' }}>
+            <button
+              className={`tab-btn${activeTab === "wave" ? " active" : ""}`}
+              onClick={() => setActiveTab("wave")}
+              title="Your cards"
+              style={{
+                background: activeTab === "wave" ? '#2563eb' : '#52677D',
+                color: '#fff',
+                border: '2px solid #fff',
+                borderRadius: 12,
+                padding: '0.7em 1.7em',
+                fontWeight: 700,
+                fontSize: '1.1em',
+                fontFamily: 'Inconsolata, monospace',
+                cursor: 'pointer',
+                transition: 'background 0.18s, color 0.18s, box-shadow 0.18s',
+                opacity: activeTab === "wave" ? 1 : 0.85,
+                boxShadow: activeTab === "wave" ? '0 2px 12px #2563eb33' : 'none',
+                outline: 'none',
+              }}
+            >
+              <MdOutlineWavingHand style={{ marginRight: 8, fontSize: '1.2em', verticalAlign: 'middle' }} />
+              Your cards
+            </button>
+            <button
+              className={`tab-btn${activeTab === "favorite" ? " active" : ""}`}
+              onClick={() => setActiveTab("favorite")}
+              title="Favorite"
+              style={{
+                background: activeTab === "favorite" ? '#2563eb' : '#52677D',
+                color: '#fff',
+                border: '2px solid #fff',
+                borderRadius: 12,
+                padding: '0.7em 1.7em',
+                fontWeight: 700,
+                fontSize: '1.1em',
+                fontFamily: 'Inconsolata, monospace',
+                cursor: 'pointer',
+                transition: 'background 0.18s, color 0.18s, box-shadow 0.18s',
+                opacity: activeTab === "favorite" ? 1 : 0.85,
+                boxShadow: activeTab === "favorite" ? '0 2px 12px #2563eb33' : 'none',
+                outline: 'none',
+              }}
+            >
+              <FaStar style={{ marginRight: 8, fontSize: '1.1em', verticalAlign: 'middle' }} />
+              Favorite
+            </button>
           </div>
           {loading ? (
             <div style={{ textAlign: "center", color: "#aaa", marginTop: "4vw" }}>Loading...</div>
           ) : (
             <div className="card-grid-container">
-              <UserCards cards={filteredCards} onCardUpdated={handleCardUpdated} />
+              <div className="card-list" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '2vw', marginTop: '2vw', marginBottom: '2vw', marginLeft: '-4vw' }}>
+                <UserCards cards={filteredCards} onCardUpdated={handleCardUpdated} />
+              </div>
             </div>
           )}
         </div>
+        {/* Show sort filter dropdown with sortOptions */}
+        {/* Removed the Sort Options button as requested */}
       </div>
       {showAddModal && (
-        <div className="add-modal-overlay">
-          <div className="add-modal">
-            <h3>Add Word/Phrase</h3>
-            <input className="add-modal-input" type="text" value={addInput} onChange={e => setAddInput(e.target.value)} placeholder="Enter word or phrase" disabled={addLoading} autoFocus />
-            <div className="add-modal-actions">
-              <button className="add-modal-btn" onClick={handleAddWord} disabled={addLoading || !addInput.trim()}>{addLoading ? "Adding..." : "Add"}</button>
-              <button className="add-modal-btn cancel" onClick={() => setShowAddModal(false)} disabled={addLoading}>Cancel</button>
+        <div className="add-modal-overlay" style={{
+          position: 'fixed',
+          zIndex: 3002,
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(0,0,0,0.08)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+          <form className="add-modal" onSubmit={e => { e.preventDefault(); handleAddWord(); }} style={{
+            background: '#2B4066',
+            borderRadius: '2.2em',
+            boxShadow: '0 0.25rem 2rem rgba(0,0,0,0.18)',
+            width: '95%',
+            maxWidth: 440,
+            padding: '2.5em 2.5em 2em 2.5em',
+            display: 'flex',
+            flexDirection: 'column',
+            boxSizing: 'border-box',
+            color: '#fff',
+            fontFamily: 'Roboto Mono, monospace',
+            alignItems: 'stretch',
+            gap: '0.7em',
+            position: 'relative',
+          }}>
+            <button
+              type="button"
+              onClick={() => setShowAddModal(false)}
+              style={{
+                position: 'absolute',
+                top: 18,
+                right: 22,
+                background: 'none',
+                border: 'none',
+                fontSize: '1.5em',
+                color: '#FFFFFF',
+                cursor: 'pointer',
+                fontWeight: 700,
+                lineHeight: 1,
+              }}
+              aria-label="Close"
+            >
+              ×
+            </button>
+            <div style={{ fontWeight: 700, fontSize: '2em', textAlign: 'center', marginBottom: '1.2em', fontFamily: 'Inconsolata, monospace' }}>Add Word/Phrase</div>
+            <input
+              className="add-modal-input"
+              type="text"
+              value={addInput}
+              onChange={e => setAddInput(e.target.value)}
+              placeholder="Enter word or phrase"
+              disabled={addLoading}
+              autoFocus
+              style={{
+                background: '#fff', color: '#2563eb', fontWeight: 600, fontSize: '1.1em', border: 'none', borderRadius: 8, padding: '0.6em 1em', marginBottom: 8, fontFamily: 'Inconsolata, monospace', outline: 'none', boxSizing: 'border-box',
+              }}
+            />
+            <div style={{ display: 'flex', gap: '1em', marginTop: '1.5em' }}>
+              <button
+                className="add-modal-btn"
+                type="submit"
+                disabled={addLoading || !addInput.trim()}
+                style={{
+                  flex: 1,
+                  background: '#1C2E4A',
+                  color: '#fff',
+                  border: '2px solid #fff',
+                  borderRadius: 12,
+                  padding: '0.7em 0',
+                  fontWeight: 700,
+                  fontSize: '1.1em',
+                  fontFamily: 'Inconsolata, monospace',
+                  cursor: addLoading ? 'not-allowed' : 'pointer',
+                  transition: 'background 0.2s, color 0.2s',
+                  opacity: addLoading ? 0.7 : 1,
+                }}
+              >
+                {addLoading ? "Adding..." : "Add"}
+              </button>
+              <button
+                className="add-modal-btn cancel"
+                type="button"
+                onClick={() => setShowAddModal(false)}
+                disabled={addLoading}
+                style={{
+                  flex: 1,
+                  background: '#52677D',
+                  color: '#fff',
+                  border: '2px solid #fff',
+                  borderRadius: 12,
+                  padding: '0.7em 0',
+                  fontWeight: 700,
+                  fontSize: '1.1em',
+                  fontFamily: 'Inconsolata, monospace',
+                  cursor: addLoading ? 'not-allowed' : 'pointer',
+                  transition: 'background 0.2s, color 0.2s',
+                  opacity: addLoading ? 0.7 : 1,
+                }}
+              >
+                Cancel
+              </button>
             </div>
-          </div>
+          </form>
           <MessagePopup open={popup.open} title={popup.type === "success" ? "Success!" : popup.type === "error" ? "Error" : "Info"} description={popup.message} onClose={() => setPopup(p => ({ ...p, open: false }))} style={{ zIndex: 3000 }} />
         </div>
       )}
