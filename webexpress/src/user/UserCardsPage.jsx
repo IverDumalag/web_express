@@ -536,8 +536,8 @@ export default function UserCardsPage() {
             }
             .speech-bubble {
               position: absolute;
-              bottom: 90px;
-              right: 70px;
+              bottom: 120px;
+              right: -9.9px;  
               background: rgba(255,255,255,0.97);
               color: #1C2E4A;
               border-radius: 18px;
