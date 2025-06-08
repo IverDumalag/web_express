@@ -382,6 +382,7 @@ export default function UserSettings() {
           gap: '2vw',
           fontFamily: 'Fira Sans, Roboto Mono, monospace',
           boxSizing: 'border-box',
+          flexWrap: 'wrap',
         }}
       >
         <SideNav onFeedback={() => setShowFeedback(true)} onLogout={handleLogout} />
@@ -412,6 +413,72 @@ export default function UserSettings() {
         onCancel={() => setShowLogoutConfirm(false)}
         loading={logoutLoading}
       />
+      <style>
+        {`
+          @media (max-width: 900px) {
+            .user-settings-main {
+              flex-direction: column !important;
+              padding: 4vw 2vw 2vw 2vw !important;
+              gap: 3vw !important;
+            }
+            .user-settings-sidenav {
+              min-width: 0 !important;
+              max-width: 100vw !important;
+              width: 100% !important;
+              flex: none !important;
+              align-items: stretch !important;
+              margin-top: 4vw !important;
+              font-size: 1.1em !important;
+            }
+            .user-settings-profile {
+              min-width: 0 !important;
+              width: 100% !important;
+              gap: 1.5vw !important;
+            }
+            .user-settings-profile-fields {
+              max-width: 100vw !important;
+              font-size: 1em !important;
+            }
+            .user-settings-profile-display {
+              flex-direction: column !important;
+              align-items: flex-start !important;
+              gap: 1vw !important;
+            }
+            .user-settings-profile-display > div {
+              text-align: left !important;
+              margin-top: 0 !important;
+            }
+            .profile-edit-popup {
+              width: 98vw !important;
+              max-width: 98vw !important;
+              padding: 1.5em 0.5em 1em 0.5em !important;
+            }
+          }
+          @media (max-width: 600px) {
+            .user-settings-main {
+              padding: 2vw 1vw 1vw 1vw !important;
+              border-radius: 1em !important;
+            }
+            .user-settings-sidenav {
+              font-size: 1em !important;
+              margin-top: 2vw !important;
+            }
+            .user-settings-profile {
+              gap: 1vw !important;
+            }
+            .user-settings-profile-fields {
+              font-size: 0.95em !important;
+            }
+            .user-settings-profile-display > div {
+              font-size: 1.1em !important;
+            }
+            .profile-edit-popup {
+              padding: 1em 0.2em 0.5em 0.2em !important;
+              border-radius: 1em !important;
+            }
+          }
+        `}
+      </style>
     </div>
   );
 }

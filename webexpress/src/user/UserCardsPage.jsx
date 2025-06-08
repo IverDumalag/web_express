@@ -166,6 +166,98 @@ export default function UserCardsPage() {
             Get more cards for enhancement of your Sign Language!
           </div>
         </div>
+        {/* Reference layout below the SIGN LANGUAGE CARDS flex container */}
+        <div style={{margin: '3vw 0 2vw 0'}}>
+          {/* Headings stacked vertically */}
+          <div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '2vw', marginBottom: '1.5vw'}}>
+            <div style={{fontFamily: 'Poppins, sans-serif', fontWeight: 500, fontSize: '2em', color: '#22365a', letterSpacing: '0.02em'}}>
+              Favorites <span style={{fontSize: '0.8em', verticalAlign: 'middle'}}></span>
+            </div>
+            <div style={{fontFamily: 'Poppins, sans-serif', fontWeight: 500, fontSize: '1.45em', color: '#22365a', letterSpacing: '0.01em'}}>
+              Words/ Phrases <span style={{fontSize: '0.8em', verticalAlign: 'middle'}}></span>
+            </div>
+          </div>
+          {/* Search bar and actions row */}
+          <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1vw', flexWrap: 'wrap'}}>
+            <div style={{flex: 1, minWidth: 220, maxWidth: 420}}>
+              <input className="search-input" style={{
+                width: '100%',
+                padding: '0.9em 1.2em',
+                borderRadius: '12px',
+                border: '1.5px solid #bfc9d1',
+                background: 'rgba(255,255,255,0.7)',
+                fontFamily: 'Poppins, sans-serif',
+                fontSize: '1.1em',
+                color: '#22365a',
+                boxShadow: '0 2px 8px #2221',
+                outline: 'none',
+                marginTop: 0,
+              }} placeholder="" value={search} onChange={e => setSearch(e.target.value)} />
+            </div>
+            <div style={{display: 'flex', alignItems: 'center', gap: '1vw', marginLeft: 'auto'}}>
+              <button onClick={() => setShowAddModal(true)} style={{fontSize: '2em', background: 'none', border: 'none', color: '#22365a', cursor: 'pointer', lineHeight: 1}} title="Add">
+                +
+              </button>
+              <div style={{position: 'relative', display: 'inline-block'}}>
+                <button className="filter-icon-btn" title="Sort" onClick={() => { setShowFilter(v => !v); setShowMeatball(false); }}
+                  style={{
+                    background: '#e5e5e5',
+                    border: 'none',
+                    borderRadius: '12px',
+                    padding: '0.5em 1.3em',
+                    fontFamily: 'Poppins, sans-serif',
+                    fontWeight: 500,
+                    fontSize: '1.1em',
+                    color: '#22365a',
+                    boxShadow: '0 2px 8px #2222',
+                    cursor: 'pointer',
+                    outline: 'none',
+                    minWidth: 90,
+                    position: 'relative', // Prevent layout shift
+                    zIndex: 11,
+                  }}
+                >
+                  <FaFilter />
+                </button>
+                {showFilter && (
+                  <div className="filter-dropdown" style={{
+                    position: 'absolute',
+                    top: '110%',
+                    right: 0,
+                    background: '#fff',
+                    borderRadius: 10,
+                    boxShadow: '0 4px 16px #2223',
+                    zIndex: 12,
+                    minWidth: 180,
+                    padding: '0.5em 0',
+                    border: '1px solid #e5e5e5',
+                    transition: 'opacity 0.18s',
+                  }}>
+                    {sortOptions.map(opt => (
+                      <button key={opt.value} className={`filter-option${sortBy === opt.value ? " selected" : ""}`} style={{
+                        display: 'block',
+                        width: '100%',
+                        textAlign: 'left',
+                        background: 'none',
+                        border: 'none',
+                        padding: '0.7em 1.2em',
+                        fontFamily: 'Poppins, sans-serif',
+                        fontSize: '1em',
+                        color: '#22365a',
+                        cursor: 'pointer',
+                        fontWeight: sortBy === opt.value ? 700 : 400,
+                        backgroundColor: sortBy === opt.value ? '#e6eaf1' : 'transparent',
+                        borderRadius: 8,
+                        transition: 'background 0.15s',
+                      }} onClick={() => { setSortBy(opt.value); setShowFilter(false); }}>{opt.label}</button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* End reference layout section */}
         <div className="search-main-container">
           <div className="search-bar-row">
             <input className="search-input" placeholder="Search..." value={search} onChange={e => setSearch(e.target.value)} />

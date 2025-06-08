@@ -3,7 +3,7 @@ import { FaStar, FaRegStar } from "react-icons/fa";
 import { MdSpeakerPhone } from "react-icons/md";
 import { RiSpeakerFill } from "react-icons/ri";
 import UserCardDetailsModal from "./UserCardsDetails";
-import '../CSS/UserCards.css';
+
 
 const FAVORITE_API_URL = import.meta.env.VITE_PHRASESWORDSISFAVORITEUPDATE;
 
@@ -99,7 +99,20 @@ export default function UserCards({ cards: initialCards, onCardUpdated }) {
 
   return (
     <>
-      <div className="card-list">
+      <style>{`
+        @media (max-width: 700px) {
+          .card-list {
+            grid-template-columns: 1fr !important;
+          }
+        }
+      `}</style>
+      <div className="card-list" style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(2, 1fr)',
+        gap: '2vw',
+        marginTop: '2vw',
+        marginBottom: '2vw',
+      }}>
         {cards.length === 0 ? (
           <div style={{ textAlign: "center", color: "#aaa", marginTop: "4vw" }}>
             No cards found.
@@ -110,35 +123,88 @@ export default function UserCards({ cards: initialCards, onCardUpdated }) {
               className="card-item"
               key={card.entry_id}
               onClick={e => {
-                // Prevent modal open when clicking favorite/speak buttons
                 if (e.target.closest('.card-action-btn')) return;
                 setSelectedCard(card);
               }}
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                background: '#fff',
+                border: '1.5px solid #bfc9d1',
+                borderRadius: '20px',
+                minHeight: 60,
+                height: 150,
+                width: '80vw',
+                maxWidth: 650,
+                margin: '0 auto',
+                padding: 0,
+                cursor: 'pointer',
+                transition: 'box-shadow 0.2s',
+                boxShadow: 'none',
+                fontFamily: 'Roboto Mono, sans-serif',
+                overflow: 'hidden',
+                position: 'relative', // for absolute positioning of action row
+              }}
             >
-              <div className="card-content">
-                <div className="card-title">{card.words}</div>
+              <div style={{
+                width: 150,
+                height: '100%',
+                background: '#1d2e4e',
+                borderRadius: '18px 0 0 18px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0,
+              }} />
+              <div style={{ flex: 1, height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
+                <div className="card-title" style={{ fontWeight: 600, fontSize: '1.18em', color: '#22223b', letterSpacing: '0.01em', fontFamily: 'Roboto Mono, monospace', textAlign: 'center', width: '100%' }}>{card.words}</div>
               </div>
-              <div className="card-actions">
+              {/* Favorite and Speaker Buttons - row, bottom right */}
+              <div style={{
+                position: 'absolute',
+                right: 18,
+                bottom: 18,
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 16,
+                zIndex: 2
+              }}>
                 <button
-                  className={`card-action-btn speak${speakingId === card.entry_id ? " active" : ""}`}
-                  title="Speak"
-                  onClick={e => {
-                    e.stopPropagation();
-                    handleSpeak(card);
-                  }}
-                >
-                  {speakingId === card.entry_id ? <RiSpeakerFill /> : <MdSpeakerPhone />}
-                </button>
-                <button
-                  className={`card-action-btn${card.is_favorite ? " fav" : ""}`}
-                  title={card.is_favorite ? "Unfavorite" : "Favorite"}
-                  onClick={e => {
-                    e.stopPropagation();
-                    handleFavorite(card, card.is_favorite); {/* Pass the full card object */}
+                  className="card-action-btn"
+                  title={card.is_favorite ? 'Unfavorite' : 'Favorite'}
+                  onClick={e => { e.stopPropagation(); handleFavorite(card, card.is_favorite); }}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    outline: 'none',
+                    fontSize: '1.7em',
+                    color: card.is_favorite ? '#f7b731' : '#bfc9d1',
+                    transition: 'color 0.2s',
+                    padding: 0,
                   }}
                   disabled={updatingId === card.entry_id}
                 >
                   {card.is_favorite ? <FaStar /> : <FaRegStar />}
+                </button>
+                <button
+                  className="card-action-btn"
+                  title="Speak"
+                  onClick={e => { e.stopPropagation(); handleSpeak(card); }}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    outline: 'none',
+                    fontSize: '1.7em',
+                    color: speakingId === card.entry_id ? '#3a7bd5' : '#bfc9d1',
+                    transition: 'color 0.2s',
+                    padding: 0,
+                  }}
+                >
+                  {speakingId === card.entry_id ? <MdSpeakerPhone /> : <RiSpeakerFill />}
                 </button>
               </div>
             </div>
