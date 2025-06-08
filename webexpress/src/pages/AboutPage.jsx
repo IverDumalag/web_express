@@ -1,6 +1,26 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useEffect, useRef, useState } from "react";
+import SLBG from "../assets/SLBG.mp4";
 
 const AboutPage = forwardRef((props, ref) => {
+  const sectionRef = useRef();
+  const [animate, setAnimate] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!sectionRef.current) return;
+      const rect = sectionRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+      if (rect.top < windowHeight - 100 && rect.bottom > 100) {
+        setAnimate(true);
+      } else {
+        setAnimate(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll(); // trigger on mount
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <>
       <style>{`
@@ -11,25 +31,27 @@ const AboutPage = forwardRef((props, ref) => {
           overflow: hidden;
         }
 
-        .youtube-bg {
+        .video-bg {
           position: absolute;
           top: 0;
           left: 0;
-          width: 100%;
-          height: 100%;
-          z-index: -1;
+          width: 100vw;
+          height: 100vh;
+          z-index: 0;
           pointer-events: none;
+          overflow: hidden;
         }
 
-        .youtube-bg iframe {
+        .about-bg-video {
           width: 100vw;
-          height: 56.25vw; /* 16:9 aspect ratio */
-          min-height: 100vh;
-          min-width: 177.77vh;
+          height: 100vh;
+          object-fit: cover;
           position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
+          top: 0;
+          left: 0;
+          filter: brightness(0.5) blur(1px);
+          pointer-events: none;
+          user-select: none;
         }
 
         .about-page {
@@ -48,16 +70,34 @@ const AboutPage = forwardRef((props, ref) => {
           backdrop-filter: brightness(0.5); /* subtle dark overlay for text clarity */
         }
 
-        .about-page h2 {
-          font-size: 2.5em;
-          margin-bottom: 20px;
+        .about-page h2, .about-page p {
+          opacity: 0;
+          transform: translateY(40px);
         }
-
-        .about-page p {
-          font-size: 1.2em;
-          max-width: 800px;
-          line-height: 1.5;
-          color: #d0dce7;
+        .about-page.animate h2 {
+          font-size: 2.7em;
+          margin-bottom: 20px;
+          letter-spacing: 1px;
+          font-weight: 800;
+          color:rgb(68, 117, 194);
+          text-shadow: 0 2px 16px #05131B99;
+          animation: fadeInUp 1.1s 0.2s cubic-bezier(.4,1.7,.6,1) forwards;
+        }
+        .about-page.animate p {
+          font-size: 1.35em;
+          max-width: 820px;
+          line-height: 1.7;
+          color: #fff;
+          font-weight: 500;
+          margin-top: 10px;
+          letter-spacing: 0.2px;
+          animation: fadeInUp 1.1s 0.6s cubic-bezier(.4,1.7,.6,1) forwards;
+        }
+        @keyframes fadeInUp {
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
 
         @media (max-width: 768px) {
@@ -73,16 +113,23 @@ const AboutPage = forwardRef((props, ref) => {
       `}</style>
 
       <div className="about-page-container" ref={ref}>
-        <div className="youtube-bg">
-          <iframe
-            src="https://www.youtube.com/embed/J80Vc2y9Fcs?autoplay=1&mute=1&loop=1&playlist=J80Vc2y9Fcs&controls=0&showinfo=0&modestbranding=1"
-            frameBorder="0"
-            allow="autoplay; fullscreen"
-            title="Background Video"
-          ></iframe>
+        <div className="video-bg">
+          <video
+            className="about-bg-video"
+            src={SLBG}
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
+            aria-hidden="true"
+          />
         </div>
 
-        <section className="about-page">
+        <section
+          className={`about-page${animate ? " animate" : ""}`}
+          ref={sectionRef}
+        >
           <h2>Why Learn Sign Language?</h2>
           <p>
             Learning sign language opens doors to connect with the Deaf community,
