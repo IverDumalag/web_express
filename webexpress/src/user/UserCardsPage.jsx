@@ -317,14 +317,16 @@ export default function UserCardsPage() {
                   color: '#fff',
                   border: '2px solid #fff',
                   borderRadius: 6,
-                  padding: '0.7em 3.0em',
+                  padding: '0.7em 2.0em',
                   fontWeight: 700,
                   fontSize: '1.1em',
                   fontFamily: 'Inconsolata, monospace',
                   cursor: 'pointer',
                   transition: 'background 0.18s, color 0.18s, box-shadow 0.18s',
                   opacity: activeTab === "wave" ? 1 : 0.85,
-                  boxShadow: activeTab === "wave" ? '0 2px 12px #2563eb33' : 'none',
+                  boxShadow: activeTab === "wave"
+                    ? '0 2px 12px 0 rgba(37,99,235,0.20), 0 1.5px 6px 0 rgba(44,62,80,0.10)'
+                    : '0 1.5px 6px 0 rgba(44,62,80,0.10)',
                   outline: 'none',
                 }}
               >
@@ -340,14 +342,16 @@ export default function UserCardsPage() {
                   color: '#fff',
                   border: '2px solid #fff',
                   borderRadius: 6,
-                  padding: '0.7em 2.0em',
+                  padding: '0.7em 0.8em',
                   fontWeight: 700,
                   fontSize: '1.1em',
                   fontFamily: 'Inconsolata, monospace',
                   cursor: 'pointer',
                   transition: 'background 0.18s, color 0.18s, box-shadow 0.18s',
                   opacity: activeTab === "favorite" ? 1 : 0.85,
-                  boxShadow: activeTab === "favorite" ? '0 2px 12px #2563eb33' : 'none',
+                  boxShadow: activeTab === "favorite"
+                    ? '0 2px 12px 0 rgba(37,99,235,0.20), 0 1.5px 6px 0 rgba(44,62,80,0.10)'
+                    : '0 1.5px 6px 0 rgba(44,62,80,0.10)',
                   outline: 'none',
                 }}
               >
@@ -373,9 +377,9 @@ export default function UserCardsPage() {
                 </span>
                 <input className="search-input" style={{
                   width: '100%',
-                  padding: '0.9em 2.9em 0.6em 3.4em', // left padding for icon
+                  padding: '0.9em 2.9em 0.6em 3.4em', 
                   borderRadius: '5px',
-                  border: '1.5px solid #bfc9d1',
+                  border: '1.5px solid #1C2E4A',
                   background: 'rgba(255,255,255,0.7)',
                   fontFamily: 'Roboto Mono, sans-serif',
                   fontSize: '1.0em',
@@ -536,8 +540,8 @@ export default function UserCardsPage() {
             }
             .speech-bubble {
               position: absolute;
-              bottom: 90px;
-              right: 70px;
+              bottom: 130px;
+              right: -5.9px;
               background: rgba(255,255,255,0.97);
               color: #1C2E4A;
               border-radius: 18px;
@@ -579,10 +583,30 @@ export default function UserCardsPage() {
               z-index: 0;
               pointer-events: none;
             }
+            .typed-text {
+              display: inline-block;
+              overflow: hidden;
+              white-space: nowrap;
+              border-right: 2.5px solid #1C2E4A;
+              animation: typing 2.2s steps(32, end), blink-caret 0.7s step-end infinite;
+              font-family: inherit;
+              font-size: inherit;
+              font-weight: inherit;
+              letter-spacing: 0.01em;
+              min-width: 0;
+            }
+            @keyframes typing {
+              from { width: 0 }
+              to { width: 100% }
+            }
+            @keyframes blink-caret {
+              from, to { border-color: transparent }
+              50% { border-color: #1C2E4A; }
+            }
           `}</style>
           <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <div className="speech-bubble">
-              {boyBubbleMessage}
+              <span className="typed-text">{boyBubbleMessage}</span>
               <span className="speech-bubble-tail" />
               <span className="speech-bubble-tail-border" />
             </div>
