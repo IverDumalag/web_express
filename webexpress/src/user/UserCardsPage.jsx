@@ -536,8 +536,8 @@ export default function UserCardsPage() {
             }
             .speech-bubble {
               position: absolute;
-              bottom: 120px;
-              right: -9.9px;
+              bottom: 130px;
+              right: -5.9px;
               background: rgba(255,255,255,0.97);
               color: #1C2E4A;
               border-radius: 18px;
@@ -553,6 +553,31 @@ export default function UserCardsPage() {
               max-width: 320px;
               text-align: center;
               z-index: 2;
+            }
+            .speech-bubble-tail {
+              position: absolute;
+              bottom: -18px;
+              right: 38px;
+              width: 0;
+              height: 0;
+              border-left: 16px solid transparent;
+              border-right: 16px solid transparent;
+              border-top: 18px solid #fff;
+              filter: drop-shadow(0 2px 4px #1C2E4A22);
+              z-index: 1;
+              pointer-events: none;
+            }
+            .speech-bubble-tail-border {
+              position: absolute;
+              bottom: -20px;
+              right: 36px;
+              width: 0;
+              height: 0;
+              border-left: 18px solid transparent;
+              border-right: 18px solid transparent;
+              border-top: 20px solid #1C2E4A;
+              z-index: 0;
+              pointer-events: none;
             }
             .typed-text {
               display: inline-block;
