@@ -72,3 +72,45 @@
     font-size: 1em;
   }
 }
+
+.image-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.about-bg-img {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  filter: brightness(0.5) blur(1px);
+  pointer-events: none;
+  user-select: none;
+}
+
+.video-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.about-bg-video {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  filter: brightness(0.5) blur(1px);
+  pointer-events: none;
+  user-select: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
