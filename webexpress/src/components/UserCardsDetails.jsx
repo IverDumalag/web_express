@@ -503,7 +503,7 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
             }}>
               <form className="ucd-edit-modal" onSubmit={e => { e.preventDefault(); handleEditSave(); }} style={{
                 borderRadius: 20,
-                border: '1px solid rgba(255, 255, 255, 0.10)',
+                border: '1px solid #1C2E4A',
                 background: 'rgba(255, 255, 255, 0.10)',
                 boxShadow: '0 0.25rem 2rem rgba(0,0,0,0.18)',
                 backdropFilter: 'blur(18.3px)',
@@ -514,15 +514,15 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
                 display: 'flex',
                 flexDirection: 'column',
                 boxSizing: 'border-box',
-                color: '#fff',
+                color: card.is_match === 0 ? '#22314a' : '#fff',
                 fontFamily: 'Roboto Mono, monospace',
                 alignItems: 'stretch',
                 gap: '0.7em',
                 position: 'relative',
               }}>
-                <div style={{ fontWeight: 700, fontSize: '2em', textAlign: 'center', marginBottom: '1.2em', fontFamily: 'Inconsolata, monospace' }}>Edit Card Text</div>
-                {editError && <div style={{ color: '#ffb4b4', textAlign: 'center', marginBottom: '0.5em', fontSize: '1em' }}>{editError}</div>}
-                <label style={{ fontWeight: 500, fontSize: '1.1em', marginBottom: 2 }}>Word or Phrase</label>
+                <div style={{ fontWeight: 700, fontSize: '2em', textAlign: 'center', marginBottom: '1.2em', fontFamily: 'Inconsolata, monospace', color: card.is_match === 0 ? '#22314a' : '#fff' }}>Edit Card Text</div>
+                {editError && <div style={{ color: '#ff4d4d', textAlign: 'center', marginBottom: '0.5em', fontSize: '1em' }}>{editError}</div>}
+                <label style={{ fontWeight: 800, fontSize: '1.1em', marginBottom: 2, color: card.is_match === 0 ? '#22314a' : '#fff' }}>Word or Phrase</label>
                 <input
                   className="ucd-edit-input"
                   value={editWords}
@@ -530,7 +530,17 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
                   disabled={editLoading}
                   required
                   style={{
-                    background: '#fff', color: '#2563eb', fontWeight: 600, fontSize: '1.1em', border: 'none', borderRadius: 8, padding: '0.6em 1em', marginBottom: 8, fontFamily: 'Inconsolata, monospace', outline: 'none', boxSizing: 'border-box',
+                    background: '#fff',
+                    color: '#2563eb',
+                    fontWeight: 600,
+                    fontSize: '1.1em',
+                    border: 'none',
+                    borderRadius: 8,
+                    padding: '0.6em 1em',
+                    marginBottom: 8,
+                    fontFamily: 'Inconsolata, monospace',
+                    outline: 'none',
+                    boxSizing: 'border-box',
                   }}
                 />
                 <div style={{ display: 'flex', gap: '1em', marginTop: '1.5em' }}>
@@ -595,7 +605,7 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
         }}>
           <div className="ucd-edit-modal" style={{
             borderRadius: 20,
-            border: '1px solid rgba(255, 255, 255, 0.10)',
+            border: '1px solid #1C2E4A',
             background: 'rgba(255, 255, 255, 0.10)',
             boxShadow: '0 0.25rem 2rem rgba(0,0,0,0.18)',
             backdropFilter: 'blur(18.3px)',
@@ -606,16 +616,16 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
             display: 'flex',
             flexDirection: 'column',
             boxSizing: 'border-box',
-            color: '#fff',
+            color: card.is_match === 0 ? '#22314a' : '#fff',
             fontFamily: 'Roboto Mono, monospace',
             alignItems: 'stretch',
             gap: '0.7em',
             position: 'relative',
           }}>
-            <div style={{ fontWeight: 700, fontSize: '2em', textAlign: 'center', marginBottom: '1.2em', fontFamily: 'Inconsolata, monospace' }}>
+            <div style={{ fontWeight: 700, fontSize: '2em', textAlign: 'center', marginBottom: '1.2em', fontFamily: 'Inconsolata, monospace', color: card.is_match === 0 ? '#22314a' : '#fff' }}>
               Confirm Archive
             </div>
-            <div style={{ color: '#fff', textAlign: 'center', marginBottom: '1.2em', fontSize: '1.1em', fontWeight: 500 }}>
+            <div style={{ color: card.is_match === 0 ? '#22314a' : '#fff', textAlign: 'center', marginBottom: '1.2em', fontSize: '1.1em', fontWeight: 800 }}>
               Are you sure you want to archive this card? It will be moved to your archive.
             </div>
             <div style={{ display: 'flex', gap: '1em', marginTop: '1.5em' }}>
