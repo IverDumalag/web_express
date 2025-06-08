@@ -80,12 +80,7 @@ export default function AdminProfile({ open, onClose }) {
     <div className="admin-profile-popup-bg">
       <div className="admin-profile-popup">
         <div className="admin-profile-title-row">
-          <span className="admin-profile-title">Admin Profile</span>
-          {!showEdit && (
-            <button className="admin-profile-edit-btn" title="Edit Profile" onClick={handleEditOpen}>
-              Edit
-            </button>
-          )}
+          <span className="admin-profile-title">Edit Profile</span>
           <button className="admin-profile-close-btn" title="Close" onClick={onClose}>
             &times;
           </button>
@@ -117,13 +112,18 @@ export default function AdminProfile({ open, onClose }) {
                 <div className="admin-profile-label">Birthdate:</div>
                 <div className="admin-profile-value">{admin.birthdate || "-"}</div>
               </div>
+              {/* Edit button at the bottom */}
+              <div className="admin-profile-bottom-actions">
+                <button className="admin-profile-edit-btn" title="Edit Profile" onClick={handleEditOpen}>
+                  Edit
+                </button>
+              </div>
             </>
           ) : (
             <div className="admin-profile-loading">Loading...</div>
           )
         ) : (
           <form onSubmit={handleEditSubmit}>
-            <div className="admin-profile-edit-title">Edit Profile</div>
             {editError && <div className="admin-profile-edit-error">{editError}</div>}
             <label className="admin-profile-edit-label">First Name</label>
             <input
