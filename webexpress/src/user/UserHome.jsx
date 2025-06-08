@@ -26,12 +26,20 @@ export default function UserHome() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Determine greeting based on current hour
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return 'Good Morning';
+    if (hour < 18) return 'Good Afternoon';
+    return 'Good Evening';
+  };
+
   return (
     <div style={{ minHeight: '100vh', height: '100%', overflowY: 'auto', background: '#fff' }}>
       <UserBottomNavBar />
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '2.5vw 2vw 0 2vw' }}>
         <div style={{ marginTop: '2.5vw', marginBottom: '1.5vw' }}>
-          <div style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 600, fontSize: '2.7em', color: '#22365a', marginBottom: 8 }}>Good Morning, {userData?.f_name || 'User'}!</div>
+          <div style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 600, fontSize: '2.7em', color: '#22365a', marginBottom: 8 }}>{getGreeting()}, {userData?.f_name || 'User'}!</div>
           <div style={{ fontFamily: 'Roboto Mono, monospace', color: '#7b8794', fontSize: '1.25em', marginBottom: 24 }}>Learn Sign Language Today</div>
         </div>
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 32 }}>
