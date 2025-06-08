@@ -273,6 +273,7 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
           </button>
           <div style={{ flex: 1 }} />
         </div>
+        <div style={{ height: 26 }} />
         <div className="ucd-modal-body">
           {/* Centered top word and speak button */}
           <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 4 }}>
@@ -306,12 +307,12 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
                 alignItems: 'center',
                 justifyContent: 'center',
                 position: 'relative',
-                top: '-6px', // move up
-                left: '-6px', // move left
+                top: '-40px',
+                left: '-100px',
               }}
               onClick={() => setShowMeatballModal(true)}
             >
-              <svg width="24" height="32" viewBox="0 0 24 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg width="24" height="10" viewBox="0 0 24 32" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ padding: 0, margin: 0, display: 'block' }}>
                 <circle cx="12" cy="6" r="2.5" fill="#444"/>
                 <circle cx="12" cy="16" r="2.5" fill="#444"/>
                 <circle cx="12" cy="26" r="2.5" fill="#444"/>
