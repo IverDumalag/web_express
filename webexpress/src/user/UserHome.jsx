@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import girlbg from '../assets/contentbg1.png';
 import UserBottomNavBar from '../components/UserBottomNavBar';
 import graphic from '../assets/graphic.png';
-import weloveto from '../assets/weloveto.png';
+import weloveto1 from '../assets/weloveto1.png';
 import helloVideo from '../assets/hello_rfyswh.mp4';
 import howareyouVideo from '../assets/howareyou_bwzgiu.mp4';
 import thankyouVideo from '../assets/thankyou_huzpb0.mp4';
@@ -263,7 +263,7 @@ export default function UserHome() {
                     .content__container__list__item {
                       height: 1.1em;
                       min-width: 4.8em;
-                      color: #ffe066;
+                      color: #1C2E4A;
                       font-family: inherit;
                       font-size: 1em;
                       font-weight: inherit;
@@ -367,7 +367,7 @@ export default function UserHome() {
             </style>
             <div style={{ position: 'relative', width: '100vw', maxWidth: 1800 }}>
               <img
-                src={weloveto}
+                src={weloveto1}
                 alt="We Love To Illustration"
                 style={{
                   maxWidth: 1800,
