@@ -312,31 +312,32 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
               }}
               onClick={() => setShowMeatballModal(true)}
             >
-              <svg width="24" height="10" viewBox="0 0 24 32" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ padding: 0, margin: 0, display: 'block' }}>
-                <circle cx="12" cy="6" r="2.5" fill="#444"/>
-                <circle cx="12" cy="16" r="2.5" fill="#444"/>
-                <circle cx="12" cy="26" r="2.5" fill="#444"/>
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ padding: 0, margin: 0, display: 'block' }}>
+                <circle cx="14" cy="6" r="3.5" fill="#444"/>
+                <circle cx="14" cy="14" r="3.5" fill="#444"/>
+                <circle cx="14" cy="22" r="3.5" fill="#444"/>
               </svg>
             </button>
-          </div>
-          {/* Meatball Modal */}
-          {showMeatballModal && (
-            <div style={{
-              position: 'fixed',
-              top: 0,
-              left: 0,
-              width: '100vw',
-              height: '100vh',
-              background: 'rgba(0,0,0,0.01)', // almost transparent
-              zIndex: 3002,
-            }}
-              onClick={() => setShowMeatballModal(false)}
-            >
+            {showMeatballModal && (
               <div
                 style={{
                   position: 'absolute',
-                  top: 'calc(var(--meatball-top, 120px) + 36px)', // fallback if not set
-                  left: 'var(--meatball-left, 80vw)', // fallback if not set
+                  top: (() => {
+                    const btn = document.querySelector('.ucd-meatball-btn');
+                    if (btn) {
+                      const rect = btn.getBoundingClientRect();
+                      // Position relative to parent flex row
+                      return `${btn.offsetTop + btn.offsetHeight + 8}px`;
+                    }
+                    return '40px'; // fallback
+                  })(),
+                  left: (() => {
+                    const btn = document.querySelector('.ucd-meatball-btn');
+                    if (btn) {
+                      return `${btn.offsetLeft - 120}px`;
+                    }
+                    return '60vw'; // fallback
+                  })(),
                   minWidth: 0,
                   width: 180,
                   background: '#fff',
@@ -349,19 +350,9 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
                   fontFamily: 'inherit',
                   fontSize: '1.08em',
                   border: '1px solid #e0e0e0',
+                  zIndex: 3003,
                 }}
                 onClick={e => e.stopPropagation()}
-                ref={el => {
-                  if (el) {
-                    // Try to position beside the meatball button
-                    const btn = document.querySelector('.ucd-meatball-btn');
-                    if (btn) {
-                      const rect = btn.getBoundingClientRect();
-                      el.style.top = `${rect.top + rect.height + 4}px`;
-                      el.style.left = `${rect.left - 120 + rect.width}px`;
-                    }
-                  }
-                }}
               >
                 <button
                   style={{
@@ -398,8 +389,9 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
                   Archive
                 </button>
               </div>
-            </div>
-          )}
+            )}
+          </div>
+          {/* Meatball Modal */}
           <div className="ucd-media-row">
             {(() => {
               const isVideo = (editMode ? card.sign_language : card.sign_language) && (card.sign_language || "").toLowerCase().endsWith(".mp4");
@@ -587,14 +579,92 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
           )}
         </div>
       </div>
-      <ConfirmationPopup
-        open={showConfirm}
-        title="Confirm Archive"
-        message="Are you sure you want to archive this card? It will be moved to your archive."
-        onConfirm={handleDelete}
-        onCancel={() => setShowConfirm(false)}
-        loading={deleteLoading}
-      />
+      {/* Archive Confirmation Modal (glassmorphism style) */}
+      {showConfirm && (
+        <div className="ucd-edit-modal-bg" style={{
+          position: 'fixed',
+          zIndex: 3002,
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(0,0,0,0.08)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+          <div className="ucd-edit-modal" style={{
+            borderRadius: 20,
+            border: '1px solid rgba(255, 255, 255, 0.10)',
+            background: 'rgba(255, 255, 255, 0.10)',
+            boxShadow: '0 0.25rem 2rem rgba(0,0,0,0.18)',
+            backdropFilter: 'blur(18.3px)',
+            WebkitBackdropFilter: 'blur(18.3px)',
+            width: '95%',
+            maxWidth: 440,
+            padding: '2.5em 2.5em 2em 2.5em',
+            display: 'flex',
+            flexDirection: 'column',
+            boxSizing: 'border-box',
+            color: '#fff',
+            fontFamily: 'Roboto Mono, monospace',
+            alignItems: 'stretch',
+            gap: '0.7em',
+            position: 'relative',
+          }}>
+            <div style={{ fontWeight: 700, fontSize: '2em', textAlign: 'center', marginBottom: '1.2em', fontFamily: 'Inconsolata, monospace' }}>
+              Confirm Archive
+            </div>
+            <div style={{ color: '#fff', textAlign: 'center', marginBottom: '1.2em', fontSize: '1.1em', fontWeight: 500 }}>
+              Are you sure you want to archive this card? It will be moved to your archive.
+            </div>
+            <div style={{ display: 'flex', gap: '1em', marginTop: '1.5em' }}>
+              <button
+                type="button"
+                onClick={handleDelete}
+                disabled={deleteLoading}
+                style={{
+                  flex: 1,
+                  background: '#B91C1C',
+                  color: '#fff',
+                  border: '2px solid #fff',
+                  borderRadius: 12,
+                  padding: '0.7em 0',
+                  fontWeight: 700,
+                  fontSize: '1.1em',
+                  fontFamily: 'Inconsolata, monospace',
+                  cursor: 'pointer',
+                  transition: 'background 0.2s, color 0.2s',
+                }}
+              >
+                {deleteLoading ? 'Archiving...' : 'Archive'}
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowConfirm(false)}
+                disabled={deleteLoading}
+                style={{
+                  flex: 1,
+                  background: '#52677D',
+                  color: '#fff',
+                  border: '2px solid #fff',
+                  borderRadius: 12,
+                  padding: '0.7em 0',
+                  fontWeight: 700,
+                  fontSize: '1.1em',
+                  fontFamily: 'Inconsolata, monospace',
+                  cursor: 'pointer',
+                  transition: 'background 0.2s, color 0.2s',
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* End Archive Confirmation Modal */}
+      {/* MessagePopup remains unchanged */}
       <MessagePopup
         open={popup.open}
         title={popup.type === "success" ? "Success!" : popup.type === "error" ? "Error" : "Info"}
