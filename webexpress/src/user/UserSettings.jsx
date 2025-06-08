@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import UserFeedback from './UserFeedback';
 import ConfirmationPopup from '../components/ConfirmationPopup';
@@ -7,7 +7,13 @@ import expressLogo from '../assets/express_logo.png';
 import { getUserData, setUserData } from '../data/UserData';
 import UserBottomNavBar from '../components/UserBottomNavBar';
 
-function SideNav({ onFeedback, onLogout }) {
+function SideNav({ onFeedback, onLogout, onProfileClick, feedbackArrow }) {
+  const feedbackRef = useRef(null);
+  useEffect(() => {
+    if (feedbackArrow && feedbackRef.current) {
+      feedbackRef.current.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    }
+  }, [feedbackArrow]);
   return (
     <div
       style={{
@@ -23,15 +29,38 @@ function SideNav({ onFeedback, onLogout }) {
         marginTop: '10vw',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
+        position: 'relative',
       }}
     >
-      <div style={{ display: 'flex', alignItems: 'center', fontWeight: 500, color: '#4B5A6A' }}>
+      <div className="sidenav-action-item" style={{ display: 'flex', alignItems: 'center', fontWeight: 500, borderRadius: 10,  transition: 'none' }} onClick={onProfileClick}>
         Profile
       </div>
-      <div style={{ cursor: 'pointer', color: '#4B5A6A', fontWeight: 500 }} onClick={onFeedback}>
+      <div
+        ref={feedbackRef}
+        className="sidenav-action-item feedback-arrow-target"
+        style={{ cursor: 'pointer', fontWeight: 500, transition: 'none', position: 'relative' }}
+        onClick={onFeedback}
+      >
         Give us feedback!
+        {feedbackArrow && (
+          <span className="arrow-anim-point" style={{
+            position: 'absolute',
+            left: '-48px',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            zIndex: 10,
+            pointerEvents: 'none',
+          }}>
+            <svg width="38" height="38" viewBox="0 0 38 38" fill="none" style={{ display: 'block' }}>
+              <g>
+                <path d="M4 19h28" stroke="#2563eb" strokeWidth="4" strokeLinecap="round"/>
+                <path d="M22 11l10 8-10 8" stroke="#2563eb" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+              </g>
+            </svg>
+          </span>
+        )}
       </div>
-      <div style={{ cursor: 'pointer', color: '#4B5A6A', fontWeight: 500 }}>
+      <div className="sidenav-action-item" style={{ cursor: 'pointer', fontWeight: 500,  transition: 'none' }}>
         <a
           href="https://drive.google.com/uc?export=download&id=1D4QseDYlB9_3zezrNINM8eWWB3At1kVN"
           style={{ color: 'inherit', textDecoration: 'none' }}
@@ -41,9 +70,61 @@ function SideNav({ onFeedback, onLogout }) {
           Download our App
         </a>
       </div>
-      <div style={{ cursor: 'pointer', color: '#1C2E4A', fontWeight: 600 }} onClick={onLogout}>
+      <div className="sidenav-action-item" style={{ cursor: 'pointer', fontWeight: 600,  transition: 'none' }} onClick={onLogout}>
         Logout
       </div>
+      <style>{`
+        .sidenav-action-item {
+          transition: transform 0.22s cubic-bezier(.4,2,.6,1);
+          position: relative;
+        }
+        .sidenav-action-item:hover {
+      
+          transform: scale(1.07) translateX(4px);
+        
+          cursor: pointer;
+        }
+        .sidenav-action-item:active {
+          transform: scale(0.98) translateX(1px);
+          
+        }
+        .sidenav-action-item a {
+          color: inherit;
+          text-decoration: none;
+        }
+        .sidenav-action-item:hover::before {
+          content: '';
+          position: absolute;
+          left: -16px;
+          top: 18%;
+          height: 64%;
+          width: 3px;
+          background: linear-gradient(180deg, #2563eb 60%, #334E7B 100%);
+          border-radius: 2px;
+          opacity: 1;
+          transition: opacity 0.18s, left 0.18s;
+        }
+        .sidenav-action-item::before {
+          content: '';
+          position: absolute;
+          left: -16px;
+          top: 18%;
+          height: 64%;
+          width: 3px;
+          background: linear-gradient(180deg, #2563eb 60%, #334E7B 100%);
+          border-radius: 2px;
+          opacity: 0;
+          transition: opacity 0.18s, left 0.18s;
+        }
+        .arrow-anim-point svg {
+          animation: arrow-bounce 1.1s cubic-bezier(.4,2,.6,1) infinite;
+        }
+        @keyframes arrow-bounce {
+          0% { transform: translateX(0); }
+          50% { transform: translateX(10px) scale(1.08); }
+          100% { transform: translateX(0); }
+        }
+      `}</style>
     </div>
   );
 }
@@ -60,6 +141,7 @@ function UserProfileDisplay({ user, onEdit }) {
         textAlign: 'left',
         position: 'static',
         marginBottom: '0.5em',
+        marginLeft: '-5.5em', // moved left
       }}>Settings</div>
       <div style={{ flex: 1 }}></div>
       <div style={{ textAlign: 'right', marginTop: '0.5vw' }}>
@@ -295,6 +377,70 @@ function SuccessPopup({ onClose }) {
   );
 }
 
+function ProfileInfoModal({ open, onClose }) {
+  if (!open) return null;
+  return (
+    <div style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '100vw',
+      height: '100vh',
+      background: 'rgba(44,62,80,0.10)',
+      zIndex: 4002,
+      display: 'flex',
+      alignItems: 'center', // center vertically
+      justifyContent: 'center', // center horizontally
+    }} onClick={onClose}>
+      <div
+        style={{
+          // Remove marginTop, center modal
+          background: '#fff',
+          borderRadius: '1.2em',
+          boxShadow: '0 8px 32px rgba(44,62,80,0.18)',
+          padding: '2em 2.5em',
+          minWidth: 320,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          border: '2px solid #334E7B',
+          fontFamily: 'Roboto Mono, monospace',
+          position: 'relative',
+          animation: 'profile-modal-pop 0.32s cubic-bezier(.4,2,.6,1)'
+        }}
+        onClick={e => e.stopPropagation()}
+      >
+        <div style={{ fontWeight: 700, fontSize: '1.3em', color: '#334E7B', marginBottom: 12, textAlign: 'center' }}>
+          you are already in the profile section, silly
+        </div>
+        <button
+          onClick={onClose}
+          style={{
+            background: '#334E7B',
+            color: '#fff',
+            border: 'none',
+            borderRadius: 5,
+            padding: '0.5em 1.5em',
+            fontWeight: 600,
+            fontFamily: 'Inder, monospace',
+            fontSize: '1.3em',
+            marginTop: 8,
+            cursor: 'pointer',
+            boxShadow: '0 2px 8px rgba(37,99,235,0.10)',
+            transition: 'background 0.18s',
+          }}
+        >ok</button>
+        <style>{`
+          @keyframes profile-modal-pop {
+            0% { opacity: 0; transform: translateY(-40px) scale(0.95); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+          }
+        `}</style>
+      </div>
+    </div>
+  );
+}
+
 export default function UserSettings() {
   const navigate = useNavigate();
   const [showFeedback, setShowFeedback] = useState(false);
@@ -306,6 +452,18 @@ export default function UserSettings() {
   const [editLoading, setEditLoading] = useState(false);
   const [editError, setEditError] = useState('');
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [showProfileInfo, setShowProfileInfo] = useState(false);
+  const [showFeedbackArrow, setShowFeedbackArrow] = useState(() => {
+    // Check if navigated from Let us know
+    return window.location.hash === '#feedbackarrow';
+  });
+  useEffect(() => {
+    if (showFeedbackArrow) {
+      const handle = () => setShowFeedbackArrow(false);
+      window.addEventListener('click', handle);
+      return () => window.removeEventListener('click', handle);
+    }
+  }, [showFeedbackArrow]);
 
   const handleLogout = () => {
     setShowLogoutConfirm(true);
@@ -382,15 +540,16 @@ export default function UserSettings() {
           gap: '2vw',
           fontFamily: 'Fira Sans, Roboto Mono, monospace',
           boxSizing: 'border-box',
-          flexWrap: 'wrap',
+            flexWrap: 'wrap',
         }}
       >
-        <SideNav onFeedback={() => setShowFeedback(true)} onLogout={handleLogout} />
+        <SideNav onFeedback={() => setShowFeedback(true)} onLogout={handleLogout} onProfileClick={() => setShowProfileInfo(true)} feedbackArrow={showFeedbackArrow} />
         <div style={{ flex: 1, minWidth: 320, display: 'flex', flexDirection: 'column', gap: '2vw' }}>
           <UserProfileDisplay user={user} onEdit={handleEditOpen} />
           <UserProfileFields user={user} />
         </div>
       </div>
+      <ProfileInfoModal open={showProfileInfo} onClose={() => setShowProfileInfo(false)} />
       {showEdit && (
         <EditProfilePopup
           editForm={editForm}
