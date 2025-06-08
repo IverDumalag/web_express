@@ -35,22 +35,38 @@ export default function UserHome() {
     const block = document.getElementById('sign-cards-block');
     if (!block) return;
     let animation;
+    let running = true;
+    let toRight = true;
     const animateBlock = () => {
-      animation = block.animate([
-        { transform: 'translateX(0%)' },
-        { transform: 'translateX(101%)' }
-      ], {
-        duration: 1200,
-        easing: 'cubic-bezier(.77,0,.18,1)',
-        fill: 'forwards'
-      });
+      if (!running) return;
+      if (toRight) {
+        animation = block.animate([
+          { transform: 'translateX(0%)' },
+          { transform: 'translateX(101%)' }
+        ], {
+          duration: 1200,
+          easing: 'cubic-bezier(.77,0,.18,1)',
+          fill: 'forwards'
+        });
+      } else {
+        animation = block.animate([
+          { transform: 'translateX(101%)' },
+          { transform: 'translateX(0%)' }
+        ], {
+          duration: 1200,
+          easing: 'cubic-bezier(.77,0,.18,1)',
+          fill: 'forwards'
+        });
+      }
       animation.onfinish = () => {
-        block.style.transform = 'translateX(0%)';
-        setTimeout(animateBlock, 800); // pause before repeating
+        if (!running) return;
+        toRight = !toRight;
+        setTimeout(animateBlock, toRight ? 800 : 900000); // 300 seconds wait when revealed
       };
     };
     animateBlock();
     return () => {
+      running = false;
       if (animation) animation.cancel();
     };
   }, []);
@@ -90,19 +106,25 @@ export default function UserHome() {
         <div style={{ height: 40 }} />
         {/* Sign Language Card Section - moved after main illustration */}
         <div style={{ margin: '40px 0 24px 0', textAlign: 'center' }}>
-          <div style={{ position: 'relative', display: 'inline-block', marginBottom: 24, fontFamily: 'Inder, sans-serif', fontWeight: 700, fontSize: '2.2em', color: '#22365a', overflow: 'hidden' }}>
-            <span id="sign-cards-title" style={{ position: 'relative', zIndex: 2 }}>Sign Language Cards</span>
+          <div style={{ position: 'relative', display: 'inline-block', marginBottom: 24, fontFamily: 'Inder, sans-serif', fontWeight: 700, fontSize: '2.9em', color: '#22365a', overflow: 'hidden' }}>
+            <span style={{ position: 'relative', zIndex: 2 }}>Sign Language Cards</span>
             <span id="sign-cards-block" style={{
               position: 'absolute',
               left: 0,
               top: 0,
               width: '100%',
               height: '100%',
-              background: '#22365a',
+              background: 'rgba(255,255,255,0.18)',
+              backdropFilter: 'blur(8px)',
+              WebkitBackdropFilter: 'blur(8px)',
+              border: '1px solid rgba(255,255,255,0.25)',
+              boxShadow: '0 4px 24px 0 rgba(51,78,123,0.13)',
+              borderRadius: 12,
               zIndex: 3,
-              transform: 'translateX(0%)',
               pointerEvents: 'none',
               willChange: 'transform',
+              transform: 'translateX(0%)',
+              transition: 'background 0.3s',
             }}></span>
           </div>
           <div style={{ height: 60 }} />
