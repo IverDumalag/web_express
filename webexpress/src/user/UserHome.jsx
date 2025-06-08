@@ -461,7 +461,7 @@ export default function UserHome() {
             >
               <button
                 className="welove-btn"
-                onClick={() => window.location.href = '/usersettings'}
+                onClick={() => window.location.assign('/usersettings#feedbackarrow')}
                 style={{
                   background: '#22365a',
                   color: '#fff',
