@@ -69,7 +69,7 @@ export default function UserLogin() {
 
       {/* Right Login Form */}
       <div className="login-right">
-        <div className="login-container">
+        <div className="login-container" style={{ marginRight: '2.5vw' }}>
           <header className="login-header">
             <h2>Log In</h2>
             <p>Sign in to continue to your account</p>

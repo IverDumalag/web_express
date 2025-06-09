@@ -257,49 +257,77 @@ export default function UserCardsPage() {
                 )}
               </button>
               <div style={{ position: 'relative' }}>
-                <button className="meatball-icon-btn" title="Menu" onClick={() => { setShowMeatball(v => !v); setShowFilter(false); }}><BsThreeDotsVertical /></button>
+                <button
+                  className="meatball-icon-btn"
+                  title="Menu"
+                  onClick={() => { setShowMeatball(v => !v); setShowFilter(false); }}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: '#334E7B',
+                    fontSize: '2em',
+                    cursor: 'pointer',
+                    padding: 0,
+                    borderRadius: 0,
+                    boxShadow: 'none',
+                    transition: 'color 0.18s',
+                    marginLeft: 8,
+                    marginTop: 2,
+                    outline: 'none',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <BsThreeDotsVertical style={{ color: '#334E7B', fontSize: '1.0em', verticalAlign: 'middle' }} />
+                </button>
                 {showMeatball && (
                   <div className="meatball-dropdown" style={{
                     position: 'absolute',
                     top: '110%',
                     right: 0,
+                    minWidth: 0,
+                    width: 180,
                     background: '#fff',
                     borderRadius: 10,
-                    boxShadow: '0 4px 16px #2223',
-                    zIndex: 12,
-                    minWidth: 150,
-                    padding: '0.5em 0',
-                    border: '1px solid #e5e5e5',
-                    transition: 'opacity 0.18s',
+                    boxShadow: '0 4px 16px rgba(0,0,0,0.1)',
+                    padding: '0.5em 0.7em',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'stretch',
+                    fontFamily: 'inherit',
+                    fontSize: '1.08em',
+                    border: '1px solid #1C2E4A',
+                    zIndex: 3003,
                   }}>
-                    <button className="meatball-option" style={{
-                      display: 'block',
-                      width: '100%',
-                      textAlign: 'left',
+                   
+                    <button style={{
                       background: 'none',
                       border: 'none',
-                      padding: '0.7em 1.2em',
-                      fontFamily: 'Poppins, sans-serif',
-                      fontSize: '1em',
-                      color: '#22365a',
-                      cursor: 'pointer',
-                      borderRadius: 8,
-                      transition: 'background 0.15s',
-                    }} onClick={() => { setShowMeatball(false); navigate("/userarchived"); }}>Archive</button>
-                    <button className="meatball-option" style={{
-                      display: 'block',
-                      width: '100%',
+                      fontWeight: 700,
+                      fontSize: '1.08em',
+                      color: '#334E7B',
                       textAlign: 'left',
+                      padding: '0.5em 0.2em',
+                      cursor: 'pointer',
+                      fontFamily: 'inherit',
+                    }} onClick={() => { setShowMeatball(false); navigate("/userarchived"); }}>
+                      Go to Archive
+                    </button>
+                    <hr style={{ borderTop: '1px solid #334E7B', borderRight: 'none', borderBottom: 'none', borderLeft: 'none', margin: '0.3em 0' }} />
+                    <button style={{
                       background: 'none',
                       border: 'none',
-                      padding: '0.7em 1.2em',
-                      fontFamily: 'Poppins, sans-serif',
-                      fontSize: '1em',
-                      color: '#22365a',
+                      fontWeight: 700,
+                      fontSize: '1.08em',
+                      color: '#334E7B',
+                      textAlign: 'left',
+                      padding: '0.5em 0.2em',
                       cursor: 'pointer',
-                      borderRadius: 8,
-                      transition: 'background 0.15s',
-                    }} onClick={() => { setShowMeatball(false); setShowAddModal(true); }}>Add Word/Phrases</button>
+                      fontFamily: 'inherit',
+                    }} onClick={() => { setShowMeatball(false); setShowAddModal(true); }}>
+                      Add Word/Phrases
+                    </button>
                   </div>
                 )}
               </div>
