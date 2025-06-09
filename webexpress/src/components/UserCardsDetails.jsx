@@ -370,14 +370,14 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
                 >
                   Edit Text
                 </button>
-                <hr style={{ border: 'none', borderTop: '1px solid #d3dbe6', margin: '0.2em 0 0.2em 0' }} />
+                <hr style={{ border: 'none', borderTop: '1px solid #334E7B', margin: '0.2em 0 0.2em 0' }} />
                 <button
                   style={{
                     background: 'none',
                     border: 'none',
                     fontWeight: 700,
                     fontSize: '1.08em',
-                    color: '#22314a',
+                    color: '#334E7B',
                     textAlign: 'left',
                     padding: '0.5em 0.2em',
                     cursor: 'pointer',

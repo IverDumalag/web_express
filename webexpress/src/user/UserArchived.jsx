@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FaFilter, FaTrash } from "react-icons/fa";
 import { MdArrowBack } from "react-icons/md";
+import { HiOutlineDotsVertical } from "react-icons/hi";
 import { getUserData } from '../data/UserData';
 import { useNavigate } from "react-router-dom";
 import ConfirmationPopup from "../components/ConfirmationPopup";
@@ -119,15 +120,19 @@ export default function UserArchived() {
         <div className="booksearch-bg" aria-hidden="true" />
         <div className="archived-content-box" style={{ position: 'relative', zIndex: 1 }}>
           {/* Back button and title */}
-          <div className="archived-header-row">
-            <button
-              className="archived-back-btn"
-              title="Back"
-              onClick={() => navigate(-1)}
-            >
-              <MdArrowBack color="#fff" />
-            </button>
-            <span style={{ color: '#FFF', fontFamily: 'Roboto Mono', fontWeight: "bold", fontSize: "1.5em" }}>Archived Cards</span>
+          <div className="archived-header-row" style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <button
+                className="archived-back-btn"
+                title="Back"
+                onClick={() => navigate(-1)}
+              >
+                <MdArrowBack color="#fff" />
+              </button>
+              <span style={{ color: '#FFF', fontFamily: 'Roboto Mono', fontWeight: "bold", fontSize: "1.5em", marginLeft: 12 }}>Archived Cards</span>
+            </div>
+            {/* Modern meatball icon button (for future menu/actions) */}
+            
           </div>
           {/* Search bar and filter */}
           <div className="archived-bar-row">
