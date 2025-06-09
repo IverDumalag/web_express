@@ -13,14 +13,17 @@
   backdrop-filter: blur(10.3px);
   -webkit-backdrop-filter: blur(10.3px);
   width: 90vw;
-  max-width: 480px;
+  max-width: 880px;
   min-width: 240px;
+  min-height: 540px;
   padding: 4vw 4vw 2vw 4vw;
   display: flex;
   flex-direction: column;
   align-items: stretch;
   position: relative;
   z-index: 1;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 .archived-header-row {
   display: flex;
@@ -44,10 +47,15 @@
 .archived-input {
   flex: 1;
   padding: 0.7em 1em;
-  font-size: 0.95em;
-  border: 1px solid #ccc;
+  font-size: 1.2em;
+  border: 1px solid #000000;
   border-radius: 8px;
   outline: none;
+  margin-left: 2em;
+  width: 480px;
+  min-width: 260px;
+  max-width: 100%;
+  font-family: 'Roboto Mono', monospace;
 }
 .filter-icon-btn {
   background: none;
@@ -97,6 +105,10 @@
   scrollbar-width: thin;
   scrollbar-color: #fff #334E7B;
   font-family: 'Roboto Mono', monospace;
+  width: 100%;
+  max-width: 880px;
+  min-width: 0;
+  box-sizing: border-box;
 }
 .archived-list::-webkit-scrollbar {
   width: 10px;

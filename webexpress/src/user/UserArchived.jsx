@@ -127,7 +127,7 @@ export default function UserArchived() {
             >
               <MdArrowBack color="#fff" />
             </button>
-            <span style={{ color: '#fff', fontFamily:'Roboto Mono',fontWeight: "bold", fontSize: "1.6em" }}>Archived Cards</span>
+            <span style={{ color: '#FFF', fontFamily: 'Roboto Mono', fontWeight: "bold", fontSize: "1.5em" }}>Archived Cards</span>
           </div>
           {/* Search bar and filter */}
           <div className="archived-bar-row">
