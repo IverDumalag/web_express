@@ -32,7 +32,7 @@ const GuestNavBar = () => {
   }, []);
 
   return (
-    <nav className="navbar">
+    <nav className="navbar" style={{ borderBottom: '1px solid #fff' }}>
       <div className="nav-content">
         <div className="left-section" style={{ marginLeft: '-15.7rem' }}>
           <span className="brand-link" onClick={() => navigate("/")}>
@@ -55,11 +55,14 @@ const GuestNavBar = () => {
           <div className="account-container" ref={accountRef}>
             <span className="account-icon" role="img" aria-label="account"
               onClick={e => { e.stopPropagation(); setShowAuthModal(true); }}
-              style={{ cursor: 'pointer' }}
+              style={{ cursor: 'pointer', color: '#fff', display: 'flex', alignItems: 'center' }}
               tabIndex={0}
               onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { setShowAuthModal(true); } }}
             >
-              &#128100;
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'block' }}>
+                <circle cx="12" cy="8.2" r="4.2" />
+                <path d="M4 20c0-3.6 3.2-6.5 8-6.5s8 2.9 8 6.5" />
+              </svg>
             </span>
           </div>
         </div>
