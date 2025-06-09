@@ -7,9 +7,11 @@
   background: #334E7B; /* Main theme blue for background */
 }
 .archived-content-box {
-  background: #fff;
-  border-radius: 5px;
-  box-shadow: 0 8px 32px rgba(51,78,123,0.18), 0 1.5px 8px rgba(51,78,123,0.10);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10.3px);
+  -webkit-backdrop-filter: blur(10.3px);
   width: 90vw;
   max-width: 480px;
   min-width: 240px;
@@ -17,6 +19,8 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  position: relative;
+  z-index: 1;
 }
 .archived-header-row {
   display: flex;
@@ -70,8 +74,8 @@
 .filter-option {
   padding: 2vw 4vw;
   font-size: 1em;
-  color: #fff;
-  background: #334E7B;
+  color: #334E7B;
+  background: none;
   border: none;
   width: 100%;
   text-align: left;
@@ -80,8 +84,8 @@
 }
 .filter-option.selected,
 .filter-option:hover {
-  background: #fff;
-  color: #334E7B;
+  background: #334E7B;
+  color: #fff;
   border-radius: 8px;
 }
 .archived-list {
@@ -127,6 +131,237 @@
   color: #000000 ;
   border-radius: 8px;
 }
+.archived-bg-booksearch {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0.18;
+}
+
+.archived-bg-booksearch::before {
+  content: '';
+  display: block;
+  width: 340px;
+  height: 340px;
+  margin: auto;
+  background: transparent;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  /* Book body */
+  box-shadow:
+    0 0 0 0 #fff,
+    0 0 0 0 #fff,
+    0 0 0 0 #fff,
+    0 0 0 0 #fff;
+}
+
+.archived-bg-booksearch::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 180px;
+  height: 120px;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(120deg, #334E7B 60%, #fff 100%);
+  border-radius: 18px 18px 12px 12px/22px 22px 12px 12px;
+  box-shadow: 0 8px 32px 0 #1c2e4a44, 0 1.5px 0 0 #fff inset;
+  z-index: 1;
+  animation: book-bounce 2.8s cubic-bezier(.6,-0.28,.74,1.25) infinite;
+}
+
+@keyframes book-bounce {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -54%) scale(1.04); }
+}
+
+/* Book spine */
+.archived-bg-booksearch::before {
+  box-shadow:
+    0 0 0 0 #fff,
+    0 0 0 0 #fff,
+    0 0 0 0 #fff,
+    0 0 0 0 #fff,
+    0 0 0 0 #fff;
+}
+
+/* Book search glass */
+.archived-bg-booksearch span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  border-radius: 50%;
+  border: 5px solid #fff;
+  box-shadow: 0 0 0 2px #334E7B, 0 0 16px 0 #1c2e4a33;
+  transform: translate(-50%, -50%) scale(1.1);
+  z-index: 2;
+  animation: glass-move 2.8s cubic-bezier(.6,-0.28,.74,1.25) infinite;
+}
+
+@keyframes glass-move {
+  0%, 100% { transform: translate(-50%, -50%) scale(1.1) rotate(-8deg); }
+  50% { transform: translate(-50%, -54%) scale(1.13) rotate(8deg); }
+}
+
+.archived-bg-booksearch span::after {
+  content: '';
+  position: absolute;
+  right: -18px;
+  bottom: -8px;
+  width: 18px;
+  height: 8px;
+  background: #fff;
+  border-radius: 8px;
+  transform: rotate(38deg);
+  opacity: 0.7;
+}
+
+/* Single Div Pure CSS Book Search animation */
+.booksearch-bg {
+  width: 100vw;
+  height: 100vh;
+  min-height: 350px;
+  margin: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: #111;
+  background-image:
+    linear-gradient(to top, #222 5%, #111 6%, #111 7%, transparent 7%),
+    linear-gradient(to bottom, #111 30%, transparent 30%),
+    linear-gradient(to right, #222, #2e2e2e 5%, transparent 5%),
+    linear-gradient(to right, transparent 6%, #222 6%, #2e2e2e 9%, transparent 9%),
+    linear-gradient(to right, transparent 27%, #222 27%, #2e2e2e 34%, transparent 34%),
+    linear-gradient(to right, transparent 51%, #222 51%, #2e2e2e 57%, transparent 57%),
+    linear-gradient(to bottom, #111 35%, transparent 35%),
+    linear-gradient(to right, transparent 42%, #222 42%, #2e2e2e 44%, transparent 44%),
+    linear-gradient(to right, transparent 45%, #222 45%, #2e2e2e 47%, transparent 47%),
+    linear-gradient(to right, transparent 48%, #222 48%, #2e2e2e 50%, transparent 50%),
+    linear-gradient(to right, transparent 87%, #222 87%, #2e2e2e 91%, transparent 91%),
+    linear-gradient(to bottom, #111 37.5%, transparent 37.5%),
+    linear-gradient(to right, transparent 14%, #222 14%, #2e2e2e 20%, transparent 20%),
+    linear-gradient(to bottom, #111 40%, transparent 40%),
+    linear-gradient(to right, transparent 10%, #222 10%, #2e2e2e 13%, transparent 13%),
+    linear-gradient(to right, transparent 21%, #222 21%, #1c1c1c 25%, transparent 25%),
+    linear-gradient(to right, transparent 58%, #222 58%, #2e2e2e 64%, transparent 64%),
+    linear-gradient(to right, transparent 92%, #222 92%, #2e2e2e 95%, transparent 95%),
+    linear-gradient(to bottom, #111 48%, transparent 48%),
+    linear-gradient(to right, transparent 96%, #222 96%, #1c1c1c 99%, transparent 99%),
+    linear-gradient(to bottom, transparent 68.5%, transparent 76%, #111 76%, #111 77.5%, transparent 77.5%, transparent 86%, #111 86%, #111 87.5%, transparent 87.5%),
+    linear-gradient(to right, transparent 35%, #222 35%, #2e2e2e 41%, transparent 41%),
+    linear-gradient(to bottom, #111 68%, transparent 68%),
+    linear-gradient(to right, transparent 78%, #333 78%, #333 80%, transparent 80%, transparent 82%, #333 82%, #333 83%, transparent 83%),
+    linear-gradient(to right, transparent 66%, #222 66%, #2e2e2e 85%, transparent 85%);
+  background-size: 300px 150px;
+  background-position: center bottom;
+  z-index: 0;
+}
+.booksearch-bg:before {
+  content: '';
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: #111;
+  background-image:
+    linear-gradient(to top, tan 5%, #111 6%, #111 7%, transparent 7%),
+    linear-gradient(to bottom, #111 30%, transparent 30%),
+    linear-gradient(to right, firebrick, #b22222 5%, transparent 5%),
+    linear-gradient(to right, transparent 6%, tomato 6%, #c0392b 9%, transparent 9%),
+    linear-gradient(to right, transparent 27%, darkolivegreen 27%, #556b2f 34%, transparent 34%),
+    linear-gradient(to right, transparent 51%, salmon 51%, #c96b6b 57%, transparent 57%),
+    linear-gradient(to bottom, #111 35%, transparent 35%),
+    linear-gradient(to right, transparent 42%, teal 42%, #006d6d 44%, transparent 44%),
+    linear-gradient(to right, transparent 45%, teal 45%, #006d6d 47%, transparent 47%),
+    linear-gradient(to right, transparent 48%, teal 48%, #006d6d 50%, transparent 50%),
+    linear-gradient(to right, transparent 87%, lightslategrey 87%, #364e5c 91%, transparent 91%),
+    linear-gradient(to bottom, #111 37.5%, transparent 37.5%),
+    linear-gradient(to right, transparent 14%, darkkhaki 14%, #bdb76b 20%, transparent 20%),
+    linear-gradient(to bottom, #111 40%, transparent 40%),
+    linear-gradient(to right, transparent 10%, olive 10%, #556b2f 13%, transparent 13%),
+    linear-gradient(to right, transparent 21%, saddlebrown 21%, #5c3317 25%, transparent 25%),
+    linear-gradient(to right, transparent 58%, saddlebrown 58%, #5c3317 64%, transparent 64%),
+    linear-gradient(to right, transparent 92%, darkslategrey 92%, #27474a 95%, transparent 95%),
+    linear-gradient(to bottom, #111 48%, transparent 48%),
+    linear-gradient(to right, transparent 96%, darkslategrey 96%, #27474a 99%, transparent 99%),
+    linear-gradient(to bottom, transparent 68.5%, transparent 76%, #111 76%, #111 77.5%, transparent 77.5%, transparent 86%, #111 86%, #111 87.5%, transparent 87.5%),
+    linear-gradient(to right, transparent 35%, indianred 35%, #8b3a3a 41%, transparent 41%),
+    linear-gradient(to bottom, #111 68%, transparent 68%),
+    linear-gradient(to right, transparent 78%, rosybrown 78%, rosybrown 80%, transparent 80%, transparent 82%, rosybrown 82%, rosybrown 83%, transparent 83%),
+    linear-gradient(to right, transparent 66%, brown 66%, #5c3317 85%, transparent 85%);
+  background-size: 300px 150px;
+  background-position: center bottom;
+  clip-path: circle(150px at center center);
+  animation: flashlight 5000ms infinite;
+  z-index: 1;
+}
+.booksearch-bg:after {
+  content: '';
+  width: 25px;
+  height: 10px;
+  position: absolute;
+  left: calc(50% + 59px);
+  bottom: 100px;
+  background-repeat: no-repeat;
+  background-image: radial-gradient(circle, white 50%, transparent 50%), radial-gradient(circle, white 50%, transparent 50%);
+  background-size: 10px 10px;
+  background-position: left center, right center;
+  animation: eyes 5000ms infinite;
+  z-index: 2;
+}
+@keyframes flashlight {
+  0%, 9% {
+    opacity: 0;
+    clip-path: circle(150px at 45% 10%);
+  }
+  10%, 15%, 85% {
+    opacity: 1;
+  }
+  50% {
+    clip-path: circle(150px at 60% 20%);
+  }
+  54%, 100% {
+    clip-path: circle(150px at 55% 92%);
+  }
+  88%, 100% {
+    opacity: 0;
+  }
+}
+@keyframes eyes {
+  0%, 52% {
+    opacity: 0;
+  }
+  53%, 87% {
+    opacity: 1;
+  }
+  64% {
+    transform: scaleY(1);
+  }
+  67% {
+    transform: scaleY(0);
+  }
+  70% {
+    transform: scaleY(1);
+  }
+  88%, 100% {
+    opacity: 0;
+  }
+}
+
+/* Responsive for smaller screens */
 @media (max-width: 600px) {
   .archived-content-box {
     width: 98vw;
@@ -139,5 +374,13 @@
   }
   .archived-list {
     max-height: 36vh;
+  }
+  .archived-bg-booksearch::after {
+    width: 120px;
+    height: 80px;
+  }
+  .archived-bg-booksearch span {
+    width: 28px;
+    height: 28px;
   }
 }

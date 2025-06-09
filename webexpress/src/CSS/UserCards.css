@@ -30,10 +30,14 @@
   cursor: pointer;
   transition: box-shadow 0.18s, background 0.18s, transform 0.12s;
 }
-.card-item:hover {
+.card-list .card-item {
+  transition: box-shadow 0.18s, background 0.18s, transform 0.12s;
+}
+.card-list .card-item:hover {
   background: linear-gradient(135deg, #b6cfff 0%, #e3ecff 100%);
   box-shadow: 0 8px 32px 0 rgba(51,78,123,0.16), 0 2px 12px rgba(51,78,123,0.10);
   transform: translateY(-2px) scale(1.025);
+  z-index: 2;
 }
 .card-title {
   font-weight: 700;

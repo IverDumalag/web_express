@@ -465,7 +465,7 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
               } else {
                 return (
                   <>
-                    <div style={{ color: "#1C2E4A", fontFamily: 'Roboto Mono, monospace' , fontWeight: '400' ,textAlign: "center", fontSize: '1.3em' }}>No media available yet, please wait for future's updates</div>
+                    <div style={{ color: "#334E7B", fontFamily: 'Roboto Mono, monospace' , fontWeight: '800' ,textAlign: "center", fontSize: '1.3em' }}>No media available yet, please wait for future's updates</div>
                     <div className="ucd-prev-next-row">
                       <button
                         className="ucd-prevnext-btn"
@@ -520,9 +520,9 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
                 gap: '0.7em',
                 position: 'relative',
               }}>
-                <div style={{ fontWeight: 700, fontSize: '2em', textAlign: 'center', marginBottom: '1.2em', fontFamily: 'Inconsolata, monospace', color: card.is_match === 0 ? '#22314a' : '#fff' }}>Edit Card Text</div>
+                <div style={{ fontWeight: 700, fontSize: '2em', textAlign: 'center', marginBottom: '1.2em', fontFamily: 'Inconsolata, monospace', color: card.is_match === 0 ? '#334E7B' : '#fff' }}>Edit Card Text</div>
                 {editError && <div style={{ color: '#ff4d4d', textAlign: 'center', marginBottom: '0.5em', fontSize: '1em' }}>{editError}</div>}
-                <label style={{ fontWeight: 800, fontSize: '1.1em', marginBottom: 2, color: card.is_match === 0 ? '#22314a' : '#fff' }}>Word or Phrase</label>
+                <label style={{ fontWeight: 800, fontSize: '1.1em', marginBottom: 2, color: card.is_match === 0 ? '#334E7B' : '#fff' }}>Word or Phrase</label>
                 <input
                   className="ucd-edit-input"
                   value={editWords}
@@ -622,10 +622,10 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
             gap: '0.7em',
             position: 'relative',
           }}>
-            <div style={{ fontWeight: 700, fontSize: '2em', textAlign: 'center', marginBottom: '1.2em', fontFamily: 'Inconsolata, monospace', color: card.is_match === 0 ? '#22314a' : '#fff' }}>
+            <div style={{ fontWeight: 700, fontSize: '2em', textAlign: 'center', marginBottom: '1.2em', fontFamily: 'Inconsolata, monospace', color: card.is_match === 0 ? '#334E7B' : '#fff' }}>
               Confirm Archive
             </div>
-            <div style={{ color: card.is_match === 0 ? '#22314a' : '#fff', textAlign: 'center', marginBottom: '1.2em', fontSize: '1.1em', fontWeight: 800 }}>
+            <div style={{ color: card.is_match === 0 ? '#334E7B' : '#fff', textAlign: 'center', marginBottom: '1.2em', fontSize: '1.1em', fontWeight: 800 }}>
               Are you sure you want to archive this card? It will be moved to your archive.
             </div>
             <div style={{ display: 'flex', gap: '1em', marginTop: '1.5em' }}>
