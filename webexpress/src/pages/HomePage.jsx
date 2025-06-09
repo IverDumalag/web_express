@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import GuestNavBar from "../components/GuestNavBar";
 import signLanguageImage from "../assets/logo.png";
 import AboutPage from "../pages/AboutPage";
@@ -8,6 +8,7 @@ import MorePage from "../pages/MorePage";
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const aboutPageRef = useRef(null);
   const featuresPageRef = useRef(null);
 
@@ -23,11 +24,36 @@ const HomePage = () => {
     }
   };
 
-    const scrollToMorePage = () => {
+  const scrollToMorePage = () => {
     if (morePageRef.current) {
       morePageRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
+
+  // Scroll to section if instructed by nav (via state or event)
+  React.useEffect(() => {
+    if (location.state && location.state.scrollTo) {
+      if (location.state.scrollTo === "about" && aboutPageRef.current) {
+        setTimeout(() => aboutPageRef.current.scrollIntoView({ behavior: "smooth" }), 80);
+      } else if (
+        (location.state.scrollTo === "features" || location.state.scrollTo === "feature") && featuresPageRef.current
+      ) {
+        setTimeout(() => featuresPageRef.current.scrollIntoView({ behavior: "smooth" }), 80);
+      }
+    }
+    const handler = (e) => {
+      if (e.detail.section === "about" && aboutPageRef.current) {
+        aboutPageRef.current.scrollIntoView({ behavior: "smooth" });
+      } else if (
+        (e.detail.section === "features" || e.detail.section === "feature") && featuresPageRef.current
+      ) {
+        featuresPageRef.current.scrollIntoView({ behavior: "smooth" });
+      }
+    };
+    window.addEventListener("guestnav-scroll", handler);
+    return () => window.removeEventListener("guestnav-scroll", handler);
+  }, [location, aboutPageRef, featuresPageRef]);
+
   return (
     <>
       <style>{`
@@ -270,11 +296,10 @@ const HomePage = () => {
           </div>
         </div>
 
-        {/* AboutPage section with smooth scroll ref */}
         <AboutPage ref={aboutPageRef} />
 
-        {/* FeaturesPage section with smooth scroll ref */}
-        <FeaturesPage ref={featuresPageRef} />
+        <div ref={featuresPageRef} />
+        <FeaturesPage />
 
       </div>
     </>
