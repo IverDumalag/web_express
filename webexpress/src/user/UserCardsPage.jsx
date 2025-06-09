@@ -8,7 +8,7 @@ import MessagePopup from '../components/MessagePopup';
 import { useNavigate } from "react-router-dom";
 import UserBottomNavBar from '../components/UserBottomNavBar';
 import boyImg from '../assets/boy.png';
-
+import Snowfall from 'react-snowfall';
 
 const API_URL = import.meta.env.VITE_PHRASESWORDSBYIDGET;
 const INSERT_API_URL = import.meta.env.VITE_PHRASESWORDSINSERT;
@@ -188,20 +188,27 @@ export default function UserCardsPage() {
           `}</style>
         </div>
         <div style={{
+          position: 'relative',
           background: '#97A7B6',
           borderRadius: '28px',
-          margin: '2vw 0 3vw 0',
-          padding: '3vw 2vw',
+          margin: '2vw -4vw',
+          padding: '2vw 9vw',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
+          border: '3.5px solid #22314a',
+          boxSizing: 'border-box',
+          overflow: 'hidden',
         }}>
-          <div style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: '3.2em', color: '#22223b', letterSpacing: '0.04em', marginBottom: '0.5em', textAlign: 'center' }}>
-            SIGN LANGUAGE CARDS
-          </div>
-          <div style={{ fontFamily: 'Roboto Mono, monospace', fontSize: '1.35em', color: '#22365a', textAlign: 'center', marginBottom: '0.5em' }}>
-            Get more cards for enhancement of your Sign Language!
+          <Snowfall style={{ position: 'absolute', width: '100%', height: '100%', left: 0, top: 0, zIndex: 0 }} snowflakeCount={40} color="#e6f7ff" radius={[1.5, 3.5]} speed={[0.5, 1.2]} />
+          <div style={{ position: 'relative', zIndex: 1, width: '100%' }}>
+            <div style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: '3.2em', color: '#22223b', letterSpacing: '0.04em', marginBottom: '0.5em', textAlign: 'center' }}>
+              SIGN LANGUAGE CARDS
+            </div>
+            <div style={{ fontFamily: 'Roboto Mono, monospace', fontSize: '1.35em', color: '#22365a', textAlign: 'center', marginBottom: '0.5em' }}>
+              Get more cards for enhancement of your Sign Language!
+            </div>
           </div>
         </div>
         {/* Reference layout below the SIGN LANGUAGE CARDS flex container */}

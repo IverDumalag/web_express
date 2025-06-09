@@ -46,16 +46,6 @@ const FeaturePage = () => {
           display: inline-block;
           transition: box-shadow 0.3s;
         }
-        .title-text::after {
-          content: '';
-          display: block;
-          margin: 18px auto 0 auto;
-          width: 90px;
-          height: 6px;
-          border-radius: 3px;
-          background: linear-gradient(90deg, #2563eb 0%, #4F8AF4 100%);
-          opacity: 0.85;
-        }
 
         .cards-wrapper {
           display: flex;
