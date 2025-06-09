@@ -93,10 +93,30 @@
   overflow-y: auto;
   max-height: 40vh;
   min-height: 120px;
-  padding-right: 2%;
+  padding: 2.5em 2em 2.5em 2em;
+  scrollbar-width: thin;
+  scrollbar-color: #fff #334E7B;
+  font-family: 'Roboto Mono', monospace;
+}
+.archived-list::-webkit-scrollbar {
+  width: 10px;
+  background: transparent;
+}
+.archived-list::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.35);
+  border-radius: 8px;
+  border: 2px solid #334E7B;
+  box-shadow: 0 2px 8px rgba(51,78,123,0.10);
+  transition: background 0.2s;
+}
+.archived-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.65);
+}
+.archived-list::-webkit-scrollbar-track {
+  background: transparent;
 }
 .archived-item {
-  background: #334E7B;
+  background: transparent;
   color: #fff;
   border-radius: 8px;
   margin-bottom: 3%;
@@ -105,6 +125,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border: 2px solid #fff;
 }
 .archived-content {
   flex: 1;

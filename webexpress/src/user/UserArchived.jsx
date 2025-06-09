@@ -125,7 +125,7 @@ export default function UserArchived() {
               title="Back"
               onClick={() => navigate(-1)}
             >
-              <MdArrowBack />
+              <MdArrowBack color="#fff" />
             </button>
             <span style={{ color: '#fff', fontFamily:'Roboto Mono',fontWeight: "bold", fontSize: "1.6em" }}>Archived Cards</span>
           </div>
