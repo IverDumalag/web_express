@@ -265,6 +265,46 @@ const HomePage = () => {
             justify-content: center;
           }
         }
+
+        @media screen and (max-width: 767px) {
+          .app-container {
+            padding: 0 !important;
+            min-width: 100vw !important;
+            overflow-x: hidden !important;
+          }
+          .main-content {
+            flex-direction: column !important;
+            padding: 0 2vw !important;
+            gap: 18px !important;
+            height: auto !important;
+            min-height: 60vh !important;
+            max-width: 100vw !important;
+          }
+          .hero-image {
+            max-width: 98vw !important;
+            border-radius: 10px !important;
+            margin-bottom: 18px !important;
+          }
+          .hero-text {
+            max-width: 98vw !important;
+            text-align: center !important;
+            padding: 0 2vw !important;
+          }
+          .main-title {
+            font-size: 1.5em !important;
+            margin-bottom: 10px !important;
+          }
+          .sub-title {
+            font-size: 1em !important;
+            margin-bottom: 16px !important;
+          }
+          .button-container {
+            flex-direction: column !important;
+            gap: 10px !important;
+            align-items: center !important;
+            justify-content: center !important;
+          }
+        }
       `}</style>
 
       <div className="app-container">

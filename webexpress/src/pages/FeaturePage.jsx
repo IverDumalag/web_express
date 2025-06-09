@@ -190,6 +190,51 @@ const FeaturePage = () => {
         .card.center .card-content h2, .card.center .card-content p {
           color: #11212D;
         }
+
+        @media screen and (max-width: 767px) {
+          .feature-page-container {
+            padding: 0 2vw !important;
+            min-width: 100vw !important;
+            overflow-x: hidden !important;
+          }
+          .main-content {
+            min-height: 60vh !important;
+            padding: 0 2vw !important;
+          }
+          .feature-cards {
+            width: 100vw !important;
+            padding: 0 2vw !important;
+          }
+          .title-text {
+            font-size: 2em !important;
+            padding: 12px 10px 10px 10px !important;
+            margin-bottom: 24px !important;
+          }
+          .cards-wrapper {
+            flex-direction: column !important;
+            gap: 18px !important;
+            margin-bottom: 10px !important;
+          }
+          .card {
+            max-width: 98vw !important;
+            min-width: 0 !important;
+            height: auto !important;
+            padding: 18px 6px 14px 6px !important;
+            font-size: 1em !important;
+            border-radius: 18px !important;
+          }
+          .card-image {
+            max-width: 90vw !important;
+            max-height: 100px !important;
+            margin-bottom: 10px !important;
+          }
+          .card-content h2 {
+            font-size: 1.1em !important;
+          }
+          .card-content p {
+            font-size: 0.9em !important;
+          }
+        }
       `}</style>
 
       <div className="feature-page-container">

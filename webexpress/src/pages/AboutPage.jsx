@@ -110,6 +110,32 @@ const AboutPage = forwardRef((props, ref) => {
             padding: 0 10px;
           }
         }
+
+        @media screen and (max-width: 767px) {
+          .about-page-container {
+            min-width: 100vw !important;
+            overflow-x: hidden !important;
+            height: auto !important;
+          }
+          .about-bg-video {
+            width: 100vw !important;
+            height: 40vh !important;
+            min-height: 180px !important;
+            object-fit: cover !important;
+          }
+          .about-page {
+            padding: 18px 6vw !important;
+            min-height: 40vh !important;
+          }
+          .about-page.animate h2 {
+            font-size: 1.3em !important;
+            margin-bottom: 10px !important;
+          }
+          .about-page.animate p {
+            font-size: 0.95em !important;
+            padding: 0 2vw !important;
+          }
+        }
       `}</style>
 
       <div className="about-page-container" ref={ref}>

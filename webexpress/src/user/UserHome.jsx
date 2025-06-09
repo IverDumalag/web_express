@@ -72,8 +72,8 @@ export default function UserHome() {
       <UserBottomNavBar />
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '2.5vw 2vw 0 2vw' }}>
         <div style={{ marginTop: '2.5vw', marginBottom: '1.5vw' }}>
-          <div style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 600, fontSize: '2.7em', color: '#22365a', marginBottom: 8 }}>{getGreeting()}, {userData?.f_name || 'User'}!</div>
-          <div style={{ fontFamily: 'Roboto Mono, monospace', color: '#7b8794', fontSize: '1.25em', marginBottom: 24 }}>Learn Sign Language Today</div>
+          <div style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 600, fontSize: '2.7em', color: '#22365a', marginBottom: 8 }} className="user-home-header">{getGreeting()}, {userData?.f_name || 'User'}!</div>
+          <div style={{ fontFamily: 'Roboto Mono, monospace', color: '#7b8794', fontSize: '1.25em', marginBottom: 24 }} className="user-home-subheader">Learn Sign Language Today</div>
         </div>
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 32 }}>
           <img
@@ -86,8 +86,9 @@ export default function UserHome() {
               borderRadius: 18,
               background: '#fff',
               boxShadow: 'none',
-              marginLeft: '40px' // move image a bit to the right
+              marginLeft: '40px'
             }}
+            className="user-home-img"
           />
         </div>
         {/* Add gap between image and cards */}
@@ -139,7 +140,7 @@ export default function UserHome() {
               alignItems: 'center',
               maxWidth: 1200,
               margin: '0 auto 56px auto',
-            }}>
+            }} className="sign-card-grid">
               {[0,1,2,3].map(i => (
                 <div key={i} className="sign-card-video-box" style={{
                   background: '#22365a',
@@ -201,7 +202,7 @@ export default function UserHome() {
               background: '#5c6e81',
               borderRadius: 0,
               width: '100vw',
-              maxWidth: 'none', // allow full stretch
+              maxWidth: 'none',
               minHeight: 420,
               display: 'flex',
               alignItems: 'center',
@@ -209,10 +210,10 @@ export default function UserHome() {
               padding: '40px 0',
               boxSizing: 'border-box',
               boxShadow: '0 8px 40px rgba(51,78,123,0.18)',
-              marginLeft: 'calc(-50vw + 50%)', // stretch background to full width
+              marginLeft: 'calc(-50vw + 50%)',
               marginRight: 'calc(-50vw + 50%)',
-            }}>
-              <div style={{ width: '100%', maxWidth: 1600, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            }} className="add-more-section">
+              <div style={{ width: '100%', maxWidth: 1600, display: 'flex', alignItems: 'center', justifyContent: 'center' }} className="add-more-section-inner">
                 <img
                   src={graphic}
                   alt="Add More Card Illustration"
@@ -511,6 +512,93 @@ export default function UserHome() {
         {/* End Sign Language Card Section */}
         <div ref={pageEndRef} style={{ height: 120 }} />
       </div>
+      <style>{`
+        @media screen and (max-width: 767px) {
+          body, html {
+            width: 100vw;
+            overflow-x: hidden;
+          }
+          .user-home-main {
+            padding: 0 !important;
+          }
+          .user-home-header {
+            font-size: 1.4em !important;
+            margin-bottom: 4px !important;
+          }
+          .user-home-subheader {
+            font-size: 1em !important;
+            margin-bottom: 12px !important;
+          }
+          .user-home-img {
+            max-width: 98vw !important;
+            margin-left: 0 !important;
+            border-radius: 10px !important;
+          }
+          .sign-card-video-box {
+            min-width: 90vw !important;
+            min-height: 180px !important;
+            max-width: 98vw !important;
+            border-radius: 12px !important;
+          }
+          .animated-grid-bg {
+            min-width: 90vw !important;
+            min-height: 180px !important;
+            border-radius: 12px !important;
+          }
+          .add-more-card-animated {
+            max-width: 60vw !important;
+            width: 100% !important;
+            margin-right: 0 !important;
+            border-radius: 12px !important;
+          }
+          .content__container {
+            width: 4.2em !important;
+            height: 1.1em !important;
+          }
+          .add-more-section {
+            flex-direction: column !important;
+            padding: 18px 0 !important;
+            min-height: 220px !important;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+          }
+          .add-more-section-inner {
+            flex-direction: column !important;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            align-items: center !important;
+          }
+          .add-cards-btn {
+            width: 90vw !important;
+            font-size: 1.1em !important;
+            padding: 12px 0 !important;
+            border-radius: 10px !important;
+          }
+          .welove-btn-pos {
+            position: static !important;
+            right: unset !important;
+            top: unset !important;
+            transform: none !important;
+            align-items: center !important;
+            margin-top: 24px !important;
+            width: 100vw !important;
+          }
+          .welove-btn {
+            font-size: 1em !important;
+            padding: 12px 28px !important;
+            width: 90vw !important;
+            border-radius: 10px !important;
+          }
+          .star-svg {
+            width: 18px !important;
+            height: 18px !important;
+          }
+          .star1, .star2, .star3, .star4, .star5 {
+            left: 10% !important;
+            top: 10% !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }
