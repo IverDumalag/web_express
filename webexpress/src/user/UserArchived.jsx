@@ -116,7 +116,8 @@ export default function UserArchived() {
   return (
     <>
       <div className="archived-main-container">
-        <div className="archived-content-box">
+        <div className="booksearch-bg" aria-hidden="true" />
+        <div className="archived-content-box" style={{ position: 'relative', zIndex: 1 }}>
           {/* Back button and title */}
           <div className="archived-header-row">
             <button
@@ -124,9 +125,9 @@ export default function UserArchived() {
               title="Back"
               onClick={() => navigate(-1)}
             >
-              <MdArrowBack />
+              <MdArrowBack color="#fff" />
             </button>
-            <span style={{ fontWeight: "bold", fontSize: "1.1em" }}>Archived Cards</span>
+            <span style={{ color: '#FFF', fontFamily: 'Roboto Mono', fontWeight: "bold", fontSize: "1.5em" }}>Archived Cards</span>
           </div>
           {/* Search bar and filter */}
           <div className="archived-bar-row">
