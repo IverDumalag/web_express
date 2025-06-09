@@ -370,7 +370,7 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
                 >
                   Edit Text
                 </button>
-                <hr style={{ border: 'none', borderTop: '1px solid #334E7B', margin: '0.2em 0 0.2em 0' }} />
+                <hr style={{ border: 'none', borderTop: '1px solid #334E7B', margin: '0.3em 0 0.2em 0' }} />
                 <button
                   style={{
                     background: 'none',

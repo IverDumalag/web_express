@@ -314,7 +314,7 @@ export default function UserCardsPage() {
                     }} onClick={() => { setShowMeatball(false); navigate("/userarchived"); }}>
                       Go to Archive
                     </button>
-                    <hr style={{ borderTop: '1px solid #334E7B', borderRight: 'none', borderBottom: 'none', borderLeft: 'none', margin: '0.2em 0' }} />
+                    <hr style={{ borderTop: '1px solid #334E7B', borderRight: 'none', borderBottom: 'none', borderLeft: 'none', margin: '0.3em 0' }} />
                     <button style={{
                       background: 'none',
                       border: 'none',
