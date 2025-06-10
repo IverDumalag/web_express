@@ -135,18 +135,18 @@ export default function UserHome() {
               display: 'grid',
               gridTemplateColumns: 'repeat(2, 1fr)',
               gridTemplateRows: 'repeat(2, 1fr)',
-              gap: '64px',
+              gap: '88px', // increased gap
               justifyContent: 'center',
               alignItems: 'center',
-              maxWidth: 1200,
+              maxWidth: 1600, // increased from 1200
               margin: '0 auto 56px auto',
             }} className="sign-card-grid">
               {[0,1,2,3].map(i => (
                 <div key={i} className="sign-card-video-box" style={{
                   background: '#22365a',
-                  borderRadius: '20px',
-                  minHeight: 400,
-                  minWidth: 480,
+                  borderRadius: '10px',
+                  minHeight: 480, // increased from 400
+                  minWidth: 560, // increased from 480
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -536,13 +536,13 @@ export default function UserHome() {
           }
           .sign-card-video-box {
             min-width: 90vw !important;
-            min-height: 180px !important;
+            min-height: 220px !important; // increased from 180px
             max-width: 98vw !important;
             border-radius: 12px !important;
           }
           .animated-grid-bg {
             min-width: 90vw !important;
-            min-height: 180px !important;
+            min-height: 220px !important; // increased from 180px
             border-radius: 12px !important;
           }
           .add-more-card-animated {
