@@ -147,10 +147,11 @@
   flex-direction: column;
   min-height: calc(100vh - 7vh);
   padding: 2vw;
-  margin-left: 210px;
+  padding-left: 220px; /* Always leave space for sidebar */
   box-sizing: border-box;
   overflow-x: auto;
   font-family: 'Roboto Mono', monospace;
+  transition: padding-left 0.2s;
 }
 @media (max-width: 900px) {
   .admin-sidebar-vertical {
@@ -166,7 +167,7 @@
     overflow-y: auto;
   }
   .admin-main-content {
-    margin-left: 56px;
+    padding-left: 56px;
   }
   .admin-sidebar-link {
     padding: 1em 0.5em;
@@ -227,7 +228,6 @@
     display: block;
   }
   .admin-main-content {
-    margin-left: 0;
     padding: 2vw;
     min-height: auto;
     overflow-x: unset;

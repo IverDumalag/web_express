@@ -440,8 +440,8 @@ export default function AdminAnalytics() {
   return (
     <>
       <AdminNavBar>
-        <div className="admin-analytics-container">
-          {/* --- Greeting and Date/Time --- */}
+       <div className="admin-analytics-container" style={{ border: '2px solid rgb(51, 78, 123)', width: 'auto', maxWidth: '1200px', margin: '4.5rem auto 2rem auto' }}>
+         
           <div className="analytics-greeting-row">
             <div className="analytics-greeting-text">
               <h2>Welcome back, Admin!</h2>
