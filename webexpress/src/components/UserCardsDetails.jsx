@@ -465,7 +465,21 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
               } else {
                 return (
                   <>
-                    <div style={{ color: "#334E7B", fontFamily: 'Roboto Mono, monospace' , fontWeight: '800' ,textAlign: "center", fontSize: '1.3em' }}>No media available yet, please wait for future's updates</div>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '2.2em' }}>
+                      <div style={{ color: "#334E7B", fontFamily: 'Roboto Mono, monospace', fontWeight: '800', textAlign: "center", fontSize: '1.4em', marginBottom: '0.8em', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.6em' }}>
+                        No media available yet, please wait for future's updates
+                        <svg width="36" height="36" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ verticalAlign: 'middle' }}>
+                          <rect x="10" y="18" width="34" height="22" rx="7" fill="#334E7B"/>
+                          <rect x="18" y="8" width="18" height="14" rx="6" fill="#7FB3FF"/>
+                          <rect x="22" y="2" width="10" height="8" rx="3" fill="#334E7B"/>
+                          <circle cx="18.5" cy="29.5" r="2.5" fill="#fff"/>
+                          <circle cx="35.5" cy="29.5" r="2.5" fill="#fff"/>
+                          <rect x="24" y="36" width="6" height="3" rx="1.5" fill="#fff"/>
+                          <rect x="6" y="24" width="4" height="10" rx="2" fill="#7FB3FF"/>
+                          <rect x="44" y="24" width="4" height="10" rx="2" fill="#7FB3FF"/>
+                        </svg>
+                      </div>
+                    </div>
                     <div className="ucd-prev-next-row">
                       <button
                         className="ucd-prevnext-btn"

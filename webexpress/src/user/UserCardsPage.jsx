@@ -203,8 +203,38 @@ export default function UserCardsPage() {
         }}>
           <Snowfall style={{ position: 'absolute', width: '100%', height: '100%', left: 0, top: 0, zIndex: 0 }} snowflakeCount={40} color="#e6f7ff" radius={[1.5, 3.5]} speed={[0.5, 1.2]} />
           <div style={{ position: 'relative', zIndex: 1, width: '100%' }}>
-            <div style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: '3.2em', color: '#22223b', letterSpacing: '0.04em', marginBottom: '0.5em', textAlign: 'center' }}>
-              SIGN LANGUAGE CARDS
+            <div style={{
+              fontFamily: 'Poppins, sans-serif',
+              fontWeight: 700,
+              fontSize: '3.2em',
+              color: '#22223b',
+              letterSpacing: '0.04em',
+              marginBottom: '0.5em',
+              textAlign: 'center',
+              position: 'relative',
+              overflow: 'hidden',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '100%',
+              minHeight: '1.2em',
+            }}>
+              <span className="masked-text-animate">SIGN LANGUAGE CARDS</span>
+              <style>{`
+                .masked-text-animate {
+                  display: inline-block;
+                  background: linear-gradient(90deg, #2563eb 0%, #97A7B6 50%, #22223b 100%);
+                  background-size: 200% auto;
+                  color: transparent;
+                  background-clip: text;
+                  -webkit-background-clip: text;
+                  animation: mask-move 2.8s linear infinite;
+                }
+                @keyframes mask-move {
+                  0% { background-position: 200% 0; }
+                  100% { background-position: 0 0; }
+                }
+              `}</style>
             </div>
             <div style={{ fontFamily: 'Roboto Mono, monospace', fontSize: '1.35em', color: '#22365a', textAlign: 'center', marginBottom: '0.5em' }}>
               Get more cards for enhancement of your Sign Language!

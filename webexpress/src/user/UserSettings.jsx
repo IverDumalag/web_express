@@ -495,7 +495,7 @@ function LogoutConfirmModal({ open, onConfirm, onCancel, loading }) {
         >
           ×
         </button>
-        <div style={{ fontWeight: 700, fontSize: '1.5em', color: '#2563eb', marginBottom: 4, textAlign: 'center' }}>Confirm Logout ?</div>
+        <div style={{ fontWeight: 700, fontSize: '1.5em', color: '#334E7B', marginBottom: 4, textAlign: 'center' }}>Confirm Logout ?</div>
         <div style={{ fontSize: '1.1em', color: '#42526E', textAlign: 'center', marginBottom: 8 }}>Are you sure you want to log out?</div>
         <div style={{ display: 'flex', gap: '1em', marginTop: '1.5em', width: '100%' }}>
           <button

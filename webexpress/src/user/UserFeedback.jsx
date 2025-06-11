@@ -85,14 +85,14 @@ export default function UserFeedback({ showModal, onCloseModal }) {
             borderRadius: '1.2em',
             boxShadow: '0 8px 32px rgba(44,62,80,0.18)',
             padding: '1.5em 1.7em',
-            minWidth: 220,
+            minWidth: 320,
             maxWidth: 320,
             width: '100%',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             gap: '1em',
-            border: '2px solid #2563eb',
+            border: '2px solid #334E7B',
             fontFamily: 'Roboto Mono, monospace',
             position: 'relative',
           }}>
@@ -121,8 +121,8 @@ export default function UserFeedback({ showModal, onCloseModal }) {
               <circle cx="30" cy="30" r="30" fill="#e0f2fe"/>
               <path d="M18 32L27 41L43 25" stroke="#2563eb" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-            <div style={{ fontWeight: 700, fontSize: '1.2em', color: '#2563eb', marginBottom: 2 }}>Success!</div>
-            <div style={{ color: '#334E7B', fontWeight: 700, fontSize: '1.2em', textAlign: 'center', marginBottom: 4 }}>Feedback submitted. Thank you!</div>
+      
+            <div style={{ color: '#334E7B', fontWeight: 700, fontSize: '1.3em', textAlign: 'center', marginBottom: 4 }}>Feedback submitted. Thank you!</div>
           </div>
         </div>
       )}
@@ -132,7 +132,7 @@ export default function UserFeedback({ showModal, onCloseModal }) {
             background: '#fff',
             borderRadius: '2.2em',
             boxShadow: '0 0.25rem 2rem rgba(0,0,0,0.18)',
-            maxWidth: 420,
+            maxWidth: 520,
             minWidth: 220,
             width: '95%',
             padding: '2.2em 2.2em 1.7em 2.2em',

@@ -31,7 +31,7 @@ export default function AdminLogs() {
       <>
          <AdminNavBar>
             <div className="admin-logs-container">
-               <div className="analytics-section">
+               <div className="analytics-section" style={{ border: '2px solid #334E7B', borderRadius: 10, width: 'auto', maxWidth: '1200px', margin: '4.5rem auto 2rem auto' }}>
                   <h2 className="section-title">Logs</h2>
                   {loadingLogs ? (
                      <div className="admin-logs-loading">Loading...</div>
