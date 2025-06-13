@@ -310,6 +310,9 @@ export default function AdminAnalytics() {
       .catch(() => setAnalyticsCount(0));
   }, []);
 
+  const todayISO = new Date().toISOString().slice(0, 10);
+  const usersRegisteredToday = daily.find(d => d.label === todayISO)?.count || 0;
+
   // Chart data and options (counts)
   const monthlyChartData = {
     labels: monthly.map(d => d.label),
@@ -464,9 +467,9 @@ export default function AdminAnalytics() {
                 <span className="analytics-summary-label">System actions recorded today</span>
               </div>
               <div className="analytics-summary-box analytics">
-                <h3>Analytics Today</h3>
-                <div className="analytics-summary-count">{analyticsCount}</div>
-                <span className="analytics-summary-label">Main concerns tracked today</span>
+                <h3>User Registered Today</h3>
+                <div className="analytics-summary-count">{usersRegisteredToday}</div>
+                <span className="analytics-summary-label">New users registered today</span>
               </div>
             </div>
           </div>

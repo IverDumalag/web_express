@@ -8,7 +8,7 @@ import MessagePopup from '../components/MessagePopup';
 import { useNavigate } from "react-router-dom";
 import UserBottomNavBar from '../components/UserBottomNavBar';
 import boyImg from '../assets/boy.png';
-import Snowfall from 'react-snowfall';
+import Snowfall from '../components/Snowfall';
 
 const API_URL = import.meta.env.VITE_PHRASESWORDSBYIDGET;
 const INSERT_API_URL = import.meta.env.VITE_PHRASESWORDSINSERT;
@@ -201,7 +201,7 @@ export default function UserCardsPage() {
           boxSizing: 'border-box',
           overflow: 'hidden',
         }}>
-          <Snowfall style={{ position: 'absolute', width: '100%', height: '100%', left: 0, top: 0, zIndex: 0 }} snowflakeCount={40} color="#e6f7ff" radius={[1.5, 3.5]} speed={[0.5, 1.2]} />
+          <Snowfall style={{ position: 'absolute', width: '100%', height: '100%', left: 0, top: 0, zIndex: 0 }} snowflakeCount={40} color="#e6f7ff"/>
           <div style={{ position: 'relative', zIndex: 1, width: '100%' }}>
             <div style={{
               fontFamily: 'Poppins, sans-serif',
