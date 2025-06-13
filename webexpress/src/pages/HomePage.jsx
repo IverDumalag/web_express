@@ -1,12 +1,14 @@
 import React, { useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import GuestNavBar from "../components/GuestNavBar";
 import signLanguageImage from "../assets/logo.png";
 import AboutPage from "../pages/AboutPage";
 import FeaturesPage from "../pages/FeaturePage";
+import MorePage from "../pages/MorePage";
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const aboutPageRef = useRef(null);
   const featuresPageRef = useRef(null);
 
@@ -21,6 +23,36 @@ const HomePage = () => {
       featuresPageRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
+
+  const scrollToMorePage = () => {
+    if (morePageRef.current) {
+      morePageRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  // Scroll to section if instructed by nav (via state or event)
+  React.useEffect(() => {
+    if (location.state && location.state.scrollTo) {
+      if (location.state.scrollTo === "about" && aboutPageRef.current) {
+        setTimeout(() => aboutPageRef.current.scrollIntoView({ behavior: "smooth" }), 80);
+      } else if (
+        (location.state.scrollTo === "features" || location.state.scrollTo === "feature") && featuresPageRef.current
+      ) {
+        setTimeout(() => featuresPageRef.current.scrollIntoView({ behavior: "smooth" }), 80);
+      }
+    }
+    const handler = (e) => {
+      if (e.detail.section === "about" && aboutPageRef.current) {
+        aboutPageRef.current.scrollIntoView({ behavior: "smooth" });
+      } else if (
+        (e.detail.section === "features" || e.detail.section === "feature") && featuresPageRef.current
+      ) {
+        featuresPageRef.current.scrollIntoView({ behavior: "smooth" });
+      }
+    };
+    window.addEventListener("guestnav-scroll", handler);
+    return () => window.removeEventListener("guestnav-scroll", handler);
+  }, [location, aboutPageRef, featuresPageRef]);
 
   return (
     <>
@@ -233,6 +265,46 @@ const HomePage = () => {
             justify-content: center;
           }
         }
+
+        @media screen and (max-width: 767px) {
+          .app-container {
+            padding: 0 !important;
+            min-width: 100vw !important;
+            overflow-x: hidden !important;
+          }
+          .main-content {
+            flex-direction: column !important;
+            padding: 0 2vw !important;
+            gap: 18px !important;
+            height: auto !important;
+            min-height: 60vh !important;
+            max-width: 100vw !important;
+          }
+          .hero-image {
+            max-width: 98vw !important;
+            border-radius: 10px !important;
+            margin-bottom: 18px !important;
+          }
+          .hero-text {
+            max-width: 98vw !important;
+            text-align: center !important;
+            padding: 0 2vw !important;
+          }
+          .main-title {
+            font-size: 1.5em !important;
+            margin-bottom: 10px !important;
+          }
+          .sub-title {
+            font-size: 1em !important;
+            margin-bottom: 16px !important;
+          }
+          .button-container {
+            flex-direction: column !important;
+            gap: 10px !important;
+            align-items: center !important;
+            justify-content: center !important;
+          }
+        }
       `}</style>
 
       <div className="app-container">
@@ -264,11 +336,10 @@ const HomePage = () => {
           </div>
         </div>
 
-        {/* AboutPage section with smooth scroll ref */}
         <AboutPage ref={aboutPageRef} />
 
-        {/* FeaturesPage section with smooth scroll ref */}
-        <FeaturesPage ref={featuresPageRef} />
+        <div ref={featuresPageRef} />
+        <FeaturesPage />
 
       </div>
     </>

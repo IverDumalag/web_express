@@ -40,6 +40,8 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
   const userData = getUserData();
   const userId = userData?.user_id || "";
 
+  const [showMeatballModal, setShowMeatballModal] = useState(false);
+
   useEffect(() => {
     if (!userId || !card) return;
     if (!editMode) return;
@@ -257,44 +259,139 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
 
   return (
     <div className="ucd-modal-overlay">
-      <div className="ucd-modal">
+      <div className="ucd-modal" style={{
+        borderRadius: 20,
+        border: '1px solid rgba(255, 255, 255, 0.18)',
+        background: 'rgba(255, 255, 255, 0.69)',
+        boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.18)',
+        backdropFilter: 'blur(50px)',
+        WebkitBackdropFilter: 'blur(24px)',
+      }}>
         <div className="ucd-modal-header">
           <button className="ucd-back-btn" onClick={onClose} title="Back">
             <MdArrowBack />
           </button>
           <div style={{ flex: 1 }} />
-          {!editMode && (
-            <button className="ucd-icon-btn" title="Edit" onClick={handleEdit}>
-              <FaEdit />
-            </button>
-          )}
-          <button className="ucd-icon-btn" title="Archive" onClick={() => setShowConfirm(true)} disabled={deleteLoading}>
-            <FaTrash />
-          </button>
         </div>
+        <div style={{ height: 26 }} />
         <div className="ucd-modal-body">
-          <div className="ucd-words-row">
-            {editMode ? (
-              <input
-                className="ucd-edit-input"
-                value={editWords}
-                onChange={e => setEditWords(e.target.value)}
-                disabled={editLoading}
-                style={{ flex: 1, fontSize: "1.1em", marginRight: "2%" }}
-              />
-            ) : (
-              <span className="ucd-words">{card.words}</span>
-            )}
-            {!editMode && (
-              <button
-                className={`ucd-speak-btn${speaking ? " active" : ""}`}
-                title="Hear aloud"
-                onClick={handleSpeak}
+          {/* Centered top word and speak button */}
+          <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 4 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <span className="ucd-words" style={{ fontSize: '3.0em', fontWeight: 600, textAlign: 'center' }}>{card.words}</span>
+              {!editMode && (
+                <button
+                  className={`ucd-speak-btn${speaking ? " active" : ""}`}
+                  title="Hear aloud"
+                  onClick={handleSpeak}
+                  style={{ padding: 0, background: 'none', border: 'none', boxShadow: 'none', minWidth: 0, minHeight: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                >
+                  {speaking ? <MdSpeakerPhone size={60} /> : <RiSpeakerFill size={60} />}
+                </button>
+              )}
+            </div>
+          </div>
+          <div className="ucd-words-row" style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+            <div style={{ flex: 1 }} />
+            <button
+              className="ucd-meatball-btn"
+              title="More options"
+              style={{
+                background: 'none',
+                border: 'none',
+                padding: 0,
+                marginLeft: 0,
+                marginRight: 8,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                position: 'relative',
+                top: '-40px',
+                left: '-100px',
+              }}
+              onClick={() => setShowMeatballModal(true)}
+            >
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ padding: 0, margin: 0, display: 'block' }}>
+                <circle cx="14" cy="6" r="3.5" fill="#444"/>
+                <circle cx="14" cy="14" r="3.5" fill="#444"/>
+                <circle cx="14" cy="22" r="3.5" fill="#444"/>
+              </svg>
+            </button>
+            {showMeatballModal && (
+              <div
+                style={{
+                  position: 'absolute',
+                  top: (() => {
+                    const btn = document.querySelector('.ucd-meatball-btn');
+                    if (btn) {
+                      const rect = btn.getBoundingClientRect();
+                      // Position relative to parent flex row
+                      return `${btn.offsetTop + btn.offsetHeight + 8}px`;
+                    }
+                    return '40px'; // fallback
+                  })(),
+                  left: (() => {
+                    const btn = document.querySelector('.ucd-meatball-btn');
+                    if (btn) {
+                      return `${btn.offsetLeft - 120}px`;
+                    }
+                    return '60vw'; // fallback
+                  })(),
+                  minWidth: 0,
+                  width: 180,
+                  background: '#fff',
+                  borderRadius: 10,
+                  boxShadow: '0 4px 16px rgba(0,0,0,0.10)',
+                  padding: '0.5em 0.7em',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'stretch',
+                  fontFamily: 'inherit',
+                  fontSize: '1.08em',
+                  border: '1px solid #1C2E4A', // updated border color
+                  zIndex: 3003,
+                }}
+                onClick={e => e.stopPropagation()}
               >
-                {speaking ? <RiSpeakerFill /> : <MdSpeakerPhone />}
-              </button>
+                <button
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    fontWeight: 700,
+                    fontSize: '1.08em',
+                    color: '#334E7B',
+                    textAlign: 'left',
+                    padding: '0.5em 0.2em',
+                    cursor: 'pointer',
+                    fontFamily: 'inherit',
+                  }}
+                  onClick={() => { setShowMeatballModal(false); handleEdit(); }}
+                >
+                  Edit Text
+                </button>
+                <hr style={{ border: 'none', borderTop: '1px solid #334E7B', margin: '0.3em 0 0.2em 0' }} />
+                <button
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    fontWeight: 700,
+                    fontSize: '1.08em',
+                    color: '#334E7B',
+                    textAlign: 'left',
+                    padding: '0.5em 0.2em',
+                    cursor: 'pointer',
+                    fontFamily: 'inherit',
+                  }}
+                  onClick={() => { setShowMeatballModal(false); setShowConfirm(true); }}
+                  disabled={deleteLoading}
+                >
+                  Archive
+                </button>
+              </div>
             )}
           </div>
+          {/* Meatball Modal */}
           <div className="ucd-media-row">
             {(() => {
               const isVideo = (editMode ? card.sign_language : card.sign_language) && (card.sign_language || "").toLowerCase().endsWith(".mp4");
@@ -313,36 +410,8 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
                           src={mediaUrl}
                           controls
                           className="ucd-media-content"
+                          style={{ width: '100%', height: '540px', maxHeight: '48vw', borderRadius: 5, objectFit: 'cover', background: '#e9eef7' }}
                         />
-                      </div>
-                      <input
-                        type="range"
-                        min={0}
-                        max={videoDuration}
-                        step={0.01}
-                        value={videoTime}
-                        onChange={handleSliderChange}
-                        style={{ width: "100%" }}
-                      />
-                      <div className="ucd-video-extra-controls">
-                        <label style={{ fontSize: "90%" }}>
-                          Speed:
-                          <select
-                            value={playbackRate}
-                            onChange={handlePlaybackRateChange}
-                            style={{ marginLeft: "4%" }}
-                          >
-                            <option value={0.5}>0.5x</option>
-                            <option value={0.75}>0.75x</option>
-                            <option value={1}>1x</option>
-                            <option value={1.25}>1.25x</option>
-                            <option value={1.5}>1.5x</option>
-                            <option value={2}>2x</option>
-                          </select>
-                        </label>
-                        <span style={{ float: "right", fontSize: "90%" }}>
-                          {Math.floor(videoTime)}/{Math.floor(videoDuration)}s
-                        </span>
                       </div>
                       <div className="ucd-prev-next-row">
                         <button
@@ -396,7 +465,21 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
               } else {
                 return (
                   <>
-                    <div style={{ color: "#aaa", textAlign: "center" }}>No media available</div>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '2.2em' }}>
+                      <div style={{ color: "#334E7B", fontFamily: 'Roboto Mono, monospace', fontWeight: '800', textAlign: "center", fontSize: '1.4em', marginBottom: '0.8em', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.6em' }}>
+                        No media available yet, please wait for future's updates
+                        <svg width="36" height="36" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ verticalAlign: 'middle' }}>
+                          <rect x="10" y="18" width="34" height="22" rx="7" fill="#334E7B"/>
+                          <rect x="18" y="8" width="18" height="14" rx="6" fill="#7FB3FF"/>
+                          <rect x="22" y="2" width="10" height="8" rx="3" fill="#334E7B"/>
+                          <circle cx="18.5" cy="29.5" r="2.5" fill="#fff"/>
+                          <circle cx="35.5" cy="29.5" r="2.5" fill="#fff"/>
+                          <rect x="24" y="36" width="6" height="3" rx="1.5" fill="#fff"/>
+                          <rect x="6" y="24" width="4" height="10" rx="2" fill="#7FB3FF"/>
+                          <rect x="44" y="24" width="4" height="10" rx="2" fill="#7FB3FF"/>
+                        </svg>
+                      </div>
+                    </div>
                     <div className="ucd-prev-next-row">
                       <button
                         className="ucd-prevnext-btn"
@@ -420,37 +503,192 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
             })()}
           </div>
           {editMode && (
-            <div style={{ marginTop: "2em", display: "flex", gap: "1.2em", justifyContent: "center", alignItems: "center", width: "100%" }}>
-              <button
-                className="ucd-prevnext-btn ucd-save-btn"
-                onClick={handleEditSave}
-                disabled={editLoading || !editWords.trim()}
-                style={{ width: "40%" }}
-              >
-                {editLoading ? "Saving..." : "Save"}
-              </button>
-              <button
-                className="ucd-prevnext-btn ucd-cancel-btn"
-                onClick={handleEditCancel}
-                disabled={editLoading}
-                style={{ width: "40%" }}
-              >
-                Cancel
-              </button>
-              {editError && <span style={{ color: "red", marginLeft: "2%" }}>{editError}</span>}
-              {editSuccess && <span style={{ color: "green", marginLeft: "2%" }}>{editSuccess}</span>}
+            <div className="ucd-edit-modal-bg" style={{
+              position: 'fixed',
+              zIndex: 3002,
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'rgba(0,0,0,0.08)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+              <form className="ucd-edit-modal" onSubmit={e => { e.preventDefault(); handleEditSave(); }} style={{
+                borderRadius: 20,
+                border: '1px solid #1C2E4A',
+                background: 'rgba(255, 255, 255, 0.10)',
+                boxShadow: '0 0.25rem 2rem rgba(0,0,0,0.18)',
+                backdropFilter: 'blur(18.3px)',
+                WebkitBackdropFilter: 'blur(18.3px)',
+                width: '95%',
+                maxWidth: 440,
+                padding: '2.5em 2.5em 2em 2.5em',
+                display: 'flex',
+                flexDirection: 'column',
+                boxSizing: 'border-box',
+                color: card.is_match === 0 ? '#22314a' : '#fff',
+                fontFamily: 'Roboto Mono, monospace',
+                alignItems: 'stretch',
+                gap: '0.7em',
+                position: 'relative',
+              }}>
+                <div style={{ fontWeight: 700, fontSize: '2em', textAlign: 'center', marginBottom: '1.2em', fontFamily: 'Inconsolata, monospace', color: card.is_match === 0 ? '#334E7B' : '#fff' }}>Edit Card Text</div>
+                {editError && <div style={{ color: '#ff4d4d', textAlign: 'center', marginBottom: '0.5em', fontSize: '1em' }}>{editError}</div>}
+                <label style={{ fontWeight: 800, fontSize: '1.1em', marginBottom: 2, color: card.is_match === 0 ? '#334E7B' : '#fff' }}>Word or Phrase</label>
+                <input
+                  className="ucd-edit-input"
+                  value={editWords}
+                  onChange={e => setEditWords(e.target.value)}
+                  disabled={editLoading}
+                  required
+                  style={{
+                    background: '#fff',
+                    color: '#2563eb',
+                    fontWeight: 600,
+                    fontSize: '1.1em',
+                    border: 'none',
+                    borderRadius: 8,
+                    padding: '0.6em 1em',
+                    marginBottom: 8,
+                    fontFamily: 'Inconsolata, monospace',
+                    outline: 'none',
+                    boxSizing: 'border-box',
+                  }}
+                />
+                <div style={{ display: 'flex', gap: '1em', marginTop: '1.5em' }}>
+                  <button
+                    type="submit"
+                    disabled={editLoading || !editWords.trim()}
+                    style={{
+                      flex: 1,
+                      background: '#1C2E4A',
+                      color: '#fff',
+                      border: '2px solid #fff',
+                      borderRadius: 12,
+                      padding: '0.7em 0',
+                      fontWeight: 700,
+                      fontSize: '1.1em',
+                      fontFamily: 'Inconsolata, monospace',
+                      cursor: 'pointer',
+                      transition: 'background 0.2s, color 0.2s',
+                    }}
+                  >
+                    {editLoading ? 'Saving...' : 'Save'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleEditCancel}
+                    disabled={editLoading}
+                    style={{
+                      flex: 1,
+                      background: '#52677D',
+                      color: '#fff',
+                      border: '2px solid #fff',
+                      borderRadius: 12,
+                      padding: '0.7em 0',
+                      fontWeight: 700,
+                      fontSize: '1.1em',
+                      fontFamily: 'Inconsolata, monospace',
+                      cursor: 'pointer',
+                      transition: 'background 0.2s, color 0.2s',
+                    }}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
             </div>
           )}
         </div>
       </div>
-      <ConfirmationPopup
-        open={showConfirm}
-        title="Confirm Archive"
-        message="Are you sure you want to archive this card? It will be moved to your archive."
-        onConfirm={handleDelete}
-        onCancel={() => setShowConfirm(false)}
-        loading={deleteLoading}
-      />
+      {/* Archive Confirmation Modal (glassmorphism style) */}
+      {showConfirm && (
+        <div className="ucd-edit-modal-bg" style={{
+          position: 'fixed',
+          zIndex: 3002,
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(0,0,0,0.08)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+          <div className="ucd-edit-modal" style={{
+            borderRadius: 20,
+            border: '1px solid #1C2E4A',
+            background: 'rgba(255, 255, 255, 0.10)',
+            boxShadow: '0 0.25rem 2rem rgba(0,0,0,0.18)',
+            backdropFilter: 'blur(18.3px)',
+            WebkitBackdropFilter: 'blur(18.3px)',
+            width: '95%',
+            maxWidth: 440,
+            padding: '2.5em 2.5em 2em 2.5em',
+            display: 'flex',
+            flexDirection: 'column',
+            boxSizing: 'border-box',
+            color: card.is_match === 0 ? '#22314a' : '#fff',
+            fontFamily: 'Roboto Mono, monospace',
+            alignItems: 'stretch',
+            gap: '0.7em',
+            position: 'relative',
+          }}>
+            <div style={{ fontWeight: 700, fontSize: '2em', textAlign: 'center', marginBottom: '1.2em', fontFamily: 'Inconsolata, monospace', color: card.is_match === 0 ? '#334E7B' : '#fff' }}>
+              Confirm Archive
+            </div>
+            <div style={{ color: card.is_match === 0 ? '#334E7B' : '#fff', textAlign: 'center', marginBottom: '1.2em', fontSize: '1.1em', fontWeight: 800 }}>
+              Are you sure you want to archive this card? It will be moved to your archive.
+            </div>
+            <div style={{ display: 'flex', gap: '1em', marginTop: '1.5em' }}>
+              <button
+                type="button"
+                onClick={handleDelete}
+                disabled={deleteLoading}
+                style={{
+                  flex: 1,
+                  background: '#B91C1C',
+                  color: '#fff',
+                  border: '2px solid #fff',
+                  borderRadius: 12,
+                  padding: '0.7em 0',
+                  fontWeight: 700,
+                  fontSize: '1.1em',
+                  fontFamily: 'Inconsolata, monospace',
+                  cursor: 'pointer',
+                  transition: 'background 0.2s, color 0.2s',
+                }}
+              >
+                {deleteLoading ? 'Archiving...' : 'Archive'}
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowConfirm(false)}
+                disabled={deleteLoading}
+                style={{
+                  flex: 1,
+                  background: '#52677D',
+                  color: '#fff',
+                  border: '2px solid #fff',
+                  borderRadius: 12,
+                  padding: '0.7em 0',
+                  fontWeight: 700,
+                  fontSize: '1.1em',
+                  fontFamily: 'Inconsolata, monospace',
+                  cursor: 'pointer',
+                  transition: 'background 0.2s, color 0.2s',
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* End Archive Confirmation Modal */}
+      {/* MessagePopup remains unchanged */}
       <MessagePopup
         open={popup.open}
         title={popup.type === "success" ? "Success!" : popup.type === "error" ? "Error" : "Info"}

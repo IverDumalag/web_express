@@ -144,6 +144,10 @@ function Modal({ open, onClose, children }) {
 }
 
 export default function AdminAnalytics() {
+  const [feedbackCount, setFeedbackCount] = useState(0);
+  const [logsCount, setLogsCount] = useState(0);
+  const [analyticsCount, setAnalyticsCount] = useState(0);
+  const [feedbackToday, setFeedbackToday] = useState([]);
   const [daily, setDaily] = useState([]);
   const [monthly, setMonthly] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -162,6 +166,20 @@ export default function AdminAnalytics() {
   const [showContentMatchModal, setShowContentMatchModal] = useState(false);
   const [contentMatchData, setContentMatchData] = useState([]);
   const [loadingContentMatch, setLoadingContentMatch] = useState(false);
+
+  // Current date and time
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  // Format date and time
+  const formattedDate = currentTime.toLocaleDateString(undefined, {
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+  });
+  const formattedTime = currentTime.toLocaleTimeString();
 
   useEffect(() => {
     async function fetchGrowth() {
@@ -261,6 +279,36 @@ export default function AdminAnalytics() {
       .catch(() => setContentMatchData([]))
       .finally(() => setLoadingContentMatch(false));
   }, [showContentMatchModal]);
+
+  // Fetch today's summary counts
+  useEffect(() => {
+    // Feedback
+    fetch(import.meta.env.VITE_FEEDBACK_GET)
+      .then(res => res.json())
+      .then(json => {
+        const today = new Date().toISOString().slice(0, 10);
+        const todayFeedback = (json.data || []).filter(f => (f.created_at || '').slice(0, 10) === today);
+        setFeedbackCount(todayFeedback.length);
+        setFeedbackToday(todayFeedback);
+      })
+      .catch(() => { setFeedbackCount(0); setFeedbackToday([]); });
+    // Logs
+    fetch(import.meta.env.VITE_LOGS_GET)
+      .then(res => res.json())
+      .then(json => {
+        const today = new Date().toISOString().slice(0, 10);
+        setLogsCount((json.data || []).filter(l => (l.created_at || '').slice(0, 10) === today).length);
+      })
+      .catch(() => setLogsCount(0));
+    // Analytics (main concern)
+    fetch(import.meta.env.VITE_ANALYTICS_MAINCONCERN)
+      .then(res => res.json())
+      .then(json => {
+        const today = new Date().toISOString().slice(0, 10);
+        setAnalyticsCount((json.data || []).filter(a => (a.created_at || '').slice(0, 10) === today).length);
+      })
+      .catch(() => setAnalyticsCount(0));
+  }, []);
 
   // Chart data and options (counts)
   const monthlyChartData = {
@@ -392,8 +440,38 @@ export default function AdminAnalytics() {
   return (
     <>
       <AdminNavBar>
-        <div className="admin-analytics-container">
-          {/* User Growth Section */}
+       <div className="admin-analytics-container" style={{ border: '2px solid rgb(51, 78, 123)', width: 'auto', maxWidth: '1200px', margin: '4.5rem auto 2rem auto' , borderRadius: 10}}>
+         
+          <div className="analytics-greeting-row">
+            <div className="analytics-greeting-text">
+              <h2>Welcome back, Admin!</h2>
+              <div className="analytics-greeting-date">{formattedDate}</div>
+              <div className="analytics-greeting-time">{formattedTime}</div>
+            </div>
+          </div>
+
+          {/* --- Summary Outer Container --- */}
+          <div className="analytics-summary-outer">
+            <div className="analytics-summary-row">
+              <div className="analytics-summary-box feedback">
+                <h3>Feedback Today</h3>
+                <div className="analytics-summary-count">{feedbackCount}</div>
+                <span className="analytics-summary-label">Total feedbacks submitted today</span>
+              </div>
+              <div className="analytics-summary-box logs">
+                <h3>Logs Today</h3>
+                <div className="analytics-summary-count">{logsCount}</div>
+                <span className="analytics-summary-label">System actions recorded today</span>
+              </div>
+              <div className="analytics-summary-box analytics">
+                <h3>Analytics Today</h3>
+                <div className="analytics-summary-count">{analyticsCount}</div>
+                <span className="analytics-summary-label">Main concerns tracked today</span>
+              </div>
+            </div>
+          </div>
+
+          {/* --- User Growth Section --- */}
           <div className="analytics-section">
             <h2 className="section-title">User Growth Over Time</h2>
             <div className="growth-chart-container">
@@ -463,7 +541,7 @@ export default function AdminAnalytics() {
             </Modal>
           </div>
 
-          {/* User Demographics Section */}
+          {/* --- User Demographics Section --- */}
           <div className="analytics-section">
             <h2 className="section-title">User Analytics</h2>
             <div className="demographics-horizontal-scroll">

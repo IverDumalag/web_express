@@ -69,7 +69,7 @@ export default function UserRegister() {
         </div>
       </div>
       <div className="login-right">
-        <div className="login-container">
+        <div className="login-container" style={{ marginRight: '2.5vw' }}>
           <header className="login-header">
             <h2>Register</h2>
             <p>Create your account below</p>

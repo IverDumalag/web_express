@@ -85,14 +85,14 @@ export default function UserFeedback({ showModal, onCloseModal }) {
             borderRadius: '1.2em',
             boxShadow: '0 8px 32px rgba(44,62,80,0.18)',
             padding: '1.5em 1.7em',
-            minWidth: 220,
+            minWidth: 320,
             maxWidth: 320,
             width: '100%',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             gap: '1em',
-            border: '2px solid #2563eb',
+            border: '2px solid #334E7B',
             fontFamily: 'Roboto Mono, monospace',
             position: 'relative',
           }}>
@@ -121,12 +121,85 @@ export default function UserFeedback({ showModal, onCloseModal }) {
               <circle cx="30" cy="30" r="30" fill="#e0f2fe"/>
               <path d="M18 32L27 41L43 25" stroke="#2563eb" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-            <div style={{ fontWeight: 700, fontSize: '1.2em', color: '#2563eb', marginBottom: 2 }}>Success!</div>
-            <div style={{ color: '#42526E', fontSize: '1em', textAlign: 'center', marginBottom: 4 }}>Feedback submitted. Thank you!</div>
+      
+            <div style={{ color: '#334E7B', fontWeight: 700, fontSize: '1.3em', textAlign: 'center', marginBottom: 4 }}>Feedback submitted. Thank you!</div>
           </div>
         </div>
       )}
-      {popup.open && (
+      {popup.open && popup.type === 'error' && (
+        <div className="profile-popup-center-bg" style={{ zIndex: 3007 }}>
+          <div style={{
+            background: '#fff',
+            borderRadius: '2.2em',
+            boxShadow: '0 0.25rem 2rem rgba(0,0,0,0.18)',
+            maxWidth: 520,
+            minWidth: 220,
+            width: '95%',
+            padding: '2.2em 2.2em 1.7em 2.2em',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            border: '2px solid #334E7B',
+            fontFamily: 'Roboto Mono, monospace',
+            position: 'relative',
+            animation: 'profile-modal-pop 0.32s cubic-bezier(.4,2,.6,1)'
+          }}>
+            <button
+              onClick={() => setPopup(p => ({ ...p, open: false }))}
+              style={{
+                position: 'absolute',
+                top: 18,
+                right: 22,
+                background: 'none',
+                border: 'none',
+                fontSize: '1.5em',
+                color: '#2563eb',
+                cursor: 'pointer',
+                fontWeight: 700,
+                lineHeight: 1,
+              }}
+              aria-label="Close"
+            >
+              ×
+            </button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" style={{ verticalAlign: 'middle' }}>
+                <rect x="4" y="6" width="24" height="20" rx="6" fill="#e0f2fe" stroke="#2563eb" strokeWidth="2"/>
+                <rect x="10.5" y="13" width="3" height="3" rx="1.5" fill="#2563eb"/>
+                <rect x="18.5" y="13" width="3" height="3" rx="1.5" fill="#2563eb"/>
+                <path d="M12 23c1.5-2 6.5-2 8 0" stroke="#2563eb" strokeWidth="1.5" strokeLinecap="round"/>
+                <rect x="13.5" y="4" width="2" height="4" rx="1" fill="#2563eb"/>
+                <rect x="17" y="4" width="2" height="4" rx="1" fill="#2563eb"/>
+              </svg>
+              <span style={{ fontWeight: 700, fontSize: '1.5em', color: '#2563eb', textAlign: 'center' }}>Error</span>
+            </div>
+            <div style={{ fontSize: '1.1em', color: '#42526E', textAlign: 'center', marginBottom: 8 }}>{popup.message}</div>
+            <button
+              onClick={() => setPopup(p => ({ ...p, open: false }))}
+              style={{
+                background: '#1C2E4A',
+                color: '#fff',
+                border: '2px solid #fff',
+                borderRadius: 12,
+                padding: '0.7em 2.5em',
+                fontWeight: 700,
+                fontSize: '1.1em',
+                fontFamily: 'Inconsolata, monospace',
+                cursor: 'pointer',
+                marginTop: 12,
+                transition: 'background 0.2s, color 0.2s',
+              }}
+            >OK</button>
+            <style>{`
+              @keyframes profile-modal-pop {
+                0% { opacity: 0; transform: translateY(-40px) scale(0.95); }
+                100% { opacity: 1; transform: translateY(0) scale(1); }
+              }
+            `}</style>
+          </div>
+        </div>
+      )}
+      {popup.open && popup.type !== 'error' && (
         <div className="profile-popup-center-bg" style={{ zIndex: 3007 }}>
           <div className="profile-popup-center">
             <MessagePopup
