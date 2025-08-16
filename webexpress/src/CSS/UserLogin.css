@@ -3,17 +3,21 @@
   background-image: url('../assets/bglogin.png');
   background-size: cover;
   background-position: center;
-  min-height: 90vh;
+  min-height: 100vh;      
+  height: 100vh;          
+  width: 100vw;           
   display: flex;
   font-family: 'League Spartan', sans-serif;
-  padding: 3rem;
+  padding: 5;             
   position: relative;
+  overflow: hidden;       
 }
 
 .login-bg-block {
   position: absolute;
-  width: 92%;
-  height: 95%;
+  width: 90%;              /* Increased from 81% */
+  height: 95vh;            /* Increased from 90vh */
+  max-height: 95vh;        /* Increased from 90vh */
   background: #1C2E4A;
   border-radius: 2.5rem;
   top: 50%;
@@ -26,7 +30,7 @@
   flex: 1;
   z-index: 1;
   color: #fff;
-  padding: 3rem 4rem;
+  padding: 3rem 7rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -37,8 +41,8 @@
 
 .login-brand {
   position: absolute;
-  top: 1.5rem;
-  left: 3.5rem;
+  top: 3.5rem;
+  left: 6.5rem;   /* Increased from 3.5rem to move "express" text a little to the right */
   font-size: 1.5rem;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -51,15 +55,17 @@
 
 .login-welcome-outer {
   position: absolute;
-  top: 8rem;
+  top: 4.5rem;      /* Move "Welcome Back" text further up (was 6rem) */
   left: 4rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  max-width: 90%;
+  word-break: break-word;
 }
 
 .login-welcome {
-  font-size: 4.5rem;
+  font-size: 3.2rem;   /* Reduced from 4.5rem */
   font-weight: 700;
   margin-bottom: 1rem;
   line-height: 1.1;
@@ -67,10 +73,11 @@
 
 .login-back {
   display: block;
-  font-size: 4.5rem;
+  font-size: 2.8rem;   /* Reduced from 4.5rem */
   font-weight: 700;
   letter-spacing: 0.04em;
   color: #fff;
+  word-break: break-word;
 }
 
 .login-welcome-bottom {
@@ -80,34 +87,83 @@
 }
 
 .login-welcome-sub {
-  font-size: 2rem;
+  font-size: 1.3rem;   /* Reduced from 2rem */
   font-weight: 500;
   color: #e0e6f0;
   margin: 0;
+  max-width: 90%;
+  word-break: break-word;
 }
 
 .login-right {
   flex: 1;
   z-index: 1;
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
+  justify-content: center;   /* Center the login container horizontally */
+  align-items: center;       /* Center the login container vertically */
   min-width: 400px;
+  padding-left: 0;           /* Remove left padding for perfect centering */
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .login-right {
+    padding-left: 0;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .login-right {
+    padding-left: 0;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .login-container {
-  width: 100%;
-  max-width: 690px;
-  height: 800px;
+  width: 440px;                  /* Increased width */
+  max-width: 440px;
+  min-width: 260px;
+  height: 520px;                 /* Slightly increased height */
+  max-height: 82vh;              /* Slightly increased max-height */
+  overflow-y: auto;
   background: #fff;
   border-radius: 1.5rem;
-  padding: 3rem;
-  border: 4px solid #334E7B;
-  box-shadow: 0 6px 40px rgba(0,0,0,0.2);
+  padding: 1.5rem;               /* Moderate padding */
+  border: 3px solid #334E7B;
+  box-shadow: 0 6px 40px rgba(0,0,0,0.18);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   transition: transform 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.5s cubic-bezier(0.4,0,0.2,1);
+  margin-left: -70px; /* <-- Move container just a little to the left */
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .login-container {
+    width: 98vw;
+    max-width: 340px;
+    min-width: 280px;
+    height: 450px;
+    max-height: 80vh;
+    padding: 0.8rem;
+    margin-left: -10px; /* Slight left shift for small screens */
+  }
+}
+
+@media (max-width: 600px) {
+  .login-container {
+    width: 98vw;
+    max-width: 98vw;
+    min-width: 140px;
+    height: auto;
+    max-height: 80vh;
+    padding: 0.5rem;
+    margin-left: 0; /* No shift for very small screens */
+  }
 }
 
 .login-container-exit {
@@ -133,17 +189,20 @@
 
 .login-header {
   text-align: left;
-  margin-bottom: 2rem;
+  margin-bottom: 0.5rem;        /* Less space below header */
+  margin-top: -0.5rem;          /* Move login text up just a little */
 }
 .login-header h2 {
   color: #334E7B;
-  font-size: 3.5rem;
-  font-weight: 700;
+  font-size: 2.4rem;     /* Increased font size for head text look */
+  font-weight: 800;      /* Bolder for headline effect */
   margin-bottom: 0.5rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase; /* Optional: makes it stand out more */
 }
 .login-header p {
   color: #666;
-  font-size: 1.3rem;
+  font-size: 1rem;
   margin: 0;
 }
 
@@ -172,7 +231,7 @@
 .login-form-group label {
   color: #444;
   margin-bottom: 0.5rem;
-  font-size: 1.1rem;
+  font-size: 0.95rem;
 }
 .login-form-group input,
 .login-form-group select {
@@ -180,11 +239,11 @@
   min-width: 0;
   max-width: 100%;
   box-sizing: border-box;
-  padding: 16px;
-  border-radius: 12px;
+  padding: 8px;              /* Medium padding, not too small */
+  border-radius: 10px;       /* Medium radius */
   border: 2px solid #334E7B;
   outline: none;
-  font-size: 1.1rem;
+  font-size: 0.92rem;        /* Medium font size */
   background: #f7f9fc;
 }
 
@@ -210,11 +269,11 @@
 
 .login-btn {
   width: 100%;
-  padding: 16px;
+  padding: 10px;
   border-radius: 12px;
   font-weight: 600;
-  font-size: 1.1rem;
-  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  margin-bottom: 1rem;
   transition: background 0.2s, color 0.2s, border 0.2s;
 }
 .login-btn-main {
@@ -238,8 +297,8 @@
 
 @media (max-width: 1200px) {
   .login-container {
-    max-width: 500px;
-    height: 650px;
+    max-width: 98vw;
+    height: auto;
     padding: 2rem;
   }
   .login-header h2 {
@@ -252,7 +311,10 @@
 @media (max-width: 900px) {
   .login-bg {
     flex-direction: column;
-    padding: 1rem;
+    padding: 0;           /* remove padding for small screens */
+    min-height: 100vh;
+    height: 100vh;
+    width: 100vw;
   }
   .login-left {
     padding: 1rem 0 0 0;
@@ -267,13 +329,17 @@
     top: 5rem;
   }
   .login-right {
-    padding: 1rem 0;
-    min-width: 100%;
+    padding-left: 0;
+    justify-content: center;
+    align-items: center;
   }
   .login-container {
-    max-width: 100%;
-    height: auto;
-    min-height: 400px;
+    width: 98vw;
+    max-width: 340px;
+    min-width: 280px;
+    height: 380px;
+    max-height: 80vh;
+    padding: 0.8rem;
   }
   .login-welcome-bottom {
     padding-bottom: 1.2rem;
@@ -282,8 +348,9 @@
 }
 @media (max-width: 600px) {
   .login-bg-block {
-    width: 98%;
-    height: 98%;
+    width: 91%;
+    height: 89vh;
+    max-height: 89vh;
     border-radius: 1rem;
   }
   .login-brand {
@@ -292,12 +359,22 @@
     font-size: 1.5rem;
   }
   .login-welcome-outer {
-    left: 1rem;
-    top: 3.5rem;
+    left: 2rem;
+    top: 5rem;
+    max-width: 96%;
+  }
+  .login-right {
+    padding-left: 0;
+    justify-content: center;
+    align-items: center;
   }
   .login-container {
-    padding: 1rem;
-    border-width: 2px;
+    width: 98vw;
+    max-width: 98vw;
+    min-width: 140px;
+    height: auto;
+    max-height: 80vh;
+    padding: 0.5rem;
   }
   .login-welcome-bottom {
     padding-bottom: 0.5rem;
