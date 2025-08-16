@@ -167,25 +167,7 @@ export default function UserCardsPage() {
           marginBottom: '1vw',
           position: 'relative',
         }}>
-          <div style={{
-            display: 'inline-block',
-            whiteSpace: 'nowrap',
-            animation: 'crawl-left 18s linear infinite',
-            fontFamily: 'Poppins, sans-serif',
-            fontWeight: 600,
-            fontSize: '1.25em',
-            color: '#22365a',
-            letterSpacing: '0.04em',
-            padding: '0.5em 0',
-          }}>
-            Welcome to the Sign Language Cards Section! &nbsp;|&nbsp; Practice, learn, and grow your skills every day! &nbsp;|&nbsp; Add new words and phrases to expand your vocabulary!
-          </div>
-          <style>{`
-            @keyframes crawl-left {
-              0% { transform: translateX(100%); }
-              100% { transform: translateX(-100%); }
-            }
-          `}</style>
+          
         </div>
         <div style={{
           position: 'relative',
@@ -219,22 +201,7 @@ export default function UserCardsPage() {
               width: '100%',
               minHeight: '1.2em',
             }}>
-              <span className="masked-text-animate">SIGN LANGUAGE CARDS</span>
-              <style>{`
-                .masked-text-animate {
-                  display: inline-block;
-                  background: linear-gradient(90deg, #2563eb 0%, #97A7B6 50%, #22223b 100%);
-                  background-size: 200% auto;
-                  color: transparent;
-                  background-clip: text;
-                  -webkit-background-clip: text;
-                  animation: mask-move 2.8s linear infinite;
-                }
-                @keyframes mask-move {
-                  0% { background-position: 200% 0; }
-                  100% { background-position: 0 0; }
-                }
-              `}</style>
+              <span>SIGN LANGUAGE CARDS</span>
             </div>
             <div style={{ fontFamily: 'Roboto Mono, monospace', fontSize: '1.35em', color: '#22365a', textAlign: 'center', marginBottom: '0.5em' }}>
               Get more cards for enhancement of your Sign Language!

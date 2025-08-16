@@ -72,7 +72,9 @@ export default function UserHome() {
       <UserBottomNavBar />
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '2.5vw 2vw 0 2vw' }}>
         <div style={{ marginTop: '2.5vw', marginBottom: '1.5vw' }}>
-          <div style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 600, fontSize: '2.7em', color: '#22365a', marginBottom: 8 }} className="user-home-header">{getGreeting()}, {userData?.f_name || 'User'}!</div>
+          <div style={{ fontFamily: 'Roboto Mono, monospace', fontWeight: 600, fontSize: '2.7em', color: '#22365a', marginBottom: 8 }} className="user-home-header">
+            {getGreeting()}, <span style={{ color: '#4C75F2', fontFamily: 'Roboto Mono, monospace' }}>{userData?.f_name || 'User'}</span>!
+          </div>
           <div style={{ fontFamily: 'Roboto Mono, monospace', color: '#7b8794', fontSize: '1.25em', marginBottom: 24 }} className="user-home-subheader">Learn Sign Language Today</div>
         </div>
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 32 }}>
@@ -91,45 +93,9 @@ export default function UserHome() {
             className="user-home-img"
           />
         </div>
-        {/* Add gap between image and cards */}
-        <div style={{ height: 40 }} />
-        {/* Sign Language Card Section - moved after main illustration */}
-        <div style={{ position: 'relative', margin: '40px 0 24px 0', textAlign: 'center' }}>
-          {/* Animated grid background behind the card grid */}
-          <div style={{
-            position: 'absolute',
-            top: 0,
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: '100%',
-            height: '100%',
-            maxWidth: 1200,
-            zIndex: 0,
-            pointerEvents: 'none',
-            borderRadius: 32,
-            overflow: 'hidden',
-          }}>
-            <div className="animated-grid-bg" style={{
-              width: '100%',
-              height: '100%',
-              minHeight: 400,
-              minWidth: 480,
-              background: 'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAIAAACRXR/mAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAABnSURBVHja7M5RDYAwDEXRDgmvEocnlrQS2SwUFST9uEfBGWs9c97nbGtDcquqiKhOImLs/UpuzVzWEi1atGjRokWLFi1atGjRokWLFi1atGjRokWLFi1af7Ukz8xWp8z8AAAA//8DAJ4LoEAAlL1nAAAAAElFTkSuQmCC") repeat 0 0',
-              animation: 'bg-scrolling-reverse 0.92s linear infinite',
-              opacity: 1, // restore full opacity
-              borderRadius: 32,
-              filter: 'blur(0.5px)',
-              mixBlendMode: 'darken', // darken grid lines
-            }} />
-            <style>{`
-              @keyframes bg-scrolling-reverse {
-                100% { background-position: 50px 50px; }
-              }
-              .animated-grid-bg {
-                animation: bg-scrolling-reverse 0.92s linear infinite;
-              }
-            `}</style>
-          </div>
+       
+        <div style={{ height: 40 }} />    
+        <div style={{ position: 'relative', margin: '40px 0 24px 0', textAlign: 'center' }}>    
           <div style={{ position: 'relative', zIndex: 1 }}>
             <div style={{
               display: 'grid',
@@ -186,17 +152,17 @@ export default function UserHome() {
                         fontSize: '2em',
                         textShadow: '0 2px 8px #22365a, 0 0 16px #0008',
                         pointerEvents: 'none',
-                        fontFamily: 'Inder, sans-serif',
+                        fontFamily: 'Roboto Mono, monospace',
                         zIndex: 2,
                       }}>
-                        {i === 0 ? 'Hello' : i === 1 ? 'How are you' : i === 2 ? 'Thank you' : 'Good morning'}
+                        {i === 0 ? 'Hello' : i === 1 ? 'How are you' : i === 2 ? 'Thank you' : 'Good\u00a0morning'}
                       </div>
                     </>
                   )}
                 </div>
               ))}
             </div>
-            {/* Add vertical gap between grid and flex section */}
+            
             <div style={{ height: 160 }} />
             <div style={{
               background: '#5c6e81',
@@ -233,17 +199,8 @@ export default function UserHome() {
                   `}
                 </style>
                 <div style={{ textAlign: 'left', color: '#FFFFFF', flex: 1, marginLeft: 120 }}>
-                  <div style={{ fontFamily: 'League Spartan, monospace', fontWeight: 900, fontSize: '5em', marginBottom: 16, color: '#fff',display: 'flex', alignItems: 'center', gap: '0.2em' }}>
-                    <span style={{ whiteSpace: 'pre' }}>Add More&nbsp;</span>
-                    <span className="content__container">
-                      <span className="content__container__text"></span>
-                      <ul className="content__container__list">
-                        <li className="content__container__list__item">Card?</li>
-                        <li className="content__container__list__item">Signs?</li>
-                        <li className="content__container__list__item">Words?</li>
-                        <li className="content__container__list__item">Phrases?</li>
-                      </ul>
-                    </span>
+                  <div style={{ fontFamily: 'Roboto Mono, monospace', fontWeight: 900, fontSize: '5em', marginBottom: 16, color: '#fff',display: 'flex', alignItems: 'center', gap: '0.2em' }}>
+                    <span style={{ whiteSpace: 'pre', fontFamily: 'Roboto Mono, monospace' }}>Add More</span>
                     <style>{`
                       .content__container {
                         display: inline-block;
@@ -318,7 +275,7 @@ export default function UserHome() {
                       padding: 20,
                       width: 320,
                       color: '#FFFFFF',
-                      fontFamily: 'Poppins, monospace',
+                      fontFamily: 'Roboto Mono, monospace',
                       fontWeight: 900,
                       fontSize: '1.6em',
                       cursor: 'pointer',
