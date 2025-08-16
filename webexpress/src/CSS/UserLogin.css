@@ -1,23 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+
 /* Login Page Background */
 .login-bg {
   background-image: url('../assets/bglogin.png');
   background-size: cover;
   background-position: center;
-  min-height: 100vh;      
-  height: 100vh;          
-  width: 100vw;           
+  min-height: 100vh;
+  height: 100vh;
+  width: 100vw;
   display: flex;
-  font-family: 'League Spartan', sans-serif;
-  padding: 5;             
+  font-family: 'Roboto Mono', monospace;
+  padding: 0;
   position: relative;
-  overflow: hidden;       
+  overflow: hidden;
 }
 
 .login-bg-block {
   position: absolute;
-  width: 90%;              /* Increased from 81% */
-  height: 95vh;            /* Increased from 90vh */
-  max-height: 95vh;        /* Increased from 90vh */
+  width: 90%;
+  height: 95vh;
+  max-height: 95vh;
   background: #1C2E4A;
   border-radius: 2.5rem;
   top: 50%;
@@ -30,20 +32,21 @@
   flex: 1;
   z-index: 1;
   color: #fff;
-  padding: 3rem 7rem;
+  padding: 2rem 5rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   min-height: 600px;
   position: relative;
   justify-content: flex-end;
+  font-family: 'Roboto Mono', monospace;
 }
 
 .login-brand {
   position: absolute;
-  top: 3.5rem;
-  left: 6.5rem;   /* Increased from 3.5rem to move "express" text a little to the right */
-  font-size: 1.5rem;
+  top: 2.5rem;
+  left: 6rem;
+  font-size: 1.2rem;
   font-weight: 600;
   letter-spacing: 0.12em;
   color: #fff;
@@ -51,119 +54,85 @@
   margin-bottom: 0;
   padding-left: 0.2rem;
   z-index: 2;
+  font-family: 'Roboto Mono', monospace;
 }
 
 .login-welcome-outer {
   position: absolute;
-  top: 4.5rem;      /* Move "Welcome Back" text further up (was 6rem) */
+  top: 4rem;
   left: 4rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   max-width: 90%;
   word-break: break-word;
+  font-family: 'Roboto Mono', monospace;
 }
 
 .login-welcome {
-  font-size: 3.2rem;   /* Reduced from 4.5rem */
+  font-size: 2.6rem;
   font-weight: 700;
-  margin-bottom: 1rem;
+  margin-bottom: 0.6rem;
   line-height: 1.1;
+  font-family: 'Roboto Mono', monospace;
 }
 
 .login-back {
   display: block;
-  font-size: 2.8rem;   /* Reduced from 4.5rem */
+  font-size: 2.2rem;
   font-weight: 700;
   letter-spacing: 0.04em;
   color: #fff;
   word-break: break-word;
+  font-family: 'Roboto Mono', monospace;
+  margin-bottom: 1rem; /* Added spacing for better balance */
 }
 
 .login-welcome-bottom {
-  margin-bottom: 0;
+  margin-bottom: 1rem; /* Increased for balance */
   margin-left: 0;
-  padding-left: 0.2rem;
+  padding-left: 0.9rem;
 }
 
 .login-welcome-sub {
-  font-size: 1.3rem;   /* Reduced from 2rem */
+  font-size: 1.1rem;
   font-weight: 500;
   color: #e0e6f0;
   margin: 0;
   max-width: 90%;
   word-break: break-word;
+  font-family: 'Roboto Mono', monospace;
 }
 
 .login-right {
   flex: 1;
   z-index: 1;
   display: flex;
-  justify-content: center;   /* Center the login container horizontally */
-  align-items: center;       /* Center the login container vertically */
+  justify-content: center;
+  align-items: center;
   min-width: 400px;
-  padding-left: 0;           /* Remove left padding for perfect centering */
-}
-
-/* Responsive adjustments */
-@media (max-width: 900px) {
-  .login-right {
-    padding-left: 0;
-    justify-content: center;
-    align-items: center;
-  }
-}
-
-@media (max-width: 600px) {
-  .login-right {
-    padding-left: 0;
-    justify-content: center;
-    align-items: center;
-  }
+  padding-left: 0;
+  font-family: 'Roboto Mono', monospace;
 }
 
 .login-container {
-  width: 440px;                  /* Increased width */
-  max-width: 440px;
-  min-width: 260px;
-  height: 520px;                 /* Slightly increased height */
-  max-height: 82vh;              /* Slightly increased max-height */
+  width: 460px; /* Increased width */
+  max-width: 460px;
+  min-width: 280px;
+  height: 535px; /* Increased height */
+  max-height: 88vh; /* Adjusted max height */
   overflow-y: auto;
   background: #fff;
-  border-radius: 1.5rem;
-  padding: 1.5rem;               /* Moderate padding */
-  border: 3px solid #334E7B;
-  box-shadow: 0 6px 40px rgba(0,0,0,0.18);
+  border-radius: 1.2rem;
+  padding: 1.4rem;
+  border: 2px solid #334E7B;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.15);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   transition: transform 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.5s cubic-bezier(0.4,0,0.2,1);
-  margin-left: -70px; /* <-- Move container just a little to the left */
-}
-
-/* Responsive adjustments */
-@media (max-width: 900px) {
-  .login-container {
-    width: 98vw;
-    max-width: 340px;
-    min-width: 280px;
-    height: 450px;
-    max-height: 80vh;
-    padding: 0.8rem;
-    margin-left: -10px; /* Slight left shift for small screens */
-  }
-}
-
-@media (max-width: 600px) {
-  .login-container {
-    width: 98vw;
-    max-width: 98vw;
-    min-width: 140px;
-    height: auto;
-    max-height: 80vh;
-    padding: 0.5rem;
-    margin-left: 0; /* No shift for very small screens */
-  }
+  margin-left: -50px;
+  font-family: 'Roboto Mono', monospace;
 }
 
 .login-container-exit {
@@ -189,21 +158,25 @@
 
 .login-header {
   text-align: left;
-  margin-bottom: 0.5rem;        /* Less space below header */
-  margin-top: -0.5rem;          /* Move login text up just a little */
+  margin-bottom: 0.4rem;
+  margin-top: -0.5rem;
 }
+
 .login-header h2 {
   color: #334E7B;
-  font-size: 2.4rem;     /* Increased font size for head text look */
-  font-weight: 800;      /* Bolder for headline effect */
-  margin-bottom: 0.5rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase; /* Optional: makes it stand out more */
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 0.3rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  font-family: 'Roboto Mono', monospace;
 }
+
 .login-header p {
   color: #666;
-  font-size: 1rem;
+  font-size: 0.9rem;
   margin: 0;
+  font-family: 'Roboto Mono', monospace;
 }
 
 .login-form {
@@ -211,113 +184,130 @@
   flex-direction: column;
   justify-content: flex-end;
   flex: 1;
+  font-family: 'Roboto Mono', monospace;
 }
 
 .login-form-row {
   display: flex;
-  gap: 1rem;
+  gap: 0.8rem;
   width: 100%;
 }
 
 .login-form-group {
-  margin-bottom: 1rem;
+  margin-bottom: 0.8rem;
   display: flex;
   flex-direction: column;
 }
+
 .login-form-group.half {
   flex: 1 1 0;
   min-width: 0;
 }
+
 .login-form-group label {
   color: #444;
-  margin-bottom: 0.5rem;
-  font-size: 0.95rem;
+  margin-bottom: 0.4rem;
+  font-size: 0.85rem;
+  font-family: 'Roboto Mono', monospace;
 }
+
 .login-form-group input,
 .login-form-group select {
   width: 100%;
   min-width: 0;
   max-width: 100%;
   box-sizing: border-box;
-  padding: 8px;              /* Medium padding, not too small */
-  border-radius: 10px;       /* Medium radius */
+  padding: 6px 8px;
+  border-radius: 8px;
   border: 2px solid #334E7B;
   outline: none;
-  font-size: 0.92rem;        /* Medium font size */
+  font-size: 0.85rem;
   background: #f7f9fc;
+  font-family: 'Roboto Mono', monospace;
 }
 
 .login-or {
   width: 100%;
   text-align: center;
   color: #888;
-  font-size: 1.1rem;
-  margin: -0.5rem 0 1.2rem 0;
+  font-size: 1rem;
+  margin: -0.4rem 0 1rem 0;
   font-weight: 500;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
+  font-family: 'Roboto Mono', monospace;
 }
 
 .login-forgot {
   text-align: right;
-  margin-top: 0.5rem;
+  margin-top: 0.4rem;
 }
+
 .login-forgot a {
   color: #808080;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   text-decoration: underline;
+  font-family: 'Roboto Mono', monospace;
 }
 
 .login-btn {
   width: 100%;
-  padding: 10px;
-  border-radius: 12px;
+  padding: 8px;
+  border-radius: 10px;
   font-weight: 600;
-  font-size: 1rem;
-  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  margin-bottom: 0.8rem;
   transition: background 0.2s, color 0.2s, border 0.2s;
+  font-family: 'Roboto Mono', monospace;
 }
+
 .login-btn-main {
   background: #334E7B;
   color: #fff;
   border: none;
   cursor: pointer;
+  font-family: 'Roboto Mono', monospace;
 }
+
 .login-btn-main:disabled {
   background: #6c7fa6;
   cursor: not-allowed;
 }
+
 .login-btn-register {
   background: #fff;
   color: #334E7B;
   border: 2px solid #334E7B;
-  margin-top: -1rem;
+  margin-top: -0.6rem;
   text-decoration: underline;
   cursor: pointer;
+  font-family: 'Roboto Mono', monospace;
 }
 
+/* Responsive Adjustments */
 @media (max-width: 1200px) {
   .login-container {
-    max-width: 98vw;
+    max-width: 96vw;
     height: auto;
-    padding: 2rem;
+    padding: 1.2rem;
   }
   .login-header h2 {
-    font-size: 2.5rem;
+    font-size: 2rem;
   }
   .login-welcome {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
   }
 }
+
 @media (max-width: 900px) {
   .login-bg {
     flex-direction: column;
-    padding: 0;           /* remove padding for small screens */
+    padding: 0;
     min-height: 100vh;
     height: 100vh;
     width: 100vw;
   }
   .login-left {
-    padding: 1rem 0 0 0;
+    padding: 1rem 1rem 0 1rem;
     min-height: unset;
   }
   .login-brand {
@@ -326,7 +316,7 @@
   }
   .login-welcome-outer {
     left: 2rem;
-    top: 5rem;
+    top: 4rem;
   }
   .login-right {
     padding-left: 0;
@@ -334,18 +324,19 @@
     align-items: center;
   }
   .login-container {
-    width: 98vw;
-    max-width: 340px;
-    min-width: 280px;
-    height: 380px;
-    max-height: 80vh;
-    padding: 0.8rem;
+    width: 94vw;
+    max-width: 360px; /* Slightly bigger on mobile */
+    min-width: 260px;
+    height: auto;
+    max-height: 82vh;
+    padding: 1rem;
   }
   .login-welcome-bottom {
-    padding-bottom: 1.2rem;
+    padding-bottom: 1rem;
     padding-left: 1rem;
   }
 }
+
 @media (max-width: 600px) {
   .login-bg-block {
     width: 91%;
@@ -356,28 +347,19 @@
   .login-brand {
     left: 1rem;
     top: 1rem;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
   .login-welcome-outer {
-    left: 2rem;
-    top: 5rem;
+    left: 1.5rem;
+    top: 4rem;
     max-width: 96%;
   }
-  .login-right {
-    padding-left: 0;
-    justify-content: center;
-    align-items: center;
-  }
   .login-container {
-    width: 98vw;
-    max-width: 98vw;
-    min-width: 140px;
-    height: auto;
-    max-height: 80vh;
-    padding: 0.5rem;
+    width: 95vw;
+    padding: 0.8rem;
   }
   .login-welcome-bottom {
-    padding-bottom: 0.5rem;
-    padding-left: 0.5rem;
+    padding-bottom: 0.6rem;
+    padding-left: 0.6rem;
   }
 }
