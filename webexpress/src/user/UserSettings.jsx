@@ -144,8 +144,19 @@ function UserProfileDisplay({ user, onEdit }) {
       }}>Settings</div>
       <div style={{ flex: 1 }}></div>
       <div style={{ textAlign: 'right', marginTop: '0.5vw' }}>
-        <div style={{ fontFamily: 'Roboto Mono, monospace', fontWeight: 700, fontSize: '1.4em', color: '#42526E' }}>{user?.f_name} {user?.m_name} {user?.l_name}</div>
-        <div style={{ fontFamily: 'Fira Sans, monospace', color: '#2563eb', fontSize: '1.1em', marginBottom: 8 }}>{user?.email}</div>
+  <div style={{ fontFamily: 'Roboto Mono, monospace', fontWeight: 700, fontSize: '1.4em', color: '#42526E' }}>&nbsp;&nbsp;{user?.f_name} {user?.m_name} {user?.l_name}</div>
+        <div style={{ height: 3 }} />
+        {user?.created_at && (
+          <div style={{ fontFamily: 'Fira Sans, monospace', color: '#7b8794', fontSize: '0.98em', marginBottom: 8 }}>
+            Account created: {(() => {
+              const d = new Date(user.created_at);
+              const month = d.toLocaleString('default', { month: 'long' });
+              const day = d.getDate();
+              const year = d.getFullYear();
+              return `${month} ${day}, ${year}`;
+            })()}
+          </div>
+        )}
         <button
           style={{
             background: '#1C2E4A',
@@ -183,6 +194,7 @@ function UserProfileFields({ user }) {
       <input style={{ fontFamily: 'Fira Sans, monospace', fontSize: '1.1em', border: '1px solid #22223b', borderRadius: 8, padding: '0.4em 0.8em', color: '#2563eb', marginBottom: 4 }} value={user?.birthdate || ''} readOnly />
       <label style={{ fontFamily: 'Roboto Mono, monospace', fontWeight: 500 }}>Sex</label>
       <input style={{ fontFamily: 'Fira Sans, monospace', fontSize: '1.1em', border: '1px solid #22223b', borderRadius: 8, padding: '0.4em 0.8em', color: '#2563eb', marginBottom: 4 }} value={user?.sex || ''} readOnly />
+      
     </form>
   );
 }
