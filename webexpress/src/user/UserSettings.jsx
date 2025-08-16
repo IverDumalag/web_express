@@ -410,7 +410,7 @@ function ProfileInfoModal({ open, onClose }) {
         onClick={e => e.stopPropagation()}
       >
         <div style={{ fontWeight: 700, fontSize: '1.3em', color: '#334E7B', marginBottom: 12, textAlign: 'center' }}>
-          you are already in the profile section, silly
+          you are already in the profile section.
         </div>
         <button
           onClick={onClose}
