@@ -1,5 +1,7 @@
+
 import React, { useRef, useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import expressLogo from '../assets/express_logo.png';
 
 const GuestNavBar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -32,19 +34,20 @@ const GuestNavBar = () => {
   }, []);
 
   return (
-    <nav className="navbar" style={{ borderBottom: '1px solid #fff' }}>
-      <div className="nav-content">
-        <div className="left-section" style={{ marginLeft: '-15.7rem' }}>
-          <span className="brand-link" onClick={() => navigate("/")}>
+    <nav className="navbar small-navbar" style={{ borderBottom: '1px solid #fff' }}>
+      <div className="nav-content small-nav-content">
+        <div className="left-section small-left-section" style={{ justifyContent: 'flex-start', paddingLeft: 0 }}>
+          <span className="brand-link small-brand-link" onClick={() => navigate("/")} style={{ display: 'flex', alignItems: 'center', fontSize: '1em', fontWeight: 400, marginLeft: 0, paddingLeft: 0, gap: '0.4em' }}>
+            <img src={expressLogo} alt="express logo" style={{ height: '22px', width: '22px', objectFit: 'contain', marginRight: 0 }} />
             exPress
           </span>
-          <div className="nav-item" onClick={() => handleNavScroll("about")}>ABOUT</div>
-          <div className="nav-item" onClick={() => handleNavScroll("features")}>FEATURES</div>
+          <div className="nav-item small-nav-item" onClick={() => handleNavScroll("about")}>ABOUT</div>
+          <div className="nav-item small-nav-item" onClick={() => handleNavScroll("features")}>FEATURES</div>
         </div>
 
-        <div className="right-section" style={{ marginRight: '-20.7rem' }}>
+        <div className="right-section small-right-section">
           <a
-            className="download-link"
+            className="download-link small-download-link"
             href="https://drive.google.com/uc?export=download&id=1D4QseDYlB9_3zezrNINM8eWWB3At1kVN"
             target="_blank"
             rel="noopener noreferrer"
@@ -52,14 +55,13 @@ const GuestNavBar = () => {
             Download App
           </a>
 
-          <div className="account-container" ref={accountRef}>
-            <span className="account-icon" role="img" aria-label="account"
+          <div className="account-container small-account-container" ref={accountRef}>
+            <span className="account-icon small-account-icon" role="img" aria-label="account"
               onClick={e => { e.stopPropagation(); setShowAuthModal(true); }}
-              style={{ cursor: 'pointer', color: '#fff', display: 'flex', alignItems: 'center' }}
               tabIndex={0}
               onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { setShowAuthModal(true); } }}
             >
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'block' }}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'block' }}>
                 <circle cx="12" cy="8.2" r="4.2" />
                 <path d="M4 20c0-3.6 3.2-6.5 8-6.5s8 2.9 8 6.5" />
               </svg>

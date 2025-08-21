@@ -1,0 +1,46 @@
+.navbar {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #fff;
+	padding: 10px 5px;
+	border-radius: 0px;
+	width: 100%;
+	max-width: 2000px;
+	box-sizing: border-box;
+	flex-shrink: 0;
+	font-family: 'Roboto Mono', monospace;
+}
+.small-navbar {
+	padding: 4px 0 !important;
+	background: #fff !important;
+}
+.small-nav-content {
+	max-width: 700px !important;
+	padding: 0 10px !important;
+}
+.small-left-section, .small-right-section {
+	gap: 1em !important;
+}
+.small-brand-link {
+	font-size: 1.1em !important;
+	margin-right: 0.5em !important;
+	color: #334E7B !important;
+	font-weight: 700 !important;
+}
+.small-nav-item {
+	font-size: 0.85em !important;
+	padding: 2px 8px !important;
+	color: #334E7B !important;
+	font-weight: 500 !important;
+}
+.small-download-link {
+	font-size: 0.85em !important;
+	padding: 2px 8px !important;
+	color: #334E7B !important;
+	font-weight: 500 !important;
+}
+.small-account-icon {
+	font-size: 1.1em !important;
+	color: #334E7B !important;
+}

@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import GuestNavBar from "../components/GuestNavBar";
-import signLanguageImage from "../assets/logo.png";
+import signLanguageImage from "../assets/express_logo.png";
 import AboutPage from "../pages/AboutPage";
 import FeaturesPage from "../pages/FeaturePage";
 import MorePage from "../pages/MorePage";
@@ -57,20 +57,29 @@ const HomePage = () => {
   return (
     <>
       <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
         html {
           scroll-behavior: smooth;
         }
 
         .app-container {
-          background: linear-gradient(to bottom, #05131B, #4A5E70);
-          color: #E6E6E6;
+          background: linear-gradient(270deg, #fff, #e3eafc, #d6e0f5, #fff, #e3eafc);
+          background-size: 200% 200%;
+          animation: bg-animate 12s ease-in-out infinite;
+          color: #12243A;
           text-align: center;
           min-height: 100vh;
-          font-family: 'Segoe UI', sans-serif;
+          font-family: 'Roboto Mono', monospace;
           display: flex;
           flex-direction: column;
           align-items: center;
           overflow-x: hidden;
+        }
+
+        @keyframes bg-animate {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
         }
 
         .navbar {
@@ -79,11 +88,12 @@ const HomePage = () => {
           align-items: center;
           background-color: #12243A;
           padding: 10px 20px;
-          border-radius: 8px;
+          /* border-radius removed */
           width: 100%;
           max-width: 2000px;
           box-sizing: border-box;
           flex-shrink: 0;
+          font-family: 'Roboto Mono', monospace;
         }
 
         .nav-content {
@@ -92,20 +102,23 @@ const HomePage = () => {
           align-items: center;
           width: 100%;
           max-width: 900px;
+          font-family: 'Roboto Mono', monospace;
         }
 
         .left-section, .right-section {
           display: flex;
           align-items: center;
           gap: 1.5em;
+          font-family: 'Roboto Mono', monospace;
         }
 
         .nav-item, .brand-link, .download-link {
           cursor: pointer;
-          color: #E6E6E6;
+          color: #fff;
           font-weight: 500;
           font-size: 0.95em;
           user-select: none;
+          font-family: 'Roboto Mono', monospace;
         }
 
         .brand-link {
@@ -114,22 +127,26 @@ const HomePage = () => {
           margin-right: 1em;
           display: flex;
           align-items: center;
+          font-family: 'Roboto Mono', monospace;
         }
 
         .download-link {
           text-decoration: underline;
+          font-family: 'Roboto Mono', monospace;
         }
 
         .account-container {
           position: relative;
           display: flex;
           align-items: center;
+          font-family: 'Roboto Mono', monospace;
         }
 
         .account-icon {
           cursor: pointer;
           font-size: 1.5em;
           user-select: none;
+          font-family: 'Roboto Mono', monospace;
         }
 
         .dropdown {
@@ -137,14 +154,15 @@ const HomePage = () => {
           position: absolute;
           right: 0;
           top: 2em;
-          background: #E6E6E6;
+          background: #fff;
           color: #12243A;
-          border-radius: 8px;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+          /* border-radius removed */
+          box-shadow: 0 2px 8px rgba(18,36,58,0.08);
           min-width: 130px;
           z-index: 1002;
           flex-direction: column;
           font-weight: 500;
+          font-family: 'Roboto Mono', monospace;
         }
 
         .dropdown.show {
@@ -157,10 +175,11 @@ const HomePage = () => {
           color: #12243A;
           cursor: pointer;
           transition: background 0.2s;
+          font-family: 'Roboto Mono', monospace;
         }
 
         .dropdown a:hover {
-          background: #d0dce7;
+          background: #f2f4f8;
         }
 
         .main-content {
@@ -175,47 +194,68 @@ const HomePage = () => {
           width: 100%;
           box-sizing: border-box;
           flex-grow: 1;
+          font-family: 'Roboto Mono', monospace;
         }
 
         .hero-image {
-          flex: 1 1 400px;
-          max-width: 450px;
-          border-radius: 12px;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-          overflow: hidden;
+          flex: 1 1 300px;
+          max-width: 320px;
+          /* border-radius removed to avoid clipping animation */
+          padding: 10px;
+          background: transparent;
+          overflow: visible;
+          font-family: 'Roboto Mono', monospace;
         }
 
         .hero-image img {
           width: 100%;
           height: auto;
           display: block;
+          animation: logo-wave 4s infinite ease-in-out;
+          transform-origin: 70% 80%;
+        }
+
+        @keyframes logo-wave {
+          0% { transform: rotate(0deg); }
+          10% { transform: rotate(14deg); }
+          20% { transform: rotate(-8deg); }
+          30% { transform: rotate(14deg); }
+          40% { transform: rotate(-4deg); }
+          50% { transform: rotate(10deg); }
+          60% { transform: rotate(0deg); }
+          100% { transform: rotate(0deg); }
         }
 
         .hero-text {
-          flex: 1 1 400px;
-          max-width: 600px;
+          flex: 1 1 300px;
+          max-width: 350px;
           text-align: left;
           display: flex;
           flex-direction: column;
           justify-content: center;
+          font-family: 'Roboto Mono', monospace;
         }
 
         .main-title {
-          font-size: 2.8em;
+          font-size: 1.7em;
           font-weight: bold;
-          color: #E6E6E6;
-          margin-bottom: 20px;
-          line-height: 1.3;
+          color: #12243A;
+          margin-bottom: 12px;
+          line-height: 1.2;
+          font-family: 'Roboto Mono', monospace;
         }
 
         .highlight-text {
-          color: #FF6B6B;
+          color: #12243A;
+          font-weight: bold;
+          font-family: 'Roboto Mono', monospace;
         }
 
         .sub-title {
-          font-size: 1.2em;
-          color: #B0BFCB;
-          margin-bottom: 30px;
+          font-size: 1em;
+          color: #12243A;
+          margin-bottom: 18px;
+          font-family: 'Roboto Mono', monospace;
         }
 
         .button-container {
@@ -223,25 +263,27 @@ const HomePage = () => {
           gap: 15px;
           flex-wrap: wrap;
           justify-content: flex-start;
+          font-family: 'Roboto Mono', monospace;
         }
 
         .get-started-btn,
         .learn-more-btn {
-          background-color: #2C3E5A;
-          color: #E6E6E6;
+          background-color: #12243A;
+          color: #fff;
           border: none;
-          padding: 12px 28px;
+          padding: 8px 18px;
           cursor: pointer;
-          border-radius: 12px;
-          font-size: 1em;
+          border-radius: 8px;
+          font-size: 0.95em;
           font-weight: 600;
           transition: background 0.3s ease;
           user-select: none;
+          font-family: 'Roboto Mono', monospace;
         }
 
         .get-started-btn:hover,
         .learn-more-btn:hover {
-          background-color: #3d5473;
+          background-color: #1a2e4a;
         }
 
         @media (max-width: 768px) {

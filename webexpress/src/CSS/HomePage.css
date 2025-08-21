@@ -1,7 +1,21 @@
+
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #12243A;
+  padding: 0px 5px;
+  border-radius: 0px;
+  width: 100%;
+  max-width: 2000px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  font-family: 'Roboto Mono', monospace;
+}
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400&display=swap');
 
 .container {
-  margin: 420px 0 0 860px;
+  margin: 300px 0 0 860px;
   max-width: 90%;
   width: 100%;
   margin: 8% auto 0 auto;
@@ -23,16 +37,17 @@
   padding: 16px 28px;
   background: #334E7B;
   color: #fff;
-  border: none;
+  border: 2px solid #334E7B;
   border-radius: 10px;
   font-size: 1.1em;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 16px #334E7B33;
   cursor: pointer;
   transition: background 0.2s;
 }
 
 .under-logo-btn:hover {
-  background: #22365a;
+  background: #fff;
+  color: #334E7B;
 }
 
 .homepage-description-container {
@@ -47,18 +62,18 @@
   text-align: right;
   font-size: 2.10em;
   font-weight: 600;
-  color: #ffffff;
+  color: #334E7B;
   max-width: 500px;
-  font-family: 'Inder', monospace;
+  font-family: 'Roboto Mono', monospace;
 }
 
 .homepage-description-text2 {
   text-align: right;
   font-size: 1.60em;
   font-weight: 300;
-  color: #ffffff;
+  color: #334E7B;
   max-width: 500px;
-  font-family: 'Roboto mono', monospace;
+  font-family: 'Roboto Mono', monospace;
 }
 
 @media (max-width: 900px) {
@@ -87,7 +102,8 @@
   width: 100vw;
   height: 100vh;
   object-fit: cover;
-  filter: brightness(0.5) blur(1px);
+  filter: brightness(1) blur(1px);
+  background: #fff;
   pointer-events: none;
   user-select: none;
 }
@@ -107,7 +123,8 @@
   width: 100vw;
   height: 100vh;
   object-fit: cover;
-  filter: brightness(0.5) blur(1px);
+  filter: brightness(1) blur(1px);
+  background: #fff;
   pointer-events: none;
   user-select: none;
   position: absolute;

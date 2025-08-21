@@ -1,5 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
 
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+.login-fields-group .login-form-group:first-child {
+  margin-top: 9rem;
+}
 /* Login Page Background */
 .login-bg {
   background-image: url('../assets/bglogin.png');
@@ -17,11 +20,11 @@
 
 .login-bg-block {
   position: absolute;
-  width: 90%;
-  height: 95vh;
-  max-height: 95vh;
+  width: 70%;
+  height: 85vh;
+  max-height: 85vh;
   background: #1C2E4A;
-  border-radius: 2.5rem;
+  border-radius: 2rem;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -44,8 +47,9 @@
 
 .login-brand {
   position: absolute;
-  top: 2.5rem;
-  left: 6rem;
+  top: 6rem;
+  left: 15rem; /* Move to align with welcome message */
+  right: auto;
   font-size: 1.2rem;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -60,11 +64,13 @@
 .login-welcome-outer {
   position: absolute;
   top: 4rem;
-  left: 4rem;
+  left: 13rem; /* Move a bit to the right */
+  right: auto;
+  align-items: flex-start;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  max-width: 90%;
+  max-width: 100%;
   word-break: break-word;
   font-family: 'Roboto Mono', monospace;
 }
@@ -89,9 +95,9 @@
 }
 
 .login-welcome-bottom {
-  margin-bottom: 1rem; /* Increased for balance */
+  margin-bottom: 2rem;
   margin-left: 0;
-  padding-left: 0.9rem;
+  padding-left: 10rem;
 }
 
 .login-welcome-sub {
@@ -108,32 +114,34 @@
   flex: 1;
   z-index: 1;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: flex-start;
   min-width: 400px;
-  padding-left: 0;
+  padding-left: -7vw;
+  padding-top: 11.5vh;
   font-family: 'Roboto Mono', monospace;
 }
 
 .login-container {
-  width: 460px; /* Increased width */
-  max-width: 460px;
-  min-width: 280px;
-  height: 535px; /* Increased height */
-  max-height: 88vh; /* Adjusted max height */
-  overflow-y: auto;
+  width: 400px;
+  max-width: 70vw;
+  min-width: 260px;
+  height: 520px;
+  max-height: 100vh;
+  /* overflow-y: auto; removed to prevent scroll */
   background: #fff;
   border-radius: 1.2rem;
-  padding: 1.4rem;
+  padding: 2rem;
   border: 2px solid #334E7B;
   box-shadow: 0 4px 30px rgba(0,0,0,0.15);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  transition: transform 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.5s cubic-bezier(0.4,0,0.2,1);
-  margin-left: -50px;
+  transition: transform 0.5s cubic-bezier(0.4,0,0.2,1), opFacity 0.5s cubic-bezier(0.4,0,0.2,1);
+  margin-left: -70px;
   font-family: 'Roboto Mono', monospace;
 }
+
 
 .login-container-exit {
   opacity: 0;
@@ -156,17 +164,13 @@
   transform: translateX(-60px) scale(0.98);
 }
 
-.login-header {
-  text-align: left;
-  margin-bottom: 0.4rem;
-  margin-top: -0.5rem;
-}
-
 .login-header h2 {
   color: #334E7B;
   font-size: 1.8rem;
   font-weight: 800;
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.5rem;
+  margin-top: 0.3rem;
+
   letter-spacing: 0.03em;
   text-transform: uppercase;
   font-family: 'Roboto Mono', monospace;
@@ -175,7 +179,7 @@
 .login-header p {
   color: #666;
   font-size: 0.9rem;
-  margin: 0;
+  margin: 5;
   font-family: 'Roboto Mono', monospace;
 }
 
@@ -194,7 +198,7 @@
 }
 
 .login-form-group {
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.5rem;
   display: flex;
   flex-direction: column;
 }
@@ -251,11 +255,12 @@
 
 .login-btn {
   width: 100%;
-  padding: 8px;
+  padding: 10px;
   border-radius: 10px;
   font-weight: 600;
   font-size: 0.9rem;
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.3rem;
+  margin-top: auto;
   transition: background 0.2s, color 0.2s, border 0.2s;
   font-family: 'Roboto Mono', monospace;
 }
@@ -286,9 +291,10 @@
 /* Responsive Adjustments */
 @media (max-width: 1200px) {
   .login-container {
-    max-width: 96vw;
+    max-width: 99vw;
+    width: 480px;
     height: auto;
-    padding: 1.2rem;
+    padding: 1.5rem;
   }
   .login-header h2 {
     font-size: 2rem;
@@ -324,12 +330,12 @@
     align-items: center;
   }
   .login-container {
-    width: 94vw;
-    max-width: 360px; /* Slightly bigger on mobile */
+    width: 98vw;
+    max-width: 420px;
     min-width: 260px;
     height: auto;
-    max-height: 82vh;
-    padding: 1rem;
+    max-height: 86vh;
+    padding: 1.2rem;
   }
   .login-welcome-bottom {
     padding-bottom: 1rem;
@@ -338,28 +344,67 @@
 }
 
 @media (max-width: 600px) {
+  .login-bg {
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0;
+    min-height: 100vh;
+    height: 100vh;
+    width: 100vw;
+  }
   .login-bg-block {
-    width: 91%;
-    height: 89vh;
-    max-height: 89vh;
-    border-radius: 1rem;
+    width: 98vw;
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: 0.5rem;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+  }
+  .login-left {
+    padding: 1rem 0.5rem 0 0.5rem;
+    min-height: unset;
+    width: 100vw;
+    align-items: center;
+    justify-content: flex-end;
+    position: static;
   }
   .login-brand {
-    left: 1rem;
-    top: 1rem;
-    font-size: 1.2rem;
+    left: 0.5rem;
+    top: 0.5rem;
+    font-size: 1rem;
   }
   .login-welcome-outer {
-    left: 1.5rem;
-    top: 4rem;
-    max-width: 96%;
+    left: 0.5rem;
+    top: 2.5rem;
+    max-width: 98vw;
+    align-items: center;
+    width: 100vw;
+    position: static;
+    text-align: center;
   }
+  .login-welcome {
+    font-size: 2.6rem;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+    line-height: 1.0;
+    font-family: 'Roboto Mono', monospace;
+  }
+  /* removed stray lines */
   .login-container {
-    width: 95vw;
-    padding: 0.8rem;
+    width: 98vw;
+    max-width: 99vw;
+    min-width: 0;
+    padding: 0.5rem;
+    height: 340px;
+    max-height: 60vh;
+    margin-left: 0;
+    border-radius: 0.7rem;
   }
   .login-welcome-bottom {
-    padding-bottom: 0.6rem;
-    padding-left: 0.6rem;
+    padding-bottom: 0.4rem;
+    padding-left: 0;
+    text-align: center;
   }
 }
