@@ -72,10 +72,11 @@ export default function UserHome() {
       <UserBottomNavBar />
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '2.5vw 2vw 0 2vw' }}>
         <div style={{ marginTop: '2.5vw', marginBottom: '1.5vw' }}>
-          <div style={{ fontFamily: 'Roboto Mono, monospace', fontWeight: 600, fontSize: '2.7em', color: '#22365a', marginBottom: 8 }} className="user-home-header">
+          
+          <div style={{ fontFamily: 'Roboto Mono, monospace', fontWeight: 600, fontSize: '2.7em', color: '#22365a', marginBottom: 8 , marginLeft: '18px' }} className="user-home-header">
             {getGreeting()}, <span style={{ color: '#4C75F2', fontFamily: 'Roboto Mono, monospace' }}>{userData?.f_name || 'User'}</span>!
           </div>
-          <div style={{ fontFamily: 'Roboto Mono, monospace', color: '#7b8794', fontSize: '1.25em', marginBottom: 24 }} className="user-home-subheader">Learn Sign Language Today</div>
+          <div style={{ fontFamily: 'Roboto Mono, monospace', color: '#7b8794', fontSize: '1.25em', marginBottom: 24, marginLeft: '20px' }} className="user-home-subheader">Learn Sign Language Today</div>
         </div>
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 32 }}>
           <img
