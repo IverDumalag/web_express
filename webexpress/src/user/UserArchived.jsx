@@ -200,6 +200,50 @@ export default function UserArchived() {
               from, to { border-color: transparent }
               50% { border-color: #1C2E4A; }
             }
+            /* Improved filter dropdown styles */
+            .filter-dropdown {
+              position: absolute;
+              top: 48px;
+              right: 0;
+              background: #fff;
+              border-radius: 14px;
+              box-shadow: 0 8px 32px rgba(44,62,80,0.18), 0 1.5px 8px #1C2E4A11;
+              padding: 0.5em 0;
+              min-width: 220px;
+              z-index: 100;
+              font-family: 'Roboto Mono', monospace;
+              border: 1.5px solid #e3e8ee;
+              animation: fadeIn 0.18s cubic-bezier(.4,2,.6,1);
+            }
+            @keyframes fadeIn {
+              from { opacity: 0; transform: translateY(-10px);}
+              to { opacity: 1; transform: translateY(0);}
+            }
+            .filter-option {
+              width: 100%;
+              background: none;
+              border: none;
+              text-align: left;
+              padding: 0.85em 1.5em;
+              font-size: 1.08em;
+              color: #22365a;
+              cursor: pointer;
+              transition: background 0.18s, color 0.18s;
+              border-radius: 8px;
+              font-family: inherit;
+              font-weight: 500;
+              outline: none;
+            }
+            .filter-option:hover,
+            .filter-option:focus {
+              background: #e8f0fe;
+              color: #334E7B;
+            }
+            .filter-option.selected {
+              background: #334E7B;
+              color: #fff;
+              font-weight: 700;
+            }
           `}</style>
           <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <div className="archived-speech-bubble">

@@ -161,14 +161,17 @@ function UserProfileDisplay({ user, onEdit }) {
           style={{
             background: '#1C2E4A',
             color: '#fff',
-            border: 'none',
+            border: '2px solid #fff',
             borderRadius: 12,
-            padding: '0.4em 1.2em',
-            fontFamily: 'Roboto Mono, monospace',
+            padding: '0.7em 0',
             fontWeight: 600,
-            fontSize: '1em',
+            fontSize: '1.0em',
+            fontFamily: 'Roboto Mono, monospace',
             cursor: 'pointer',
-            marginTop: 2,
+            width: 150,
+            marginTop: 10,
+            transition: 'background 0.2s, color 0.2s',
+            boxShadow: '0 2px 8px rgba(37,99,235,0.10)'
           }}
           onClick={onEdit}
         >
