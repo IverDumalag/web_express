@@ -7,7 +7,8 @@ import helloVideo from '../assets/hello_rfyswh.mp4';
 import howareyouVideo from '../assets/howareyou_bwzgiu.mp4';
 import thankyouVideo from '../assets/thankyou_huzpb0.mp4';
 import goodmorningVideo from '../assets/goodmorning_wgwhib.mp4';
-
+// Import your demonstration video
+import expressVideo from '../assets/express video  demonstration.mp4';
 
 export default function UserHome() {
   const userData = JSON.parse(localStorage.getItem('userData') || '{}');
@@ -74,9 +75,9 @@ export default function UserHome() {
         <div style={{ marginTop: '2.5vw', marginBottom: '1.5vw' }}>
           
           <div style={{ fontFamily: 'Roboto Mono, monospace', fontWeight: 600, fontSize: '2.7em', color: '#22365a', marginBottom: 8 , marginLeft: '18px' }} className="user-home-header">
-            {getGreeting()}, <span style={{ color: '#4C75F2', fontFamily: 'Roboto Mono, monospace' }}>{userData?.f_name || 'User'}</span>!
+            {getGreeting()}, <span style={{ color: '#4C75F2', fontFamily: 'Roboto Mono, monospace', marginLeft: '-9px' }}>{userData?.f_name || 'User'}</span>!
           </div>
-          <div style={{ fontFamily: 'Roboto Mono, monospace', color: '#7b8794', fontSize: '1.25em', marginBottom: 24, marginLeft: '20px' }} className="user-home-subheader">Learn Sign Language Today</div>
+          <div style={{ fontFamily: 'Roboto Mono, monospace', color: '#7b8794', fontSize: '1.25em', marginBottom: 24, marginLeft: '20px' }} className="user-home-subheader">Use the Sign Language Cards Today</div>
         </div>
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 32 }}>
           <img
@@ -165,142 +166,26 @@ export default function UserHome() {
             </div>
             
             <div style={{ height: 160 }} />
-            <div style={{
-              background: '#5c6e81',
-              borderRadius: 0,
-              width: '100vw',
-              maxWidth: 'none',
-              minHeight: 420,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '40px 0',
-              boxSizing: 'border-box',
-              boxShadow: '0 8px 40px rgba(51,78,123,0.18)',
-              marginLeft: 'calc(-50vw + 50%)',
-              marginRight: 'calc(-50vw + 50%)',
-            }} className="add-more-section">
-              <div style={{ width: '100%', maxWidth: 1600, display: 'flex', alignItems: 'center', justifyContent: 'center' }} className="add-more-section-inner">
-                <img
-                  src={graphic}
-                  alt="Add More Card Illustration"
-                  className="add-more-card-animated"
-                  style={{ maxWidth: 640, width: '40%', height: 'auto', borderRadius: 32, marginRight: 96 }}
-                />
-                <style>
-                  {`
-                    .add-more-card-animated {
-                      animation: floatY 3.2s ease-in-out infinite;
-                    }
-                    @keyframes floatY {
-                      0% { transform: translateY(0); }
-                      50% { transform: translateY(-24px); }
-                      100% { transform: translateY(0); }
-                    }
-                  `}
-                </style>
-                <div style={{ textAlign: 'left', color: '#FFFFFF', flex: 1, marginLeft: 120 }}>
-                  <div style={{ fontFamily: 'Roboto Mono, monospace', fontWeight: 900, fontSize: '5em', marginBottom: 16, color: '#fff',display: 'flex', alignItems: 'center', gap: '0.2em' }}>
-                    <span style={{ whiteSpace: 'pre', fontFamily: 'Roboto Mono, monospace' }}>Add More</span>
-                    <style>{`
-                      .content__container {
-                        display: inline-block;
-                        position: relative;
-                        width: 4.8em;
-                        height: 1.1em;
-                        vertical-align: middle;
-                        overflow: hidden;
-                      }
-                      .content__container__text {
-                        display: block;
-                        position: absolute;
-                        left: 0;
-                        top: 0;
-                        width: 100%;
-                        color: #ffe066;
-                        font-family: inherit;
-                        font-size: 1em;
-                        font-weight: inherit;
-                        letter-spacing: 0.01em;
-                      }
-                      .content__container__list {
-                        list-style: none;
-                        padding: 0;
-                        margin: 0;
-                        position: absolute;
-                        left: 0;
-                        top: 0;
-                        width: 100%;
-                        animation: swapper-vertical 4.2s steps(4) infinite;
-                      }
-                      .content__container__list__item {
-                        height: 1.1em;
-                        min-width: 4.8em;
-                        color: #1C2E4A;
-                        font-family: inherit;
-                        font-size: 1em;
-                        font-weight: inherit;
-                        letter-spacing: 0.01em;
-                        display: flex;
-                        align-items: center;
-                        justify-content: flex-start;
-                        white-space: nowrap;
-                        background: none !important;
-                      }
-                      @keyframes swapper-vertical {
-                        0% { transform: translateY(0); }
-                        20% { transform: translateY(0); }
-                        25% { transform: translateY(-1.1em); }
-                        45% { transform: translateY(-1.1em); }
-                        50% { transform: translateY(-2.2em); }
-                        70% { transform: translateY(-2.2em); }
-                        75% { transform: translateY(-3.3em); }
-                        95% { transform: translateY(-3.3em); }
-                        100% { transform: translateY(0); }
-                      }
-                    `}</style>
-                  </div>
-                  <div style={{ fontFamily: 'Roboto Mono, monospace', fontSize: '1.35em', marginBottom: 32 }}>
-                    Try and add cards for more information
-                  </div>
-                  <button
-                    className="add-cards-btn"
-                    onClick={() => window.location.href = '/usercards'}
-                    style={{
-                      background: 'rgba(255, 255, 255, 0.2)',
-                      backdropFilter: 'blur(30px)',
-                      WebkitBackdropFilter: 'blur(70px)',
-                      border: '1px solid rgba(255, 255, 255, 0.83)',
-                      borderRadius: 15,
-                      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-                      padding: 20,
-                      width: 320,
-                      color: '#FFFFFF',
-                      fontFamily: 'Roboto Mono, monospace',
-                      fontWeight: 900,
-                      fontSize: '1.6em',
-                      cursor: 'pointer',
-                      marginTop: 8,
-                      transition: 'background 0.2s, transform 0.18s',
-                      textAlign: 'center',
-                      display: 'block',
-                      borderStyle: 'solid',
-                    }}
-                  >
-                    Add Cards Now
-                  </button>
-                  <style>
-                    {`
-                      .add-cards-btn:hover {
-                        background: rgba(255,255,255,0.36) !important;
-                        color:rgb(255, 255, 255) !important;
-                        transform: scale(1.045);
-                        box-shadow: 0 8px 24px rgba(51,78,123,0.18), 0 2px 12px rgba(51,78,123,0.10);
-                      }
-                    `}
-                  </style>
-                </div>
-              </div>
+            {/* Video Section: Just the mp4, no background or wrapper */}
+            <div style={{ width: '100vw', display: 'flex', justifyContent: 'center', margin: '40px 0', position: 'relative', left: '50%', right: '50%', transform: 'translateX(-50%)' }}>
+              <video
+                src={expressVideo}
+                style={{
+                  width: '100vw',
+                  maxWidth: '100vw',
+                  minWidth: 320,
+                  aspectRatio: '16/9',
+                  height: 'auto',
+                  borderRadius: 12,
+                  background: 'none',
+                  boxShadow: 'none',
+                  display: 'block',
+                  objectFit: 'contain',
+                }}
+                controls
+                autoPlay={false}
+                muted
+              />
             </div>
             <div
               style={{
