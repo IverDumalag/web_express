@@ -163,10 +163,10 @@ export default function UserHome() {
                   <div key={i} className="sign-card-video-box" style={{
                     background: '#22365a',
                     borderRadius: '10px',
-                    minHeight: 480, // increased from 400
-                    minWidth: 560, // increased from 480
+                    minHeight: 480, 
+                    minWidth: 560, 
                     display: 'flex',
-                    alignItems: 'center',
+                    alignItems: 'center',   
                     justifyContent: 'center',
                     color: '#fff',
                     fontSize: '1.3em',
