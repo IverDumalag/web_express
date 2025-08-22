@@ -167,25 +167,7 @@ export default function UserCardsPage() {
           marginBottom: '1vw',
           position: 'relative',
         }}>
-          <div style={{
-            display: 'inline-block',
-            whiteSpace: 'nowrap',
-            animation: 'crawl-left 18s linear infinite',
-            fontFamily: 'Poppins, sans-serif',
-            fontWeight: 600,
-            fontSize: '1.25em',
-            color: '#22365a',
-            letterSpacing: '0.04em',
-            padding: '0.5em 0',
-          }}>
-            Welcome to the Sign Language Cards Section! &nbsp;|&nbsp; Practice, learn, and grow your skills every day! &nbsp;|&nbsp; Add new words and phrases to expand your vocabulary!
-          </div>
-          <style>{`
-            @keyframes crawl-left {
-              0% { transform: translateX(100%); }
-              100% { transform: translateX(-100%); }
-            }
-          `}</style>
+          
         </div>
         <div style={{
           position: 'relative',
@@ -219,22 +201,7 @@ export default function UserCardsPage() {
               width: '100%',
               minHeight: '1.2em',
             }}>
-              <span className="masked-text-animate">SIGN LANGUAGE CARDS</span>
-              <style>{`
-                .masked-text-animate {
-                  display: inline-block;
-                  background: linear-gradient(90deg, #2563eb 0%, #97A7B6 50%, #22223b 100%);
-                  background-size: 200% auto;
-                  color: transparent;
-                  background-clip: text;
-                  -webkit-background-clip: text;
-                  animation: mask-move 2.8s linear infinite;
-                }
-                @keyframes mask-move {
-                  0% { background-position: 200% 0; }
-                  100% { background-position: 0 0; }
-                }
-              `}</style>
+              <span>SIGN LANGUAGE CARDS</span>
             </div>
             <div style={{ fontFamily: 'Roboto Mono, monospace', fontSize: '1.35em', color: '#22365a', textAlign: 'center', marginBottom: '0.5em' }}>
               Get more cards for enhancement of your Sign Language!
@@ -252,39 +219,11 @@ export default function UserCardsPage() {
               <button className="filter-icon-btn" title="Sort" onClick={() => setShowFilter(v => !v)}>
                 <FaFilter />
                 {showFilter && (
-                  <div className="filter-dropdown" style={{
-                    position: 'absolute',
-                    top: '110%',
-                    right: 0,
-                    background: '#fff',
-                    borderRadius: 10,
-                    boxShadow: '0 4px 16px #2223',
-                    zIndex: 12,
-                    minWidth: 180,
-                    padding: '0.5em 0',
-                    border: '1px solid #e5e5e5',
-                    transition: 'opacity 0.18s',
-                  }}>
+                  <div className="filter-dropdown">
                     {sortOptions.map(opt => (
                       <button
                         key={opt.value}
                         className={`filter-option${sortBy === opt.value ? ' selected' : ''}`}
-                        style={{
-                          display: 'block',
-                          width: '100%',
-                          textAlign: 'left',
-                          background: 'none',
-                          border: 'none',
-                          padding: '0.7em 1.2em',
-                          fontFamily: 'Poppins, sans-serif',
-                          fontSize: '1em',
-                          color: '#22365a',
-                          cursor: 'pointer',
-                          fontWeight: sortBy === opt.value ? 700 : 400,
-                          backgroundColor: sortBy === opt.value ? '#e6eaf1' : 'transparent',
-                          borderRadius: 8,
-                          transition: 'background 0.15s',
-                        }}
                         onClick={() => { setSortBy(opt.value); setShowFilter(false); }}
                       >
                         {opt.label}
@@ -293,6 +232,55 @@ export default function UserCardsPage() {
                   </div>
                 )}
               </button>
+      {/* Modern filter dropdown styles for filter-dropdown and filter-option */}
+      <style>{`
+        .filter-dropdown {
+          position: absolute;
+          top: 110%;
+          right: 0;
+          background: #fff;
+          border-radius: 14px;
+          box-shadow: 0 8px 32px rgba(44,62,80,0.18), 0 1.5px 8px #1C2E4A11;
+          padding: 0.5em 0;
+          min-width: 360px;
+          max-width: 500px;
+          z-index: 100;
+          font-family: 'Roboto Mono', monospace;
+          border: 1px solid #1C2E4A;
+          animation: fadeIn 0.18s cubic-bezier(.4,2,.6,1);
+          word-break: break-word;
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(-10px);}
+          to { opacity: 1; transform: translateY(0);}
+        }
+        .filter-option {
+          width: 100%;
+          background: none;
+          border: none;
+          text-align: left;
+          padding: 0.85em 1.5em;
+          font-size: 0.75em;
+          color: #22365a;
+          cursor: pointer;
+          transition: background 0.18s, color 0.18s;
+          border-radius: 8px;
+          font-family: inherit;
+          font-weight: 500;
+          outline: none;
+          white-space: normal;
+        }
+        .filter-option:hover,
+        .filter-option:focus {
+          background: #e8f0fe;
+          color: #334E7B;
+        }
+        .filter-option.selected {
+          background: #334E7B;
+          color: #fff;
+          font-weight: 700;
+        }
+      `}</style>
               <div style={{ position: 'relative' }}>
                 <button
                   className="meatball-icon-btn"
@@ -323,16 +311,17 @@ export default function UserCardsPage() {
                     position: 'absolute',
                     top: '110%',
                     right: 0,
-                    minWidth: 0,
-                    width: 180,
+                    minWidth: 360,
+                    maxWidth: 500,
+                    width: '100%',
                     background: '#fff',
-                    borderRadius: 10,
-                    boxShadow: '0 4px 16px rgba(0,0,0,0.1)',
-                    padding: '0.5em 0.7em',
+                    borderRadius: 14,
+                    boxShadow: '0 8px 32px rgba(44,62,80,0.18), 0 1.5px 8px #1C2E4A11',
+                    padding: '0.5em 0',
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'stretch',
-                    fontFamily: 'inherit',
+                    fontFamily: 'Roboto Mono, monospace',
                     fontSize: '1.08em',
                     border: '1px solid #1C2E4A',
                     zIndex: 3003,
@@ -341,11 +330,11 @@ export default function UserCardsPage() {
                     <button style={{
                       background: 'none',
                       border: 'none',
-                      fontWeight: 700,
-                      fontSize: '1.08em',
+                      fontWeight: 500,
+                      fontSize: '1.15em',
                       color: '#334E7B',
                       textAlign: 'left',
-                      padding: '0.5em 0.2em',
+                      padding: '0.5em 2em 0.5em 2.2em',
                       cursor: 'pointer',
                       fontFamily: 'inherit',
                     }} onClick={() => { setShowMeatball(false); navigate("/userarchived"); }}>
@@ -355,11 +344,11 @@ export default function UserCardsPage() {
                     <button style={{
                       background: 'none',
                       border: 'none',
-                      fontWeight: 700,
-                      fontSize: '1.08em',
+                      fontWeight: 500,
+                      fontSize: '1.15em',
                       color: '#334E7B',
                       textAlign: 'left',
-                      padding: '0.5em 0.2em',
+                      padding: '0.5em 2em 0.5em 2.2em',
                       cursor: 'pointer',
                       fontFamily: 'inherit',
                     }} onClick={() => { setShowMeatball(false); setShowAddModal(true); }}>

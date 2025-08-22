@@ -144,20 +144,34 @@ function UserProfileDisplay({ user, onEdit }) {
       }}>Settings</div>
       <div style={{ flex: 1 }}></div>
       <div style={{ textAlign: 'right', marginTop: '0.5vw' }}>
-        <div style={{ fontFamily: 'Roboto Mono, monospace', fontWeight: 700, fontSize: '1.4em', color: '#42526E' }}>{user?.f_name} {user?.m_name} {user?.l_name}</div>
-        <div style={{ fontFamily: 'Fira Sans, monospace', color: '#2563eb', fontSize: '1.1em', marginBottom: 8 }}>{user?.email}</div>
+  <div style={{ fontFamily: 'Roboto Mono, monospace', fontWeight: 700, fontSize: '1.4em', color: '#42526E' }}>&nbsp;&nbsp;{user?.f_name} {user?.m_name} {user?.l_name}</div>
+        <div style={{ height: 3 }} />
+        {user?.created_at && (
+          <div style={{ fontFamily: 'Fira Sans, monospace', color: '#7b8794', fontSize: '0.98em', marginBottom: 8 }}>
+            Account created: {(() => {
+              const d = new Date(user.created_at);
+              const month = d.toLocaleString('default', { month: 'long' });
+              const day = d.getDate();
+              const year = d.getFullYear();
+              return `${month} ${day}, ${year}`;
+            })()}
+          </div>
+        )}
         <button
           style={{
             background: '#1C2E4A',
             color: '#fff',
-            border: 'none',
+            border: '2px solid #fff',
             borderRadius: 12,
-            padding: '0.4em 1.2em',
-            fontFamily: 'Roboto Mono, monospace',
+            padding: '0.7em 0',
             fontWeight: 600,
-            fontSize: '1em',
+            fontSize: '1.0em',
+            fontFamily: 'Roboto Mono, monospace',
             cursor: 'pointer',
-            marginTop: 2,
+            width: 150,
+            marginTop: 10,
+            transition: 'background 0.2s, color 0.2s',
+            boxShadow: '0 2px 8px rgba(37,99,235,0.10)'
           }}
           onClick={onEdit}
         >
@@ -183,6 +197,7 @@ function UserProfileFields({ user }) {
       <input style={{ fontFamily: 'Fira Sans, monospace', fontSize: '1.1em', border: '1px solid #22223b', borderRadius: 8, padding: '0.4em 0.8em', color: '#2563eb', marginBottom: 4 }} value={user?.birthdate || ''} readOnly />
       <label style={{ fontFamily: 'Roboto Mono, monospace', fontWeight: 500 }}>Sex</label>
       <input style={{ fontFamily: 'Fira Sans, monospace', fontSize: '1.1em', border: '1px solid #22223b', borderRadius: 8, padding: '0.4em 0.8em', color: '#2563eb', marginBottom: 4 }} value={user?.sex || ''} readOnly />
+      
     </form>
   );
 }
@@ -410,7 +425,7 @@ function ProfileInfoModal({ open, onClose }) {
         onClick={e => e.stopPropagation()}
       >
         <div style={{ fontWeight: 700, fontSize: '1.3em', color: '#334E7B', marginBottom: 12, textAlign: 'center' }}>
-          you are already in the profile section, silly
+          you are already in the profile section.
         </div>
         <button
           onClick={onClose}
