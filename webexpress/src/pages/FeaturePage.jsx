@@ -7,94 +7,92 @@ const FeaturePage = () => {
   return (
     <>
       <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
         .feature-page-container {
           min-height: 100vh;
           width: 100%;
-          padding: 60px 40px;
+          padding: 0 40px;
           box-sizing: border-box;
-          font-family: 'Inter', sans-serif;
-          background: linear-gradient(
-            0deg, 
-            #9BA8AB 0%, 
-            #253745 0%, 
-            #4A5C6A 24%, 
-            #11212D 52%, 
-            #06141B 62%
-          );
-          color: white;
+          font-family: 'Roboto Mono', monospace;
+          background: #fff;
+          color: #12243A;
           position: relative;
           overflow-x: hidden;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
         }
 
         .title-text {
           font-weight: 900;
-          font-size: 3.7rem;
-          margin-bottom: 60px;
+          font-size: 2.7rem;
+          margin-bottom: 32px;
           user-select: none;
           text-align: center;
-          letter-spacing: 2.5px;
+          letter-spacing: 2.2px;
           text-transform: uppercase;
-          background: linear-gradient(90deg, #2563eb 0%, #4F8AF4 60%, #B0BFCB 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          filter: drop-shadow(0 4px 24px #11212d33) drop-shadow(0 1px 0 #fff);
-          border-radius: 28px;
-          padding: 22px 38px 18px 38px;
-          box-shadow: 0 8px 32px 0 #2563eb22;
+          color: #334E7B;
+          background: none;
+          padding: 16px 28px 14px 28px;
           position: relative;
           display: inline-block;
-          transition: box-shadow 0.3s;
         }
 
         .cards-wrapper {
           display: flex;
           justify-content: center;
-          align-items: stretch;
-          gap: 32px 48px;
+          align-items: flex-end;
+          gap: 26px 36px;
           flex-wrap: wrap;
-          margin-bottom: 32px;
+          margin-bottom: 0;
+          width: 100%;
         }
 
         .card {
-          flex: 1 1 320px;
-          max-width: 380px;
-          min-width: 260px;
-          height: 480px;
-          border-radius: 40px;
+          flex: 1 1 260px;
+          max-width: 320px;
+          min-width: 180px;
+          height: 380px;
+          border-radius: 30px;
           box-sizing: border-box;
-          padding: 36px 24px 28px 24px;
+          padding: 26px 18px 20px 18px;
           display: flex;
           flex-direction: column;
           justify-content: flex-start;
           align-items: center;
-          color: white;
+          color: #12243A;
           font-weight: 600;
-          font-size: 1.35rem;
+          font-size: 1.13rem;
           text-align: center;
-          box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+          box-shadow: 0 6px 16px #334E7B22;
           transition: transform 0.3s cubic-bezier(.4,1.7,.6,1);
           background-clip: padding-box;
-          margin: 0 8px 32px 8px;
+          margin: 0 8px 22px 8px;
+          border: 2px solid #334E7B22;
+          background: #fff;
         }
         .card:hover {
           transform: translateY(-12px);
-          box-shadow: 0 15px 30px rgba(0,0,0,0.7);
+          box-shadow: 0 15px 30px #334E7B33;
         }
 
         .card.left {
-          background: #52677D;
-          border: 10px solid white;
+          background: #334E7B;
+          color: #fff;
+          border: 2px solid #334E7B;
         }
 
         .card.center {
-          background: #D1CFC9;
-          color: #11212D;
+          background: #fff;
+          color: #334E7B;
+          border: 2px solid #334E7B22;
         }
 
         .card.right {
-          background: #1C2E4A;
-          border: 10px solid white;
+          background: #12243A;
+          color: #fff;
+          border: 2px solid #12243A;
         }
 
         .card-content {
@@ -109,11 +107,11 @@ const FeaturePage = () => {
 
         .card-image {
           width: 100%;
-          max-width: 270px;
-          max-height: 200px;
+          max-width: 180px;
+          max-height: 120px;
           object-fit: contain;
-          margin-bottom: 28px;
-          border-radius: 20px;
+          margin-bottom: 18px;
+          border-radius: 14px;
           opacity: 0;
           transform: translateY(10px);
           animation: fadeInUp 0.8s ease forwards;
@@ -128,16 +126,16 @@ const FeaturePage = () => {
         }
 
         .card-content h2 {
-          font-size: 1.45rem;
-          margin-bottom: 12px;
+          font-size: 1.22rem;
+          margin-bottom: 10px;
           font-weight: 700;
         }
 
         .card-content p {
-          font-size: 1.05rem;
+          font-size: 0.98rem;
           font-weight: 400;
-          line-height: 1.4;
-          margin: 0 8px;
+          line-height: 1.35;
+          margin: 0 6px;
         }
 
         @media (max-width: 900px) {
@@ -181,14 +179,7 @@ const FeaturePage = () => {
         }
 
         .card-content h2, .card-content p {
-          color: #11212D;
-        }
-        .card.left .card-content h2, .card.left .card-content p,
-        .card.right .card-content h2, .card.right .card-content p {
-          color: #fff;
-        }
-        .card.center .card-content h2, .card.center .card-content p {
-          color: #11212D;
+          color: inherit;
         }
 
         @media screen and (max-width: 767px) {
