@@ -82,31 +82,33 @@ export default function UserLogin() {
             onClose={() => setPopup({ ...popup, open: false })}
           />
 
-          <form onSubmit={handleSubmit} autoComplete="off" className="login-form">
-            <div className="login-form-group">
-              <label>Email</label>
-              <input
-                type="email"
-                name="email"
-                value={form.email}
-                onChange={handleChange}
-                required
-                disabled={loading}
-              />
-            </div>
 
-            <div className="login-form-group">
-              <label>Password</label>
-              <input
-                type="password"
-                name="password"
-                value={form.password}
-                onChange={handleChange}
-                required
-                disabled={loading}
-              />
-              <div className="login-forgot">
-                <Link to="/forgot-password">Forgot Password?</Link>
+          <form onSubmit={handleSubmit} autoComplete="off" className="login-form">
+            <div className="login-fields-group">
+              <div className="login-form-group">
+                <label>Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  required
+                  disabled={loading}
+                />
+              </div>
+              <div className="login-form-group">
+                <label>Password</label>
+                <input
+                  type="password"
+                  name="password"
+                  value={form.password}
+                  onChange={handleChange}
+                  required
+                  disabled={loading}
+                />
+                <div className="login-forgot">
+                  <Link to="/forgot-password">Forgot Password?</Link>
+                </div>
               </div>
             </div>
 
