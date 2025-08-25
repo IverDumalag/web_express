@@ -243,7 +243,8 @@ export default function UserHome() {
                     textAlign: 'left',
                     display: 'flex',
                     flexDirection: 'column',
-                    justifyContent: 'center',
+                    justifyContent: 'flex-start',
+                    marginTop: '-20px'
                   }}
                 >
                   <div style={{
