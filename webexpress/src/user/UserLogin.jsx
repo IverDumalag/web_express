@@ -106,9 +106,7 @@ export default function UserLogin() {
                   required
                   disabled={loading}
                 />
-                <div className="login-forgot">
-                  <Link to="/forgot-password">Forgot Password?</Link>
-                </div>
+
               </div>
             </div>
 
