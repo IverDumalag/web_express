@@ -14,13 +14,13 @@ const FeaturePage = () => {
     },
     {
       img: secondImg,
-      heading: "Personalized Feedback",
+      heading: "Audio-Text to Sign",
       description: "Receive instant feedback on your signs to improve learning efficiency.",
       reverse: true, // image right
     },
     {
       img: thirdImg,
-      heading: "Cross-Platform Support",
+      heading: "Sign Language Cards",
       description: "Works across multiple platforms to provide inclusive communication anywhere.",
       reverse: false, // image left
     },
@@ -33,23 +33,21 @@ const FeaturePage = () => {
 
         .feature-page-container {
           min-height: 100vh;
-          width: 100vw;
+          width: 100%;
           padding: 5em 5vw;
           box-sizing: border-box;
           font-family: 'Roboto Mono', monospace;
           background: linear-gradient(135deg, #e0f0ff, #ffffff);
-          background-size: cover;
-          background-position: center;
           color: #12243A;
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 8em;
+          gap: 6em;
         }
 
         .section-title {
           font-weight: 900;
-          font-size: 2.7rem;
+          font-size: 2.5rem;
           text-align: center;
           letter-spacing: 2px;
           text-transform: uppercase;
@@ -59,15 +57,16 @@ const FeaturePage = () => {
 
         .section-container {
           display: flex;
-          max-width: 1000px;
-          width: 100%;
-          gap: 8em;
-          align-items: center;
           justify-content: center;
+          align-items: center;
+          gap: 3em;
+          flex-wrap: wrap;
+          width: 100%;
+          max-width: 1000px;
         }
 
         .section-container img {
-          max-width: 55%;
+          max-width: 45%;
           height: auto;
           border-radius: 14px;
           object-fit: contain;
@@ -95,13 +94,15 @@ const FeaturePage = () => {
 
         @media (max-width: 900px) {
           .section-container {
-            flex-direction: column;
+            flex-direction: column !important;
           }
           .section-container img {
             max-width: 90%;
             margin-bottom: 1em;
           }
-          .section-text { text-align: center; }
+          .section-text {
+            text-align: center;
+          }
         }
       `}</style>
 

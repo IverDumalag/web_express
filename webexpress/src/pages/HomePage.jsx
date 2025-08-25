@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import GuestNavBar from "../components/GuestNavBar";
-import signLanguageImage from "../assets/express.png";
+import signLanguageImage from "../assets/express_logo.png"; // resolved conflict
 import AboutPage from "../pages/AboutPage";
 import ChallengesPage from "../pages/ChallengesPage";
 import FeaturesPage from "../pages/FeaturePage";
@@ -25,17 +25,21 @@ const HomePage = () => {
     if (location.state && location.state.scrollTo) {
       switch (location.state.scrollTo) {
         case "about":
-          if (aboutPageRef.current) setTimeout(() => aboutPageRef.current.scrollIntoView({ behavior: "smooth" }), 80);
+          if (aboutPageRef.current)
+            setTimeout(() => aboutPageRef.current.scrollIntoView({ behavior: "smooth" }), 80);
           break;
         case "challenges":
-          if (challengesPageRef.current) setTimeout(() => challengesPageRef.current.scrollIntoView({ behavior: "smooth" }), 80);
+          if (challengesPageRef.current)
+            setTimeout(() => challengesPageRef.current.scrollIntoView({ behavior: "smooth" }), 80);
           break;
         case "features":
         case "feature":
-          if (featuresPageRef.current) setTimeout(() => featuresPageRef.current.scrollIntoView({ behavior: "smooth" }), 80);
+          if (featuresPageRef.current)
+            setTimeout(() => featuresPageRef.current.scrollIntoView({ behavior: "smooth" }), 80);
           break;
         case "faqs":
-          if (faqsPageRef.current) setTimeout(() => faqsPageRef.current.scrollIntoView({ behavior: "smooth" }), 80);
+          if (faqsPageRef.current)
+            setTimeout(() => faqsPageRef.current.scrollIntoView({ behavior: "smooth" }), 80);
           break;
         default:
           break;
@@ -46,6 +50,11 @@ const HomePage = () => {
   return (
     <>
       <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
+        html {
+          scroll-behavior: smooth;
+        }
+
         .app-container {
           font-family: 'Roboto Mono', monospace;
           overflow-x: hidden;
@@ -56,6 +65,8 @@ const HomePage = () => {
           display: flex;
           flex-direction: column;
           align-items: center;
+          min-height: 100vh;
+          text-align: left;
         }
 
         @keyframes bg-animate {
@@ -84,41 +95,46 @@ const HomePage = () => {
         }
 
         .hero-image {
-          flex: 0 0 300px;
-          max-width: 300px;
+          flex: 1 1 300px;
+          max-width: 320px;
           padding: 10px;
+          overflow: visible;
         }
 
         .hero-image img {
           width: 100%;
           height: auto;
           display: block;
-          animation: wave-hand 2s infinite ease-in-out;
-          transform-origin: 70% 70%;
+          animation: logo-wave 4s infinite ease-in-out;
+          transform-origin: 70% 80%;
         }
 
-        @keyframes wave-hand {
+        @keyframes logo-wave {
           0% { transform: rotate(0deg); }
-          15% { transform: rotate(15deg); }
-          30% { transform: rotate(-10deg); }
-          45% { transform: rotate(15deg); }
-          60% { transform: rotate(-5deg); }
-          75% { transform: rotate(10deg); }
+          10% { transform: rotate(14deg); }
+          20% { transform: rotate(-8deg); }
+          30% { transform: rotate(14deg); }
+          40% { transform: rotate(-4deg); }
+          50% { transform: rotate(10deg); }
+          60% { transform: rotate(0deg); }
           100% { transform: rotate(0deg); }
         }
 
         .hero-text {
-          flex: 1 1 350px;
+          flex: 1 1 300px;
+          max-width: 350px;
           display: flex;
           flex-direction: column;
           justify-content: center;
-          text-align: left; /* changed to left */
+          text-align: left;
         }
 
         .main-title {
-          font-size: 2rem;
+          font-size: 1.7em;
           font-weight: bold;
-          margin-bottom: 10px;
+          color: #12243A;
+          margin-bottom: 12px;
+          line-height: 1.2;
         }
 
         .highlight-text {
@@ -127,23 +143,23 @@ const HomePage = () => {
         }
 
         .sub-title {
-          font-size: 1rem;
-          margin-bottom: 16px;
+          font-size: 1em;
+          color: #12243A;
+          margin-bottom: 18px;
         }
 
         .learn-more-btn {
           background-color: #12243A;
           color: #fff;
           border: none;
-          padding: 10px 20px;
+          padding: 8px 18px;
           cursor: pointer;
           border-radius: 8px;
           font-size: 0.95em;
           font-weight: 600;
           transition: background 0.3s ease;
           user-select: none;
-          width: fit-content;
-          align-self: flex-start; /* button aligned with left text */
+          align-self: flex-start;
         }
 
         .learn-more-btn:hover {
