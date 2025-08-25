@@ -25,7 +25,10 @@ const GuestNavBar = () => {
     const handleClick = (event) => {
       if (accountRef.current && accountRef.current.contains(event.target)) {
         setDropdownOpen((open) => !open);
-      } else if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      } else if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+      ) {
         setDropdownOpen(false);
       }
     };
@@ -34,37 +37,120 @@ const GuestNavBar = () => {
   }, []);
 
   return (
-    <nav className="navbar" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0.8em 6em", background: "#fff", fontFamily: "Roboto Mono, monospace", width: "100%", borderBottom: "1px solid #eee" }}>
+    <nav
+      className="navbar"
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: "0.8em 6em",
+        background: "#fff",
+        fontFamily: "Roboto Mono, monospace",
+        width: "100%",
+        borderBottom: "1px solid #eee",
+      }}
+    >
       {/* Brand */}
-      <div onClick={() => navigate("/")} style={{ display: "flex", alignItems: "center", gap: "0.4em", cursor: "pointer", fontWeight: 700, fontSize: "1.1em", color: "#1C2E4A" }}>
-        <img src={expressLogo} alt="express logo" style={{ height: "22px", width: "52px", objectFit: "contain" }} />
+      <div
+        onClick={() => navigate("/")}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          cursor: "pointer",
+          fontWeight: 700,
+          fontSize: "1.1em",
+          color: "#1C2E4A",
+        }}
+      >
+        <img
+          src={expressLogo}
+          alt="express logo"
+          style={{ height: "22px", width: "100px", objectFit: "contain" }}
+        />
         ex<span style={{ color: "#2354C7" }}>Press</span>
       </div>
 
       {/* Nav Links */}
-      <div style={{ display: "flex", gap: "2.2em", fontSize: "0.95em", alignItems: "center" }}>
-        <span style={{ cursor: "pointer" }} onClick={() => navigate("/")}>Home</span>
-        <span style={{ cursor: "pointer" }} onClick={() => handleNavScroll("demo")}>Demo</span>
-        <span style={{ cursor: "pointer" }} onClick={() => handleNavScroll("challenges")}>Challenges</span>
-        <span style={{ cursor: "pointer" }} onClick={() => handleNavScroll("features")}>Features</span>
-        <span style={{ cursor: "pointer" }} onClick={() => handleNavScroll("testimonials")}>How it Works?</span>
-        <span style={{ cursor: "pointer" }} onClick={() => handleNavScroll("faqs")}>FAQs</span>
+      <div
+        style={{
+          display: "flex",
+          gap: "2em",
+          fontSize: "0.95em",
+          alignItems: "center",
+        }}
+      >
+        <span style={{ cursor: "pointer" }} onClick={() => navigate("/")}>
+          Home
+        </span>
+        <span
+          style={{ cursor: "pointer" }}
+          onClick={() => handleNavScroll("demo")}
+        >
+          Demo
+        </span>
+        <span
+          style={{ cursor: "pointer" }}
+          onClick={() => handleNavScroll("challenges")}
+        >
+          Challenges
+        </span>
+        <span
+          style={{ cursor: "pointer" }}
+          onClick={() => handleNavScroll("features")}
+        >
+          Features
+        </span>
+        <span
+          style={{ cursor: "pointer" }}
+          onClick={() => handleNavScroll("testimonials")}
+        >
+          How it Works?
+        </span>
+        <span
+          style={{ cursor: "pointer" }}
+          onClick={() => handleNavScroll("faqs")}
+        >
+          FAQs
+        </span>
       </div>
 
       {/* Download + Account */}
-      <div style={{ display: "flex", alignItems: "center", gap: "1.5em" }}>
-        <a href="https://drive.google.com/uc?export=download&id=1D4QseDYlB9_3zezrNINM8eWWB3At1kVN" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "#2354C7", fontWeight: 600 }}>
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <a
+          href="https://drive.google.com/uc?export=download&id=1D4QseDYlB9_3zezrNINM8eWWB3At1kVN"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ textDecoration: "none", color: "#2354C7", fontWeight: 600 }}
+        >
           Download App
         </a>
 
         <div className="account-container" ref={accountRef}>
-          <span className="account-icon" role="img" aria-label="account"
-            onClick={e => { e.stopPropagation(); setShowAuthModal(true); }}
+          <span
+            className="account-icon"
+            role="img"
+            aria-label="account"
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowAuthModal(true);
+            }}
             tabIndex={0}
-            onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { setShowAuthModal(true); } }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") setShowAuthModal(true);
+            }}
             style={{ cursor: "pointer" }}
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1C2E4A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'block' }}>
+            <svg
+              width="80"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#1C2E4A"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              style={{ display: "block" }}
+            >
               <circle cx="12" cy="8.2" r="4.2" />
               <path d="M4 20c0-3.6 3.2-6.5 8-6.5s8 2.9 8 6.5" />
             </svg>
@@ -74,13 +160,125 @@ const GuestNavBar = () => {
 
       {/* Auth Modal */}
       {showAuthModal && (
-        <div onClick={() => setShowAuthModal(false)} style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, background: "rgba(0,0,0,0.08)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 3002 }}>
-          <div onClick={e => e.stopPropagation()} style={{ width: "95%", maxWidth: 460, padding: "8.2em 2.7em 2.7em", borderRadius: 20, border: "1px solid #fff", background: "rgba(255,255,255,0.10)", backdropFilter: "blur(18px)", WebkitBackdropFilter: "blur(18px)", display: "flex", flexDirection: "column", alignItems: "center", gap: "1.5em", color: "#334E7B", animation: "modal-pop 0.22s cubic-bezier(.68,-0.55,.27,1.55)", position: "relative" }}>
-            <button onClick={() => setShowAuthModal(false)} style={{ position: "absolute", top: 18, right: 22, background: "none", border: "none", fontSize: "1.5em", color: "#FFFFFF", cursor: "pointer", fontWeight: 700 }}>×</button>
-            <div style={{ fontWeight: 700, fontSize: "2em", textAlign: "center", marginBottom: "2.9em", fontFamily: "Inconsolata, monospace", color: "#FFFFFF" }}>Login or Sign Up</div>
-            <div style={{ display: "flex", flexDirection: "column", gap: "1em", marginTop: "0.5em", alignItems: "center", width: "100%" }}>
-              <button onClick={() => { setShowAuthModal(false); navigate("/login"); }} style={{ background: "#1C2E4A", color: "#fff", border: "2px solid #fff", borderRadius: 12, padding: "0.7em 0", fontWeight: 700, fontSize: "1.1em", fontFamily: "Inconsolata, monospace", cursor: "pointer", width: "100%", maxWidth: 300, minWidth: 180 }}>Login</button>
-              <button onClick={() => { setShowAuthModal(false); navigate("/register"); }} style={{ background: "#52677D", color: "#fff", border: "2px solid #fff", borderRadius: 12, padding: "0.7em 0", fontWeight: 700, fontSize: "1.1em", fontFamily: "Inconsolata, monospace", cursor: "pointer", width: "100%", maxWidth: 300, minWidth: 180 }}>Sign Up</button>
+        <div
+          onClick={() => setShowAuthModal(false)}
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: "rgba(0,0,0,0.08)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 3002,
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              width: "95%",
+              maxWidth: 460,
+              padding: "8.2em 2.7em 2.7em",
+              borderRadius: 20,
+              border: "1px solid #fff",
+              background: "rgba(255,255,255,0.10)",
+              backdropFilter: "blur(18px)",
+              WebkitBackdropFilter: "blur(18px)",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "1.5em",
+              color: "#334E7B",
+              animation: "modal-pop 0.22s cubic-bezier(.68,-0.55,.27,1.55)",
+              position: "relative",
+            }}
+          >
+            <button
+              onClick={() => setShowAuthModal(false)}
+              style={{
+                position: "absolute",
+                top: 18,
+                right: 22,
+                background: "none",
+                border: "none",
+                fontSize: "1.5em",
+                color: "#FFFFFF",
+                cursor: "pointer",
+                fontWeight: 700,
+              }}
+            >
+              ×
+            </button>
+
+            <div
+              style={{
+                fontWeight: 700,
+                fontSize: "2em",
+                textAlign: "center",
+                marginBottom: "2.9em",
+                fontFamily: "Inconsolata, monospace",
+                color: "#FFFFFF",
+              }}
+            >
+              Login or Sign Up
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "1em",
+                marginTop: "0.5em",
+                alignItems: "center",
+                width: "100%",
+              }}
+            >
+              <button
+                onClick={() => {
+                  setShowAuthModal(false);
+                  navigate("/login");
+                }}
+                style={{
+                  background: "#1C2E4A",
+                  color: "#fff",
+                  border: "2px solid #fff",
+                  borderRadius: 12,
+                  padding: "0.7em 0",
+                  fontWeight: 700,
+                  fontSize: "1.1em",
+                  fontFamily: "Inconsolata, monospace",
+                  cursor: "pointer",
+                  width: "100%",
+                  maxWidth: 300,
+                  minWidth: 180,
+                }}
+              >
+                Login
+              </button>
+              <button
+                onClick={() => {
+                  setShowAuthModal(false);
+                  navigate("/register");
+                }}
+                style={{
+                  background: "#52677D",
+                  color: "#fff",
+                  border: "2px solid #fff",
+                  borderRadius: 12,
+                  padding: "0.7em 0",
+                  fontWeight: 700,
+                  fontSize: "1.1em",
+                  fontFamily: "Inconsolata, monospace",
+                  cursor: "pointer",
+                  width: "100%",
+                  maxWidth: 300,
+                  minWidth: 180,
+                }}
+              >
+                Sign Up
+              </button>
             </div>
           </div>
         </div>
