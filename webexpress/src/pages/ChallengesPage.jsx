@@ -11,9 +11,9 @@ const ChallengesPage = React.forwardRef((props, ref) => {
     <section
       ref={ref}
       style={{
-        padding: "5em 15vw 7em 15vw",
+        padding: "5em 2vw 7em 2vw", // reduce side padding for full-width
         minHeight: "100vh",
-        width: "100%",
+        width: "100vw", // full viewport width
         background: "linear-gradient(135deg, #e0f0ff, #ffffff)",
         textAlign: "center",
         display: "flex",
@@ -32,7 +32,7 @@ const ChallengesPage = React.forwardRef((props, ref) => {
         style={{
           fontSize: "1.1em",
           lineHeight: "1.6",
-          maxWidth: "1000px",
+          maxWidth: "1200px", // optionally increase max width for larger screens
           marginBottom: "3em",
           color: "#333",
         }}
@@ -50,7 +50,7 @@ const ChallengesPage = React.forwardRef((props, ref) => {
           alignItems: "flex-start",
           gap: "2em",
           flexWrap: "wrap",
-          width: "100%",
+          width: "100%", // full container width
         }}
       >
         {challenges.map((challenge, index) => (
