@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import MessagePopup from '../components/MessagePopup';
 import { setUserData } from '../data/UserData';
-import logo from '../assets/logo.png';
-import bgImage from '../assets/bglogin.png';
 import '../CSS/UserLogin.css';
 
 export default function UserLogin() {
@@ -56,18 +54,15 @@ export default function UserLogin() {
 
   return (
     <div className="login-bg">
-      {/* Background block */}
       <div className="login-bg-block" />
 
-      {/* Left Welcome Section (inside blue container) */}
       <div className="login-left">
-        <div className="login-brand" onClick={() => navigate('/')} style={{cursor: 'pointer'}}>exPress</div>
+        <div className="login-brand" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>exPress</div>
         <div className="login-welcome-bottom">
           <h1 className="login-welcome">WELCOME<br /><span className="login-back">BACK!</span></h1>
         </div>
       </div>
 
-      {/* Right Login Form */}
       <div className="login-right">
         <div className="login-container" style={{ marginRight: '2.5vw' }}>
           <header className="login-header">
@@ -81,7 +76,6 @@ export default function UserLogin() {
             description={popup.description}
             onClose={() => setPopup({ ...popup, open: false })}
           />
-
 
           <form onSubmit={handleSubmit} autoComplete="off" className="login-form">
             <div className="login-fields-group">
@@ -106,7 +100,6 @@ export default function UserLogin() {
                   required
                   disabled={loading}
                 />
-
               </div>
             </div>
 

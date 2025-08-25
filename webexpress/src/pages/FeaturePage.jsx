@@ -4,268 +4,124 @@ import secondImg from "../assets/second.png";
 import thirdImg from "../assets/third.png";
 
 const FeaturePage = () => {
+  const sections = [
+    {
+      title: "EXPLORE OUR FEATURES",
+      img: firstImg,
+      heading: "Sign To Text",
+      description: "Real-time sign language to text powered by TensorFlow – fast, accurate, and inclusive communication.",
+      reverse: false, // image left
+    },
+    {
+      img: secondImg,
+      heading: "Audio-Text to Sign",
+      description: "Receive instant feedback on your signs to improve learning efficiency.",
+      reverse: true, // image right
+    },
+    {
+      img: thirdImg,
+      heading: "Sign Language Cards",
+      description: "Works across multiple platforms to provide inclusive communication anywhere.",
+      reverse: false, // image left
+    },
+  ];
+
   return (
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
+
         .feature-page-container {
           min-height: 100vh;
           width: 100%;
-          padding: 0 40px;
+          padding: 5em 5vw;
           box-sizing: border-box;
           font-family: 'Roboto Mono', monospace;
-          background: #fff;
+          background: linear-gradient(135deg, #e0f0ff, #ffffff);
           color: #12243A;
-          position: relative;
-          overflow-x: hidden;
           display: flex;
           flex-direction: column;
-          justify-content: center;
           align-items: center;
+          gap: 6em;
         }
 
-        .title-text {
+        .section-title {
           font-weight: 900;
-          font-size: 2.7rem;
-          margin-bottom: 32px;
-          user-select: none;
+          font-size: 2.5rem;
           text-align: center;
-          letter-spacing: 2.2px;
+          letter-spacing: 2px;
           text-transform: uppercase;
           color: #334E7B;
-          background: none;
-          padding: 16px 28px 14px 28px;
-          position: relative;
-          display: inline-block;
+          margin-bottom: 2em;
         }
 
-        .cards-wrapper {
+        .section-container {
           display: flex;
           justify-content: center;
-          align-items: flex-end;
-          gap: 26px 36px;
+          align-items: center;
+          gap: 3em;
           flex-wrap: wrap;
-          margin-bottom: 0;
           width: 100%;
+          max-width: 1000px;
         }
 
-        .card {
-          flex: 1 1 260px;
-          max-width: 320px;
-          min-width: 180px;
-          height: 380px;
-          border-radius: 30px;
-          box-sizing: border-box;
-          padding: 26px 18px 20px 18px;
-          display: flex;
-          flex-direction: column;
-          justify-content: flex-start;
-          align-items: center;
-          color: #12243A;
-          font-weight: 600;
-          font-size: 1.13rem;
-          text-align: center;
-          box-shadow: 0 6px 16px #334E7B22;
-          transition: transform 0.3s cubic-bezier(.4,1.7,.6,1);
-          background-clip: padding-box;
-          margin: 0 8px 22px 8px;
-          border: 2px solid #334E7B22;
-          background: #fff;
-        }
-        .card:hover {
-          transform: translateY(-12px);
-          box-shadow: 0 15px 30px #334E7B33;
+        .section-container img {
+          max-width: 45%;
+          height: auto;
+          border-radius: 14px;
+          object-fit: contain;
         }
 
-        .card.left {
-          background: #334E7B;
-          color: #fff;
-          border: 2px solid #334E7B;
-        }
-
-        .card.center {
-          background: #fff;
-          color: #334E7B;
-          border: 2px solid #334E7B22;
-        }
-
-        .card.right {
-          background: #12243A;
-          color: #fff;
-          border: 2px solid #12243A;
-        }
-
-        .card-content {
-          flex-grow: 1;
+        .section-text {
+          flex: 1;
           display: flex;
           flex-direction: column;
           justify-content: center;
-          align-items: center;
-          padding: 20px 0 0 0;
-          text-align: center;
+          text-align: left;
         }
 
-        .card-image {
-          width: 100%;
-          max-width: 180px;
-          max-height: 120px;
-          object-fit: contain;
-          margin-bottom: 18px;
-          border-radius: 14px;
-          opacity: 0;
-          transform: translateY(10px);
-          animation: fadeInUp 0.8s ease forwards;
+        .section-text h2 {
+          font-size: 1.8rem;
+          margin-bottom: 12px;
+          color: #12243A;
         }
 
-        /* Animation */
-        @keyframes fadeInUp {
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        .card-content h2 {
-          font-size: 1.22rem;
-          margin-bottom: 10px;
-          font-weight: 700;
-        }
-
-        .card-content p {
-          font-size: 0.98rem;
-          font-weight: 400;
-          line-height: 1.35;
-          margin: 0 6px;
+        .section-text p {
+          font-size: 1.1rem;
+          line-height: 1.5;
+          color: #333;
         }
 
         @media (max-width: 900px) {
-          .title-text {
-            font-size: 2.5rem;
-          }
-          .cards-wrapper {
-            flex-direction: column;
-            align-items: center;
-            gap: 24px;
-            margin-bottom: 16px;
-          }
-          .card {
-            margin: 0 0 20px 0;
-            max-width: 95vw;
-            min-width: 0;
-            height: auto;
-            padding: 28px 10px 20px 10px;
-            font-size: 1.1rem;
-          }
-          .card-content h2 {
-            font-size: 1.2rem;
-          }
-          .card-content p {
-            font-size: 0.95rem;
-          }
-          .card-image {
-            max-width: 160px;
-            max-height: 100px;
-            margin-bottom: 12px;
-          }
-        }
-
-        @media (max-width: 500px) {
-          .card-content h2 {
-            font-size: 1.2rem;
-          }
-          .card-content p {
-            font-size: 0.85rem;
-          }
-        }
-
-        .card-content h2, .card-content p {
-          color: inherit;
-        }
-
-        @media screen and (max-width: 767px) {
-          .feature-page-container {
-            padding: 0 2vw !important;
-            min-width: 100vw !important;
-            overflow-x: hidden !important;
-          }
-          .main-content {
-            min-height: 60vh !important;
-            padding: 0 2vw !important;
-          }
-          .feature-cards {
-            width: 100vw !important;
-            padding: 0 2vw !important;
-          }
-          .title-text {
-            font-size: 2em !important;
-            padding: 12px 10px 10px 10px !important;
-            margin-bottom: 24px !important;
-          }
-          .cards-wrapper {
+          .section-container {
             flex-direction: column !important;
-            gap: 18px !important;
-            margin-bottom: 10px !important;
           }
-          .card {
-            max-width: 98vw !important;
-            min-width: 0 !important;
-            height: auto !important;
-            padding: 18px 6px 14px 6px !important;
-            font-size: 1em !important;
-            border-radius: 18px !important;
+          .section-container img {
+            max-width: 90%;
+            margin-bottom: 1em;
           }
-          .card-image {
-            max-width: 90vw !important;
-            max-height: 100px !important;
-            margin-bottom: 10px !important;
-          }
-          .card-content h2 {
-            font-size: 1.1em !important;
-          }
-          .card-content p {
-            font-size: 0.9em !important;
+          .section-text {
+            text-align: center;
           }
         }
       `}</style>
 
       <div className="feature-page-container">
-        <h1 className="title-text">EXPLORE OUR FEATURES</h1>
-
-        <div className="cards-wrapper">
-          <div className="card left">
-            <div className="card-content">
-              <img
-                src={firstImg}
-                alt="Sign Language Cards"
-                className="card-image"
-              />
-              <h2>Sign Language Cards</h2>
-              <p>Real-time sign language to text powered by TensorFlow – fast, accurate, and inclusive communication.</p>
+        {sections.map((section, idx) => (
+          <div key={idx} style={{ width: "90%" }}>
+            <h1 className="section-title">{section.title}</h1>
+            <div
+              className="section-container"
+              style={{ flexDirection: section.reverse ? "row-reverse" : "row" }}
+            >
+              <img src={section.img} alt={section.heading} />
+              <div className="section-text">
+                <h2>{section.heading}</h2>
+                <p>{section.description}</p>
+              </div>
             </div>
           </div>
-          <div className="card center">
-            <div className="card-content">
-              <img
-                src={secondImg}
-                alt="Text-Audio to Sign"
-                className="card-image"
-              />
-              <h2>Text-Audio to Sign</h2>
-              <p>Delivering instant, inclusive communication through smart, real-time translation.</p>
-            </div>
-          </div>
-          <div className="card right">
-            <div className="card-content">
-              <img
-                src={thirdImg}
-                alt="Sign to Text"
-                className="card-image"
-              />
-              <h2>Sign to Text</h2>
-              <p>Real-time, accurate translation that breaks communication barriers and promotes inclusivity.</p>
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
     </>
   );
