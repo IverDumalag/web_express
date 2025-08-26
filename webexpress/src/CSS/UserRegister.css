@@ -1,12 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600;700&display=swap');
-
 .center-form-group input[type="password"] {
-	width: 100%;
+	width: 96%;
 	margin: 0 auto;
+	display: block;
 }
-
 .center-card {
-   
 	animation: fadeSlideIn 0.7s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
@@ -23,31 +20,33 @@
 
 
 .center-bg {
-	min-height: 100vh;
-	min-width: 100vw;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background: linear-gradient(120deg, #ffffff 0%, #ffffff 100%);
-	font-family: 'Roboto Mono', monospace;
+min-height: 100vh;
+min-width: 100vw;
+display: flex;
+align-items: center;
+justify-content: center;
+background: #fff;
+font-family: 'Roboto Mono', monospace;
 }
+
 .center-card {
 	background: #fff;
 	border-radius: 1.2rem;
 	box-shadow: 0 4px 30px rgba(0,0,0,0.12);
 	border: 2px solid #334E7B;
 	padding: 2.5rem 2.2rem 2rem 2.2rem;
-	min-width: 370px;
-	max-width: 440px;
+	min-width: 340px;
+	max-width: 500px;
 	width: 100%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	gap: 1.2rem;
 }
+
 .center-card header {
 	text-align: center;
-	margin-bottom: 1.2rem;
+	margin-bottom: 0.1rem;
 }
 .center-card h2 {
 	color: #334E7B;
@@ -61,30 +60,28 @@
 	font-size: 1.05rem;
 	margin: 0 0 2.2rem 0;
 }
+
 .center-form {
 	width: 100%;
 	display: flex;
 	flex-direction: column;
-	gap: 1.1rem;
-}
-.center-form-row {
-	display: flex;
-	gap: 0.2rem;
+	gap: 1.0rem; /* gap ng mga form fields */
 }
 .center-form-group {
 	display: flex;
 	flex-direction: column;
-	gap: 0.2rem;
-	flex: 1 1 0;
+	gap: 0.2rem; /* gap ng mga label sa fields */
 }
 .center-form-group label {
-	color: #334E7B;
+	color: #334E7B;   
 	font-size: 1rem;
 	font-weight: 600;
+	margin-left: 0.7rem; /* para ma-align labels sa fields */
 }
 .center-form-group input,
 .center-form-group select {
-	width: 100%;
+	width: 96%;
+	margin: 0 auto;
 	padding: 0.85rem 1rem;
 	border-radius: 8px;
 	border: 2px solid #334E7B;
@@ -100,12 +97,12 @@
 	border-color: #22345a;
 }
 .center-btn {
-	width: 100%;
+	width: 96%;
+	margin: 0 auto 0.5rem auto;
 	padding: 1rem 0;
 	border-radius: 10px;
 	font-weight: 600;
 	font-size: 1.05rem;
-	margin-bottom: 0.5rem;
 	transition: background 0.2s, color 0.2s, border 0.2s;
 	cursor: pointer;
 	font-family: 'Roboto Mono', monospace;
@@ -147,10 +144,11 @@
 }
 .center-or::before { left: 0; }
 .center-or::after { right: 0; }
+
 @media (max-width: 600px) {
 	.center-card {
-		min-width: 90vw;
-		max-width: 98vw;
+		min-width: 97vw;
+		max-width: 99vw;
 		padding: 1.2rem 0.5rem;
 	}
 	.center-card h2 {
@@ -160,6 +158,8 @@
 		font-size: 0.9rem;
 	}
 	.center-btn, .center-form-group input, .center-form-group select {
+		width: 100% !important;
+		margin: 0;
 		font-size: 0.95rem;
 		padding: 0.7rem 0.7rem;
 	}
