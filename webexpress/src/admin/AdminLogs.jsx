@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AdminNavBar from '../components/AdminNavBar';
-import AdminTable from './AdminTable';
 import '../CSS/AdminLogs.css';
+import '../CSS/responsive-utils.css';
 
 export default function AdminLogs() {
    const [logs, setLogs] = useState([]);
@@ -10,25 +10,63 @@ export default function AdminLogs() {
    const [currentPage, setCurrentPage] = useState(1);
    const [itemsPerPage] = useState(10); // You can adjust this number
 
-   // Filter logs based on search term
+   const desiredLogColumns = [
+      "user_id",
+      "email",
+      "user_role",
+      "action_type",
+      "object_type",
+      "created_at",
+   ];
+
+   // Filter logs based on search term - search ALL columns
    const filteredLogs = logs.filter(log => {
-      const searchLower = searchTerm.toLowerCase();
-      return (
-         log.email?.toLowerCase().includes(searchLower) ||
-         log.user_role?.toLowerCase().includes(searchLower) ||
-         log.action_type?.toLowerCase().includes(searchLower) ||
-         log.object_type?.toLowerCase().includes(searchLower) ||
-         log.user_id?.toString().includes(searchLower)
-      );
+      const searchLower = searchTerm.toLowerCase().trim();
+
+      if (!searchLower) return true;
+
+      return desiredLogColumns.some(column => {
+         let cellValue = log[column];
+
+         if (cellValue === null || cellValue === undefined) return false;
+
+         // Special handling for date column
+         if (column === "created_at") {
+            try {
+               const dateObj = new Date(cellValue);
+
+               const formattedDate = dateObj.toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+               }); // e.g. "August 29, 2025"
+
+               const shortDate = dateObj.toISOString().split("T")[0]; // e.g. "2025-08-29"
+               const time = dateObj.toLocaleTimeString("en-US"); // e.g. "10:30:15 AM"
+
+               return (
+                  formattedDate.toLowerCase().includes(searchLower) ||
+                  shortDate.toLowerCase().includes(searchLower) ||
+                  time.toLowerCase().includes(searchLower) ||
+                  String(cellValue).toLowerCase().includes(searchLower)
+               );
+            } catch (err) {
+               return String(cellValue).toLowerCase().includes(searchLower);
+            }
+         }
+
+         // For all other columns
+         const stringValue = String(cellValue).toLowerCase();
+         return stringValue.includes(searchLower);
+      });
    });
 
-   // Calculate pagination
+   // Pagination
    const totalPages = Math.ceil(filteredLogs.length / itemsPerPage);
    const startIndex = (currentPage - 1) * itemsPerPage;
    const endIndex = startIndex + itemsPerPage;
    const currentLogs = filteredLogs.slice(startIndex, endIndex);
 
-   // Reset to first page when search changes
    useEffect(() => {
       setCurrentPage(1);
    }, [searchTerm]);
@@ -42,141 +80,86 @@ export default function AdminLogs() {
          .finally(() => setLoadingLogs(false));
    }, []);
 
-   const handleSearchChange = (e) => {
-      setSearchTerm(e.target.value);
-   };
+   const handleSearchChange = (e) => setSearchTerm(e.target.value);
 
-   const handlePageChange = (page) => {
-      setCurrentPage(page);
-   };
+   const handlePageChange = (page) => setCurrentPage(page);
 
    const handlePrevPage = () => {
-      if (currentPage > 1) {
-         setCurrentPage(currentPage - 1);
-      }
+      if (currentPage > 1) setCurrentPage(currentPage - 1);
    };
 
    const handleNextPage = () => {
-      if (currentPage < totalPages) {
-         setCurrentPage(currentPage + 1);
-      }
+      if (currentPage < totalPages) setCurrentPage(currentPage + 1);
    };
 
-   const desiredLogColumns = [
-      "user_id",
-      "email",
-      "user_role",
-      "action_type",
-      "object_type",
-      "created_at",
-   ];
+   // Format created_at for table display
+   const formatDate = (dateStr) => {
+      try {
+         const dateObj = new Date(dateStr);
+         return dateObj.toLocaleString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+         }); // e.g. "Aug 29, 2025, 10:30 AM"
+      } catch {
+         return dateStr;
+      }
+   };
 
    return (
       <>
          <AdminNavBar>
             {/* Header and Search Bar */}
-            <div
-               style={{
-                  maxWidth: 1800,
-                  margin: '7.5rem auto 0 auto',
-                  padding: '0 8.5rem',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  flexWrap: 'wrap',
-               }}
-            >
-               <h2
-                  className="section-title"
-                  style={{
-                     fontFamily: 'Roboto Mono, monospace',
-                     fontWeight: 800,
-                     fontSize: '2.2rem',
-                     color: '#22314a',
-                     margin: 0,
-                     textAlign: 'left',
-                     alignSelf: 'flex-start', // ensure left alignment
-                  }}
-               >
-                  Logs
-               </h2>
-               <form
-                  style={{
-                     display: 'flex',
-                     alignItems: 'center',
-                     gap: 0,
-                     background: 'none',
-                     boxShadow: 'none',
-                     justifyContent: 'flex-end',
-                     margin: 0,
-                     alignSelf: 'flex-end',
-                     marginLeft: '49.7rem',
-                  }}
-                  onSubmit={e => e.preventDefault()}
-               >
-                  <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-                    <input
-                      type="text"
-                      placeholder="Search by email, role, action..."
-                      value={searchTerm}
-                      onChange={handleSearchChange}
-                      style={{
-                        border: '1.5px solid #22314a',
-                        borderRadius: 12,
-                        padding: '0.6em 2.8em 0.6em 1.2em', // extra right padding for icon
-                        fontSize: '1.1em',
-                        fontFamily: 'Roboto Mono, monospace',
-                        outline: 'none',
-                        background: '#fff',
-                        color: '#22314a',
-                        minWidth: 220,
-                        marginRight: 0,
-                      }}
-                    />
-                    <svg
-                      width="22"
-                      height="22"
-                      fill="none"
-                      stroke="#22314a"
-                      strokeWidth="2"
-                      viewBox="0 0 24 24"
-                      style={{
-                        position: 'absolute',
-                        right: 12,
-                        top: '50%',
-                        transform: 'translateY(-50%)',
-                        pointerEvents: 'none',
-                      }}
-                    >
-                      <circle cx="11" cy="11" r="8" />
-                      <path d="M21 21l-4.35-4.35" />
-                    </svg>
+            <div className="logs-header-container">
+               <h2 className="logs-title">Logs</h2>
+               <form className="logs-search-form" onSubmit={e => e.preventDefault()}>
+                  <div className="logs-search-container">
+                     <input
+                        type="text"
+                        placeholder="Search in all columns..."
+                        value={searchTerm}
+                        onChange={handleSearchChange}
+                        className="logs-search-input"
+                     />
+                     <svg
+                        className="logs-search-icon"
+                        fill="none"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                     >
+                        <circle cx="11" cy="11" r="8" />
+                        <path d="M21 21l-4.35-4.35" />
+                     </svg>
                   </div>
-                </form>
+               </form>
             </div>
 
             {/* Description */}
             <div
+               className="logs-description"
                style={{
                   color: '#52677D',
                   fontFamily: 'Roboto Mono, monospace',
                   fontSize: '1.1em',
-                  margin: '1.2rem auto 1.5rem auto',
+                  margin: '1rem auto 1.5rem auto',
                   fontWeight: 500,
-                  maxWidth: 1800,
-                  padding: '0 8.5rem',
+                  maxWidth: 1200,
+                  padding: '0 2rem',
+                  textAlign: 'center',
                }}
             >
-               This is the logs, where you can see the user’s activity.
+               This is the logs, where you can see the user's activity.
             </div>
 
-            {/* Main Logs Table Container */}
+            {/* Table */}
             <div
-               className="admin-logs-outer-container"
+               className="admin-logs-outer-container scroll-horizontal"
                style={{
-                  maxWidth: 1800,
+                  maxWidth: 1200,
                   margin: '2rem auto',
-                  padding: '2.5rem 8.5rem 2rem 8.5rem',
+                  padding: '2rem 3rem',
                   background: '#fff',
                   borderRadius: 18,
                   boxShadow: '0 8px 32px rgba(51,78,123,0.13)',
@@ -184,13 +167,13 @@ export default function AdminLogs() {
                }}
             >
                <div
-                  className="admin-logs-container"
+                  className="admin-logs-container min-width-container"
                   style={{
                      border: 'none',
                      background: 'transparent',
                      boxShadow: 'none',
                      padding: 0,
-                     maxWidth: 1700,
+                     maxWidth: '100%',
                      margin: '0 auto',
                   }}
                >
@@ -202,9 +185,8 @@ export default function AdminLogs() {
                         overflow: 'hidden',
                         background: '#fff',
                         marginTop: 0,
-                        width: '90%', // make the table wrapper wider
-                        minWidth: 1100, // ensure it is visually wide
-                        maxWidth: '90%',
+                        width: '100%',
+                        maxWidth: '100%',
                      }}
                   >
                      <table
@@ -239,9 +221,7 @@ export default function AdminLogs() {
                                        fontFamily: 'Roboto Mono, monospace',
                                     }}
                                  >
-                                    {col
-                                       .replace(/_/g, ' ')
-                                       .replace(/\b\w/g, l => l.toUpperCase())}
+                                    {col.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
                                  </th>
                               ))}
                            </tr>
@@ -298,7 +278,9 @@ export default function AdminLogs() {
                                              background: 'none',
                                           }}
                                        >
-                                          {row[col]}
+                                          {col === "created_at"
+                                             ? formatDate(row[col])
+                                             : row[col]}
                                        </td>
                                     ))}
                                  </tr>
@@ -307,47 +289,26 @@ export default function AdminLogs() {
                         </tbody>
                      </table>
                   </div>
-                  
-                  {/* Pagination Controls */}
+
+                  {/* Pagination */}
                   {!loadingLogs && filteredLogs.length > 0 && (
-                     <div style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        marginTop: '1.5rem',
-                        padding: '0 1rem'
-                     }}>
-                        <div style={{
-                           fontFamily: 'Roboto Mono, monospace',
-                           fontSize: '0.9rem',
-                           color: '#52677D',
-                           fontWeight: 500
-                        }}>
+                     <div className="pagination-container">
+                        <div className="pagination-info">
                            Showing {startIndex + 1} to {Math.min(endIndex, filteredLogs.length)} of {filteredLogs.length} logs
                            {searchTerm && ` (filtered from ${logs.length} total)`}
                         </div>
-                        
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+
+                        <div className="pagination-controls">
                            <button
                               onClick={handlePrevPage}
                               disabled={currentPage === 1}
-                              style={{
-                                 background: currentPage === 1 ? '#e2e8f0' : '#22314a',
-                                 color: currentPage === 1 ? '#94a3b8' : '#fff',
-                                 border: 'none',
-                                 borderRadius: '8px',
-                                 padding: '0.5rem 1rem',
-                                 fontFamily: 'Roboto Mono, monospace',
-                                 fontSize: '0.9rem',
-                                 cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
-                                 fontWeight: 600
-                              }}
+                              className="pagination-btn"
                            >
                               Previous
                            </button>
-                           
+
                            {/* Page Numbers */}
-                           <div style={{ display: 'flex', gap: '0.25rem' }}>
+                           <div className="pagination-numbers">
                               {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
                                  let pageNum;
                                  if (totalPages <= 5) {
@@ -359,44 +320,23 @@ export default function AdminLogs() {
                                  } else {
                                     pageNum = currentPage - 2 + i;
                                  }
-                                 
+
                                  return (
                                     <button
                                        key={pageNum}
                                        onClick={() => handlePageChange(pageNum)}
-                                       style={{
-                                          background: currentPage === pageNum ? '#22314a' : '#f1f5f9',
-                                          color: currentPage === pageNum ? '#fff' : '#22314a',
-                                          border: '1px solid #cbd5e1',
-                                          borderRadius: '6px',
-                                          padding: '0.4rem 0.75rem',
-                                          fontFamily: 'Roboto Mono, monospace',
-                                          fontSize: '0.9rem',
-                                          cursor: 'pointer',
-                                          fontWeight: 600,
-                                          minWidth: '35px'
-                                       }}
+                                       className={`pagination-number-btn ${currentPage === pageNum ? 'active' : ''}`}
                                     >
                                        {pageNum}
                                     </button>
                                  );
                               })}
                            </div>
-                           
+
                            <button
                               onClick={handleNextPage}
                               disabled={currentPage === totalPages}
-                              style={{
-                                 background: currentPage === totalPages ? '#e2e8f0' : '#22314a',
-                                 color: currentPage === totalPages ? '#94a3b8' : '#fff',
-                                 border: 'none',
-                                 borderRadius: '8px',
-                                 padding: '0.5rem 1rem',
-                                 fontFamily: 'Roboto Mono, monospace',
-                                 fontSize: '0.9rem',
-                                 cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
-                                 fontWeight: 600
-                              }}
+                              className="pagination-btn"
                            >
                               Next
                            </button>

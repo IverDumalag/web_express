@@ -1,0 +1,588 @@
+/* UserHome.css */
+.user-home-container {
+  min-height: 100vh;
+  height: 100%;
+  overflow-y: auto;
+  background: #fff;
+  position: relative;
+}
+
+.user-home-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bg-bubble-1 {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #e3eafc 0%, #fff 80%);
+  filter: blur(20px);
+  opacity: 0.6;
+  animation: float1 12s ease-in-out infinite alternate;
+  left: -60px;
+  top: -40px;
+}
+
+.bg-bubble-2 {
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 70% 70%, #c7d2fe 0%, #fff 80%);
+  filter: blur(14px);
+  opacity: 0.4;
+  animation: float2 14s ease-in-out infinite alternate;
+  right: -30px;
+  bottom: -20px;
+}
+
+.user-home-content {
+  position: relative;
+  z-index: 1;
+  padding: 2em;
+  min-height: calc(100vh - 80px);
+}
+
+.greeting-section {
+  text-align: center;
+  margin-bottom: 3em;
+}
+
+.greeting-title {
+  font-size: 2.5rem;
+  color: #334E7B;
+  margin-bottom: 0.5em;
+  font-weight: 700;
+}
+
+.welcome-text {
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 2em;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2em;
+  margin-bottom: 3em;
+}
+
+.feature-card {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 15px;
+  padding: 2em;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+}
+
+.feature-title {
+  font-size: 1.4rem;
+  color: #334E7B;
+  margin-bottom: 1em;
+}
+
+.feature-description {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* Video Grid Styles */
+.user-home-video-container {
+  position: relative;
+  margin: 40px 0 24px 0;
+  text-align: center;
+}
+
+.user-home-video-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 2rem;
+  justify-content: center;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto 3rem auto;
+  padding: 0 1rem;
+}
+
+.sign-card-video-box {
+  background: #22365a;
+  border-radius: 10px;
+  min-height: 300px;
+  min-width: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 1.3em;
+  font-weight: 500;
+  box-shadow: 0 4px 24px rgba(51,78,123,0.13);
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+  aspect-ratio: 16/9;
+}
+
+.sign-language-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(30,40,60,0.55);
+  z-index: 1;
+  pointer-events: none;
+  transition: background 0.3s;
+}
+
+.video-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.5em;
+  text-shadow: 0 2px 8px #22365a, 0 0 16px rgba(0,0,0,0.5);
+  pointer-events: none;
+  font-family: 'Roboto Mono', monospace;
+  z-index: 2;
+  text-align: center;
+}
+
+/* Express Demo Video Styles */
+.express-demo-container {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 40px 0;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  transform: translateX(-50%);
+  padding: 0 1rem;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.express-demo-text {
+  flex: 0 0 340px;
+  max-width: 380px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.express-demo-title {
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 700;
+  font-size: 2em;
+  color: #22365a;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+}
+
+.express-demo-description {
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 400;
+  font-size: 1.15em;
+  color: #334E7B;
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+.express-demo-video-wrapper {
+  background: #fff;
+  border: 4px solid #334E7B;
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(51,78,123,0.10);
+  padding: 18px;
+  display: inline-block;
+  max-width: 800px;
+  width: 54vw;
+  min-width: 340px;
+}
+
+.express-demo-video {
+  width: 100%;
+  aspect-ratio: 16/9;
+  height: auto;
+  border-radius: 12px;
+  object-fit: contain;
+}
+
+@keyframes float1 {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(30px, -20px) scale(1.1); }
+}
+
+@keyframes float2 {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-25px, 15px) scale(0.9); }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .user-home-content {
+    padding: 1.5em;
+  }
+  
+  .greeting-title {
+    font-size: 2.2rem;
+  }
+  
+  .welcome-text {
+    font-size: 1.1rem;
+  }
+  
+  .features-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5em;
+  }
+  
+  .feature-card {
+    padding: 1.5em;
+  }
+
+  /* Video Grid Responsive */
+  .user-home-video-grid {
+    gap: 1.5rem;
+    max-width: 900px;
+  }
+
+  .sign-card-video-box {
+    min-height: 250px;
+    min-width: 250px;
+  }
+
+  .video-label {
+    font-size: 1.3em;
+  }
+
+  .express-demo-video-wrapper {
+    width: 60vw;
+    min-width: 320px;
+  }
+
+  .express-demo-title {
+    font-size: 1.8em;
+  }
+
+  .express-demo-description {
+    font-size: 1.1em;
+  }
+}
+
+@media (max-width: 768px) {
+  .user-home-content {
+    padding: 1em;
+  }
+  
+  .greeting-title {
+    font-size: 2rem;
+  }
+  
+  .welcome-text {
+    font-size: 1rem;
+    margin-bottom: 1.5em;
+  }
+  
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 1.2em;
+    margin-bottom: 2em;
+  }
+  
+  .feature-card {
+    padding: 1.2em;
+  }
+  
+  .feature-title {
+    font-size: 1.2rem;
+  }
+  
+  .feature-description {
+    font-size: 0.95rem;
+  }
+  
+  .bg-bubble-1 {
+    width: 150px;
+    height: 150px;
+    left: -40px;
+    top: -30px;
+  }
+  
+  .bg-bubble-2 {
+    width: 100px;
+    height: 100px;
+    right: -20px;
+    bottom: -15px;
+  }
+
+  /* Video Grid Mobile */
+  .user-home-video-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    max-width: 500px;
+  }
+
+  .sign-card-video-box {
+    min-height: 200px;
+    min-width: 280px;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .video-label {
+    font-size: 1.2em;
+  }
+
+  .express-demo-container {
+    flex-direction: column;
+    margin: 30px 0;
+    gap: 1.5rem;
+  }
+
+  .express-demo-text {
+    text-align: center;
+    max-width: 100%;
+    flex: none;
+  }
+
+  .express-demo-video-wrapper {
+    width: 90vw;
+    max-width: 500px;
+    min-width: 280px;
+  }
+
+  .express-demo-title {
+    font-size: 1.6em;
+  }
+
+  .express-demo-description {
+    font-size: 1em;
+  }
+}
+
+@media (max-width: 600px) {
+  .user-home-content {
+    padding: 0.8em;
+  }
+  
+  .greeting-section {
+    margin-bottom: 2em;
+  }
+  
+  .greeting-title {
+    font-size: 1.8rem;
+  }
+  
+  .welcome-text {
+    font-size: 0.95rem;
+    margin-bottom: 1.2em;
+  }
+  
+  .features-grid {
+    gap: 1em;
+  }
+  
+  .feature-card {
+    padding: 1em;
+    border-radius: 12px;
+  }
+  
+  .feature-title {
+    font-size: 1.1rem;
+    margin-bottom: 0.8em;
+  }
+  
+  .feature-description {
+    font-size: 0.9rem;
+  }
+
+  /* Video Grid Small Mobile */
+  .user-home-video-container {
+    margin: 30px 0 20px 0;
+  }
+
+  .user-home-video-grid {
+    gap: 1rem;
+    max-width: 350px;
+  }
+
+  .sign-card-video-box {
+    min-height: 180px;
+    min-width: 250px;
+  }
+
+  .video-label {
+    font-size: 1em;
+  }
+
+  .express-demo-container {
+    margin: 25px 0;
+    gap: 1rem;
+  }
+
+  .express-demo-video-wrapper {
+    width: 95vw;
+    max-width: 400px;
+    min-width: 250px;
+    padding: 12px;
+  }
+
+  .express-demo-title {
+    font-size: 1.4em;
+    margin-bottom: 8px;
+  }
+
+  .express-demo-description {
+    font-size: 0.95em;
+  }
+}
+
+@media (max-width: 480px) {
+  .user-home-content {
+    padding: 0.5em;
+  }
+  
+  .greeting-title {
+    font-size: 1.6rem;
+  }
+  
+  .welcome-text {
+    font-size: 0.9rem;
+  }
+  
+  .feature-card {
+    padding: 0.8em;
+  }
+  
+  .feature-title {
+    font-size: 1rem;
+  }
+  
+  .feature-description {
+    font-size: 0.85rem;
+  }
+  
+  .bg-bubble-1 {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .bg-bubble-2 {
+    width: 80px;
+    height: 80px;
+  }
+
+  /* Video Grid Very Small Mobile */
+  .user-home-video-grid {
+    gap: 0.8rem;
+    max-width: 300px;
+  }
+
+  .sign-card-video-box {
+    min-height: 160px;
+    min-width: 200px;
+  }
+
+  .video-label {
+    font-size: 0.9em;
+  }
+
+  .express-demo-video-wrapper {
+    width: 95vw;
+    max-width: 320px;
+    min-width: 200px;
+    padding: 10px;
+  }
+
+  .express-demo-title {
+    font-size: 1.2em;
+  }
+
+  .express-demo-description {
+    font-size: 0.9em;
+  }
+}
+
+@media (max-width: 360px) {
+  .greeting-title {
+    font-size: 1.4rem;
+  }
+  
+  .welcome-text {
+    font-size: 0.85rem;
+  }
+  
+  .feature-card {
+    padding: 0.6em;
+  }
+  
+  .feature-title {
+    font-size: 0.95rem;
+  }
+  
+  .feature-description {
+    font-size: 0.8rem;
+  }
+
+  /* Video Grid Ultra Small Mobile */
+  .user-home-video-grid {
+    gap: 0.6rem;
+    max-width: 280px;
+  }
+
+  .sign-card-video-box {
+    min-height: 140px;
+    min-width: 180px;
+  }
+
+  .video-label {
+    font-size: 0.8em;
+  }
+
+  .express-demo-video-wrapper {
+    width: 95vw;
+    max-width: 280px;
+    min-width: 180px;
+    padding: 8px;
+  }
+
+  .express-demo-title {
+    font-size: 1.1em;
+  }
+
+  .express-demo-description {
+    font-size: 0.85em;
+  }
+}

@@ -104,16 +104,17 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 4vw 0 2vw 0;
+  padding: 4vw 0 0 0;
   box-shadow: 2px 0 12px rgba(35,84,199,0.08);
   z-index: 99;
   position: fixed;
   top: 7vh;
   left: 0;
-  height: 93vh;
-  min-height: 93vh;
-  max-height: 93vh;
+  bottom: 0; /* Extend to bottom of screen */
+  height: calc(100vh - 7vh); /* Full height minus navbar */
+  min-height: calc(100vh - 7vh);
   overflow-y: auto;
+  overflow-x: hidden; /* Prevent horizontal scroll on sidebar */
   flex-shrink: 0;
   font-family: 'Roboto Mono', monospace;
 }
@@ -146,33 +147,41 @@
   display: flex;
   flex-direction: column;
   min-height: calc(100vh - 7vh);
-  padding: 2vw;
+  padding: 1rem 2vw 2vw 2vw; /* Reduced top padding since navbar is sticky */
   padding-left: 220px; /* Always leave space for sidebar */
   box-sizing: border-box;
-  overflow-x: auto;
+  overflow-x: auto; /* Allow horizontal scrolling for content */
+  overflow-y: auto; /* Allow vertical scrolling */
   font-family: 'Roboto Mono', monospace;
   transition: padding-left 0.2s;
+  background: #f4f6fa; /* Ensure continuous background */
+  margin-top: 0; /* Remove any top margin that might interfere */
 }
 @media (max-width: 900px) {
   .admin-sidebar-vertical {
     width: 56px;
     min-width: 56px;
-    padding: 1vw 0;
+    padding: 1vw 0 0 0;
     position: fixed;
     left: 0;
     top: 7vh;
-    height: 93vh;
-    min-height: 93vh;
-    max-height: 93vh;
+    bottom: 0; /* Extend to bottom */
+    height: calc(100vh - 7vh); /* Full height minus navbar */
+    min-height: calc(100vh - 7vh);
     overflow-y: auto;
+    overflow-x: hidden; /* Prevent horizontal scroll */
   }
   .admin-main-content {
     padding-left: 56px;
+    padding-top: 1rem; /* Consistent top padding */
+    overflow-x: auto; /* Allow horizontal scroll only in content */
   }
   .admin-sidebar-link {
     padding: 1em 0.5em;
     font-size: 1em;
     text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
   }
   .admin-sidebar-link span {
     display: none;
@@ -182,24 +191,28 @@
   .admin-navbar-top {
     position: sticky;
     top: 0;
+    z-index: 100;
   }
   .admin-content-layout {
     flex-direction: column;
     padding-top: 0;
+    margin-top: 0;
   }
   .admin-sidebar-vertical {
-    position: static;
+    position: relative; /* Change to relative for mobile */
     width: 100%;
     min-width: auto;
     height: auto;
     top: auto;
     left: auto;
+    bottom: auto;
     flex-direction: row;
     justify-content: space-around;
     box-shadow: none;
     padding: 0.5em 0;
     min-height: auto;
     overflow-y: visible;
+    overflow-x: hidden; /* Remove horizontal scroll from sidebar */
     flex-shrink: unset;
   }
   .admin-sidebar-links {
@@ -207,6 +220,7 @@
     gap: 0.5em;
     width: 100%;
     justify-content: space-around;
+    overflow-x: hidden; /* Prevent horizontal overflow */
   }
   .admin-sidebar-link {
     padding: 0.8em 0.5em;
@@ -217,6 +231,9 @@
     text-align: center;
     width: auto;
     flex-grow: 1;
+    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .admin-sidebar-link.active,
   .admin-sidebar-link:hover {
@@ -228,8 +245,10 @@
     display: block;
   }
   .admin-main-content {
-    padding: 2vw;
+    padding: 1rem;
+    padding-left: 1rem; /* Reset padding for mobile */
     min-height: auto;
-    overflow-x: unset;
+    overflow-x: auto; /* Allow horizontal scroll only in content area */
+    margin-top: 0;
   }
 }

@@ -1,10 +1,12 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import expressLogo from "../assets/express.png";
+import "../CSS/GuestNavBar.css";
 
 const GuestNavBar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const accountRef = useRef(null);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
@@ -37,114 +39,199 @@ const GuestNavBar = () => {
   }, []);
 
   return (
-    <nav
-      className="navbar"
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: "0.8em 6em",
-        background: "#fff",
-        fontFamily: "Roboto Mono, monospace",
-        width: "100%",
-        borderBottom: "1px solid #eee",
-      }}
-    >
-      {/* Brand */}
-      <div
-        onClick={() => navigate("/")}
+    <>
+      <nav
+        className="navbar"
         style={{
           display: "flex",
+          justifyContent: "space-between",
           alignItems: "center",
-          cursor: "pointer",
-          fontWeight: 700,
-          fontSize: "1.1em",
-          color: "#1C2E4A",
-          marginLeft: "100px",
+          padding: "0.8em 6em",
+          background: "#fff",
+          fontFamily: "Roboto Mono, monospace",
+          width: "100%",
+          borderBottom: "1px solid #eee",
+          position: "relative",
         }}
       >
-  ex<span style={{ color: "#2354C7" }}>Press</span>
-      </div>
+        {/* Brand */}
+        <div
+          onClick={() => navigate("/")}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            cursor: "pointer",
+            fontWeight: 700,
+            fontSize: "1.1em",
+            color: "#1C2E4A",
+            marginLeft: "100px",
+          }}
+        >
+          ex<span style={{ color: "#2354C7" }}>Press</span>
+        </div>
 
-      {/* Nav Links */}
-      <div
-        style={{
-          display: "flex",
-          gap: "2em",
-          fontSize: "0.95em",
-          alignItems: "center",
-        }}
-      >
-      
-        <span
-          style={{ cursor: "pointer" }}
-          onClick={() => handleNavScroll("about")}
+        {/* Mobile Menu Button */}
+        <button
+          className="mobile-menu-btn"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          style={{
+            display: "none",
+            background: "none",
+            border: "none",
+            fontSize: "1.5em",
+            color: "#1C2E4A",
+            cursor: "pointer",
+            padding: "5px",
+          }}
         >
-          About
-        </span>
-        <span
-          style={{ cursor: "pointer" }}
-          onClick={() => handleNavScroll("challenges")}
-        >
-          Challenges
-        </span>
-        <span
-          style={{ cursor: "pointer" }}
-          onClick={() => handleNavScroll("features")}
-        >
-          Features
-        </span>
-        <span
-          style={{ cursor: "pointer" }}
-          onClick={() => handleNavScroll("faqs")}
-        >
-          FAQs
-        </span>
-      </div>
+          ☰
+        </button>
 
-      {/* Download + Account */}
-      <div style={{ display: "flex", alignItems: "center" }}>
-        <a
-          href="https://drive.google.com/uc?export=download&id=1D4QseDYlB9_3zezrNINM8eWWB3At1kVN"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ textDecoration: "none", color: "#334E7B", fontWeight: 600 }}
+        {/* Nav Links */}
+        <div
+          className="nav-links"
+          style={{
+            display: "flex",
+            gap: "2em",
+            fontSize: "0.95em",
+            alignItems: "center",
+          }}
         >
-          Download App
-        </a>
-
-        <div className="account-container" ref={accountRef}>
           <span
-            className="account-icon"
-            role="img"
-            aria-label="account"
-            onClick={(e) => {
-              e.stopPropagation();
-              setShowAuthModal(true);
-            }}
-            tabIndex={0}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") setShowAuthModal(true);
-            }}
             style={{ cursor: "pointer" }}
+            onClick={() => handleNavScroll("about")}
           >
-            <svg
-              width="80"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#1C2E4A"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              style={{ display: "block" }}
-            >
-              <circle cx="12" cy="8.2" r="4.2" />
-              <path d="M4 20c0-3.6 3.2-6.5 8-6.5s8 2.9 8 6.5" />
-            </svg>
+            About
+          </span>
+          <span
+            style={{ cursor: "pointer" }}
+            onClick={() => handleNavScroll("challenges")}
+          >
+            Challenges
+          </span>
+          <span
+            style={{ cursor: "pointer" }}
+            onClick={() => handleNavScroll("features")}
+          >
+            Features
+          </span>
+          <span
+            style={{ cursor: "pointer" }}
+            onClick={() => handleNavScroll("faqs")}
+          >
+            FAQs
           </span>
         </div>
-      </div>
+
+        {/* Download + Account */}
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <a
+            href="https://drive.google.com/uc?export=download&id=1D4QseDYlB9_3zezrNINM8eWWB3At1kVN"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ textDecoration: "none", color: "#334E7B", fontWeight: 600 }}
+          >
+            Download App
+          </a>
+
+          <div className="account-container" ref={accountRef}>
+            <span
+              className="account-icon"
+              role="img"
+              aria-label="account"
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowAuthModal(true);
+              }}
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") setShowAuthModal(true);
+              }}
+              style={{ cursor: "pointer" }}
+            >
+              <svg
+                width="80"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#1C2E4A"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                style={{ display: "block" }}
+              >
+                <circle cx="12" cy="8.2" r="4.2" />
+                <path d="M4 20c0-3.6 3.2-6.5 8-6.5s8 2.9 8 6.5" />
+              </svg>
+            </span>
+          </div>
+        </div>
+      </nav>
+
+      {/* Mobile Menu */}
+      {mobileMenuOpen && (
+        <div
+          className="mobile-menu"
+          style={{
+            position: "fixed",
+            top: "60px",
+            left: 0,
+            right: 0,
+            background: "#fff",
+            border: "1px solid #eee",
+            borderTop: "none",
+            zIndex: 1000,
+            padding: "1em",
+            boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "1em",
+              fontSize: "1em",
+            }}
+          >
+            <span
+              style={{ cursor: "pointer", padding: "0.5em" }}
+              onClick={() => {
+                handleNavScroll("about");
+                setMobileMenuOpen(false);
+              }}
+            >
+              About
+            </span>
+            <span
+              style={{ cursor: "pointer", padding: "0.5em" }}
+              onClick={() => {
+                handleNavScroll("challenges");
+                setMobileMenuOpen(false);
+              }}
+            >
+              Challenges
+            </span>
+            <span
+              style={{ cursor: "pointer", padding: "0.5em" }}
+              onClick={() => {
+                handleNavScroll("features");
+                setMobileMenuOpen(false);
+              }}
+            >
+              Features
+            </span>
+            <span
+              style={{ cursor: "pointer", padding: "0.5em" }}
+              onClick={() => {
+                handleNavScroll("faqs");
+                setMobileMenuOpen(false);
+              }}
+            >
+              FAQs
+            </span>
+          </div>
+        </div>
+      )}
 
       {/* Auth Modal */}
       {showAuthModal && (
@@ -271,7 +358,7 @@ const GuestNavBar = () => {
           </div>
         </div>
       )}
-    </nav>
+    </>
   );
 };
 

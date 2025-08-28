@@ -13,7 +13,7 @@ const AboutPage = React.forwardRef((props, ref) => {
         <p className="about-description">
           <strong>exPress</strong> is an interactive platform designed to make
           learning sign language accessible, engaging, and easy for everyone.
-          With a hands-on demo, you’ll experience how technology can empower
+          With a hands-on demo, you'll experience how technology can empower
           communication in a fun and meaningful way.
         </p>
       </div>

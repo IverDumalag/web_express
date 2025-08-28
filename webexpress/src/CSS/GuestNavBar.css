@@ -44,3 +44,61 @@
 	font-size: 1.1em !important;
 	color: #334E7B !important;
 }
+
+/* Responsive Design for Mobile Devices */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 8px 20px;
+    flex-wrap: wrap;
+  }
+  
+  .navbar > div:first-child {
+    margin-left: 0 !important;
+    font-size: 1.2em;
+  }
+  
+  .nav-links {
+    display: none !important; /* Hide nav links on mobile */
+  }
+  
+  .mobile-menu-btn {
+    display: block !important;
+  }
+  
+  .navbar > div:last-child {
+    margin-left: auto;
+  }
+  
+  .navbar > div:last-child a {
+    font-size: 0.9em;
+    margin-right: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 6px 15px;
+  }
+  
+  .navbar > div:first-child {
+    font-size: 1.1em;
+  }
+  
+  .navbar > div:last-child a {
+    font-size: 0.8em;
+    margin-right: 8px;
+  }
+  
+  .account-container svg {
+    width: 20px !important;
+    height: 20px !important;
+  }
+  
+  .mobile-menu {
+    padding: 0.5em !important;
+  }
+  
+  .mobile-menu div {
+    gap: 0.5em !important;
+  }
+}

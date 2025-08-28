@@ -3,6 +3,7 @@ import AdminNavBar from '../components/AdminNavBar';
 import AdminTable from './AdminTable';
 import { Line, Pie } from "react-chartjs-2";
 import '../CSS/AdminAnalytics.css';
+import '../CSS/responsive-utils.css';
 import {
   Chart as ChartJS,
   LineElement,
@@ -443,7 +444,7 @@ export default function AdminAnalytics() {
   return (
     <>
       <AdminNavBar>
-       <div className="admin-analytics-container" style={{ border: '2px solid rgb(51, 78, 123)', width: 'auto', maxWidth: '1200px', margin: '4.5rem auto 2rem auto' , borderRadius: 10}}>
+       <div className="admin-analytics-container content-area-scroll" style={{ border: '2px solid rgb(51, 78, 123)', width: 'auto', maxWidth: '1200px', margin: '2rem auto' , borderRadius: 10}}>
          
           <div className="analytics-greeting-row">
             <div className="analytics-greeting-text">
@@ -454,8 +455,8 @@ export default function AdminAnalytics() {
           </div>
 
           {/* --- Summary Outer Container --- */}
-          <div className="analytics-summary-outer">
-            <div className="analytics-summary-row">
+          <div className="analytics-summary-outer mobile-scroll">
+            <div className="analytics-summary-row scroll-horizontal">
               <div className="analytics-summary-box feedback">
                 <h3>Feedback Today</h3>
                 <div className="analytics-summary-count">{feedbackCount}</div>
@@ -475,9 +476,9 @@ export default function AdminAnalytics() {
           </div>
 
           {/* --- User Growth Section --- */}
-          <div className="analytics-section">
+          <div className="analytics-section content-area-scroll">
             <h2 className="section-title">User Growth Over Time</h2>
-            <div className="growth-chart-container">
+            <div className="growth-chart-container mobile-scroll">
               <div className="growth-chart-label">Monthly User Growth</div>
               <div
                 className="growth-chart-box"
@@ -503,7 +504,7 @@ export default function AdminAnalytics() {
           </div>
 
           {/* --- Content Rate Section --- */}
-          <div className="content-rate-section">
+          <div className="content-rate-section content-area-scroll">
             <h2 className="content-rate-title">Content Match Rate</h2>
             <div
               className="content-rate-gauge-container"
@@ -519,7 +520,7 @@ export default function AdminAnalytics() {
                 Click to view content match table
               </div>
             </div>
-            <div className="content-rate-line-container">
+            <div className="content-rate-line-container mobile-scroll">
               <div className="growth-chart-label admin-analytics-green">Monthly Match Rate Trend</div>
               <div className="content-rate-line-box">
                 {loadingContentRate ? (
@@ -545,9 +546,9 @@ export default function AdminAnalytics() {
           </div>
 
           {/* --- User Demographics Section --- */}
-          <div className="analytics-section">
+          <div className="analytics-section content-area-scroll">
             <h2 className="section-title">User Analytics</h2>
-            <div className="demographics-horizontal-scroll">
+            <div className="demographics-horizontal-scroll mobile-scroll">
               {/* Demographics by Sex Card */}
               <div className="demographics-card">
                 <div className="demographics-title">By Sex</div>
