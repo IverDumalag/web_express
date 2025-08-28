@@ -14,7 +14,7 @@ const ChallengesPage = React.forwardRef((props, ref) => {
         padding: "5em 2vw 7em 2vw", // reduce side padding for full-width
         minHeight: "100vh",
         width: "100vw", // full viewport width
-        background: "linear-gradient(135deg, #e0f0ff, #ffffff)",
+        background: "#fff",
         textAlign: "center",
         display: "flex",
         flexDirection: "column",
@@ -24,7 +24,7 @@ const ChallengesPage = React.forwardRef((props, ref) => {
         gap: "2em",
       }}
     >
-      <h2 style={{ fontSize: "1.8em", marginBottom: "0em", color: "#12243A" }}>
+      <h2 style={{ fontSize: "1.8em", marginBottom: "0em", color: "#334E7B" }}>
         Challenges We Address
       </h2>
 

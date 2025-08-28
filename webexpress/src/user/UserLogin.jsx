@@ -61,12 +61,14 @@ export default function UserLogin() {
           <p>Sign in to continue to your journey</p>
         </header>
 
+
         <MessagePopup
           open={popup.open}
           title={popup.title}
           description={popup.description}
           onClose={() => setPopup({ ...popup, open: false })}
         />
+
 
         <form onSubmit={handleSubmit} autoComplete="off" className="center-form">
           <div className="center-form-group">
@@ -136,7 +138,17 @@ export default function UserLogin() {
           >
             Register
           </button>
+        
         </form>
+                <div style={{ textAlign: 'center', marginBottom: '1em' }}>
+          <span
+            style={{ color: '#334E7B', cursor: 'pointer', textDecoration: 'underline', fontWeight: 500 }}
+            onClick={() => navigate('/')}
+          >
+            Go back to landing page
+          </span>
+        </div>
+
       </div>
     </div>
   );

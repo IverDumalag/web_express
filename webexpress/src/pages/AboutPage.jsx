@@ -9,7 +9,7 @@ const AboutPage = React.forwardRef((props, ref) => {
         padding: "5em 2em",
         minHeight: "60vh",
         display: "flex",
-        alignItems: "center",
+        alignItems: "center", 
         justifyContent: "center",
         gap: "40px",
         flexWrap: "wrap",
@@ -17,7 +17,7 @@ const AboutPage = React.forwardRef((props, ref) => {
     >
       {/* Left Side - Text */}
       <div style={{ flex: "1 1 400px", maxWidth: "500px", textAlign: "left" }}>
-        <h2 style={{ fontSize: "2em", marginBottom: "0.5em", color: "#12243A" }}>
+        <h2 style={{ fontSize: "2em", marginBottom: "0.5em", color: "#334E7B" }}>
           What is exPress?
         </h2>
         <p style={{ fontSize: "1.1em", lineHeight: "1.6", color: "#333" }}>
