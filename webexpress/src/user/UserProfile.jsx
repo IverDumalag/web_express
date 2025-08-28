@@ -170,28 +170,13 @@ export default function UserProfile() {
               disabled={editLoading}
             />
             <label className="profile-edit-label">Sex</label>
-            <select
-              className="profile-edit-input"
-              name="sex"
-              value={editForm.sex}
-              onChange={handleEditChange}
-              required
-              disabled={editLoading}
-            >
-              <option value="">Select</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-            </select>
+            <div className="profile-edit-input" style={{ backgroundColor: '#f5f5f5', color: '#666', padding: '12px', border: '1px solid #ddd', borderRadius: '4px' }}>
+              {editForm.sex || "-"}
+            </div>
             <label className="profile-edit-label">Birthdate</label>
-            <input
-              className="profile-edit-input"
-              name="birthdate"
-              type="date"
-              value={editForm.birthdate}
-              onChange={handleEditChange}
-              required
-              disabled={editLoading}
-            />
+            <div className="profile-edit-input" style={{ backgroundColor: '#f5f5f5', color: '#666', padding: '12px', border: '1px solid #ddd', borderRadius: '4px' }}>
+              {editForm.birthdate || "-"}
+            </div>
             <div className="profile-edit-actions">
               <button
                 className="profile-edit-btn"
