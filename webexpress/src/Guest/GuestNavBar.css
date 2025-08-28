@@ -1,0 +1,109 @@
+.guest-nav-links {
+  display: flex;
+  gap: 2.2em;
+  font-size: 0.95em;
+  align-items: center;
+}
+.guest-nav-link {
+  cursor: pointer;
+}
+.guest-download-account {
+  display: flex;
+  align-items: center;
+  gap: 1.5em;
+}
+.guest-download-link {
+  text-decoration: none;
+  color: #2354C7;
+  font-weight: 600;
+}
+.account-icon {
+  cursor: pointer;
+}
+.account-icon-svg {
+  display: block;
+}
+.guest-auth-modal-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3002;
+}
+.guest-auth-modal {
+  width: 95%;
+  max-width: 460px;
+  padding: 8.2em 2.7em 2.7em;
+  border-radius: 20px;
+  border: 1px solid #fff;
+  background: rgba(255,255,255,0.10);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5em;
+  color: #334E7B;
+  animation: modal-pop 0.22s cubic-bezier(.68,-0.55,.27,1.55);
+  position: relative;
+}
+.guest-auth-modal-close {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  background: none;
+  border: none;
+  font-size: 1.5em;
+  color: #FFFFFF;
+  cursor: pointer;
+  font-weight: 700;
+}
+.guest-auth-modal-title {
+  font-weight: 700;
+  font-size: 2em;
+  text-align: center;
+  margin-bottom: 2.9em;
+  font-family: Inconsolata, monospace;
+  color: #FFFFFF;
+}
+.guest-auth-modal-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  margin-top: 0.5em;
+  align-items: center;
+  width: 100%;
+}
+.guest-auth-modal-login {
+  background: #1C2E4A;
+  color: #fff;
+  border: 2px solid #fff;
+  border-radius: 12px;
+  padding: 0.7em 0;
+  font-weight: 700;
+  font-size: 1.1em;
+  font-family: Inconsolata, monospace;
+  cursor: pointer;
+  width: 100%;
+  max-width: 300px;
+  min-width: 180px;
+}
+.guest-auth-modal-signup {
+  background: #52677D;
+  color: #fff;
+  border: 2px solid #fff;
+  border-radius: 12px;
+  padding: 0.7em 0;
+  font-weight: 700;
+  font-size: 1.1em;
+  font-family: Inconsolata, monospace;
+  cursor: pointer;
+  width: 100%;
+  max-width: 300px;
+  min-width: 180px;
+}

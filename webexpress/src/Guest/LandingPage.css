@@ -1,0 +1,407 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
+html {
+  scroll-behavior: smooth;
+}
+.app-container {
+  font-family: 'Roboto Mono', monospace;
+  overflow-x: hidden;
+  background-color: #fff;
+  background-size: 200% 200%;
+  color: #12243A;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  text-align: left;
+}
+@keyframes bg-animate {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.hero-section {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 40px;
+  box-sizing: border-box;
+}
+.hero-content {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  max-width: 900px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+.hero-image {
+  flex: 1 1 300px;
+  max-width: 320px;
+  padding: 10px;
+  overflow: visible;
+}
+.hero-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  animation: logo-wave 4s infinite ease-in-out;
+  transform-origin: 70% 80%;
+}
+@keyframes logo-wave {
+  0% { transform: rotate(0deg); }
+  10% { transform: rotate(14deg); }
+  20% { transform: rotate(-8deg); }
+  30% { transform: rotate(14deg); }
+  40% { transform: rotate(-4deg); }
+  50% { transform: rotate(10deg); }
+  60% { transform: rotate(0deg); }
+  100% { transform: rotate(0deg); }
+}
+.hero-text {
+  flex: 1 1 300px;
+  max-width: 350px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+}
+.main-title {
+  font-size: 1.7em;
+  font-weight: bold;
+  color: #12243A;
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+.highlight-text {
+  color: #12243A;
+  font-weight: bold;
+}
+.sub-title {
+  font-size: 1em;
+  color: #12243A;
+  margin-bottom: 18px;
+}
+.learn-more-btn {
+  background-color: #334E7B;
+  color: #fff;
+  border: none;
+  padding: 8px 18px;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 0.95em;
+  font-weight: 600;
+  transition: background 0.3s ease;
+  user-select: none;
+  align-self: flex-start;
+}
+.learn-more-btn:hover {
+  background-color: #1a2e4a;
+}
+.challenges-cards-flex {
+  display: flex;
+  gap: 2.5rem;
+  justify-content: center;
+  align-items: stretch;
+  margin: 2.5rem 0 2rem 0;
+  flex-wrap: wrap;
+}
+.challenge-card {
+  background: transparent;
+  width: 270px;
+  height: 220px;
+  perspective: 1000px;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08), 0 1.5px 6px rgba(0,0,0,0.04);
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+.challenge-card:hover {
+  box-shadow: 0 8px 32px rgba(0,0,0,0.13), 0 2px 8px rgba(0,0,0,0.07);
+}
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s cubic-bezier(.4,2,.6,1);
+  transform-style: preserve-3d;
+}
+.challenge-card:hover .card-inner,
+.challenge-card:focus .card-inner {
+  transform: rotateY(180deg);
+}
+.card-front, .card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  background: #fff;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  padding: 1.2rem 1.1rem;
+}
+.card-front {
+  z-index: 2;
+}
+.card-back {
+  transform: rotateY(180deg);
+  background: #334E7B;
+  color: #fff;
+  z-index: 1;
+}
+.card-front h3, .card-back h3 {
+  margin-bottom: 0.7em;
+  font-size: 1.2em;
+}
+.card-front p, .card-back p {
+  font-size: 1em;
+  margin: 0;
+}
+.landing-section {
+  margin-top: 80px;
+  margin-bottom: 80px;
+  padding-top: 56px;
+  padding-bottom: 56px;
+}
+
+/* Remove top margin for the first section after hero if needed */
+.hero-section + .landing-section {
+  margin-top: 60px;
+}
+
+/* Optional: Add more visual separation with a subtle border or background */
+.landing-section:not(:last-child) {
+  border-bottom: 1px solid #e6eaf0;
+  padding-bottom: 40px;
+}
+.challenges-section {
+  text-align: center;
+  color: #334E7B;
+}
+.challenges-section h2 {
+  color: #334E7B;
+  font-size: 2.1em;
+  font-weight: 700;
+}
+.challenges-section p {
+  color: #334E7B;
+}
+.features-section {
+  text-align: center;
+}
+.features-section h2,
+.features-section h3,
+.features-section p {
+  color: #334E7B;
+}
+.features-section h2 {
+  font-size: 2.1em;
+  font-weight: 700;
+}
+.features-section h3 {
+  font-size: 1.35em;
+  font-weight: 700;
+}
+.features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  align-items: center;
+}
+.feature-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+  width: 100%;
+  max-width: 900px;
+}
+.feature-row.left .feature-text {
+  order: 1;
+  text-align: center;
+}
+.feature-row.left .feature-img {
+  order: 2;
+}
+.feature-row.right .feature-img {
+  order: 1;
+}
+.feature-row.right .feature-text {
+  order: 2;
+  text-align: center;
+}
+.feature-text {
+  flex: 1 1 300px;
+  max-width: 350px;
+  text-align: center;
+}
+.feature-img {
+  flex: 1 1 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.faqs-section {
+  text-align: center;
+  color: #334E7B;
+}
+.faqs-section h2,
+.faqs-section .faq-question,
+.faqs-section .faq-answer {
+  color: #334E7B;
+}
+.faqs-section h2 {
+  font-size: 2.1em;
+  font-weight: 700;
+}
+.challenges-section h3,
+.features-section h3,
+.faqs-section h3 {
+  font-size: 1.35em;
+  font-weight: 700;
+}
+.faqs-accordion {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2em;
+  margin-top: 2em;
+}
+.faq-item {
+  width: 100%;
+  max-width: 600px;
+  background: #f7f9fc;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(51,78,123,0.04);
+  margin-bottom: 0.5em;
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+.faq-item.open {
+  box-shadow: 0 4px 16px rgba(51,78,123,0.10);
+}
+.faq-question {
+  width: 100%;
+  background: none;
+  border: none;
+  outline: none;
+  font-size: 1.1em;
+  font-weight: 600;
+  text-align: left;
+  padding: 1em 1.5em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #334E7B;
+}
+.faq-toggle {
+  font-size: 1.3em;
+  font-weight: bold;
+  color: #334E7B;
+}
+.faq-answer {
+  padding: 0 1.5em 1em 1.5em;
+  text-align: left;
+  color: #334E7B;
+  font-size: 1em;
+}
+.demo-content-flex {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.demo-text {
+  flex: 1 1 300px;
+  max-width: 400px;
+  color: #334E7B;
+  text-align: left;
+  word-break: break-word;
+}
+.demo-text p {
+  color: #334E7B;
+  font-size: 1.1em;
+  line-height: 1.7;
+  max-width: 100%;
+  margin-top: 1em;
+  margin-bottom: 0;
+  white-space: pre-line;
+}
+.demo-video {
+  flex: 1 1 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.demo-video video {
+  width: 700px;
+  max-width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(51,78,123,0.10);
+}
+.demo-section h2 {
+  font-size: 2.1em;
+  font-weight: 700;
+  color: #334E7B;
+  text-align: center;
+  width: 100%;
+  margin: 0 auto 32px auto;
+  display: block;
+}
+@media (max-width: 768px) {
+  .hero-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .hero-image {
+    max-width: 200px;
+  }
+  .hero-text {
+    text-align: center;
+  }
+  .learn-more-btn {
+    align-self: center;
+  }
+}
+@media (max-width: 900px) {
+  .challenges-cards-flex {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .challenge-card {
+    width: 90vw;
+    max-width: 340px;
+    height: 200px;
+  }
+  .feature-row {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .feature-text, .feature-img {
+    max-width: 100%;
+  }
+  .demo-content-flex {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .demo-text, .demo-video {
+    max-width: 100%;
+    text-align: center;
+  }
+  .demo-video video {
+    width: 100%;
+    max-width: 100%;
+  }
+}

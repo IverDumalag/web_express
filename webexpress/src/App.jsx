@@ -1,6 +1,6 @@
+import LandingPage from './Guest/LandingPage';
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import HomePage from './pages/HomePage';
 import UserLogin from './user/UserLogin';
 import UserRegister from './user/UserRegister';
 import TempAdminPage from './admin/TempAdminPage';
@@ -9,7 +9,6 @@ import { UserProtectedRoute, AdminProtectedRoute } from './utils/ProtectedRoute'
 import UserHome from './user/UserHome';
 import UserSettings from './user/UserSettings';
 import UserProfile from './user/UserProfile';
-import TrySearch from './pages/TrySearch';
 import UserArchived from './user/UserArchived';
 import AdminHome from './admin/AdminHome';
 import AdminAnalytics from './admin/AdminAnalytics';
@@ -22,10 +21,9 @@ export default function App() {
     <Router>
       <Routes>
         {/* Public Routes */}
-        <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<UserLogin />} />
         <Route path="/register" element={<UserRegister />} />
-        <Route path="/trysearch" element={<TrySearch />} />
+        <Route path="/" element={<LandingPage />} />
 
         {/* User Protected Routes */}
         <Route element={<UserProtectedRoute />}>  
