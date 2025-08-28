@@ -259,34 +259,17 @@ function EditProfilePopup({ editForm, editLoading, editError, onChange, onSubmit
           }}
         />
         <label style={{ fontWeight: 500, fontSize: '1.1em', marginBottom: 2 }}>Sex</label>
-        <select
-          className="profile-edit-input"
-          name="sex"
-          value={editForm.sex}
-          onChange={onChange}
-          required
-          disabled={editLoading}
-          style={{
-            background: '#fff', color: '#2563eb', fontWeight: 600, fontSize: '1.1em', border: 'none', borderRadius: 8, padding: '0.6em 1em', marginBottom: 8, fontFamily: 'Inconsolata, monospace', outline: 'none', boxSizing: 'border-box',
-          }}
-        >
-          <option value="">Select</option>
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
-        </select>
+        <div style={{
+          background: '#f5f5f5', color: '#666', fontWeight: 600, fontSize: '1.1em', border: '1px solid #ddd', borderRadius: 8, padding: '0.6em 1em', marginBottom: 8, fontFamily: 'Inconsolata, monospace', boxSizing: 'border-box',
+        }}>
+          {editForm.sex || "-"}
+        </div>
         <label style={{ fontWeight: 500, fontSize: '1.1em', marginBottom: 2 }}>Birthdate</label>
-        <input
-          className="profile-edit-input"
-          name="birthdate"
-          type="date"
-          value={editForm.birthdate}
-          onChange={onChange}
-          required
-          disabled={editLoading}
-          style={{
-            background: '#fff', color: '#2563eb', fontWeight: 600, fontSize: '1.1em', border: 'none', borderRadius: 8, padding: '0.6em 1em', marginBottom: 8, fontFamily: 'Inconsolata, monospace', outline: 'none', boxSizing: 'border-box',
-          }}
-        />
+        <div style={{
+          background: '#f5f5f5', color: '#666', fontWeight: 600, fontSize: '1.1em', border: '1px solid #ddd', borderRadius: 8, padding: '0.6em 1em', marginBottom: 8, fontFamily: 'Inconsolata, monospace', boxSizing: 'border-box',
+        }}>
+          {editForm.birthdate || "-"}
+        </div>
         <div style={{ display: 'flex', gap: '1em', marginTop: '1.5em' }}>
           <button
             className="profile-edit-btn"

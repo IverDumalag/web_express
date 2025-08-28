@@ -6,6 +6,32 @@ import '../CSS/AdminLogs.css';
 export default function AdminLogs() {
    const [logs, setLogs] = useState([]);
    const [loadingLogs, setLoadingLogs] = useState(true);
+   const [searchTerm, setSearchTerm] = useState('');
+   const [currentPage, setCurrentPage] = useState(1);
+   const [itemsPerPage] = useState(10); // You can adjust this number
+
+   // Filter logs based on search term
+   const filteredLogs = logs.filter(log => {
+      const searchLower = searchTerm.toLowerCase();
+      return (
+         log.email?.toLowerCase().includes(searchLower) ||
+         log.user_role?.toLowerCase().includes(searchLower) ||
+         log.action_type?.toLowerCase().includes(searchLower) ||
+         log.object_type?.toLowerCase().includes(searchLower) ||
+         log.user_id?.toString().includes(searchLower)
+      );
+   });
+
+   // Calculate pagination
+   const totalPages = Math.ceil(filteredLogs.length / itemsPerPage);
+   const startIndex = (currentPage - 1) * itemsPerPage;
+   const endIndex = startIndex + itemsPerPage;
+   const currentLogs = filteredLogs.slice(startIndex, endIndex);
+
+   // Reset to first page when search changes
+   useEffect(() => {
+      setCurrentPage(1);
+   }, [searchTerm]);
 
    useEffect(() => {
       setLoadingLogs(true);
@@ -15,6 +41,26 @@ export default function AdminLogs() {
          .catch(() => setLogs([]))
          .finally(() => setLoadingLogs(false));
    }, []);
+
+   const handleSearchChange = (e) => {
+      setSearchTerm(e.target.value);
+   };
+
+   const handlePageChange = (page) => {
+      setCurrentPage(page);
+   };
+
+   const handlePrevPage = () => {
+      if (currentPage > 1) {
+         setCurrentPage(currentPage - 1);
+      }
+   };
+
+   const handleNextPage = () => {
+      if (currentPage < totalPages) {
+         setCurrentPage(currentPage + 1);
+      }
+   };
 
    const desiredLogColumns = [
       "user_id",
@@ -71,7 +117,9 @@ export default function AdminLogs() {
                   <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
                     <input
                       type="text"
-                      placeholder="search user"
+                      placeholder="Search by email, role, action..."
+                      value={searchTerm}
+                      onChange={handleSearchChange}
                       style={{
                         border: '1.5px solid #22314a',
                         borderRadius: 12,
@@ -214,7 +262,7 @@ export default function AdminLogs() {
                                     Loading...
                                  </td>
                               </tr>
-                           ) : logs.length === 0 ? (
+                           ) : currentLogs.length === 0 ? (
                               <tr>
                                  <td
                                     colSpan={desiredLogColumns.length}
@@ -226,11 +274,11 @@ export default function AdminLogs() {
                                        fontSize: '1.1em',
                                     }}
                                  >
-                                    No logs found.
+                                    {searchTerm ? 'No logs found matching your search.' : 'No logs found.'}
                                  </td>
                               </tr>
                            ) : (
-                              logs.map((row, idx) => (
+                              currentLogs.map((row, idx) => (
                                  <tr
                                     key={row.log_id || idx}
                                     style={{
@@ -259,6 +307,102 @@ export default function AdminLogs() {
                         </tbody>
                      </table>
                   </div>
+                  
+                  {/* Pagination Controls */}
+                  {!loadingLogs && filteredLogs.length > 0 && (
+                     <div style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        marginTop: '1.5rem',
+                        padding: '0 1rem'
+                     }}>
+                        <div style={{
+                           fontFamily: 'Roboto Mono, monospace',
+                           fontSize: '0.9rem',
+                           color: '#52677D',
+                           fontWeight: 500
+                        }}>
+                           Showing {startIndex + 1} to {Math.min(endIndex, filteredLogs.length)} of {filteredLogs.length} logs
+                           {searchTerm && ` (filtered from ${logs.length} total)`}
+                        </div>
+                        
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                           <button
+                              onClick={handlePrevPage}
+                              disabled={currentPage === 1}
+                              style={{
+                                 background: currentPage === 1 ? '#e2e8f0' : '#22314a',
+                                 color: currentPage === 1 ? '#94a3b8' : '#fff',
+                                 border: 'none',
+                                 borderRadius: '8px',
+                                 padding: '0.5rem 1rem',
+                                 fontFamily: 'Roboto Mono, monospace',
+                                 fontSize: '0.9rem',
+                                 cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+                                 fontWeight: 600
+                              }}
+                           >
+                              Previous
+                           </button>
+                           
+                           {/* Page Numbers */}
+                           <div style={{ display: 'flex', gap: '0.25rem' }}>
+                              {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                                 let pageNum;
+                                 if (totalPages <= 5) {
+                                    pageNum = i + 1;
+                                 } else if (currentPage <= 3) {
+                                    pageNum = i + 1;
+                                 } else if (currentPage >= totalPages - 2) {
+                                    pageNum = totalPages - 4 + i;
+                                 } else {
+                                    pageNum = currentPage - 2 + i;
+                                 }
+                                 
+                                 return (
+                                    <button
+                                       key={pageNum}
+                                       onClick={() => handlePageChange(pageNum)}
+                                       style={{
+                                          background: currentPage === pageNum ? '#22314a' : '#f1f5f9',
+                                          color: currentPage === pageNum ? '#fff' : '#22314a',
+                                          border: '1px solid #cbd5e1',
+                                          borderRadius: '6px',
+                                          padding: '0.4rem 0.75rem',
+                                          fontFamily: 'Roboto Mono, monospace',
+                                          fontSize: '0.9rem',
+                                          cursor: 'pointer',
+                                          fontWeight: 600,
+                                          minWidth: '35px'
+                                       }}
+                                    >
+                                       {pageNum}
+                                    </button>
+                                 );
+                              })}
+                           </div>
+                           
+                           <button
+                              onClick={handleNextPage}
+                              disabled={currentPage === totalPages}
+                              style={{
+                                 background: currentPage === totalPages ? '#e2e8f0' : '#22314a',
+                                 color: currentPage === totalPages ? '#94a3b8' : '#fff',
+                                 border: 'none',
+                                 borderRadius: '8px',
+                                 padding: '0.5rem 1rem',
+                                 fontFamily: 'Roboto Mono, monospace',
+                                 fontSize: '0.9rem',
+                                 cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
+                                 fontWeight: 600
+                              }}
+                           >
+                              Next
+                           </button>
+                        </div>
+                     </div>
+                  )}
                </div>
             </div>
          </AdminNavBar>
