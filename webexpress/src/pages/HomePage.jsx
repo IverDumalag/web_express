@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import GuestNavBar from "../components/GuestNavBar";
-import signLanguageImage from "../assets/express_logo.png"; // resolved conflict
+import signLanguageImage from "../assets/express.png"; 
 import AboutPage from "../pages/AboutPage";
 import ChallengesPage from "../pages/ChallengesPage";
 import FeaturesPage from "../pages/FeaturePage";

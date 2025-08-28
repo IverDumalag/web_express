@@ -13,12 +13,14 @@ const FeaturePage = () => {
       reverse: false, // image left
     },
     {
+      title: "",
       img: secondImg,
       heading: "Audio-Text to Sign",
       description: "Receive instant feedback on your signs to improve learning efficiency.",
       reverse: true, // image right
     },
     {
+      title: "", 
       img: thirdImg,
       heading: "Sign Language Cards",
       description: "Works across multiple platforms to provide inclusive communication anywhere.",
@@ -33,8 +35,8 @@ const FeaturePage = () => {
 
         .feature-page-container {
           min-height: 100vh;
-          width: 100%;
-          padding: 5em 5vw;
+          width: 100vw;
+          padding: 8em 25vw;
           box-sizing: border-box;
           font-family: 'Roboto Mono', monospace;
           background: linear-gradient(135deg, #e0f0ff, #ffffff);
@@ -62,7 +64,7 @@ const FeaturePage = () => {
           gap: 3em;
           flex-wrap: wrap;
           width: 100%;
-          max-width: 1000px;
+          max-width: 1200px;
         }
 
         .section-container img {
@@ -108,8 +110,8 @@ const FeaturePage = () => {
 
       <div className="feature-page-container">
         {sections.map((section, idx) => (
-          <div key={idx} style={{ width: "90%" }}>
-            <h1 className="section-title">{section.title}</h1>
+          <div key={idx} style={{ width: "100%" }}>
+            {section.title && <h1 className="section-title">{section.title}</h1>}
             <div
               className="section-container"
               style={{ flexDirection: section.reverse ? "row-reverse" : "row" }}
