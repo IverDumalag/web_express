@@ -39,7 +39,7 @@ const FeaturePage = () => {
           padding: 8em 25vw;
           box-sizing: border-box;
           font-family: 'Roboto Mono', monospace;
-          background: linear-gradient(135deg, #e0f0ff, #ffffff);
+          background: #fff;
           color: #12243A;
           display: flex;
           flex-direction: column;

@@ -35,7 +35,7 @@ const FaqsPage = () => {
     <section
       style={{
         padding: "7em 2vw", // full width padding
-        background: "#f0f4ff",
+        background: "#fff",
         width: "100vw", // full viewport width
         boxSizing: "border-box",
         display: "flex",

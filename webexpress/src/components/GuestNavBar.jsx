@@ -60,14 +60,10 @@ const GuestNavBar = () => {
           fontWeight: 700,
           fontSize: "1.1em",
           color: "#1C2E4A",
+          marginLeft: "100px",
         }}
       >
-        <img
-          src={expressLogo}
-          alt="express logo"
-          style={{ height: "22px", width: "100px", objectFit: "contain" }}
-        />
-        ex<span style={{ color: "#2354C7" }}>Press</span>
+  ex<span style={{ color: "#2354C7" }}>Press</span>
       </div>
 
       {/* Nav Links */}
@@ -79,14 +75,12 @@ const GuestNavBar = () => {
           alignItems: "center",
         }}
       >
-        <span style={{ cursor: "pointer" }} onClick={() => navigate("/")}>
-          Home
-        </span>
+      
         <span
           style={{ cursor: "pointer" }}
-          onClick={() => handleNavScroll("demo")}
+          onClick={() => handleNavScroll("about")}
         >
-          Demo
+          About
         </span>
         <span
           style={{ cursor: "pointer" }}
@@ -102,12 +96,6 @@ const GuestNavBar = () => {
         </span>
         <span
           style={{ cursor: "pointer" }}
-          onClick={() => handleNavScroll("testimonials")}
-        >
-          How it Works?
-        </span>
-        <span
-          style={{ cursor: "pointer" }}
           onClick={() => handleNavScroll("faqs")}
         >
           FAQs
@@ -120,7 +108,7 @@ const GuestNavBar = () => {
           href="https://drive.google.com/uc?export=download&id=1D4QseDYlB9_3zezrNINM8eWWB3At1kVN"
           target="_blank"
           rel="noopener noreferrer"
-          style={{ textDecoration: "none", color: "#2354C7", fontWeight: 600 }}
+          style={{ textDecoration: "none", color: "#334E7B", fontWeight: 600 }}
         >
           Download App
         </a>
@@ -182,9 +170,9 @@ const GuestNavBar = () => {
               maxWidth: 460,
               padding: "8.2em 2.7em 2.7em",
               borderRadius: 20,
-              border: "1px solid #fff",
+              border: "2px solid #334E7B",
               background: "rgba(255,255,255,0.10)",
-              backdropFilter: "blur(18px)",
+              backdropFilter: "blur(30px)",
               WebkitBackdropFilter: "blur(18px)",
               display: "flex",
               flexDirection: "column",
@@ -204,7 +192,7 @@ const GuestNavBar = () => {
                 background: "none",
                 border: "none",
                 fontSize: "1.5em",
-                color: "#FFFFFF",
+                color: "#334E7B",
                 cursor: "pointer",
                 fontWeight: 700,
               }}
@@ -219,7 +207,7 @@ const GuestNavBar = () => {
                 textAlign: "center",
                 marginBottom: "2.9em",
                 fontFamily: "Inconsolata, monospace",
-                color: "#FFFFFF",
+                color: "#334E7B",
               }}
             >
               Login or Sign Up
