@@ -84,7 +84,7 @@
 }
 .center-form-group input,
 .center-form-group select {
-	width: 100%;
+	width: 99%;
 	padding: 0.85rem 1rem;
 	border-radius: 8px;
 	border: 2px solid #334E7B;
