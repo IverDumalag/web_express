@@ -147,20 +147,107 @@
 }
 .center-or::before { left: 0; }
 .center-or::after { right: 0; }
+/* Enhanced Mobile Responsiveness */
+@media (max-width: 1024px) {
+	.center-card {
+		min-width: 320px;
+		max-width: 480px;
+		padding: 2rem 1.8rem;
+	}
+}
+
+@media (max-width: 768px) {
+	.center-bg {
+		padding: 1em;
+	}
+	
+	.center-card {
+		min-width: 85vw;
+		max-width: 95vw;
+		padding: 1.8rem 1.2rem;
+	}
+	
+	.center-card h2 {
+		font-size: 1.6rem;
+	}
+	
+	.center-card p {
+		font-size: 1rem;
+	}
+}
+
 @media (max-width: 600px) {
 	.center-card {
 		min-width: 90vw;
 		max-width: 98vw;
-		padding: 1.2rem 0.5rem;
+		padding: 1.2rem 0.8rem;
+		gap: 1rem;
 	}
+	
+	.center-card h2 {
+		font-size: 1.4rem;
+	}
+	
+	.center-card p {
+		font-size: 0.95rem;
+		margin: 0 0 1.5rem 0;
+	}
+	
+	.center-btn, .center-form-group input, .center-form-group select {
+		font-size: 0.95rem;
+		padding: 0.75rem 0.8rem;
+	}
+	
+	.center-form {
+		gap: 1rem;
+	}
+	
+	.center-form-group {
+		gap: 0.3rem;
+	}
+}
+
+@media (max-width: 480px) {
+	.center-card {
+		min-width: 95vw;
+		max-width: 98vw;
+		padding: 1rem 0.6rem;
+		border-radius: 1rem;
+	}
+	
 	.center-card h2 {
 		font-size: 1.3rem;
 	}
+	
 	.center-card p {
 		font-size: 0.9rem;
 	}
+	
 	.center-btn, .center-form-group input, .center-form-group select {
-		font-size: 0.95rem;
-		padding: 0.7rem 0.7rem;
+		font-size: 0.9rem;
+		padding: 0.7rem;
+	}
+	
+	.center-form-group input[type="password"] {
+		padding-right: 2.5rem;
+	}
+}
+
+@media (max-width: 360px) {
+	.center-card {
+		padding: 0.8rem 0.4rem;
+	}
+	
+	.center-card h2 {
+		font-size: 1.2rem;
+	}
+	
+	.center-card p {
+		font-size: 0.85rem;
+	}
+	
+	.center-btn, .center-form-group input, .center-form-group select {
+		font-size: 0.85rem;
+		padding: 0.6rem;
 	}
 }

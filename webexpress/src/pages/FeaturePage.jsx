@@ -94,16 +94,142 @@ const FeaturePage = () => {
           color: #333;
         }
 
+        @media (max-width: 1200px) {
+          .feature-page-container {
+            padding: 6em 15vw;
+          }
+        }
+
+        @media (max-width: 1024px) {
+          .feature-page-container {
+            padding: 5em 10vw;
+            gap: 4em;
+          }
+          
+          .section-title {
+            font-size: 2rem;
+          }
+          
+          .section-text h2 {
+            font-size: 1.6rem;
+          }
+          
+          .section-text p {
+            font-size: 1rem;
+          }
+        }
+
         @media (max-width: 900px) {
+          .feature-page-container {
+            padding: 4em 5vw;
+            gap: 3em;
+          }
+          
           .section-container {
             flex-direction: column !important;
+            gap: 2em;
           }
+          
           .section-container img {
-            max-width: 90%;
+            max-width: 80%;
             margin-bottom: 1em;
           }
+          
           .section-text {
             text-align: center;
+          }
+          
+          .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5em;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .feature-page-container {
+            padding: 3em 3vw;
+            gap: 2.5em;
+          }
+          
+          .section-title {
+            font-size: 1.6rem;
+            letter-spacing: 1px;
+          }
+          
+          .section-text h2 {
+            font-size: 1.4rem;
+          }
+          
+          .section-text p {
+            font-size: 0.95rem;
+          }
+          
+          .section-container img {
+            max-width: 90%;
+          }
+        }
+
+        @media (max-width: 600px) {
+          .feature-page-container {
+            padding: 2em 2vw;
+            gap: 2em;
+          }
+          
+          .section-title {
+            font-size: 1.4rem;
+            margin-bottom: 1em;
+          }
+          
+          .section-text h2 {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+          }
+          
+          .section-text p {
+            font-size: 0.9rem;
+            line-height: 1.4;
+          }
+          
+          .section-container img {
+            max-width: 95%;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .feature-page-container {
+            padding: 1.5em 1vw;
+            gap: 1.5em;
+          }
+          
+          .section-title {
+            font-size: 1.2rem;
+            letter-spacing: 0.5px;
+          }
+          
+          .section-text h2 {
+            font-size: 1.2rem;
+          }
+          
+          .section-text p {
+            font-size: 0.85rem;
+          }
+        }
+
+        @media (max-width: 360px) {
+          .feature-page-container {
+            padding: 1em 0.5vw;
+          }
+          
+          .section-title {
+            font-size: 1.1rem;
+          }
+          
+          .section-text h2 {
+            font-size: 1.1rem;
+          }
+          
+          .section-text p {
+            font-size: 0.8rem;
           }
         }
       `}</style>

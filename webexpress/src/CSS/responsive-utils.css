@@ -1,0 +1,430 @@
+/* Global Responsive Utilities */
+
+/* Reset and base responsive settings */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: auto; /* Allow horizontal scrolling for content, not for sidebar */
+}
+
+/* Responsive typography utility classes */
+.text-responsive {
+  font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+}
+
+.title-responsive {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.subtitle-responsive {
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+}
+
+/* Responsive spacing utilities */
+.padding-responsive {
+  padding: clamp(1rem, 3vw, 2rem);
+}
+
+.margin-responsive {
+  margin: clamp(0.5rem, 2vw, 1.5rem);
+}
+
+/* Responsive container utilities */
+.container-responsive {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 3vw, 2rem);
+}
+
+.flex-responsive {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(1rem, 2vw, 2rem);
+}
+
+.grid-responsive {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: clamp(1rem, 2vw, 2rem);
+}
+
+/* Responsive image utilities */
+.img-responsive {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.video-responsive {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+}
+
+/* Responsive button utilities */
+.btn-responsive {
+  padding: clamp(0.5rem, 2vw, 1rem) clamp(1rem, 3vw, 2rem);
+  font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+  border-radius: clamp(4px, 1vw, 8px);
+  transition: all 0.3s ease;
+}
+
+/* Hide/show utilities for different screen sizes */
+.hide-mobile {
+  display: block;
+}
+
+.show-mobile {
+  display: none;
+}
+
+.hide-tablet {
+  display: block;
+}
+
+.show-tablet {
+  display: none;
+}
+
+.hide-desktop {
+  display: none;
+}
+
+.show-desktop {
+  display: block;
+}
+
+/* Responsive breakpoints */
+@media (max-width: 1024px) {
+  .hide-tablet {
+    display: none;
+  }
+  
+  .show-tablet {
+    display: block;
+  }
+}
+
+@media (max-width: 768px) {
+  .hide-mobile {
+    display: none;
+  }
+  
+  .show-mobile {
+    display: block;
+  }
+  
+  .flex-responsive {
+    flex-direction: column;
+  }
+  
+  .grid-responsive {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 1025px) {
+  .hide-desktop {
+    display: none;
+  }
+  
+  .show-desktop {
+    display: block;
+  }
+}
+
+/* Responsive text alignment */
+@media (max-width: 768px) {
+  .text-center-mobile {
+    text-align: center;
+  }
+  
+  .text-left-mobile {
+    text-align: left;
+  }
+}
+
+/* Responsive overflow handling */
+.overflow-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Horizontal scroll utilities for tables and wide content */
+.scroll-horizontal {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f8fafc;
+}
+
+.scroll-horizontal::-webkit-scrollbar {
+  height: 8px;
+}
+
+.scroll-horizontal::-webkit-scrollbar-track {
+  background: #f8fafc;
+  border-radius: 4px;
+}
+
+.scroll-horizontal::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+.scroll-horizontal::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Container with minimum width for horizontal scrolling */
+.min-width-container {
+  min-width: 600px;
+}
+
+@media (max-width: 768px) {
+  .min-width-container {
+    min-width: 500px;
+  }
+}
+
+@media (max-width: 480px) {
+  .min-width-container {
+    min-width: 400px;
+  }
+}
+
+/* Responsive positioning */
+.position-responsive {
+  position: relative;
+}
+
+@media (max-width: 768px) {
+  .position-responsive {
+    position: static;
+  }
+}
+
+/* Common responsive fixes for forms */
+.form-responsive input,
+.form-responsive select,
+.form-responsive textarea {
+  width: 100%;
+  max-width: 100%;
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
+  padding: clamp(0.5rem, 2vw, 1rem);
+}
+
+/* Responsive modal/popup utilities */
+.modal-responsive {
+  width: 95vw;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: clamp(1rem, 3vw, 2rem);
+}
+
+@media (max-width: 480px) {
+  .modal-responsive {
+    width: 98vw;
+    max-width: none;
+    margin: 0;
+    padding: clamp(0.5rem, 2vw, 1rem);
+    border-radius: clamp(8px, 2vw, 12px);
+  }
+}
+
+/* Responsive navigation utilities */
+.nav-responsive {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: clamp(0.5rem, 2vw, 1rem) clamp(1rem, 3vw, 2rem);
+}
+
+@media (max-width: 768px) {
+  .nav-responsive {
+    flex-wrap: wrap;
+  }
+}
+
+/* Responsive table utilities */
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+}
+
+.table-responsive table {
+  min-width: 600px;
+  width: 100%;
+}
+
+.table-responsive th,
+.table-responsive td {
+  white-space: nowrap;
+  padding: clamp(0.5rem, 2vw, 1rem);
+}
+
+@media (max-width: 768px) {
+  .table-responsive table {
+    min-width: 500px;
+    font-size: 0.9rem;
+  }
+  
+  .table-responsive th,
+  .table-responsive td {
+    padding: clamp(0.3rem, 1.5vw, 0.8rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .table-responsive table {
+    min-width: 400px;
+    font-size: 0.8rem;
+  }
+  
+  .table-responsive th,
+  .table-responsive td {
+    padding: clamp(0.25rem, 1vw, 0.6rem);
+  }
+}
+
+/* Responsive card containers with horizontal scroll */
+.cards-horizontal-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: clamp(1rem, 2vw, 2rem);
+  padding-bottom: 1rem;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f8fafc;
+}
+
+.cards-horizontal-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+
+.cards-horizontal-scroll::-webkit-scrollbar-track {
+  background: #f8fafc;
+  border-radius: 4px;
+}
+
+.cards-horizontal-scroll::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.cards-horizontal-scroll > * {
+  flex: 0 0 auto;
+  min-width: 280px;
+}
+
+@media (max-width: 768px) {
+  .cards-horizontal-scroll > * {
+    min-width: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cards-horizontal-scroll > * {
+    min-width: 200px;
+  }
+}
+
+/* Enhanced horizontal scroll utilities for admin content */
+.scroll-horizontal {
+  overflow-x: auto;
+  overflow-y: visible;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: #2563eb rgba(37,99,235,0.08);
+}
+
+.scroll-horizontal::-webkit-scrollbar {
+  height: 6px;
+}
+
+.scroll-horizontal::-webkit-scrollbar-track {
+  background: rgba(37,99,235,0.08);
+  border-radius: 3px;
+}
+
+.scroll-horizontal::-webkit-scrollbar-thumb {
+  background: #2563eb;
+  border-radius: 3px;
+}
+
+.scroll-horizontal::-webkit-scrollbar-thumb:hover {
+  background: #1d4ed8;
+}
+
+/* Container utilities that maintain min-width for scrolling */
+.min-width-container {
+  min-width: 320px;
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* Table responsive utility */
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f8fafc;
+}
+
+.table-responsive::-webkit-scrollbar {
+  height: 8px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+  background: #f8fafc;
+  border-radius: 4px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.table-responsive table {
+  min-width: 600px;
+  width: 100%;
+}
+
+/* Content area specific utilities */
+.content-area-scroll {
+  overflow-x: auto;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+}
+
+/* Mobile-specific content scrolling */
+@media (max-width: 768px) {
+  .mobile-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+  
+  .mobile-scroll::-webkit-scrollbar {
+    height: 4px;
+  }
+  
+  .mobile-scroll::-webkit-scrollbar-thumb {
+    background: #2563eb;
+    border-radius: 2px;
+  }
+}

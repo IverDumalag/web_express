@@ -7,6 +7,7 @@ import howareyouVideo from '../assets/howareyou_bwzgiu.mp4';
 import thankyouVideo from '../assets/thankyou_huzpb0.mp4';
 import goodmorningVideo from '../assets/goodmorning_wgwhib.mp4';
 import expressVideo from '../assets/express video  demonstration.mp4';
+import '../CSS/UserHome.css';
 
 export default function UserHome() {
   const userData = JSON.parse(localStorage.getItem('userData') || '{}');
@@ -84,40 +85,40 @@ export default function UserHome() {
           <div style={{ height: 40 }} />
 
           {/* Video card grid */}
-          <div style={{ position: 'relative', margin: '40px 0 24px 0', textAlign: 'center' }}>    
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gridTemplateRows: 'repeat(2, 1fr)', gap: '88px', justifyContent: 'center', alignItems: 'center', maxWidth: 1600, margin: '0 auto 56px auto' }} className="sign-card-grid">
+          <div className="user-home-video-container">    
+            <div className="user-home-video-grid">
               {[0,1,2,3].map(i => (
-                <div key={i} className="sign-card-video-box" style={{ background: '#22365a', borderRadius: '10px', minHeight: 480, minWidth: 560, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '1.3em', fontWeight: 500, boxShadow: '0 4px 24px rgba(51,78,123,0.13)', position: 'relative', overflow: 'hidden', padding: 0 }}>
-                  <video src={i === 0 ? helloVideo : i === 1 ? howareyouVideo : i === 2 ? thankyouVideo : goodmorningVideo} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover' }} controls />
-                  <div style={{ position: 'absolute', top:0, left:0, width:'100%', height:'100%', background:'rgba(30,40,60,0.55)', zIndex:1, pointerEvents:'none', transition:'background 0.3s' }} />
-                  <div style={{ position:'absolute', top:'50%', left:'50%', transform:'translate(-50%, -50%)', color:'#fff', fontWeight:700, fontSize:'2em', textShadow:'0 2px 8px #22365a, 0 0 16px #0008', pointerEvents:'none', fontFamily:'Roboto Mono, monospace', zIndex:2 }}>
-                    {i === 0 ? 'Hello' : i === 1 ? 'How are you' : i === 2 ? 'Thank you' : 'Good\u00a0morning'}
+                <div key={i} className="sign-card-video-box">
+                  <video src={i === 0 ? helloVideo : i === 1 ? howareyouVideo : i === 2 ? thankyouVideo : goodmorningVideo} className="sign-language-video" controls />
+                  <div className="video-overlay" />
+                  <div className="video-label">
+                    {i === 0 ? 'Hello' : i === 1 ? 'How are you' : i === 2 ? 'Thank you' : 'Good morning'}
                   </div>
                 </div>
               ))}
             </div>
+          </div>
 
             {/* Section: exPress demo video */}
             <div style={{ height: 160 }} />
             <hr style={{ border:'none', borderTop:'2.5px solid #e3eafc', margin:'0 0 36px 0', width:'100%' }} />
 
-            <div style={{ width:'100vw', display:'flex', justifyContent:'center', alignItems:'center', margin:'40px 0', position:'relative', left:'50%', right:'50%', transform:'translateX(-50%)' }}>
+            <div className="express-demo-container">
               {/* Text */}
-              <div style={{ flex:'0 0 340px', maxWidth:380, marginRight:'24px', textAlign:'left', display:'flex', flexDirection:'column', justifyContent:'center' }}>
-                <div style={{ fontFamily:'Roboto Mono, monospace', fontWeight:700, fontSize:'2em', color:'#22365a', marginBottom:12, letterSpacing:1 }}>
+              <div className="express-demo-text">
+                <div className="express-demo-title">
                   exPress Demo
                 </div>
-                <div style={{ fontFamily:'Roboto Mono, monospace', fontWeight:400, fontSize:'1.15em', color:'#334E7B', lineHeight:1.6, marginBottom:8 }}>
+                <div className="express-demo-description">
                   See how exPress helps you learn and practice sign language interactively. Watch the demonstration to explore our features and discover how easy it is to start communicating visually!
                 </div>
               </div>
 
               {/* Video */}
-              <div style={{ background:'#fff', border:'4px solid #334E7B', borderRadius:20, boxShadow:'0 4px 24px rgba(51,78,123,0.10)', padding:18, display:'inline-block', maxWidth:'800px', width:'54vw', minWidth:340 }}>
-                <video src={expressVideo} style={{ width:'100%', aspectRatio:'16/9', height:'auto', borderRadius:12, objectFit:'contain' }} controls muted />
+              <div className="express-demo-video-wrapper">
+                <video src={expressVideo} className="express-demo-video" controls muted />
               </div>
             </div>
-          </div>
 
           <div ref={pageEndRef} style={{ height: 120 }} />
         </div>
