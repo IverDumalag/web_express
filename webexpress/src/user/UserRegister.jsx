@@ -25,7 +25,7 @@
       const [otpLoading, setOtpLoading] = useState(false);
       const [resendTimer, setResendTimer] = useState(0);
       const navigate = useNavigate();
-
+        const [showPassword, setShowPassword] = useState(false);
       const mainColor = '#334E7B';
 
       const handleChange = e => {
@@ -180,7 +180,43 @@
                 
                 <div className="center-form-group">
                   <label>Password</label>
-                  <input type="password" name="password" value={form.password} onChange={handleChange} required />
+                    <div style={{ position: 'relative', width: '100%' }}>
+                      <input
+                        type={showPassword ? 'text' : 'password'}
+                        name="password"
+                        value={form.password}
+                        onChange={handleChange}
+                        required
+                        style={{ width: '96%', margin: '0 auto', display: 'block', paddingRight: '2.7rem' }}
+                      />
+                      <button
+                        type="button"
+                        tabIndex={-1}
+                        onClick={() => setShowPassword(v => !v)}
+                        style={{
+                          position: 'absolute',
+                          right: '2.4rem',
+                          top: '50%',
+                          transform: 'translateY(-50%)',
+                          background: 'none',
+                          border: 'none',
+                          cursor: 'pointer',
+                          color: '#334E7B',
+                          fontSize: '1.1rem',
+                          padding: 0,
+                          display: 'flex',
+                          alignItems: 'center',
+                          height: '100%'
+                        }}
+                        aria-label={showPassword ? 'Hide password' : 'Show password'}
+                      >
+                        {showPassword ? (
+                          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.94 17.94A10.06 10.06 0 0 1 12 20C7 20 2.73 16.11 1 12c.74-1.61 1.81-3.06 3.06-4.31M9.88 9.88A3 3 0 0 1 12 9c1.66 0 3 1.34 3 3 0 .39-.08.76-.21 1.09" /><path d="M1 1l22 22" /></svg>
+                        ) : (
+                          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12S5 4 12 4s11 8 11 8-4 8-11 8S1 12 1 12z" /><circle cx="12" cy="12" r="3" /></svg>
+                        )}
+                      </button>
+                    </div>
                 </div>
                 
                 <div className="center-form-group">
