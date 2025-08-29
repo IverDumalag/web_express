@@ -159,11 +159,13 @@ const HomePage = () => {
         }
 
         .main-title {
-          font-size: 1.7em;
+          font-size: 2.5em;
           font-weight: bold;
           color: #12243A;
           margin-bottom: 12px;
           line-height: 1.2;
+
+          
         }
 
         .highlight-text {
@@ -172,7 +174,7 @@ const HomePage = () => {
         }
 
         .sub-title {
-          font-size: 1em;
+          font-size: 1.2em;
           color: #12243A;
           margin-bottom: 18px;
         }
@@ -227,8 +229,8 @@ const HomePage = () => {
 
             <div className="hero-text">
               <h1 className="main-title">
-                Learn Sign Language<br />
-                <span className="highlight-text">Visually & Interactively</span>
+                Use Sign Language Cards<br /> 
+                <span className="highlight-text">Easily & Interactively</span>
               </h1>
 
               <p className="sub-title">
