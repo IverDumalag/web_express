@@ -230,7 +230,7 @@ const HomePage = () => {
             <div className="hero-text">
               <h1 className="main-title">
                 Use Sign Language Cards<br /> 
-                <span className="highlight-text">Visually & Interactively</span>
+                <span className="highlight-text">Easily & Interactively</span>
               </h1>
 
               <p className="sub-title">
