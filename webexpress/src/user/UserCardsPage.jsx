@@ -232,7 +232,7 @@ export default function UserCardsPage() {
                   </div>
                 )}
               </button>
-      {/* Modern filter dropdown styles for filter-dropdown and filter-option */}
+      {/* Modern filter dropdown styles for filter-dropdown and filter-option, plus responsive styles */}
       <style>{`
         .filter-dropdown {
           position: absolute;
@@ -279,6 +279,50 @@ export default function UserCardsPage() {
           background: #334E7B;
           color: #fff;
           font-weight: 700;
+        }
+
+        /* Responsive styles for UserCardsPage */
+        @media (max-width: 900px) {
+          .card-list {
+            grid-template-columns: 1fr !important;
+            gap: 4vw !important;
+            margin-left: 0 !important;
+          }
+          .search-main-container {
+            padding: 0 2vw !important;
+          }
+          .tab-row {
+            margin-left: 0 !important;
+            flex-direction: column !important;
+            gap: 0.7em !important;
+            align-items: stretch !important;
+          }
+          .filter-dropdown, .meatball-dropdown {
+            min-width: 90vw !important;
+            max-width: 98vw !important;
+            right: 0 !important;
+            left: 0 !important;
+            margin: 0 auto !important;
+          }
+        }
+        @media (max-width: 600px) {
+          .card-list {
+            grid-template-columns: 1fr !important;
+            gap: 6vw !important;
+          }
+          .add-modal {
+            padding: 1.2em 0.7em 1em 0.7em !important;
+            max-width: 98vw !important;
+          }
+          .speech-bubble {
+            min-width: 120px !important;
+            max-width: 90vw !important;
+            font-size: 0.95em !important;
+            padding: 0.7em 0.7em 0.7em 0.7em !important;
+          }
+          .speech-bubble-tail, .speech-bubble-tail-border {
+            right: 10px !important;
+          }
         }
       `}</style>
               <div style={{ position: 'relative' }}>
@@ -454,7 +498,7 @@ export default function UserCardsPage() {
             <div style={{ textAlign: "center", color: "#aaa", marginTop: "4vw" }}>Loading...</div>
           ) : (
             <div className="card-grid-container">
-              <div className="card-list" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '2vw', marginTop: '2vw', marginBottom: '2vw', marginLeft: '-4vw' }}>
+              <div className="card-list" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '2vw', marginTop: '2vw', marginBottom: '2vw', justifyContent: 'center' }}>
                 <UserCards cards={filteredCards} onCardUpdated={handleCardUpdated} />
               </div>
             </div>
@@ -600,17 +644,19 @@ export default function UserCardsPage() {
               color: #1C2E4A;
               border-radius: 18px;
               box-shadow: 0 2px 12px #1C2E4A22;
-              padding: 0.9em 1.5em 0.9em 1.5em;
+              padding: 0.9em 1.2em 0.9em 1.2em;
               font-family: 'Roboto Mono', monospace;
               font-weight: 600;
               font-size: 1.08em;
-              white-space: nowrap;
+              white-space: normal;
+              word-break: break-word;
               pointer-events: auto;
               border: 1.5px solid #1C2E4A;
-              min-width: 210px;
-              max-width: 320px;
+              min-width: 120px;
+              max-width: 500;
               text-align: center;
               z-index: 2;
+              line-height: 1.4;
             }
             .speech-bubble-tail {
               position: absolute;
