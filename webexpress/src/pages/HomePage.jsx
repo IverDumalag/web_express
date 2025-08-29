@@ -234,7 +234,7 @@ const HomePage = () => {
               </h1>
 
               <p className="sub-title">
-                Empower communication for everyone—start learning sign language the easy and engaging way.
+                Empower communication for everyone—start using sign language the easy and engaging way.
               </p>
 
               <button className="learn-more-btn" onClick={scrollToAboutPage}>
@@ -630,8 +630,8 @@ const HomePage = () => {
               transition: max-height 0.4s ease;
             }
             .faq-item.open {
-              background: #f7faff;
-              box-shadow: 0 6px 20px rgba(51,84,199,0.08);
+              background: #ffffffff;
+              outline: 2px solid #334E7B;
             }
           `}</style>
           <h1 style={{ textAlign: "center", fontSize: "2.5rem", marginBottom: "2em", color: "#334E7B" }}>Frequently Asked Questions</h1>

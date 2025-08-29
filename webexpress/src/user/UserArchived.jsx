@@ -143,17 +143,37 @@ export default function UserArchived() {
               color: #1C2E4A;
               border-radius: 18px;
               box-shadow: 0 2px 12px #1C2E4A22;
-              padding: 0.9em 1.5em 0.9em 1.5em;
+              padding: 1em 1.7em 1em 1.7em;
               font-family: 'Roboto Mono', monospace;
               font-weight: 600;
               font-size: 1.08em;
-              white-space: nowrap;
+              white-space: normal;
               pointer-events: auto;
               border: 1.5px solid #1C2E4A;
-              min-width: 210px;
-              max-width: 320px;
+              min-width: 160px;
+              max-width: 390px;
               text-align: center;
               z-index: 2;
+              word-break: break-word;
+              overflow-wrap: break-word;
+              box-sizing: border-box;
+            }
+            .archived-typed-text {
+              display: inline-block;
+              overflow: hidden;
+              white-space: pre-line;
+              border-right: 2.5px solid #1C2E4A;
+              animation: typing 2.2s steps(32, end), blink-caret 0.7s step-end infinite;
+              font-family: inherit;
+              font-size: inherit;
+              font-weight: inherit;
+              letter-spacing: 0.01em;
+              min-width: 0;
+              max-width: 100%;
+              word-break: break-word;
+              overflow-wrap: break-word;
+              box-sizing: border-box;
+              padding: 0;
             }
             .archived-speech-bubble-tail {
               position: absolute;
