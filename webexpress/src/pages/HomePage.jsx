@@ -159,11 +159,13 @@ const HomePage = () => {
         }
 
         .main-title {
-          font-size: 1.7em;
+          font-size: 2.5em;
           font-weight: bold;
           color: #12243A;
           margin-bottom: 12px;
           line-height: 1.2;
+
+          
         }
 
         .highlight-text {
@@ -172,7 +174,7 @@ const HomePage = () => {
         }
 
         .sub-title {
-          font-size: 1em;
+          font-size: 1.2em;
           color: #12243A;
           margin-bottom: 18px;
         }
@@ -227,12 +229,12 @@ const HomePage = () => {
 
             <div className="hero-text">
               <h1 className="main-title">
-                Learn Sign Language<br />
-                <span className="highlight-text">Visually & Interactively</span>
+                Use Sign Language Cards<br /> 
+                <span className="highlight-text">Easily & Interactively</span>
               </h1>
 
               <p className="sub-title">
-                Empower communication for everyone—start learning sign language the easy and engaging way.
+                Empower communication for everyone—start using sign language the easy and engaging way.
               </p>
 
               <button className="learn-more-btn" onClick={scrollToAboutPage}>
@@ -628,8 +630,8 @@ const HomePage = () => {
               transition: max-height 0.4s ease;
             }
             .faq-item.open {
-              background: #f7faff;
-              box-shadow: 0 6px 20px rgba(51,84,199,0.08);
+              background: #ffffffff;
+              outline: 2px solid #334E7B;
             }
           `}</style>
           <h1 style={{ textAlign: "center", fontSize: "2.5rem", marginBottom: "2em", color: "#334E7B" }}>Frequently Asked Questions</h1>

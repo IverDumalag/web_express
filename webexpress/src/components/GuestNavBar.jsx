@@ -51,7 +51,10 @@ const GuestNavBar = () => {
           fontFamily: "Roboto Mono, monospace",
           width: "100%",
           borderBottom: "1px solid #eee",
-          position: "relative",
+          position: "fixed",
+          top: 0,
+          left: 0,
+          zIndex: 1000,
         }}
       >
         {/* Brand */}
