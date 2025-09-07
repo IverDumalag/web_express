@@ -15,7 +15,6 @@ export default function AdminLogs() {
       "email",
       "user_role",
       "action_type",
-      "object_type",
       "created_at",
    ];
 
