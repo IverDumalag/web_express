@@ -2,13 +2,11 @@ import React, { useRef, useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { clearUserData } from '../data/UserData';
 import AdminProfile from '../admin/AdminProfile';
-import AdminMainConcern from '../admin/AdminMainConcern';
 import '../CSS/AdminNavBar.css';
 
 const sideLinks = [
   { label: "Analytics", path: "/adminanalytics" },
   { label: "Logs", path: "/adminlogs" },
-  { label: "Main Concern Board", path: "/adminmainconcern" },
 ];
 
 export default function AdminNavBar({ children }) {
