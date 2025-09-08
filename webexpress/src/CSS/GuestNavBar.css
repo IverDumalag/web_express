@@ -1,48 +1,66 @@
+/* ============================= */
+/* Centered Navbar Styles */
+/* ============================= */
 .navbar {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	background-color: #fff;
-	padding: 10px 5px;
-	border-radius: 0px;
-	width: 100%;
-	max-width: 2000px;
-	box-sizing: border-box;
-	flex-shrink: 0;
-	font-family: 'Roboto Mono', monospace;
+  display: flex;
+  justify-content: center; /* center all content horizontally */
+  align-items: center;
+  background-color: #fff;
+  padding: 10px 5px;
+  border-radius: 0px;
+  width: 100%;
+  max-width: 2000px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  font-family: 'Roboto Mono', monospace;
+  position: relative;
 }
-.small-navbar {
-	padding: 4px 0 !important;
-	background: #fff !important;
+
+.navbar > .nav-left,
+.navbar > .nav-center,
+.navbar > .nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1em;
 }
-.small-nav-content {
-	max-width: 700px !important;
-	padding: 0 10px !important;
+
+/* Center links in the navbar */
+.nav-center {
+  justify-content: center;
+  flex: 1;
 }
-.small-left-section, .small-right-section {
-	gap: 1em !important;
+
+/* Optional left and right sections (account, brand) */
+.nav-left {
+  justify-content: flex-start;
 }
+
+.nav-right {
+  justify-content: flex-end;
+  margin-left: auto; /* push right section to far right */
+}
+
+/* Brand link styling */
 .small-brand-link {
-	font-size: 1.1em !important;
-	margin-right: 0.5em !important;
-	color: #334E7B !important;
-	font-weight: 700 !important;
+  font-size: 1.1em !important;
+  margin-right: 0.5em !important;
+  color: #334E7B !important;
+  font-weight: 700 !important;
 }
-.small-nav-item {
-	font-size: 0.85em !important;
-	padding: 2px 8px !important;
-	color: #334E7B !important;
-	font-weight: 500 !important;
-}
+
+/* Nav item styling */
+.small-nav-item,
 .small-download-link {
-	font-size: 0.85em !important;
-	padding: 2px 8px !important;
-	color: #334E7B !important;
-	font-weight: 500 !important;
+  font-size: 0.85em !important;
+  padding: 2px 8px !important;
+  color: #334E7B !important;
+  font-weight: 500 !important;
 }
+
+/* Account icon styling */
 .small-account-icon {
-	font-size: 1.1em !important;
-	color: #334E7B !important;
+  font-size: 1.1em !important;
+  color: #334E7B !important;
 }
 
 /* Responsive Design for Mobile Devices */
@@ -51,27 +69,23 @@
     padding: 8px 20px;
     flex-wrap: wrap;
   }
-  
-  .navbar > div:first-child {
-    margin-left: 0 !important;
-    font-size: 1.2em;
+
+  .nav-center {
+    justify-content: center;
+    width: 100%;
+    margin: 10px 0 0 0;
   }
-  
+
   .nav-links {
     display: none !important; /* Hide nav links on mobile */
   }
-  
+
   .mobile-menu-btn {
     display: block !important;
   }
-  
-  .navbar > div:last-child {
+
+  .nav-right {
     margin-left: auto;
-  }
-  
-  .navbar > div:last-child a {
-    font-size: 0.9em;
-    margin-right: 10px;
   }
 }
 
@@ -79,26 +93,19 @@
   .navbar {
     padding: 6px 15px;
   }
-  
-  .navbar > div:first-child {
-    font-size: 1.1em;
+
+  .nav-left,
+  .nav-center,
+  .nav-right {
+    gap: 0.5em !important;
   }
-  
-  .navbar > div:last-child a {
-    font-size: 0.8em;
-    margin-right: 8px;
-  }
-  
+
   .account-container svg {
     width: 20px !important;
     height: 20px !important;
   }
-  
+
   .mobile-menu {
     padding: 0.5em !important;
-  }
-  
-  .mobile-menu div {
-    gap: 0.5em !important;
   }
 }
