@@ -76,12 +76,6 @@ This project is currently a web-based frontend for the exPress application. It d
 
 ---
 
-## License
-
-This project is for academic purposes (Capstone Project, National University of Dasmariñas). For other uses, please contact the authors.
-
----
-
 ## Contact
 
 For questions or collaboration, contact:
