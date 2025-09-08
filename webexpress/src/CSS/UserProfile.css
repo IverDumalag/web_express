@@ -4,7 +4,7 @@ body, html {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Roboto Mono', sans-serif;
   color: #333;
 
   /* Use userprofilebg.png as a static background image, always visible */
@@ -32,9 +32,8 @@ body, html {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Remove solid background to allow bg image to show through */
   background: transparent;
-  padding: 20px;
+  padding: 50px;
   box-sizing: border-box;
   z-index: 0;
 }
@@ -50,8 +49,8 @@ body, html {
   background: #fff;
   border-radius: 1.5rem;
   box-shadow: 0 0.125rem 1rem rgba(0,0,0,0.08);
-  width: 86vw;
-  max-width: 1400px;
+  width: 90vw;
+  max-width: 1500px;
   min-width: 520px;
   padding: 5vw 5vw 4vw 5vw;
   display: flex;
@@ -134,10 +133,10 @@ body, html {
 }
 
 .profile-form-btn.edit {
-  background: #1b4eda;
+  background: #1f2937;
   color: white;
   border: none;
-  padding: 0.6rem 1.5rem;
+  padding: 0.3rem 1rem;
   border-radius: 0.5rem;
   cursor: pointer;
   font-weight: 500;
@@ -145,7 +144,7 @@ body, html {
 }
 
 .profile-form-btn.edit:hover {
-  background: #4670e5;
+  background: #1f2937;
 }
 
 .profile-edit-popup-bg {
@@ -161,17 +160,21 @@ body, html {
 .profile-edit-popup {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px);
-  padding: 3rem 2.5rem;
-  border-radius: 1.5rem;
-  max-width: 500px;
-  width: 100%;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
-  animation: fadeInUp 0.5s ease-in-out;
+  padding: 1.25rem 2rem;      /* less vertical, more horizontal */
+  border-radius: 1rem;
+  max-width: 700px;           /* expanded width */
+  width: 95%;                 /* nearly full width */
+  min-height: auto;           /* remove forced height */
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
+  animation: fadeInUp 0.4s ease-in-out;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 0.2rem;                 /* compact spacing */
   transition: all 0.3s ease;
 }
+
+
+
 
 .profile-edit-title {
   font-size: 1.75rem;
@@ -202,7 +205,7 @@ body, html {
 
 .profile-edit-input:focus {
   outline: none;
-  border-color: #3b82f6;
+  border-color: #1f2937;
   background-color: rgba(255, 255, 255, 0.98);
 }
 
@@ -221,7 +224,7 @@ body, html {
   border-radius: 0.6rem;
   cursor: pointer;
   font-weight: 600;
-  background-color: #3b82f6;
+  background-color: #1f2937;
   color: white;
   transition: transform 0.2s ease, background-color 0.3s ease;
 }
@@ -247,11 +250,11 @@ body, html {
 
 .profile-popup-center {
   background: rgba(255, 255, 255, 0.9);
-  padding: 1.5rem;
+  padding: 1rem;
   border-radius: 1rem;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
   max-width: 360px;
-  width: 90%;
+  width: 20%;
   text-align: center;
   backdrop-filter: blur(10px);
   animation: fadeInUp 0.4s ease-in-out;
@@ -261,13 +264,13 @@ body, html {
   background: #fff;
   border-radius: 1.5rem;
   box-shadow: 0 0.125rem 1rem rgba(0,0,0,0.08);
-  width: 90%;
-  max-width: 450px;
-  padding: 1.5rem 1.5rem 1rem 1.5rem;
+  width: 40%;
+  padding: 2.5rem; /* uniform padding on all sides */
   display: flex;
   flex-direction: column;
   align-items: stretch;
   position: relative;
+  box-sizing: border-box; /* ensures padding doesn't expand width */
 }
 
 .profile-title-row {
@@ -287,16 +290,16 @@ body, html {
 .profile-edit-btn {
   background: none;
   border: none;
-  color: #6c63ff;
+  color: #1f2937;
   font-size: 1.2rem;
   margin-left: 0.5rem;
   cursor: pointer;
   transition: color 0.2s;
-  padding: 0.5rem;
+  padding: 0.2rem;
 }
 
 .profile-edit-btn:hover {
-  color: #007bff;
+  color: #fff;
 }
 
 .profile-row {
@@ -308,7 +311,7 @@ body, html {
 .profile-label {
   flex: 0 0 40%;
   font-weight: 500;
-  color: #6c63ff;
+  color: #334E7B;
   font-size: 1rem;
   word-break: break-word;
 }
@@ -376,7 +379,7 @@ body, html {
 
 .profile-edit-btn {
   flex: 1;
-  background: #6c63ff;
+  background: #334E7B;
   color: #fff;
   border: none;
   border-radius: 0.5rem;
@@ -404,7 +407,7 @@ body, html {
 }
 
 .profile-edit-success {
-  color: #27ae60;
+  color: #334E7B;
   text-align: center;
   margin-bottom: 0.5rem;
   font-size: 0.9rem;
@@ -424,7 +427,7 @@ body, html {
 
 .profile-popup-center {
   z-index: 4001;
-  min-width: 220px;
+  min-width: 100px;
   max-width: 90vw;
 }
 
@@ -440,7 +443,7 @@ body, html {
   max-width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 1.5vw;
+  gap: 1vw;
 }
 
 @media (max-width: 600px) {
@@ -561,3 +564,13 @@ select.profile-edit-input::-ms-expand {
     background-size: 1em 1em;
   }
 }
+/* place back icon at top-left of the page */
+.profile-back-icon {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  cursor: pointer;
+  color: #1c2e4a;
+  z-index: 1000; 
+}
+
