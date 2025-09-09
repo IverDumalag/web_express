@@ -245,8 +245,25 @@ export default function UserCardsPage() {
                   marginRight: '0.2vw',
                 }} placeholder="" value={search} onChange={e => setSearch(e.target.value)} />
               </div>
-              <button className="filter-icon-btn" title="Sort" onClick={() => setShowFilter(v => !v)}>
-                <span style={{whiteSpace: 'nowrap', lineHeight: 1}}>Sort by</span>
+              <button className="filter-icon-btn" title="Sort" onClick={() => setShowFilter(v => !v)} style={{
+                background: 'none',
+                border: 'none',
+                color: '#1976d2',
+                fontSize: '2em',
+                cursor: 'pointer',
+                padding: '0.2em 0.4em',
+                borderRadius: '50%',
+                boxShadow: 'none',
+                transition: 'background 0.18s, color 0.18s',
+                marginLeft: 8,
+                marginTop: 2,
+                outline: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                position: 'relative'
+              }}>
+                <FaFilter style={{ color: '#334E7B', fontSize: '0.95em', verticalAlign: 'middle' }} />
                 {showFilter && (
                   <div className="filter-dropdown">
                     {sortOptions.map(opt => (
