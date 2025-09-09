@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { FaStar, FaRegStar } from "react-icons/fa";
+import { FaStar, FaRegStar, FaTrash, FaEdit, FaArchive } from "react-icons/fa";
 import { MdSpeakerPhone } from "react-icons/md";
 import { RiSpeakerFill } from "react-icons/ri";
 import UserCardDetailsModal from "./UserCardsDetails";
@@ -7,12 +7,21 @@ import UserCardDetailsModal from "./UserCardsDetails";
 
 const FAVORITE_API_URL = import.meta.env.VITE_PHRASESWORDSISFAVORITEUPDATE;
 
+const EDIT_API_URL = import.meta.env.VITE_PHRASESWORDSEDIT;
+const STATUS_UPDATE_API_URL = import.meta.env.VITE_PHRASESWORDSSTATUSUPDATE;
+
 export default function UserCards({ cards: initialCards, onCardUpdated }) {
   const [cards, setCards] = useState(initialCards || []);
   const [speakingId, setSpeakingId] = useState(null);
   const [updatingId, setUpdatingId] = useState(null);
   const [selectedCard, setSelectedCard] = useState(null);
   const synthRef = useRef(window.speechSynthesis);
+  const [editCard, setEditCard] = useState(null); // card being edited
+  const [editValue, setEditValue] = useState("");
+  const [editLoading, setEditLoading] = useState(false);
+  const [editError, setEditError] = useState("");
+  const [archiveCard, setArchiveCard] = useState(null); // card being archived
+  const [archiveLoading, setArchiveLoading] = useState(false);
 
   useEffect(() => {
     // Only update if initialCards has truly changed (deep comparison might be needed for complex objects,
@@ -134,7 +143,7 @@ export default function UserCards({ cards: initialCards, onCardUpdated }) {
                 border: '1.5px solid #1C2E4A',
                 borderRadius: '20px',
                 minHeight: 60,
-                height: 150,
+                height: 165,
                 width: '80vw',
                 maxWidth: 650,
                 margin: '0 auto',
@@ -144,7 +153,7 @@ export default function UserCards({ cards: initialCards, onCardUpdated }) {
                 boxShadow: 'none',
                 fontFamily: 'Roboto Mono, sans-serif',
                 overflow: 'hidden',
-                position: 'relative', // for absolute positioning of action row
+                position: 'relative', 
               }}
             >
               <div style={{
@@ -160,7 +169,30 @@ export default function UserCards({ cards: initialCards, onCardUpdated }) {
               <div style={{ flex: 1, height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
                 <div className="card-title" style={{ fontWeight: 600, fontSize: '1.18em', color: '#22223b', letterSpacing: '0.01em', fontFamily: 'Roboto Mono, monospace', textAlign: 'center', width: '100%' }}>{card.words}</div>
               </div>
-              {/* Favorite and Speaker Buttons - row, bottom right */}
+              {/* Favorite icon - top left */}
+              <button
+                className="card-action-btn"
+                title={card.is_favorite ? 'Unfavorite' : 'Favorite'}
+                onClick={e => { e.stopPropagation(); handleFavorite(card, card.is_favorite); }}
+                style={{
+                  position: 'absolute',
+                  top: 14,
+                  left: 14,
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  outline: 'none',
+                  fontSize: '1.7em',
+                  color: card.is_favorite ? '#f7b731' : '#bfc9d1',
+                  transition: 'color 0.2s',
+                  padding: 0,
+                  zIndex: 3
+                }}
+                disabled={updatingId === card.entry_id}
+              >
+                {card.is_favorite ? <FaStar /> : <FaRegStar />}
+              </button>
+            
               <div style={{
                 position: 'absolute',
                 right: 18,
@@ -170,26 +202,8 @@ export default function UserCards({ cards: initialCards, onCardUpdated }) {
                 alignItems: 'center',
                 gap: 16,
                 zIndex: 2,
-                color: '#1C2E4A', // set color for the flex container
+                color: '#1C2E4A',
               }}>
-                <button
-                  className="card-action-btn"
-                  title={card.is_favorite ? 'Unfavorite' : 'Favorite'}
-                  onClick={e => { e.stopPropagation(); handleFavorite(card, card.is_favorite); }}
-                  style={{
-                    background: 'none',
-                    border: 'none',
-                    cursor: 'pointer',
-                    outline: 'none',
-                    fontSize: '1.7em',
-                    color: card.is_favorite ? '#f7b731' : '#bfc9d1',
-                    transition: 'color 0.2s',
-                    padding: 0,
-                  }}
-                  disabled={updatingId === card.entry_id}
-                >
-                  {card.is_favorite ? <FaStar /> : <FaRegStar />}
-                </button>
                 <button
                   className="card-action-btn"
                   title="Speak"
@@ -205,7 +219,52 @@ export default function UserCards({ cards: initialCards, onCardUpdated }) {
                     padding: 0,
                   }}
                 >
-                  {speakingId === card.entry_id ? <MdSpeakerPhone /> : <RiSpeakerFill />}
+                  <svg width="1.1em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/>
+                    <path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07" stroke="currentColor" strokeWidth="2" fill="none"/>
+                  </svg>
+                </button>
+                <button
+                  className="card-action-btn"
+                  title="Edit"
+                  onClick={e => {
+                    e.stopPropagation();
+                    setEditCard(card);
+                    setEditValue(card.words);
+                    setEditError("");
+                  }}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    outline: 'none',
+                    fontSize: '1.7em',
+                    color: '#bfc9d1',
+                    transition: 'color 0.2s',
+                    padding: 0,
+                  }}
+                >
+                  <FaEdit />
+                </button>
+                <button
+                  className="card-action-btn"
+                  title="Archive"
+                  onClick={e => {
+                    e.stopPropagation();
+                    setArchiveCard(card);
+                  }}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    outline: 'none',
+                    fontSize: '1.7em',
+                    color: '#bfc9d1',
+                    transition: 'color 0.2s',
+                    padding: 0,
+                  }}
+                >
+                  <FaArchive />
                 </button>
               </div>
             </div>
@@ -222,6 +281,223 @@ export default function UserCards({ cards: initialCards, onCardUpdated }) {
           hasNext={cards.findIndex(c => c.entry_id === selectedCard.entry_id) < cards.length - 1}
           onCardUpdated={handleCardUpdatedInternal}
         />
+      )}
+
+      {editCard && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          background: 'rgba(0,0,0,0.08)', zIndex: 3000,
+          display: 'flex', alignItems: 'center', justifyContent: 'center'
+        }}>
+          <form onSubmit={async e => {
+            e.preventDefault();
+            setEditLoading(true);
+            setEditError("");
+            try {
+              const res = await fetch(EDIT_API_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  entry_id: editCard.entry_id,
+                  words: editValue,
+                  sign_language: editCard.sign_language || "",
+                  is_match: editCard.is_match || 0
+                })
+              });
+              const json = await res.json();
+              if (json.status === 200 || json.status === "200") {
+                setCards(prevCards => prevCards.map(card => card.entry_id === editCard.entry_id ? { ...card, words: editValue } : card));
+                onCardUpdated({ ...editCard, words: editValue });
+                setEditCard(null);
+              } else {
+                setEditError(json.message || "Failed to save.");
+              }
+            } catch (e) {
+              setEditError("Error saving changes.");
+            }
+            setEditLoading(false);
+          }} style={{
+            borderRadius: 20,
+            border: '2px solid #334E7B',
+            background: 'rgba(255, 255, 255, 0.10)',
+            boxShadow: '0 0.25rem 2rem rgba(0,0,0,0.18)',
+            backdropFilter: 'blur(18.3px)',
+            WebkitBackdropFilter: 'blur(18.3px)',
+            width: '95%',
+            maxWidth: 440,
+            padding: '2.5em 2.5em 2em 2.5em',
+            display: 'flex',
+            flexDirection: 'column',
+            boxSizing: 'border-box',
+            color: '#334E7B',
+            fontFamily: 'Roboto Mono, monospace',
+            alignItems: 'stretch',
+            gap: '0.7em',
+            position: 'relative',
+          }}>
+            <div style={{ fontWeight: 700, fontSize: '2em', textAlign: 'center', marginBottom: '1.2em', fontFamily: 'Inconsolata, monospace', color: '#334E7B' }}>Edit Card Text</div>
+            {editError && <div style={{ color: '#ff4d4d', textAlign: 'center', marginBottom: '0.5em', fontSize: '1em' }}>{editError}</div>}
+            <label style={{ fontWeight: 800, fontSize: '1.1em', marginBottom: 2, color: '#334E7B' }}>Word or Phrase</label>
+            <input
+              value={editValue}
+              onChange={e => setEditValue(e.target.value)}
+              disabled={editLoading}
+              required
+              style={{
+                background: '#fff',
+                color: '#2563eb',
+                fontWeight: 600,
+                fontSize: '1.1em',
+                border: 'none',
+                borderRadius: 8,
+                padding: '0.6em 1em',
+                marginBottom: 8,
+                fontFamily: 'Inconsolata, monospace',
+                outline: 'none',
+                boxSizing: 'border-box',
+              }}
+            />
+            <div style={{ display: 'flex', gap: '1em', marginTop: '1.5em' }}>
+              <button
+                type="submit"
+                disabled={editLoading || !editValue.trim()}
+                style={{
+                  flex: 1,
+                  background: '#1C2E4A',
+                  color: '#fff',
+                  border: '2px solid #fff',
+                  borderRadius: 12,
+                  padding: '0.7em 0',
+                  fontWeight: 700,
+                  fontSize: '1.1em',
+                  fontFamily: 'Inconsolata, monospace',
+                  cursor: 'pointer',
+                  transition: 'background 0.2s, color 0.2s',
+                }}
+              >
+                {editLoading ? 'Saving...' : 'Save'}
+              </button>
+              <button
+                type="button"
+                onClick={() => setEditCard(null)}
+                disabled={editLoading}
+                style={{
+                  flex: 1,
+                  background: '#52677D',
+                  color: '#fff',
+                  border: '2px solid #fff',
+                  borderRadius: 12,
+                  padding: '0.7em 0',
+                  fontWeight: 700,
+                  fontSize: '1.1em',
+                  fontFamily: 'Inconsolata, monospace',
+                  cursor: 'pointer',
+                  transition: 'background 0.2s, color 0.2s',
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      
+      {archiveCard && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          background: 'rgba(0,0,0,0.08)', zIndex: 3000,
+          display: 'flex', alignItems: 'center', justifyContent: 'center'
+        }}>
+          <div style={{
+            borderRadius: 20,
+            border: '2px solid #334E7B',
+            background: 'rgba(255, 255, 255, 0.10)',
+            boxShadow: '0 0.25rem 2rem rgba(0,0,0,0.18)',
+            backdropFilter: 'blur(18.3px)',
+            WebkitBackdropFilter: 'blur(18.3px)',
+            width: '95%',
+            maxWidth: 440,
+            padding: '2.5em 2.5em 2em 2.5em',
+            display: 'flex',
+            flexDirection: 'column',
+            boxSizing: 'border-box',
+            color: '#334E7B',
+            fontFamily: 'Roboto Mono, monospace',
+            alignItems: 'stretch',
+            gap: '0.7em',
+            position: 'relative',
+          }}>
+            <div style={{ fontWeight: 700, fontSize: '2em', textAlign: 'center', marginBottom: '1.2em', fontFamily: 'Inconsolata, monospace', color: '#334E7B' }}>
+              Confirm Archive
+            </div>
+            <div style={{ color: '#334E7B', textAlign: 'center', marginBottom: '1.2em', fontSize: '1.1em', fontWeight: 800 }}>
+              Are you sure you want to archive this card? It will be moved to your archive.
+            </div>
+            <div style={{ display: 'flex', gap: '1em', marginTop: '1.5em' }}>
+              <button
+                type="button"
+                onClick={async () => {
+                  setArchiveLoading(true);
+                  try {
+                    const res = await fetch(STATUS_UPDATE_API_URL, {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ entry_id: archiveCard.entry_id, status: "archived" })
+                    });
+                    const json = await res.json();
+                    if (json.status === 200 || json.status === "200" || json.status === 201 || json.status === "201") {
+                      setCards(prevCards => prevCards.filter(card => card.entry_id !== archiveCard.entry_id));
+                      onCardUpdated({ ...archiveCard, status: "archived" });
+                      setArchiveCard(null);
+                    } else {
+                      alert(json.message || "Failed to archive.");
+                    }
+                  } catch (e) {
+                    alert("Network error archiving card.");
+                  }
+                  setArchiveLoading(false);
+                }}
+                disabled={archiveLoading}
+                style={{
+                  flex: 1,
+                  background: '#B91C1C',
+                  color: '#fff',
+                  border: '2px solid #fff',
+                  borderRadius: 12,
+                  padding: '0.7em 0',
+                  fontWeight: 700,
+                  fontSize: '1.1em',
+                  fontFamily: 'Inconsolata, monospace',
+                  cursor: 'pointer',
+                  transition: 'background 0.2s, color 0.2s',
+                }}
+              >
+                {archiveLoading ? 'Archiving...' : 'Archive'}
+              </button>
+              <button
+                type="button"
+                onClick={() => setArchiveCard(null)}
+                disabled={archiveLoading}
+                style={{
+                  flex: 1,
+                  background: '#52677D',
+                  color: '#fff',
+                  border: '2px solid #fff',
+                  borderRadius: 12,
+                  padding: '0.7em 0',
+                  fontWeight: 700,
+                  fontSize: '1.1em',
+                  fontFamily: 'Inconsolata, monospace',
+                  cursor: 'pointer',
+                  transition: 'background 0.2s, color 0.2s',
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </>
   );

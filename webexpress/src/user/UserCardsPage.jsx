@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { FaFilter, FaStar } from "react-icons/fa";
+import { FaFilter, FaStar, FaPlus } from "react-icons/fa";
 import { MdOutlineWavingHand } from "react-icons/md";
-import { BsThreeDotsVertical } from "react-icons/bs";
 import UserCards from '../components/UserCards';
 import { getUserData } from '../data/UserData';
 import MessagePopup from '../components/MessagePopup';
@@ -19,7 +18,7 @@ export default function UserCardsPage() {
   const [activeTab, setActiveTab] = useState("wave");
   const [search, setSearch] = useState("");
   const [showFilter, setShowFilter] = useState(false);
-  const [showMeatball, setShowMeatball] = useState(false);
+  // Removed meatball menu
   const [sortBy, setSortBy] = useState("date-new");
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -171,7 +170,7 @@ export default function UserCardsPage() {
         </div>
         <div style={{
           position: 'relative',
-          background: '#97A7B6',
+
           borderRadius: '28px',
           margin: '2vw -4vw',
           padding: '2vw 9vw',
@@ -183,7 +182,6 @@ export default function UserCardsPage() {
           boxSizing: 'border-box',
           overflow: 'hidden',
         }}>
-          <Snowfall style={{ position: 'absolute', width: '100%', height: '100%', left: 0, top: 0, zIndex: 0 }} snowflakeCount={40} color="#e6f7ff"/>
           <div style={{ position: 'relative', zIndex: 1, width: '100%' }}>
             <div style={{
               fontFamily: 'Poppins, sans-serif',
@@ -208,16 +206,47 @@ export default function UserCardsPage() {
             </div>
           </div>
         </div>
-        {/* Reference layout below the SIGN LANGUAGE CARDS flex container */}
+    
         <div style={{margin: '3vw 0 2vw 0'}}>
-          {/* Headings stacked vertically and action buttons row */}
-          <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: '2vw', marginBottom: '1.5vw'}}>
-            <div style={{fontFamily: 'Poppins, sans-serif', fontWeight: 500, fontSize: '2em', color: '#22365a', letterSpacing: '0.02em'}}>
+          <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: '0.5vw', marginBottom: '1.5vw', marginLeft: '44vw'}}>
+            <div style={{fontFamily: 'Poppins, sans-serif', fontWeight: 500, fontSize: '2em', color: '#1e1f23ff', letterSpacing: '0.02em'}}>
                <span style={{fontSize: '0.8em', verticalAlign: 'middle'}}></span>
             </div>
             <div style={{display: 'flex', alignItems: 'center', gap: '1vw'}}>
+              <div style={{ position: 'relative', marginRight: '0.3vw', minWidth: 220, maxWidth: 420, width: '100%' }}>
+                <span style={{
+                  position: 'absolute',
+                  left: '0.8em',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  color: '#bfc9d1',
+                  pointerEvents: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  fontSize: '1.25em',
+                  zIndex: 2,
+                }}>
+                  <svg width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                </span>
+                <input className="search-input" style={{
+                  width: '100%',
+                  padding: '0.9em 2.9em 0.6em 3.4em',
+                  borderRadius: '5px',
+                  border: '1.5px solid #1C2E4A',
+                  background: 'rgba(255,255,255,0.7)',
+                  fontFamily: 'Roboto Mono, sans-serif',
+                  fontSize: '1.0em',
+                  color: '#22365a',
+                  boxShadow: '0 2px 4px #2221',
+                  outline: 'none',
+                  marginLeft: 0,
+                  marginTop: 0,
+                  maxWidth: 420,
+                  marginRight: '0.2vw',
+                }} placeholder="" value={search} onChange={e => setSearch(e.target.value)} />
+              </div>
               <button className="filter-icon-btn" title="Sort" onClick={() => setShowFilter(v => !v)}>
-                <FaFilter />
+                <span style={{whiteSpace: 'nowrap', lineHeight: 1}}>Sort by</span>
                 {showFilter && (
                   <div className="filter-dropdown">
                     {sortOptions.map(opt => (
@@ -325,82 +354,30 @@ export default function UserCardsPage() {
           }
         }
       `}</style>
-              <div style={{ position: 'relative' }}>
-                <button
-                  className="meatball-icon-btn"
-                  title="Menu"
-                  onClick={() => { setShowMeatball(v => !v); setShowFilter(false); }}
-                  style={{
-                    background: 'none',
-                    border: 'none',
-                    color: '#334E7B',
-                    fontSize: '2em',
-                    cursor: 'pointer',
-                    padding: 0,
-                    borderRadius: 0,
-                    boxShadow: 'none',
-                    transition: 'color 0.18s',
-                    marginLeft: 8,
-                    marginTop: 2,
-                    outline: 'none',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <BsThreeDotsVertical style={{ color: '#334E7B', fontSize: '1.0em', verticalAlign: 'middle' }} />
-                </button>
-                {showMeatball && (
-                  <div className="meatball-dropdown" style={{
-                    position: 'absolute',
-                    top: '110%',
-                    right: 0,
-                    minWidth: 360,
-                    maxWidth: 500,
-                    width: '100%',
-                    background: '#fff',
-                    borderRadius: 14,
-                    boxShadow: '0 8px 32px rgba(44,62,80,0.18), 0 1.5px 8px #1C2E4A11',
-                    padding: '0.5em 0',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'stretch',
-                    fontFamily: 'Roboto Mono, monospace',
-                    fontSize: '1.08em',
-                    border: '1px solid #1C2E4A',
-                    zIndex: 3003,
-                  }}>
-                   
-                    <button style={{
-                      background: 'none',
-                      border: 'none',
-                      fontWeight: 500,
-                      fontSize: '1.15em',
-                      color: '#334E7B',
-                      textAlign: 'left',
-                      padding: '0.5em 2em 0.5em 2.2em',
-                      cursor: 'pointer',
-                      fontFamily: 'inherit',
-                    }} onClick={() => { setShowMeatball(false); navigate("/userarchived"); }}>
-                      Go to Archive
-                    </button>
-                    <hr style={{ borderTop: '1px solid #334E7B', borderRight: 'none', borderBottom: 'none', borderLeft: 'none', margin: '0.3em 0' }} />
-                    <button style={{
-                      background: 'none',
-                      border: 'none',
-                      fontWeight: 500,
-                      fontSize: '1.15em',
-                      color: '#334E7B',
-                      textAlign: 'left',
-                      padding: '0.5em 2em 0.5em 2.2em',
-                      cursor: 'pointer',
-                      fontFamily: 'inherit',
-                    }} onClick={() => { setShowMeatball(false); setShowAddModal(true); }}>
-                      Add Word/Phrases
-                    </button>
-                  </div>
-                )}
-              </div>
+              <button
+                className="add-word-btn"
+                title="Add Word/Phrase"
+                onClick={() => setShowAddModal(true)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#1976d2',
+                  fontSize: '2em',
+                  cursor: 'pointer',
+                  padding: '0.2em 0.4em',
+                  borderRadius: '50%',
+                  boxShadow: 'none',
+                  transition: 'background 0.18s, color 0.18s',
+                  marginLeft: 8,
+                  marginTop: 2,
+                  outline: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <FaPlus style={{ color: '#334E7B', fontSize: '0.95em', verticalAlign: 'middle' }} />
+              </button>
             </div>
           </div>
           {/* Search bar and actions row */}
@@ -458,7 +435,7 @@ export default function UserCardsPage() {
               </button>
             </div>
             <div style={{display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '1vw', flexWrap: 'wrap'}}>
-              <div style={{flex: 1, minWidth: 220, maxWidth: 420, position: 'relative', display: 'flex', justifyContent: 'flex-start', marginLeft: '-4vw'}}>
+              <div style={{flex: 1, minWidth: 220, maxWidth: 420, position: 'relative', display: 'flex', justifyContent: 'flex-start', marginLeft: '2vw'}}>
                 <span style={{
                   position: 'absolute',
                   left: '0.8em',
@@ -471,28 +448,15 @@ export default function UserCardsPage() {
                   fontSize: '1.25em',
                   zIndex: 2,
                 }}>
-                  <svg width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                  
                 </span>
-                <input className="search-input" style={{
-                  width: '100%',
-                  padding: '0.9em 2.9em 0.6em 3.4em', 
-                  borderRadius: '5px',
-                  border: '1.5px solid #1C2E4A',
-                  background: 'rgba(255,255,255,0.7)',
-                  fontFamily: 'Roboto Mono, sans-serif',
-                  fontSize: '1.0em',
-                  color: '#22365a',
-                  boxShadow: '0 2px 4px #2221',
-                  outline: 'none',
-                  marginLeft: 0,
-                  marginTop: 0,
-                  maxWidth: 420,
-                }} placeholder="" value={search} onChange={e => setSearch(e.target.value)} />
+                
               </div>
             </div>
           </div>
         </div>
         {/* End reference layout section */}
+
         <div className="search-main-container">
           {loading ? (
             <div style={{ textAlign: "center", color: "#aaa", marginTop: "4vw" }}>Loading...</div>
@@ -504,8 +468,7 @@ export default function UserCardsPage() {
             </div>
           )}
         </div>
-        {/* Show sort filter dropdown with sortOptions */}
-        {/* Removed the Sort Options button as requested */}
+      
       </div>
       {showAddModal && (
         <div className="add-modal-overlay" style={{
