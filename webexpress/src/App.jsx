@@ -7,7 +7,7 @@ import TempAdminPage from './admin/TempAdminPage';
 import TempUserPage from './user/TempUserPage';
 import { UserProtectedRoute, AdminProtectedRoute } from './utils/ProtectedRoute';
 import UserHome from './user/UserHome';
-import UserSettings from './user/UserSettings';
+// import UserSettings from './user/UserSettings';
 import UserProfile from './user/UserProfile';
 import TrySearch from './pages/TrySearch';
 import UserArchived from './user/UserArchived';
@@ -32,7 +32,7 @@ export default function App() {
         <Route element={<UserProtectedRoute />}>  
           <Route path="/tempuser" element={<TempUserPage />} />
           <Route path="/userhome" element={<UserHome />} />
-          <Route path="/usersettings" element={<UserSettings />} />
+          {/* <Route path="/usersettings" element={<UserSettings />} /> */}
           <Route path="/userprofile" element={<UserProfile />} />
           <Route path="/userarchived" element={<UserArchived />} />
           <Route path="/usercards" element={<UserCardsPage />} />
