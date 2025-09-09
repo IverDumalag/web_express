@@ -6,9 +6,9 @@ import UserCardDetailsModal from "./UserCardsDetails";
 
 
 const FAVORITE_API_URL = import.meta.env.VITE_PHRASESWORDSISFAVORITEUPDATE;
-
 const EDIT_API_URL = import.meta.env.VITE_PHRASESWORDSEDIT;
 const STATUS_UPDATE_API_URL = import.meta.env.VITE_PHRASESWORDSSTATUSUPDATE;
+const TRYSEARCH_API_URL = import.meta.env.VITE_TRYSEARCH;
 
 export default function UserCards({ cards: initialCards, onCardUpdated }) {
   const [cards, setCards] = useState(initialCards || []);
@@ -294,20 +294,54 @@ export default function UserCards({ cards: initialCards, onCardUpdated }) {
             setEditLoading(true);
             setEditError("");
             try {
+              // First, search for sign language video if the text has changed
+              let sign_language_url = editCard.sign_language || "";
+              let is_match = editCard.is_match || 0;
+              
+              if (editValue.trim() !== editCard.words.trim()) {
+                try {
+                  const searchRes = await fetch(`${TRYSEARCH_API_URL}?q=${encodeURIComponent(editValue)}`);
+                  const searchJson = await searchRes.json();
+                  if (searchJson?.public_id && Array.isArray(searchJson.all_files)) {
+                    const file = searchJson.all_files.find(f => f.public_id === searchJson.public_id);
+                    if (file) {
+                      sign_language_url = file.url;
+                      is_match = 1;
+                    } else {
+                      // If no match found, keep existing video but mark as no match
+                      is_match = 0;
+                    }
+                  } else {
+                    // If search fails or no results, keep existing video but mark as no match
+                    is_match = 0;
+                  }
+                } catch (searchError) {
+                  // If search API fails, continue with edit but keep existing sign language
+                  console.warn('Sign language search failed:', searchError);
+                }
+              }
+
+              // Now update the card with both text and sign language
               const res = await fetch(EDIT_API_URL, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                   entry_id: editCard.entry_id,
                   words: editValue,
-                  sign_language: editCard.sign_language || "",
-                  is_match: editCard.is_match || 0
+                  sign_language: sign_language_url,
+                  is_match: is_match
                 })
               });
               const json = await res.json();
               if (json.status === 200 || json.status === "200") {
-                setCards(prevCards => prevCards.map(card => card.entry_id === editCard.entry_id ? { ...card, words: editValue } : card));
-                onCardUpdated({ ...editCard, words: editValue });
+                const updatedCard = { 
+                  ...editCard, 
+                  words: editValue, 
+                  sign_language: sign_language_url, 
+                  is_match: is_match 
+                };
+                setCards(prevCards => prevCards.map(card => card.entry_id === editCard.entry_id ? updatedCard : card));
+                onCardUpdated(updatedCard);
                 setEditCard(null);
               } else {
                 setEditError(json.message || "Failed to save.");
@@ -335,8 +369,11 @@ export default function UserCards({ cards: initialCards, onCardUpdated }) {
             gap: '0.7em',
             position: 'relative',
           }}>
-            <div style={{ fontWeight: 700, fontSize: '2em', textAlign: 'center', marginBottom: '1.2em', fontFamily: 'Inconsolata, monospace', color: '#334E7B' }}>Edit Card Text</div>
+            <div style={{ fontWeight: 700, fontSize: '2em', textAlign: 'center', marginBottom: '1.2em', fontFamily: 'Inconsolata, monospace', color: '#334E7B' }}>Edit Card</div>
             {editError && <div style={{ color: '#ff4d4d', textAlign: 'center', marginBottom: '0.5em', fontSize: '1em' }}>{editError}</div>}
+            <div style={{ fontSize: '0.9em', color: '#666', textAlign: 'center', marginBottom: '1em' }}>
+              Changing the text will search for a matching sign language video
+            </div>
             <label style={{ fontWeight: 800, fontSize: '1.1em', marginBottom: 2, color: '#334E7B' }}>Word or Phrase</label>
             <input
               value={editValue}
