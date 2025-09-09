@@ -9,7 +9,7 @@ const FaqsPage = () => {
     },
     {
       question: "Who can use exPress?",
-      answer: "Anyone interested in learning Filipino Sign Language, including beginners and advanced learners, can use exPress."
+      answer: " interested in learning Filipino Sign Language, including beginners and advanced learners, can use exPress."
     },
     {
       question: "Is exPress available on mobile devices?",

@@ -30,8 +30,80 @@
   font-size: 1.2em;
   cursor: pointer;
 }
+
+.modal-close-btn:hover {
+  background: #1e40af;
+}
+
+/* Section Header Styles */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.section-title {
+  margin: 0;
+  flex: 1;
+  min-width: 200px;
+}
+
+/* Demographics Header Styles */
+.demographics-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.demographics-downloads {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.download-icon-btn {
+  background: rgba(37, 99, 235, 0.1);
+  border: 1px solid #2563eb;
+  border-radius: 6px;
+  padding: 0.3rem 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 30px;
+  height: 30px;
+}
+
+.download-icon-btn:hover {
+  background: rgba(37, 99, 235, 0.2);
+  transform: translateY(-1px);
+}
+
+.download-icon-btn.pdf {
+  border-color: #dc2626;
+  color: #dc2626;
+}
+
+.download-icon-btn.pdf:hover {
+  background: rgba(220, 38, 38, 0.1);
+}
+
+.download-icon-btn.excel {
+  border-color: #16a34a;
+  color: #16a34a;
+}
+
+.download-icon-btn.excel:hover {
+  background: rgba(22, 163, 74, 0.1);
+}
 body, #root {
-  background: linear-gradient(120deg, #e0e7ff 0%, #f0f4ff 100%) !important;
   min-height: 100vh;
   width: 100vw;
   margin: 0;
@@ -778,5 +850,73 @@ body, #root {
   
   .analytics-greeting-time {
     font-size: 0.85rem;
+  }
+}
+
+/* Download Buttons Styling */
+.download-button-container {
+  border-top: 1px solid #e2e8f0;
+  padding-top: 20px;
+  margin-top: 20px;
+}
+
+.download-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  font-family: 'Roboto Mono', monospace;
+}
+
+.download-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.download-btn:active {
+  transform: translateY(0);
+}
+
+.download-btn.pdf {
+  background-color: #e53e3e;
+  color: white;
+}
+
+.download-btn.pdf:hover {
+  background-color: #c53030;
+}
+
+.download-btn.excel {
+  background-color: #38a169;
+  color: white;
+}
+
+.download-btn.excel:hover {
+  background-color: #2f855a;
+}
+
+@media (max-width: 768px) {
+  .download-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .download-btn {
+    width: 200px;
+    justify-content: center;
   }
 }

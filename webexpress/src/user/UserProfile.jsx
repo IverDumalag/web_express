@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import UserBottomNavBar from '../components/UserBottomNavBar';
+import { useNavigate } from "react-router-dom";
+import { FaEdit, FaArrowLeft } from 'react-icons/fa';
 import { getUserData, setUserData } from '../data/UserData';
-import { FaEdit } from 'react-icons/fa';
-import MessagePopup from '../components/MessagePopup';
 import '../CSS/UserProfile.css';
 
 export default function UserProfile() {
@@ -13,6 +12,8 @@ export default function UserProfile() {
   const [editError, setEditError] = useState('');
   const [editSuccess, setEditSuccess] = useState('');
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const data = getUserData();
@@ -54,7 +55,7 @@ export default function UserProfile() {
         setUserData(json.user || editForm);
         setUser(json.user || editForm);
         setEditSuccess("Profile updated!");
-        setShowSuccessPopup(true); // Show popup
+        setShowSuccessPopup(true);
       } else {
         setEditError(json.message || "Failed to update profile.");
       }
@@ -73,18 +74,20 @@ export default function UserProfile() {
 
   return (
     <>
+      {/* Back icon */}
+      <FaArrowLeft
+        className="profile-back-icon"
+        size={24}
+        onClick={() => navigate(-1)}
+      />
+
       <div className="profile-main-container">
         <div className="profile-card profile-card-modern">
           <div className="profile-header-row">
             <div className="profile-header-title-col">
-              <span className="profile-title modern">Account Settings</span><br></br><br/>
-              <span className="profile-desc">Edit your name, email, and other details below.</span>
+              <span className="profile-title modern">Account Settings</span><br/><br/>
+              <span className="profile-desc">Edit your information below.</span>
             </div>
-            <div className="profile-avatar-col"></div>
-            <button className="profile-edit-btn" title="Edit Profile" onClick={handleEditOpen}>
-              <FaEdit />
-            </button>
-
           </div>
           {user ? (
             <>
@@ -128,6 +131,8 @@ export default function UserProfile() {
           )}
         </div>
       </div>
+
+      {/* Edit Popup */}
       {showEdit && (
         <div className="profile-edit-popup-bg">
           <form className="profile-edit-popup" onSubmit={handleEditSubmit}>
@@ -165,9 +170,8 @@ export default function UserProfile() {
               name="email"
               type="email"
               value={editForm.email}
-              onChange={handleEditChange}
               required
-              disabled={editLoading}
+              disabled // ✅ email is non-editable
             />
             <label className="profile-edit-label">Sex</label>
             <div className="profile-edit-input" style={{ backgroundColor: '#f5f5f5', color: '#666', padding: '12px', border: '1px solid #ddd', borderRadius: '4px' }}>
@@ -178,56 +182,35 @@ export default function UserProfile() {
               {editForm.birthdate || "-"}
             </div>
             <div className="profile-edit-actions">
-              <button
-                className="profile-edit-btn"
-                type="submit"
-                disabled={editLoading}
-              >
+              <button className="profile-edit-btn" type="submit" disabled={editLoading}>
                 {editLoading ? "Saving..." : "Save"}
               </button>
-              <button
-                className="profile-edit-btn cancel"
-                type="button"
-                onClick={() => setShowEdit(false)}
-                disabled={editLoading}
-              >
+              <button className="profile-edit-btn cancel" type="button" onClick={() => setShowEdit(false)} disabled={editLoading}>
                 Cancel
               </button>
             </div>
           </form>
         </div>
       )}
+
+      {/* Success Popup */}
       {showSuccessPopup && (
         <div className="profile-popup-center-bg" style={{ zIndex: 4002 }}>
-          <div className="profile-popup-center" style={{
-            background: '#fff',
-            borderRadius: '1.5em',
-            boxShadow: '0 8px 32px rgba(44,62,80,0.18)',
-            padding: '2.5em 3em',
-            minWidth: 320,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '1.2em',
-            border: '2px solid #2563eb',
-            fontFamily: 'Roboto Mono, monospace',
-            position: 'relative',
-          }}>
+          <div className="profile-popup-center" style={{ position: 'relative' }}>
+            {/* Close button top-left */}
             <button
               onClick={handleSuccessPopupClose}
+              aria-label="Close"
               style={{
                 position: 'absolute',
-                top: 18,
-                right: 22,
-                background: 'none',
+                top: '12px',
+                left: '12px',
+                background: 'transparent',
                 border: 'none',
-                fontSize: '1.5em',
-                color: '#2563eb',
+                fontSize: '1.5rem',
                 cursor: 'pointer',
-                fontWeight: 700,
-                lineHeight: 1,
+                color: '#2563eb',
               }}
-              aria-label="Close"
             >
               ×
             </button>
@@ -239,7 +222,6 @@ export default function UserProfile() {
           </div>
         </div>
       )}
-      <UserBottomNavBar />
     </>
   );
 }
