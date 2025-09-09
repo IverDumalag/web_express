@@ -61,11 +61,16 @@
   background: none;
   border: none;
   margin-left: 2vw;
-  font-size: 1.7em;
-  color: #888;
+  font-size: 1.2em;
+  color: #334E7B;
+  font-weight: 500;
   cursor: pointer;
   position: relative;
+  padding: 2px 8px;
+  border-radius: 4px;
+  transition: background 0.2s;
 }
+
 .filter-dropdown {
   position: absolute;
   top: 110%;

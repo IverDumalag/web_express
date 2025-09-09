@@ -1,0 +1,183 @@
+/* Base page styling */
+.user-menu-page {
+  background: #fff; /* white background */
+  min-height: 100vh;
+  font-family: 'Roboto Mono', monospace;
+  color: #1C2E4A;
+}
+
+/* Container */
+.menu-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1.5rem 2rem;
+  text-align: center;
+}
+
+.menu-container h1 {
+  font-size: 2.2rem;
+  color: #334E7B;
+  margin-bottom: 1.5rem;
+}
+
+/* Grid layout */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  justify-items: center;
+}
+
+/* Menu card */
+.menu-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  width: 100%;
+  max-width: 320px;
+  padding: 2.5rem 2rem;
+  padding-top: 10%;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.menu-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.2);
+  background: #e8f0ff;
+}
+
+/* Icons & labels */
+.menu-icon {
+  color: #007bff;
+  margin-bottom: 1.2rem;
+  transition: color 0.3s ease;
+}
+
+.menu-card:hover .menu-icon {
+  color: #334E7B;
+}
+
+.menu-label {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #334E7B;
+  margin-bottom: 1rem;
+}
+
+/* Logout card */
+.menu-card.logout {
+  color: #d9534f;
+}
+
+.menu-card.logout .menu-icon {
+  color: #d9534f;
+}
+
+.menu-card.logout:hover {
+  background: #fde4e4;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .menu-grid { grid-template-columns: repeat(3, 1fr); gap: 0.8rem; }
+  .menu-card { max-width: 300px; padding: 2.2rem 1.8rem; }
+}
+
+@media (max-width: 768px) {
+  .menu-grid { grid-template-columns: repeat(2, 1fr); gap: 0.8rem; }
+  .menu-card { max-width: 260px; padding: 2rem 1.5rem; }
+}
+
+@media (max-width: 480px) {
+  .menu-grid { grid-template-columns: 1fr; gap: 1rem; }
+  .menu-card { width: 95%; max-width: none; padding: 1.5rem 1.2rem; }
+}
+
+/* Popup overlay */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4); /* slightly lighter */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeIn 0.2s ease-in;
+}
+
+/* Popup content */
+.popup-content {
+  background: #fff;
+  padding: 2.5rem 2rem;
+  border-radius: 1rem;
+  max-width: 420px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.25);
+  position: relative;
+  animation: slideUp 0.3s ease-out;
+}
+
+.popup-content h2 {
+  margin-bottom: 0.8rem;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1C2E4A;
+}
+
+.popup-content p {
+  margin-bottom: 2rem;
+  color: #334E7B;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Popup buttons */
+.popup-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.btn-cancel {
+  flex: 1;
+  padding: 0.6rem 1.5rem;
+  background: #f5f5f5;
+  color: #1C2E4A;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-cancel:hover {
+  background: #e0e0e0;
+  transform: translateY(-1px);
+}
+
+.btn-confirm {
+  flex: 1;
+  padding: 0.6rem 1.5rem;
+  background: #d9534f;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-confirm:hover {
+  background: #c9302c;
+  transform: translateY(-1px);
+}
+
+/* Animations */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }

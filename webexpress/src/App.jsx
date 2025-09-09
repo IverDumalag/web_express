@@ -15,7 +15,9 @@ import AdminHome from './admin/AdminHome';
 import AdminAnalytics from './admin/AdminAnalytics';
 import AdminLogs from './admin/AdminLogs';
 import UserCardsPage from './user/UserCardsPage';
-
+import UserMenuPage from './user/UserMenuPage';
+import UserAboutPage from './user/UserAboutPage'; 
+import UserHelpPage from './user/UserHelpPage';   
 export default function App() {
   return (
     <Router>
@@ -34,6 +36,9 @@ export default function App() {
           <Route path="/userprofile" element={<UserProfile />} />
           <Route path="/userarchived" element={<UserArchived />} />
           <Route path="/usercards" element={<UserCardsPage />} />
+          <Route path="/usermenu" element={<UserMenuPage />} />
+          <Route path="/userabout" element={<UserAboutPage />} />
+          <Route path="/userhelp" element={<UserHelpPage />} />
         </Route>
 
         {/* Admin Protected Routes */}
@@ -43,9 +48,7 @@ export default function App() {
            <Route path="/adminanalytics" element={<AdminAnalytics/>} />
            <Route path="/adminlogs" element={<AdminLogs/>} />
         </Route>
-
       </Routes>
-
     </Router>
   );
 }
