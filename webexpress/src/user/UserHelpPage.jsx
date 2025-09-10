@@ -56,9 +56,7 @@ const UserHelpPage = () => {
           </p>
         </section>
 
-        <button className="back-button" onClick={() => navigate("/usermenu")}>
-          Back to Menu
-        </button>
+  {/* Back to Menu button removed for popup usage */}
       </div>
     </div>
   );
