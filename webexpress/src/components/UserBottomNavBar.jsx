@@ -149,42 +149,91 @@ const UserBottomNavBar = () => {
               {/* <div className="dropdown-item" onClick={() => handleDropdownClick("/usermenu")}>
                 <FiClipboard size={20} /><span>Menu</span>
               </div> */}
-              <div className="dropdown-item" onClick={() => handleDropdownClick("/userprofile")}> 
-                <FaUserCircle size={20} /><span>Profile</span>
+              <div 
+                className="dropdown-item" 
+                onClick={() => handleDropdownClick("/userprofile")}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 12,
+                  padding: '0.85em 1.2em',
+                  fontFamily: 'Inconsolata, monospace',
+                  fontSize: '0.98em',
+                  fontWeight: 600,
+                  color: '#334E7B',
+                  cursor: 'pointer',
+                  transition: 'background 0.18s',
+                  borderRadius: 8,
+                }}
+                onMouseOver={e => { e.currentTarget.style.background = '#f3f7fb'; }}
+                onMouseOut={e => { e.currentTarget.style.background = 'transparent'; }}
+              >
+                <FaUserCircle size={20} style={{ minWidth: 20 }} />
+                <span>Profile</span>
               </div>
-              <div className="dropdown-item">
-                <FiHelpCircle size={20} />
+              <div
+                style={{
+                  width: '92%',
+                  height: 0,
+                  borderTop: '1px solid #334E7B',
+                  margin: '0.18em auto 0.18em auto',
+                  display: 'flex',
+                }}
+              />
+              <div 
+                className="dropdown-item" 
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 12,
+                  padding: '0.85em 1.2em',
+                  fontFamily: 'Inconsolata, monospace',
+                  fontSize: '0.98em',
+                  fontWeight: 600,
+                  color: '#334E7B',
+                  borderRadius: 8,
+                }}
+              >
+                <FiHelpCircle size={20} style={{ minWidth: 20 }} />
                 <a
                   href="https://drive.google.com/uc?export=download&id=1D4QseDYlB9_3zezrNINM8eWWB3At1kVN"
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{ color: 'inherit', textDecoration: 'none', marginLeft: 8 }}
+                  style={{ color: '#334E7B', textDecoration: 'none', marginLeft: 0, fontWeight: 600 }}
                 >
                   Download our App
                 </a>
               </div>
               <div
+                style={{
+                  width: '92%',
+                  height: 0,
+                  borderTop: '1px solid #334E7B',
+                  margin: '0.18em auto 0.18em auto',
+                  display: 'flex',
+                }}
+              />
+              <div
                 className="dropdown-item logout"
                 onClick={handleLogoutClick}
                 style={{
-                  background: '#ffeaea',
                   color: '#e74c3c',
-                  borderRadius: 12,
+                  borderRadius: 10,
                   fontWeight: 700,
                   fontFamily: 'Inconsolata, monospace',
-                  fontSize: '1.15em',
+                  fontSize: '1em',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: 8,
-                  padding: '0.7em 1em',
-                  margin: '0 -8px',
+                  gap: 12,
+                  padding: '0.85em 1.2em',
+                  margin: 0,
                   cursor: 'pointer',
                   transition: 'background 0.18s',
                 }}
                 onMouseOver={e => { e.currentTarget.style.background = '#ffd6d6'; }}
                 onMouseOut={e => { e.currentTarget.style.background = '#ffeaea'; }}
               >
-                <FiLogOut size={20} style={{ color: '#e74c3c' }} />
+                <FiLogOut size={20} style={{ color: '#e74c3c', minWidth: 20 }} />
                 <span style={{ color: '#e74c3c' }}>Log Out</span>
               </div>
             </div>
