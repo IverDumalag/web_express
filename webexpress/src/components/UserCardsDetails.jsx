@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { FaTrash, FaEdit } from "react-icons/fa";
+import { FaTrash, FaEdit, FaInfoCircle } from "react-icons/fa";
 import { MdSpeakerPhone, MdArrowBack } from "react-icons/md";
 import { RiSpeakerFill } from "react-icons/ri";
 import { getUserData } from '../data/UserData';
@@ -32,6 +32,9 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
   // Message popup state
   const [popup, setPopup] = useState({ open: false, message: "", type: "info" });
 
+  // Source popup state
+  const [showSourcePopup, setShowSourcePopup] = useState(false);
+
   // Video slider
   const [videoTime, setVideoTime] = useState(0);
   const [videoDuration, setVideoDuration] = useState(0);
@@ -41,6 +44,15 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
   const userId = userData?.user_id || "";
 
   const [showMeatballModal, setShowMeatballModal] = useState(false);
+
+  // Source information
+  const sourceMessage = 
+    "Alphabet: Porton, J. G. (2023). FSL Dataset. Kaggle.com. https://www.kaggle.com/datasets/japorton/fsl-dataset\n\n" +
+    "Introductionary Words/Phrases: Tupal, I. J. (2023). FSL-105: A dataset for recognizing 105 Filipino sign language videos. Mendeley Data, 2. https://doi.org/10.17632/48y2y99mb9.2";
+
+  const showSourceInfo = () => {
+    setShowSourcePopup(true);
+  };
 
   useEffect(() => {
     if (!userId || !card) return;
@@ -296,7 +308,7 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
           </div>
           <div className="ucd-words-row" style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
             <div style={{ flex: 1 }} />
-            <button
+            {/* <button
               className="ucd-meatball-btn"
               title="More options"
               style={{
@@ -320,7 +332,7 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
                 <circle cx="14" cy="14" r="3.5" fill="#444"/>
                 <circle cx="14" cy="22" r="3.5" fill="#444"/>
               </svg>
-            </button>
+            </button> */}
             {showMeatballModal && (
               <div
                 style={{
@@ -425,6 +437,30 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
                           Previous
                         </button>
                         <button
+                          className="ucd-info-btn"
+                          onClick={showSourceInfo}
+                          title="Source Information"
+                          style={{
+                            background: '#1C2E4A',
+                            color: '#fff',
+                            border: '2px solid #fff',
+                            borderRadius: '8px',
+                            padding: '0.5em 1em',
+                            fontWeight: '600',
+                            fontSize: '0.9em',
+                            fontFamily: 'Roboto Mono, monospace',
+                            cursor: 'pointer',
+                            transition: 'background 0.2s',
+                            marginLeft: '6%',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.5em'
+                          }}
+                        >
+                          <FaInfoCircle size={16} />
+                          Source
+                        </button>
+                        <button
                           className="ucd-prevnext-btn"
                           onClick={onNext}
                           disabled={!hasNext}
@@ -452,6 +488,30 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
                           disabled={!hasPrev}
                         >
                           Previous
+                        </button>
+                        <button
+                          className="ucd-info-btn"
+                          onClick={showSourceInfo}
+                          title="Source Information"
+                          style={{
+                            background: '#1C2E4A',
+                            color: '#fff',
+                            border: '2px solid #fff',
+                            borderRadius: '8px',
+                            padding: '0.5em 1em',
+                            fontWeight: '600',
+                            fontSize: '0.9em',
+                            fontFamily: 'Roboto Mono, monospace',
+                            cursor: 'pointer',
+                            transition: 'background 0.2s',
+                            marginLeft: '6%',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.5em'
+                          }}
+                        >
+                          <FaInfoCircle size={16} />
+                          Source
                         </button>
                         <button
                           className="ucd-prevnext-btn"
@@ -490,6 +550,30 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
                         disabled={!hasPrev}
                       >
                         Previous
+                      </button>
+                      <button
+                        className="ucd-info-btn"
+                        onClick={showSourceInfo}
+                        title="Source Information"
+                        style={{
+                          background: '#1C2E4A',
+                          color: '#fff',
+                          border: '2px solid #fff',
+                          borderRadius: '8px',
+                          padding: '0.5em 1em',
+                          fontWeight: '600',
+                          fontSize: '0.9em',
+                          fontFamily: 'Roboto Mono, monospace',
+                          cursor: 'pointer',
+                          transition: 'background 0.2s',
+                          marginLeft: '6%',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.5em'
+                        }}
+                      >
+                        <FaInfoCircle size={16} />
+                        Source
                       </button>
                       <button
                         className="ucd-prevnext-btn"
@@ -691,6 +775,98 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
         </div>
       )}
       {/* End Archive Confirmation Modal */}
+      
+      {/* Source Information Popup */}
+      {showSourcePopup && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(0,0,0,0.5)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 3002,
+        }}>
+          <div style={{
+            background: '#fff',
+            borderRadius: '20px',
+            padding: '2em',
+            maxWidth: '600px',
+            width: '90%',
+            maxHeight: '80vh',
+            overflow: 'auto',
+            border: '2px solid #334E7B',
+            fontFamily: 'Roboto Mono, monospace',
+            position: 'relative',
+          }}>
+            <button
+              onClick={() => setShowSourcePopup(false)}
+              style={{
+                position: 'absolute',
+                top: '15px',
+                right: '20px',
+                background: 'none',
+                border: 'none',
+                fontSize: '1.5em',
+                color: '#334E7B',
+                cursor: 'pointer',
+                fontWeight: '700',
+                lineHeight: 1,
+              }}
+              aria-label="Close"
+            >
+              ×
+            </button>
+            
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              marginBottom: '20px',
+              color: '#334E7B'
+            }}>
+              <FaInfoCircle size={24} />
+              <h2 style={{ margin: 0, fontSize: '1.5em', fontWeight: '700' }}>
+                Retrieved from:
+              </h2>
+            </div>
+            
+            <div style={{
+              color: '#42526E',
+              fontSize: '1em',
+              lineHeight: '1.6',
+              whiteSpace: 'pre-line',
+              fontFamily: 'Roboto Mono, monospace',
+            }}>
+              {sourceMessage}
+            </div>
+            
+            <div style={{ marginTop: '20px', textAlign: 'center' }}>
+              <button
+                onClick={() => setShowSourcePopup(false)}
+                style={{
+                  background: '#1C2E4A',
+                  color: '#fff',
+                  border: '2px solid #fff',
+                  borderRadius: '12px',
+                  padding: '0.7em 2em',
+                  fontWeight: '700',
+                  fontSize: '1.1em',
+                  fontFamily: 'Inconsolata, monospace',
+                  cursor: 'pointer',
+                  transition: 'background 0.2s',
+                }}
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      
       {/* MessagePopup remains unchanged */}
       <MessagePopup
         open={popup.open}

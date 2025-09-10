@@ -7,19 +7,41 @@ const GuestNavBar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showErrorPopup, setShowErrorPopup] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const accountRef = useRef(null);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
   const location = window.location.pathname;
   const loc = useLocation();
 
+  const showError = (message) => {
+    setErrorMessage(message);
+    setShowErrorPopup(true);
+  };
+
   const handleNavScroll = (section) => {
-    if (location === "/") {
-      window.dispatchEvent(
-        new CustomEvent("guestnav-scroll", { detail: { section } })
-      );
-    } else {
-      navigate("/", { state: { scrollTo: section } });
+    try {
+      if (location === "/") {
+        window.dispatchEvent(
+          new CustomEvent("guestnav-scroll", { detail: { section } })
+        );
+      } else {
+        navigate("/", { state: { scrollTo: section } });
+      }
+    } catch (error) {
+      console.error('Navigation error:', error);
+      showError('Unable to navigate to the requested section. Please try refreshing the page.');
+    }
+  };
+
+  const handleSmoothScrollToTop = () => {
+    try {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (error) {
+      console.error('Scroll error:', error);
+      // Fallback for older browsers
+      window.scrollTo(0, 0);
     }
   };
 
@@ -59,7 +81,21 @@ const GuestNavBar = () => {
       >
         {/* Brand */}
         <div
-          onClick={() => navigate("/")}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            try {
+              if (location === "/") {
+                handleSmoothScrollToTop();
+              } else {
+                navigate("/");
+              }
+            } catch (error) {
+              console.error('Brand navigation error:', error);
+              showError('Unable to navigate to the home page. Please try refreshing the page.');
+            }
+          }}
           style={{
             display: "flex",
             alignItems: "center",
@@ -68,6 +104,7 @@ const GuestNavBar = () => {
             fontSize: "1.1em",
             color: "#1C2E4A",
             marginLeft: "100px",
+            userSelect: "none",
           }}
         >
           ex<span style={{ color: "#2354C7" }}>Press</span>
@@ -358,6 +395,79 @@ const GuestNavBar = () => {
                 Sign Up
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Error Popup */}
+      {showErrorPopup && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 9999
+        }}>
+          <div style={{
+            background: '#fff',
+            padding: '30px',
+            borderRadius: '12px',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15)',
+            maxWidth: '400px',
+            width: '90%',
+            textAlign: 'center',
+            border: '2px solid #dc3545'
+          }}>
+            <div style={{
+              backgroundColor: '#dc3545',
+              borderRadius: '50%',
+              width: '60px',
+              height: '60px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: '0 auto 20px',
+            }}>
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M11 15h2v2h-2zm0-8h2v6h-2z" fill="white"/>
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm0-4h-2V7h2v8z" fill="white"/>
+              </svg>
+            </div>
+            <h2 style={{
+              color: '#dc3545',
+              marginBottom: '15px',
+              fontSize: '1.4em',
+              fontWeight: '600'
+            }}>Something went wrong</h2>
+            <p style={{
+              color: '#666',
+              marginBottom: '25px',
+              fontSize: '1.1em',
+              lineHeight: '1.5'
+            }}>{errorMessage}</p>
+            <button 
+              onClick={() => setShowErrorPopup(false)}
+              style={{
+                background: '#dc3545',
+                color: '#fff',
+                border: 'none',
+                padding: '12px 30px',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                fontWeight: '500',
+                fontSize: '1.1em',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseOver={(e) => e.target.style.background = '#c82333'}
+              onMouseOut={(e) => e.target.style.background = '#dc3545'}
+            >
+              Got it
+            </button>
           </div>
         </div>
       )}

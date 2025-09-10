@@ -16,39 +16,74 @@ export default function UserLogin() {
 
   const handleSubmit = async e => {
     e.preventDefault();
+    
+    if (!form.email || !form.password) {
+      setPopup({
+        open: true,
+        title: "Missing Information",
+        description: "Please enter both email and password to continue."
+      });
+      return;
+    }
+
     setLoading(true);
     setPopup({
       open: true,
       title: "Please wait",
-      description: "The server is starting up, please wait a moment..."
+      description: "Logging you in, please wait a moment..."
     });
+
     try {
       const res = await axios.post(
         'https://express-php.onrender.com/api/userLogin.php',
         form,
-        { headers: { 'Content-Type': 'application/json' } }
+        { 
+          headers: { 'Content-Type': 'application/json' },
+          timeout: 30000 // 30 second timeout
+        }
       );
+      
       if (res.data.status === 200) {
         setUserData(res.data.user);
-        setPopup({ open: true, title: "Success", description: "Login successful!" });
+        setPopup({ open: true, title: "Success", description: "Welcome back! Redirecting to your dashboard..." });
         setTimeout(() => {
           setLoading(false);
           navigate(res.data.user.role === 'admin' ? '/adminanalytics' : '/userhome');
         }, 1000);
       } else {
         setLoading(false);
+        let errorMessage = "We couldn't log you in. Please check your credentials and try again.";
+        if (res.data.message) {
+          if (res.data.message.includes('password')) {
+            errorMessage = "Incorrect password. Please check your password and try again.";
+          } else if (res.data.message.includes('email') || res.data.message.includes('user')) {
+            errorMessage = "No account found with this email address. Please check your email or register for a new account.";
+          }
+        }
         setPopup({
           open: true,
           title: "Login Failed",
-          description: res.data.message || 'Login failed.'
+          description: errorMessage
         });
       }
     } catch (err) {
       setLoading(false);
+      let errorMessage = "We're having trouble connecting to our servers. Please check your internet connection and try again.";
+      
+      if (err.code === 'ECONNABORTED' || err.message.includes('timeout')) {
+        errorMessage = "The login is taking longer than expected. Please check your internet connection and try again.";
+      } else if (err.response?.status === 500) {
+        errorMessage = "Our servers are temporarily unavailable. Please try again in a few moments.";
+      } else if (err.response?.status === 404) {
+        errorMessage = "Login service is temporarily unavailable. Please try again later.";
+      } else if (!navigator.onLine) {
+        errorMessage = "You appear to be offline. Please check your internet connection and try again.";
+      }
+      
       setPopup({
         open: true,
-        title: "Error",
-        description: err.response?.data?.message || 'Server error'
+        title: "Connection Problem",
+        description: errorMessage
       });
     }
   };

@@ -36,13 +36,37 @@ export default function UserCardsPage() {
   const user_id = userData?.user_id || "";
   useEffect(() => {
     async function fetchCards() {
+      if (!user_id) {
+        showPopup("Unable to load your cards. Please try logging in again.", "error");
+        return;
+      }
+
       setLoading(true);
       try {
-        const res = await fetch(`${API_URL}?user_id=${encodeURIComponent(user_id)}`);
+        const res = await fetch(`${API_URL}?user_id=${encodeURIComponent(user_id)}`, {
+          timeout: 15000 // 15 second timeout
+        });
+        
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+        }
+        
         const json = await res.json();
         setCards(Array.isArray(json.data) ? json.data.filter(card => card.status === "active") : []);
       } catch (e) {
+        console.error('Error fetching cards:', e);
         setCards([]);
+        
+        let errorMessage = "We couldn't load your cards right now. Please try again.";
+        if (e.message.includes('Failed to fetch') || !navigator.onLine) {
+          errorMessage = "You appear to be offline. Please check your internet connection and try again.";
+        } else if (e.message.includes('timeout')) {
+          errorMessage = "Loading is taking longer than expected. Please check your internet connection and try again.";
+        } else if (e.message.includes('500')) {
+          errorMessage = "Our servers are temporarily unavailable. Please try again in a few moments.";
+        }
+        
+        showPopup(errorMessage, "error");
       }
       setLoading(false);
     }
@@ -100,48 +124,88 @@ export default function UserCardsPage() {
   ];
   const normalize = str => (str || "").replace(/'/g, "").trim().toLowerCase();
   const handleAddWord = async () => {
-    if (!addInput.trim()) return;
+    if (!addInput.trim()) {
+      showPopup("Please enter a word or phrase to add.", "error");
+      return;
+    }
+    
     const normalizedInput = normalize(addInput);
     const isDuplicate = cards.some(card => normalize(card.words) === normalizedInput);
     if (isDuplicate) {
-      showPopup("Duplicate entry not allowed.", "error");
+      showPopup("This word or phrase is already in your collection.", "error");
       return;
     }
+    
     setAddLoading(true);
     let sign_language_url = "";
     let is_match = 0;
     let matchFound = false;
+    
     try {
-      const searchRes = await fetch(`${TRYSEARCH_API_URL}?q=${encodeURIComponent(addInput)}`);
-      const searchJson = await searchRes.json();
-      if (searchJson?.public_id && Array.isArray(searchJson.all_files)) {
-        const file = searchJson.all_files.find(f => f.public_id === searchJson.public_id);
-        if (file) {
-          sign_language_url = file.url;
-          is_match = 1;
-          matchFound = true;
+      // Search for sign language match
+      const searchRes = await fetch(`${TRYSEARCH_API_URL}?q=${encodeURIComponent(addInput)}`, {
+        timeout: 15000 // 15 second timeout
+      });
+      
+      if (!searchRes.ok) {
+        console.warn('Search service unavailable, proceeding without sign language match');
+      } else {
+        const searchJson = await searchRes.json();
+        if (searchJson?.public_id && Array.isArray(searchJson.all_files)) {
+          const file = searchJson.all_files.find(f => f.public_id === searchJson.public_id);
+          if (file) {
+            sign_language_url = file.url;
+            is_match = 1;
+            matchFound = true;
+          }
         }
       }
+      
+      // Add to user's collection
       const insertRes = await fetch(INSERT_API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user_id, words: addInput, sign_language: sign_language_url, is_match })
+        body: JSON.stringify({ user_id, words: addInput, sign_language: sign_language_url, is_match }),
+        timeout: 15000 // 15 second timeout
       });
+      
+      if (!insertRes.ok) {
+        throw new Error(`HTTP ${insertRes.status}: ${insertRes.statusText}`);
+      }
+      
       const insertJson = await insertRes.json();
       if (insertJson.status === 201 || insertJson.status === "201") {
         setShowAddModal(false);
         setAddInput("");
-        setReloadCards(prev => prev + 1); // Always reload cards from backend after add
+        setReloadCards(prev => prev + 1);
+        
         if (matchFound) {
-          showPopup("Match Found!", "success");
+          showPopup("Great! We found a sign language match for your word.", "success");
         } else {
-          showPopup("No match found, but added to your list.", "info");
+          showPopup("Added to your collection. Sign language match will be added when available.", "info");
         }
       } else {
-        showPopup("Failed to add.", "error");
+        let errorMessage = "We couldn't add your word right now. Please try again.";
+        if (insertJson.message) {
+          if (insertJson.message.includes('duplicate')) {
+            errorMessage = "This word or phrase is already in your collection.";
+          }
+        }
+        showPopup(errorMessage, "error");
       }
     } catch (e) {
-      showPopup("Error adding word/phrase.", "error");
+      console.error('Error adding word:', e);
+      let errorMessage = "We couldn't add your word right now. Please try again.";
+      
+      if (e.message.includes('Failed to fetch') || !navigator.onLine) {
+        errorMessage = "You appear to be offline. Please check your internet connection and try again.";
+      } else if (e.message.includes('timeout')) {
+        errorMessage = "Adding is taking longer than expected. Please check your internet connection and try again.";
+      } else if (e.message.includes('500')) {
+        errorMessage = "Our servers are temporarily unavailable. Please try again in a few moments.";
+      }
+      
+      showPopup(errorMessage, "error");
     }
     setAddLoading(false);
   };
