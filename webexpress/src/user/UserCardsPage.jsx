@@ -502,7 +502,7 @@ export default function UserCardsPage() {
         }}>
           <form className="add-modal" onSubmit={e => { e.preventDefault(); handleAddWord(); }} style={{
             background: '#2B4066',
-            borderRadius: '2.2em',
+            borderRadius: '1em',
             boxShadow: '0 0.25rem 2rem rgba(0,0,0,0.18)',
             width: '95%',
             maxWidth: 440,

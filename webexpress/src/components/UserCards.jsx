@@ -353,10 +353,7 @@ export default function UserCards({ cards: initialCards, onCardUpdated }) {
           }} style={{
             borderRadius: 20,
             border: '2px solid #334E7B',
-            background: 'rgba(255, 255, 255, 0.10)',
-            boxShadow: '0 0.25rem 2rem rgba(0,0,0,0.18)',
-            backdropFilter: 'blur(18.3px)',
-            WebkitBackdropFilter: 'blur(18.3px)',
+            background: '#fff',
             width: '95%',
             maxWidth: 440,
             padding: '2.5em 2.5em 2em 2.5em',
@@ -371,7 +368,7 @@ export default function UserCards({ cards: initialCards, onCardUpdated }) {
           }}>
             <div style={{ fontWeight: 700, fontSize: '2em', textAlign: 'center', marginBottom: '1.2em', fontFamily: 'Inconsolata, monospace', color: '#334E7B' }}>Edit Card</div>
             {editError && <div style={{ color: '#ff4d4d', textAlign: 'center', marginBottom: '0.5em', fontSize: '1em' }}>{editError}</div>}
-            <div style={{ fontSize: '0.9em', color: '#666', textAlign: 'center', marginBottom: '1em' }}>
+            <div style={{ fontSize: '0.9em', color: '#666', textAlign: 'center', marginBottom: '1.5em' }}>
               Changing the text will search for a matching sign language video
             </div>
             <label style={{ fontWeight: 800, fontSize: '1.1em', marginBottom: 2, color: '#334E7B' }}>Word or Phrase</label>
@@ -385,13 +382,14 @@ export default function UserCards({ cards: initialCards, onCardUpdated }) {
                 color: '#2563eb',
                 fontWeight: 600,
                 fontSize: '1.1em',
-                border: 'none',
+                border: '1px #334E7B',
                 borderRadius: 8,
                 padding: '0.6em 1em',
                 marginBottom: 8,
                 fontFamily: 'Inconsolata, monospace',
-                outline: 'none',
+                outline: '2px solid #334E7B',
                 boxSizing: 'border-box',
+                transition: 'outline 0.2s',
               }}
             />
             <div style={{ display: 'flex', gap: '1em', marginTop: '1.5em' }}>
@@ -449,10 +447,7 @@ export default function UserCards({ cards: initialCards, onCardUpdated }) {
           <div style={{
             borderRadius: 20,
             border: '2px solid #334E7B',
-            background: 'rgba(255, 255, 255, 0.10)',
-            boxShadow: '0 0.25rem 2rem rgba(0,0,0,0.18)',
-            backdropFilter: 'blur(18.3px)',
-            WebkitBackdropFilter: 'blur(18.3px)',
+            background: '#fff',
             width: '95%',
             maxWidth: 440,
             padding: '2.5em 2.5em 2em 2.5em',
@@ -498,7 +493,7 @@ export default function UserCards({ cards: initialCards, onCardUpdated }) {
                 disabled={archiveLoading}
                 style={{
                   flex: 1,
-                  background: '#B91C1C',
+                  background: '#ef7070ff',
                   color: '#fff',
                   border: '2px solid #fff',
                   borderRadius: 12,
@@ -510,7 +505,7 @@ export default function UserCards({ cards: initialCards, onCardUpdated }) {
                   transition: 'background 0.2s, color 0.2s',
                 }}
               >
-                {archiveLoading ? 'Archiving...' : 'Archive'}
+                {archiveLoading ? 'Archiving...' : 'Yes'}
               </button>
               <button
                 type="button"

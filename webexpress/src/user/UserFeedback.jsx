@@ -215,7 +215,7 @@ export default function UserFeedback({ showModal, onCloseModal }) {
       <div className="profile-edit-popup-bg" style={{ position: 'fixed', zIndex: 3002, top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <form className="profile-edit-popup" onSubmit={handleSubmit} style={{
           background: '#2B4066',
-          borderRadius: '2.2em',
+          borderRadius: '1.0em',
           boxShadow: '0 0.25rem 2rem rgba(0,0,0,0.18)',
           width: '95%',
           maxWidth: 440,
