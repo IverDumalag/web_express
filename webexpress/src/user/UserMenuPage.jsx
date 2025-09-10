@@ -208,7 +208,7 @@ const UserMenuPage = () => {
             gap: '0.7em',
             position: 'relative',
           }}>
-            
+          
             <div style={{ fontWeight: 700, fontSize: '2em', textAlign: 'center', marginBottom: '1.2em', fontFamily: 'Inconsolata, monospace', color: '#334E7B' }}>
               Logout Confirmation
             </div>

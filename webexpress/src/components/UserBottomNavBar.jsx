@@ -138,7 +138,7 @@ const UserBottomNavBar = () => {
           <FaUserCircle size={28} onClick={handleAccountClick} />
 
           {dropdownOpen && (
-            <div className="account-dropdown">
+            <div className="account-dropdown" style={{ minWidth: 330, maxWidth: 540 , borderRadius: 8}}>
               <div className="dropdown-header">
                 <div>
                   <div className="dropdown-name">{userName} </div>
@@ -163,8 +163,29 @@ const UserBottomNavBar = () => {
                   Download our App
                 </a>
               </div>
-              <div className="dropdown-item logout" onClick={handleLogoutClick}>
-                <FiLogOut size={20} /><span>Log Out</span>
+              <div
+                className="dropdown-item logout"
+                onClick={handleLogoutClick}
+                style={{
+                  background: '#ffeaea',
+                  color: '#e74c3c',
+                  borderRadius: 12,
+                  fontWeight: 700,
+                  fontFamily: 'Inconsolata, monospace',
+                  fontSize: '1.15em',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  padding: '0.7em 1em',
+                  margin: '0 -8px',
+                  cursor: 'pointer',
+                  transition: 'background 0.18s',
+                }}
+                onMouseOver={e => { e.currentTarget.style.background = '#ffd6d6'; }}
+                onMouseOut={e => { e.currentTarget.style.background = '#ffeaea'; }}
+              >
+                <FiLogOut size={20} style={{ color: '#e74c3c' }} />
+                <span style={{ color: '#e74c3c' }}>Log Out</span>
               </div>
             </div>
           )}
@@ -210,7 +231,7 @@ const UserBottomNavBar = () => {
           `}</style>
           <div className="mobile-popup-animate" style={{
             background: '#fff',
-            borderRadius: '1em',
+            borderRadius: 12,
             boxShadow: '0 0.25rem 2rem rgba(0,0,0,0.18)',
             border: '1px solid #334E7B',
             width: '98%',
@@ -231,6 +252,7 @@ const UserBottomNavBar = () => {
                 width: '100%',
                 textAlign: 'center',
                 marginBottom: '1.2em',
+               
                 fontSize: '1.1em',
                 fontWeight: 800,
                 color: '#334E7B',
@@ -250,8 +272,8 @@ const UserBottomNavBar = () => {
                     src={downloadImg}
                     alt="Download"
                     style={{
-                      width: 200,
-                      height: 200,
+                      width: 240,
+                      height: 210,
                       margin: 0,
                       padding: 0,
                       objectFit: 'contain',
