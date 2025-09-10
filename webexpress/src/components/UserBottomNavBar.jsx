@@ -243,13 +243,72 @@ const UserBottomNavBar = () => {
 
       {/* Logout Confirmation Popup */}
       {showLogoutPopup && (
-        <div className="popup-overlay">
-          <div className="popup-content">
-            <h2>Confirm Logout</h2>
-            <p>Are you sure you want to log out?</p>
-            <div className="popup-buttons">
-              <button className="btn-cancel" onClick={() => setShowLogoutPopup(false)}>Cancel</button>
-              <button className="btn-confirm" onClick={confirmLogout}>Logout</button>
+        <div className="popup-overlay" style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          background: 'rgba(0,0,0,0.08)', zIndex: 3000,
+          display: 'flex', alignItems: 'center', justifyContent: 'center'
+        }}>
+          <div style={{
+            borderRadius: 20,
+            border: '2px solid #334E7B',
+            background: '#fff',
+            width: '95%',
+            maxWidth: 440,
+            padding: '2.5em 2.5em 2em 2.5em',
+            display: 'flex',
+            flexDirection: 'column',
+            boxSizing: 'border-box',
+            color: '#334E7B',
+            fontFamily: 'Roboto Mono, monospace',
+            alignItems: 'stretch',
+            gap: '0.7em',
+            position: 'relative',
+          }}>
+            <div style={{ fontWeight: 700, fontSize: '2em', textAlign: 'center', marginBottom: '1.2em', fontFamily: 'Inconsolata, monospace', color: '#334E7B' }}>
+              Logout Confirmation
+            </div>
+            <div style={{ color: '#334E7B', textAlign: 'center', marginBottom: '1.2em', fontSize: '1.1em', fontWeight: 800 }}>
+              Are you sure you want to logout?
+            </div>
+            <div style={{ display: 'flex', gap: '1em', marginTop: '1.5em' }}>
+              <button
+                type="button"
+                onClick={confirmLogout}
+                style={{
+                  flex: 1,
+                  background: '#ef7070ff',
+                  color: '#fff',
+                  border: '2px solid #fff',
+                  borderRadius: 12,
+                  padding: '0.7em 0',
+                  fontWeight: 700,
+                  fontSize: '1.1em',
+                  fontFamily: 'Inconsolata, monospace',
+                  cursor: 'pointer',
+                  transition: 'background 0.2s, color 0.2s',
+                }}
+              >
+                Logout
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowLogoutPopup(false)}
+                style={{
+                  flex: 1,
+                  background: '#52677D',
+                  color: '#fff',
+                  border: '2px solid #fff',
+                  borderRadius: 12,
+                  padding: '0.7em 0',
+                  fontWeight: 700,
+                  fontSize: '1.1em',
+                  fontFamily: 'Inconsolata, monospace',
+                  cursor: 'pointer',
+                  transition: 'background 0.2s, color 0.2s',
+                }}
+              >
+                Cancel
+              </button>
             </div>
           </div>
         </div>
