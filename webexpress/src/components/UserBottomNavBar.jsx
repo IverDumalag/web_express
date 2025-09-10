@@ -239,7 +239,26 @@ const UserBottomNavBar = () => {
               </div>
               <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: '100%', gap: '2.2em' }}>
                 <div style={{ minWidth: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 0, margin: 0 }}>
-                  <img src={downloadImg} alt="Download" style={{ width: 200, height: 200, margin: 0, padding: 0, objectFit: 'contain' }} />
+                  <style>{`
+                    @keyframes floatDownloadImg {
+                      0% { transform: translateY(0); }
+                      50% { transform: translateY(-18px); }
+                      100% { transform: translateY(0); }
+                    }
+                  `}</style>
+                  <img
+                    src={downloadImg}
+                    alt="Download"
+                    style={{
+                      width: 200,
+                      height: 200,
+                      margin: 0,
+                      padding: 0,
+                      objectFit: 'contain',
+                      animation: 'floatDownloadImg 2.2s ease-in-out infinite',
+                      display: 'block',
+                    }}
+                  />
                 </div>
                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                   <div style={{ 
