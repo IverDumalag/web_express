@@ -1,5 +1,11 @@
-/* Base page styling */
-
+/* All menu cards hover customization */
+.menu-card:hover {
+  background: rgb(82, 103, 125) !important;
+}
+.menu-card:hover .menu-icon,
+.menu-card:hover .menu-label {
+  color: #fff !important;
+}
 .user-menu-page {
   background: #fff; /* white background */
   min-height: 100vh;

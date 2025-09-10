@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FiUser, FiClipboard, FiHelpCircle, FiLogOut } from "react-icons/fi";
+import { FiClipboard, FiHelpCircle, FiLogOut } from "react-icons/fi";
+import { FaUserCircle } from "react-icons/fa";
 import { getUserData } from '../data/UserData';
 import '../CSS/UserBottomNavbar.css';
 
@@ -133,7 +134,7 @@ const UserBottomNavBar = () => {
 
         {/* Account Dropdown */}
         <div ref={dropdownRef} style={{ position: 'absolute', right: '4vw', cursor: 'pointer' }}>
-          <FiUser size={28} onClick={handleAccountClick} />
+          <FaUserCircle size={28} onClick={handleAccountClick} />
 
           {dropdownOpen && (
             <div className="account-dropdown">
@@ -147,8 +148,8 @@ const UserBottomNavBar = () => {
               {/* <div className="dropdown-item" onClick={() => handleDropdownClick("/usermenu")}>
                 <FiClipboard size={20} /><span>Menu</span>
               </div> */}
-              <div className="dropdown-item" onClick={() => handleDropdownClick("/userprofile")}>
-                <FiUser size={20} /><span>Profile</span>
+              <div className="dropdown-item" onClick={() => handleDropdownClick("/userprofile")}> 
+                <FaUserCircle size={20} /><span>Profile</span>
               </div>
               <div className="dropdown-item">
                 <FiHelpCircle size={20} />
@@ -185,13 +186,58 @@ const UserBottomNavBar = () => {
 
       {/* Mobile Exclusive Feature Popup */}
       {showMobilePopup && (
-        <div className="popup-overlay">
-          <div className="popup-content" style={{ textAlign: 'center' }}>
-            <h2>Mobile Exclusive Feature</h2>
-            <p style={{ marginBottom: '20px', fontSize: '1.1em', lineHeight: '1.5' }}>
+        <div style={{
+          position: 'fixed',
+          zIndex: 3002,
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(0,0,0,0.08)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+          <div style={{
+            background: '#2B4066',
+            borderRadius: '1em',
+            boxShadow: '0 0.25rem 2rem rgba(0,0,0,0.18)',
+            width: '95%',
+            maxWidth: 440,
+            padding: '2.5em 2.5em 2em 2.5em',
+            display: 'flex',
+            flexDirection: 'column',
+            boxSizing: 'border-box',
+            color: '#fff',
+            fontFamily: 'Roboto Mono, monospace',
+            alignItems: 'stretch',
+            gap: '0.7em',
+            position: 'relative',
+          }}>
+            <button
+              type="button"
+              onClick={() => setShowMobilePopup(false)}
+              style={{
+                position: 'absolute',
+                top: 18,
+                right: 22,
+                background: 'none',
+                border: 'none',
+                fontSize: '1.5em',
+                color: '#FFFFFF',
+                cursor: 'pointer',
+                fontWeight: 700,
+                lineHeight: 1,
+              }}
+              aria-label="Close"
+            >
+              ×
+            </button>
+            <div style={{ fontWeight: 700, fontSize: '2em', textAlign: 'center', marginBottom: '1.2em', fontFamily: 'Inconsolata, monospace' }}>Mobile Exclusive Feature</div>
+            <div style={{ color: '#fff', textAlign: 'center', marginBottom: '1.2em', fontSize: '1.1em', fontWeight: 800 }}>
               This is a mobile exclusive function.
-            </p>
-            <div className="popup-buttons" style={{ flexDirection: 'column', gap: '15px' }}>
+            </div>
+            <div style={{ display: 'flex', gap: '1em', marginTop: '1.5em', flexDirection: 'column' }}>
               <a
                 href="https://drive.google.com/uc?export=download&id=1D4QseDYlB9_3zezrNINM8eWWB3At1kVN"
                 target="_blank"
@@ -199,25 +245,40 @@ const UserBottomNavBar = () => {
                 style={{
                   background: '#1C2E4A',
                   color: '#fff',
-                  padding: '12px 24px',
-                  borderRadius: '8px',
+                  padding: '0.7em 0',
+                  borderRadius: 12,
                   textDecoration: 'none',
-                  fontWeight: '600',
+                  fontWeight: 700,
                   fontSize: '1.1em',
-                  border: 'none',
+                  border: '2px solid #fff',
                   cursor: 'pointer',
-                  display: 'inline-block',
-                  transition: 'background 0.3s ease'
+                  display: 'block',
+                  textAlign: 'center',
+                  fontFamily: 'Inconsolata, monospace',
+                  transition: 'background 0.2s, color 0.2s',
                 }}
-                onMouseOver={(e) => e.target.style.background = '#334E7B'}
-                onMouseOut={(e) => e.target.style.background = '#1C2E4A'}
+                onMouseOver={e => e.target.style.background = '#334E7B'}
+                onMouseOut={e => e.target.style.background = '#1C2E4A'}
               >
                 Download our Mobile Application
               </a>
-              <button 
-                className="btn-cancel" 
+              <button
+                type="button"
                 onClick={() => setShowMobilePopup(false)}
-                style={{ marginTop: '10px' }}
+                style={{
+                  flex: 1,
+                  background: '#52677D',
+                  color: '#fff',
+                  border: '2px solid #fff',
+                  borderRadius: 12,
+                  padding: '0.7em 0',
+                  fontWeight: 700,
+                  fontSize: '1.1em',
+                  fontFamily: 'Inconsolata, monospace',
+                  cursor: 'pointer',
+                  transition: 'background 0.2s, color 0.2s',
+                  marginTop: 0,
+                }}
               >
                 Close
               </button>
