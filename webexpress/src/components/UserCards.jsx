@@ -387,12 +387,10 @@ export default function UserCards({ cards: initialCards, onCardUpdated }) {
                 padding: '0.6em 1em',
                 marginBottom: 8,
                 fontFamily: 'Inconsolata, monospace',
-                outline: 'none',
+                outline: '2px solid #334E7B',
                 boxSizing: 'border-box',
                 transition: 'outline 0.2s',
               }}
-              onFocus={e => e.target.style.outline = '2px solid #334E7B'}
-              onBlur={e => e.target.style.outline = 'none'}
             />
             <div style={{ display: 'flex', gap: '1em', marginTop: '1.5em' }}>
               <button
@@ -495,7 +493,7 @@ export default function UserCards({ cards: initialCards, onCardUpdated }) {
                 disabled={archiveLoading}
                 style={{
                   flex: 1,
-                  background: '#B91C1C',
+                  background: '#ef7070ff',
                   color: '#fff',
                   border: '2px solid #fff',
                   borderRadius: 12,

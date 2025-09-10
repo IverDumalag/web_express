@@ -41,7 +41,7 @@ const UserMenuPage = () => {
       <UserBottomNavBar />
 
       <div className="menu-container">
-        <h1>Menu</h1>
+        
         <div className="menu-grid">
           {menuItems.map((item, index) => (
             <div
