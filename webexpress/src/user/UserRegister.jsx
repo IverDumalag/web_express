@@ -92,33 +92,49 @@ const sendOTP = async () => {
 
   setOtpLoading(true);
   const otp = generateOTP();
-  setSentOtp(otp);      try {
-        const response = await axios.post(import.meta.env.VITE_USEROTP, {
-          to: form.email,
-          otp: otp
-        });
+  setSentOtp(otp);
+  
+  try {
+    const response = await axios.post(import.meta.env.VITE_USEROTP, {
+      to: form.email,
+      otp: otp
+    }, {
+      timeout: 30000 // 30 second timeout
+    });
 
-        if (response.data.success) {
-          setPopup({ 
-            open: true, 
-            title: "OTP Sent", 
-            description: `Verification code sent to ${form.email}. Please check your email.` 
-          });
-          setOtpStep(true);
-          startResendTimer();
-        } else {
-          throw new Error(response.data.message || 'Failed to send OTP');
-        }
-      } catch (error) {
-        console.error('Error sending OTP:', error);
-        setPopup({ 
-          open: true, 
-          title: "Error", 
-          description: error.response?.data?.message || "Failed to send OTP. Please try again." 
-        });
-      } finally {
-        setOtpLoading(false);
-      }
+    if (response.data.success) {
+      setPopup({ 
+        open: true, 
+        title: "Verification Code Sent", 
+        description: `We've sent a 6-digit verification code to ${form.email}. Please check your email and enter the code below.` 
+      });
+      setOtpStep(true);
+      startResendTimer();
+    } else {
+      throw new Error(response.data.message || 'Failed to send verification code');
+    }
+  } catch (error) {
+    console.error('Error sending OTP:', error);
+    let errorMessage = "We couldn't send the verification code. Please try again.";
+    
+    if (error.code === 'ECONNABORTED' || error.message.includes('timeout')) {
+      errorMessage = "The email service is taking longer than expected. Please check your internet connection and try again.";
+    } else if (error.response?.status === 500) {
+      errorMessage = "Our email service is temporarily unavailable. Please try again in a few moments.";
+    } else if (!navigator.onLine) {
+      errorMessage = "You appear to be offline. Please check your internet connection and try again.";
+    } else if (error.response?.data?.message?.includes('email')) {
+      errorMessage = "Please check that your email address is correct and try again.";
+    }
+    
+    setPopup({ 
+      open: true, 
+      title: "Email Verification Problem", 
+      description: errorMessage
+    });
+  } finally {
+    setOtpLoading(false);
+  }
     };
 
       // Start resend timer
@@ -137,8 +153,21 @@ const sendOTP = async () => {
 
       // Verify OTP and proceed with registration
       const verifyOTPAndRegister = async () => {
+        if (!otpCode || otpCode.length !== 6) {
+          setPopup({ 
+            open: true, 
+            title: "Invalid Code", 
+            description: "Please enter the complete 6-digit verification code." 
+          });
+          return;
+        }
+
         if (otpCode !== sentOtp) {
-          setPopup({ open: true, title: "Error", description: "Invalid OTP. Please try again." });
+          setPopup({ 
+            open: true, 
+            title: "Incorrect Verification Code", 
+            description: "The code you entered doesn't match. Please check your email and try again." 
+          });
           return;
         }
 
@@ -148,10 +177,18 @@ const sendOTP = async () => {
           const res = await axios.post(
             import.meta.env.VITE_USERINSERT,
             form,
-            { headers: { 'Content-Type': 'application/json' } }
+            { 
+              headers: { 'Content-Type': 'application/json' },
+              timeout: 30000 // 30 second timeout
+            }
           );
+          
           if (res.data.status === 201) {
-            setPopup({ open: true, title: "Success", description: "Registration successful! User ID: " + res.data.user_id });
+            setPopup({ 
+              open: true, 
+              title: "Account Created Successfully!", 
+              description: "Welcome to exPress! Your account has been created. You can now sign in with your credentials." 
+            });
             // Reset form and OTP states
             setForm({
               email: '',
@@ -169,10 +206,36 @@ const sendOTP = async () => {
             setSentOtp('');
             setTimeout(() => navigate('/login'), 2000);
           } else {
-            setPopup({ open: true, title: "Registration Failed", description: res.data.message || 'Registration failed.' });
+            let errorMessage = "We couldn't create your account at this time. Please try again.";
+            if (res.data.message) {
+              if (res.data.message.includes('email')) {
+                errorMessage = "An account with this email already exists. Please try logging in instead.";
+              } else if (res.data.message.includes('duplicate')) {
+                errorMessage = "An account with this information already exists. Please check your details or try logging in.";
+              }
+            }
+            setPopup({ 
+              open: true, 
+              title: "Registration Problem", 
+              description: errorMessage
+            });
           }
         } catch (err) {
-          setPopup({ open: true, title: "Error", description: err.response?.data?.message || 'Server error' });
+          let errorMessage = "We're having trouble connecting to our servers. Please check your internet connection and try again.";
+          
+          if (err.code === 'ECONNABORTED' || err.message.includes('timeout')) {
+            errorMessage = "Registration is taking longer than expected. Please check your internet connection and try again.";
+          } else if (err.response?.status === 500) {
+            errorMessage = "Our servers are temporarily unavailable. Please try again in a few moments.";
+          } else if (!navigator.onLine) {
+            errorMessage = "You appear to be offline. Please check your internet connection and try again.";
+          }
+          
+          setPopup({ 
+            open: true, 
+            title: "Connection Problem", 
+            description: errorMessage
+          });
         } finally {
           setLoading(false);
         }

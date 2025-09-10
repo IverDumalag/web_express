@@ -12,6 +12,9 @@ const sideLinks = [
 export default function AdminNavBar({ children }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [showLogoutPopup, setShowLogoutPopup] = useState(false);
+  const [showErrorPopup, setShowErrorPopup] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const avatarRef = useRef(null);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
@@ -34,11 +37,35 @@ export default function AdminNavBar({ children }) {
   }, []);
 
   const handleLogout = () => {
-    clearUserData();
-    localStorage.clear();
-    sessionStorage.clear();
-    setDropdownOpen(false);
-    navigate("/login");
+    try {
+      clearUserData();
+      localStorage.clear();
+      sessionStorage.clear();
+      setDropdownOpen(false);
+      setShowLogoutPopup(false);
+      navigate("/login");
+    } catch (error) {
+      console.error('Logout error:', error);
+      showError('Something went wrong while logging out. Please try again.');
+    }
+  };
+
+  const confirmLogout = () => {
+    handleLogout();
+  };
+
+  const showError = (message) => {
+    setErrorMessage(message);
+    setShowErrorPopup(true);
+  };
+
+  const handleNavigation = (path) => {
+    try {
+      navigate(path);
+    } catch (error) {
+      console.error('Navigation error:', error);
+      showError('Unable to navigate to the requested page. Please try again.');
+    }
   };
 
   return (
@@ -80,7 +107,7 @@ export default function AdminNavBar({ children }) {
             </button>
             <span
               className="admin-brand-link"
-              onClick={() => navigate("/adminanalytics")}
+              onClick={() => handleNavigation("/adminanalytics")}
               style={{ position: 'relative', top: '-2px' }}
             >
               exPress
@@ -124,8 +151,13 @@ export default function AdminNavBar({ children }) {
                 style={{ fontWeight: 500 }}
                 onClick={(e) => {
                   e.stopPropagation();
-                  setDropdownOpen(false);
-                  setShowProfile(true);
+                  try {
+                    setDropdownOpen(false);
+                    setShowProfile(true);
+                  } catch (error) {
+                    console.error('Profile error:', error);
+                    showError('Unable to open profile. Please try again.');
+                  }
                 }}
               >
                 Profile
@@ -136,7 +168,8 @@ export default function AdminNavBar({ children }) {
                 style={{ fontWeight: 500 }}
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleLogout();
+                  setDropdownOpen(false);
+                  setShowLogoutPopup(true);
                 }}
               >
                 Logout
@@ -172,7 +205,7 @@ export default function AdminNavBar({ children }) {
                 <button
                   key={link.path}
                   className={`admin-sidebar-link${location.pathname === link.path ? " active" : ""}`}
-                  onClick={() => navigate(link.path)}
+                  onClick={() => handleNavigation(link.path)}
                   style={{
                     background: location.pathname === link.path ? '#fff' : 'transparent',
                     color: location.pathname === link.path ? '#334E7B' : '#fff',
@@ -199,6 +232,162 @@ export default function AdminNavBar({ children }) {
           </div>
         </div>
       </div>
+
+      {/* Error Popup */}
+      {showErrorPopup && (
+        <div className="popup-overlay" style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 9999
+        }}>
+          <div className="popup-content" style={{
+            background: '#fff',
+            padding: '30px',
+            borderRadius: '12px',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15)',
+            maxWidth: '400px',
+            width: '90%',
+            textAlign: 'center',
+            border: '2px solid #dc3545'
+          }}>
+            <div style={{
+              backgroundColor: '#dc3545',
+              borderRadius: '50%',
+              width: '60px',
+              height: '60px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: '0 auto 20px',
+            }}>
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="white"/>
+                <path d="M11 15h2v2h-2zm0-8h2v6h-2z" fill="white"/>
+              </svg>
+            </div>
+            <h2 style={{
+              color: '#dc3545',
+              marginBottom: '15px',
+              fontSize: '1.4em',
+              fontWeight: '600'
+            }}>Oops! Something went wrong</h2>
+            <p style={{
+              color: '#666',
+              marginBottom: '25px',
+              fontSize: '1.1em',
+              lineHeight: '1.5'
+            }}>{errorMessage}</p>
+            <button 
+              onClick={() => setShowErrorPopup(false)}
+              style={{
+                background: '#dc3545',
+                color: '#fff',
+                border: 'none',
+                padding: '12px 30px',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                fontWeight: '500',
+                fontSize: '1.1em',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseOver={(e) => e.target.style.background = '#c82333'}
+              onMouseOut={(e) => e.target.style.background = '#dc3545'}
+            >
+              Got it
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Logout Confirmation Popup */}
+      {showLogoutPopup && (
+        <div className="popup-overlay" style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 9999
+        }}>
+          <div className="popup-content" style={{
+            background: '#fff',
+            padding: '30px',
+            borderRadius: '12px',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15)',
+            maxWidth: '400px',
+            width: '90%',
+            textAlign: 'center'
+          }}>
+            <h2 style={{
+              color: '#334E7B',
+              marginBottom: '15px',
+              fontSize: '1.4em',
+              fontWeight: '600'
+            }}>Confirm Logout</h2>
+            <p style={{
+              color: '#666',
+              marginBottom: '25px',
+              fontSize: '1.1em',
+              lineHeight: '1.4'
+            }}>Are you sure you want to log out?</p>
+            <div className="popup-buttons" style={{
+              display: 'flex',
+              gap: '15px',
+              justifyContent: 'center'
+            }}>
+              <button 
+                className="btn-cancel" 
+                onClick={() => setShowLogoutPopup(false)}
+                style={{
+                  background: '#f5f5f5',
+                  color: '#666',
+                  border: '1px solid #ddd',
+                  padding: '12px 24px',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  fontWeight: '500',
+                  fontSize: '1em',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseOver={(e) => e.target.style.background = '#e9e9e9'}
+                onMouseOut={(e) => e.target.style.background = '#f5f5f5'}
+              >
+                Cancel
+              </button>
+              <button 
+                className="btn-confirm" 
+                onClick={confirmLogout}
+                style={{
+                  background: '#dc3545',
+                  color: '#fff',
+                  border: 'none',
+                  padding: '12px 24px',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  fontWeight: '500',
+                  fontSize: '1em',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseOver={(e) => e.target.style.background = '#c82333'}
+                onMouseOut={(e) => e.target.style.background = '#dc3545'}
+              >
+                Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <AdminProfile open={showProfile} onClose={() => setShowProfile(false)} />
     </>

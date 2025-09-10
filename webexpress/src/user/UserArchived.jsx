@@ -31,13 +31,45 @@ export default function UserArchived() {
 
   useEffect(() => {
     async function fetchCards() {
+      if (!user_id) {
+        setPopup({ 
+          open: true, 
+          title: "Access Problem", 
+          description: "Unable to load your archived items. Please try logging in again." 
+        });
+        return;
+      }
+
       setLoading(true);
       try {
-        const res = await fetch(`${API_URL}?user_id=${encodeURIComponent(user_id)}`);
+        const res = await fetch(`${API_URL}?user_id=${encodeURIComponent(user_id)}`, {
+          timeout: 15000 // 15 second timeout
+        });
+        
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+        }
+        
         const json = await res.json();
         setCards(Array.isArray(json.data) ? json.data : []);
       } catch (e) {
+        console.error('Error fetching archived cards:', e);
         setCards([]);
+        
+        let errorMessage = "We couldn't load your archived items right now. Please try again.";
+        if (e.message.includes('Failed to fetch') || !navigator.onLine) {
+          errorMessage = "You appear to be offline. Please check your internet connection and try again.";
+        } else if (e.message.includes('timeout')) {
+          errorMessage = "Loading is taking longer than expected. Please check your internet connection and try again.";
+        } else if (e.message.includes('500')) {
+          errorMessage = "Our servers are temporarily unavailable. Please try again in a few moments.";
+        }
+        
+        setPopup({ 
+          open: true, 
+          title: "Loading Problem", 
+          description: errorMessage 
+        });
       }
       setLoading(false);
     }

@@ -93,7 +93,7 @@ const UserMenuPage = () => {
   const menuItems = [
     { label: "Profile", icon: <FiUser size={36} />, path: "/userprofile" },
     { label: "About", icon: <FiInfo size={36} />, path: "about-popup" },
-    { label: "Archived", icon: <FiArchive size={36} />, path: "/userarchived" },
+    { label: "Archive", icon: <FiArchive size={36} />, path: "/userarchived" },
     { label: "Feedback", icon: <FiMessageCircle size={36} />, path: "/userfeedback" },
     { label: "Help", icon: <FiHelpCircle size={36} />, path: "help-popup" },
     { label: "Logout", icon: <FiLogOut size={36} />, path: "logout" },
