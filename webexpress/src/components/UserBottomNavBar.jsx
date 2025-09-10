@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { FiClipboard, FiHelpCircle, FiLogOut } from "react-icons/fi";
 import { FaUserCircle } from "react-icons/fa";
 import { getUserData } from '../data/UserData';
+import downloadImg from '../assets/download.png';
 import '../CSS/UserBottomNavbar.css';
 
 const navs = [
@@ -198,90 +199,111 @@ const UserBottomNavBar = () => {
           alignItems: 'center',
           justifyContent: 'center',
         }}>
-          <div style={{
-            background: '#2B4066',
+          <style>{`
+            .mobile-popup-animate {
+              animation: fadeScaleIn 0.32s cubic-bezier(.4,2,.6,1);
+            }
+            @keyframes fadeScaleIn {
+              from { opacity: 0; transform: scale(0.92); }
+              to { opacity: 1; transform: scale(1); }
+            }
+          `}</style>
+          <div className="mobile-popup-animate" style={{
+            background: '#fff',
             borderRadius: '1em',
             boxShadow: '0 0.25rem 2rem rgba(0,0,0,0.18)',
-            width: '95%',
-            maxWidth: 440,
+            border: '1px solid #334E7B',
+            width: '98%',
+            maxWidth: 720,
             padding: '2.5em 2.5em 2em 2.5em',
             display: 'flex',
-            flexDirection: 'column',
+            flexDirection: 'row',
             boxSizing: 'border-box',
             color: '#fff',
             fontFamily: 'Roboto Mono, monospace',
-            alignItems: 'stretch',
-            gap: '0.7em',
+            alignItems: 'center',
+            gap: '2.2em',
             position: 'relative',
           }}>
-            <button
-              type="button"
-              onClick={() => setShowMobilePopup(false)}
-              style={{
-                position: 'absolute',
-                top: 18,
-                right: 22,
-                background: 'none',
-                border: 'none',
-                fontSize: '1.5em',
-                color: '#FFFFFF',
-                cursor: 'pointer',
-                fontWeight: 700,
-                lineHeight: 1,
-              }}
-              aria-label="Close"
-            >
-              ×
-            </button>
-            <div style={{ fontWeight: 700, fontSize: '2em', textAlign: 'center', marginBottom: '1.2em', fontFamily: 'Inconsolata, monospace' }}>Mobile Exclusive Feature</div>
-            <div style={{ color: '#fff', textAlign: 'center', marginBottom: '1.2em', fontSize: '1.1em', fontWeight: 800 }}>
-              This is a mobile exclusive function.
-            </div>
-            <div style={{ display: 'flex', gap: '1em', marginTop: '1.5em', flexDirection: 'column' }}>
-              <a
-                href="https://drive.google.com/uc?export=download&id=1D4QseDYlB9_3zezrNINM8eWWB3At1kVN"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  background: '#1C2E4A',
-                  color: '#fff',
-                  padding: '0.7em 0',
-                  borderRadius: 12,
-                  textDecoration: 'none',
-                  fontWeight: 700,
-                  fontSize: '1.1em',
-                  border: '2px solid #fff',
-                  cursor: 'pointer',
-                  display: 'block',
-                  textAlign: 'center',
-                  fontFamily: 'Inconsolata, monospace',
-                  transition: 'background 0.2s, color 0.2s',
-                }}
-                onMouseOver={e => e.target.style.background = '#334E7B'}
-                onMouseOut={e => e.target.style.background = '#1C2E4A'}
-              >
-                Download our Mobile Application
-              </a>
-              <button
-                type="button"
-                onClick={() => setShowMobilePopup(false)}
-                style={{
-                  flex: 1,
-                  background: '#52677D',
-                  color: '#fff',
-                  border: '2px solid #fff',
-                  borderRadius: 12,
-                  padding: '0.7em 0',
-                  fontWeight: 700,
-                  fontSize: '1.1em',
-                  fontFamily: 'Inconsolata, monospace',
-                  cursor: 'pointer',
-                  transition: 'background 0.2s, color 0.2s',
-                  marginTop: 0,
-                }}
-              >
-                Close
-              </button>
+            
+            <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{
+                width: '100%',
+                textAlign: 'center',
+                marginBottom: '1.2em',
+                fontSize: '1.1em',
+                fontWeight: 800,
+                color: '#334E7B',
+              }}>
+                This is a Mobile Exclusive function.
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: '100%', gap: '2.2em' }}>
+                <div style={{ minWidth: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 0, margin: 0 }}>
+                  <img src={downloadImg} alt="Download" style={{ width: 200, height: 200, margin: 0, padding: 0, objectFit: 'contain' }} />
+                </div>
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                  <div style={{ 
+      
+                    borderRadius: '1em', 
+                    padding: '1.5em', 
+                    textAlign: 'center',
+                    marginBottom: '1.5em'
+                  }}>
+                    <h3 style={{ fontSize: '1.8em', fontWeight: 700, marginBottom: '0.5em', color: '#334E7B' }}>
+                      Download <span style={{ color: '#4C75F2' }}>exPress</span> Mobile App
+                    </h3>
+                    <p style={{ fontSize: '1em', marginBottom: '1em', color: '#334E7B' }}>
+                      Get the full experience by installing the app.
+                    </p>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1.2em', marginTop: '1.2em' }}>
+                    <span
+                      style={{
+                        minWidth: 120,
+                        maxWidth: 180,
+                        background: '#334E7B',
+                        color: '#fff',
+                        border: '2px solid #334E7B',
+                        borderRadius: 12,
+                        padding: '0.50em 1.5em',
+                        fontWeight: 700,
+                        fontSize: '1.1em',
+                        fontFamily: 'Inconsolata, monospace',
+                        cursor: 'default',
+                        transition: 'background 0.2s, color 0.2s',
+                        marginTop: 0,
+                        textDecoration: 'none',
+                        display: 'inline-block',
+                        textAlign: 'center',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      ⬇ APK Download
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setShowMobilePopup(false)}
+                      style={{
+                        minWidth: 120,
+                        maxWidth: 180,
+                        background: '#52677D',
+                        color: '#fff',
+                        border: '2px solid #fff',
+                        borderRadius: 12,
+                        padding: '0.7em 1.5em',
+                        fontWeight: 700,
+                        fontSize: '1.1em',
+                        fontFamily: 'Inconsolata, monospace',
+                        cursor: 'pointer',
+                        transition: 'background 0.2s, color 0.2s',
+                        marginTop: 0,
+                      }}
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
