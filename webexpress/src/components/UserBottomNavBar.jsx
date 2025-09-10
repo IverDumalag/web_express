@@ -298,7 +298,10 @@ const UserBottomNavBar = () => {
                     </p>
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1.2em', marginTop: '1.2em' }}>
-                    <span
+                    <a
+                      href="https://drive.google.com/uc?export=download&id=1D4QseDYlB9_3zezrNINM8eWWB3At1kVN"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       style={{
                         minWidth: 120,
                         maxWidth: 180,
@@ -310,7 +313,7 @@ const UserBottomNavBar = () => {
                         fontWeight: 700,
                         fontSize: '1.1em',
                         fontFamily: 'Inconsolata, monospace',
-                        cursor: 'default',
+                        cursor: 'pointer',
                         transition: 'background 0.2s, color 0.2s',
                         marginTop: 0,
                         textDecoration: 'none',
@@ -320,7 +323,7 @@ const UserBottomNavBar = () => {
                       }}
                     >
                       ⬇ APK Download
-                    </span>
+                    </a>
                     <button
                       type="button"
                       onClick={() => setShowMobilePopup(false)}
