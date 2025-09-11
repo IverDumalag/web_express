@@ -8,6 +8,10 @@ import { useNavigate } from "react-router-dom";
 import UserBottomNavBar from '../components/UserBottomNavBar';
 import boyImg from '../assets/boy.png';
 import Snowfall from '../components/Snowfall';
+import SL1 from "../assets/SL1.jpg";
+import SL2 from "../assets/SL2.jpg";
+import SL3 from "../assets/SL3.jpg";
+import SL4 from "../assets/SL4.jpg";
 
 const API_URL = import.meta.env.VITE_PHRASESWORDSBYIDGET;
 const INSERT_API_URL = import.meta.env.VITE_PHRASESWORDSINSERT;
@@ -220,56 +224,117 @@ export default function UserCardsPage() {
   // Speech bubble message for this page
   const boyBubbleMessage = "welcome, these are your cards";
 
-  return (
-    <div style={{ minHeight: '100vh', background: '#fff' }}>
-      <UserBottomNavBar />
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '2vw' }}>
-        <div style={{
-          width: '100%',
-          overflow: 'hidden',
-          marginBottom: '1vw',
-          position: 'relative',
-        }}>
-          
-        </div>
-        <div style={{
-          position: 'relative',
+return (
+  <div style={{ minHeight: '100vh', background: '#fff' }}>
+    <UserBottomNavBar />
+    <div style={{ maxWidth: 1200, margin: '0 auto', padding: '2vw' }}>
+      <div style={{
+        width: '100%',
+        overflow: 'hidden',
+        marginBottom: '1vw',
+        position: 'relative',
+      }}>
+      </div>
 
-          borderRadius: '28px',
-          margin: '2vw -4vw',
-          padding: '2vw 9vw',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          border: '3.5px solid #22314a',
-          boxSizing: 'border-box',
-          overflow: 'hidden',
-        }}>
-          <div style={{ position: 'relative', zIndex: 1, width: '100%' }}>
-            <div style={{
-              fontFamily: 'Poppins, sans-serif',
-              fontWeight: 700,
-              fontSize: '3.2em',
-              color: '#22223b',
-              letterSpacing: '0.04em',
-              marginBottom: '0.5em',
-              textAlign: 'center',
-              position: 'relative',
-              overflow: 'hidden',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: '100%',
-              minHeight: '1.2em',
-            }}>
-              <span>SIGN LANGUAGE CARDS</span>
-            </div>
-            <div style={{ fontFamily: 'Roboto Mono, monospace', fontSize: '1.35em', color: '#22365a', textAlign: 'center', marginBottom: '0.5em' }}>
-              Get more cards for enhancement of your Sign Language!
-            </div>
-          </div>
-        </div>
+
+{/* ✅ Floating animation keyframes */}
+<style>
+  {`
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-12px); }
+      100% { transform: translateY(0px); }
+    }
+  `}
+</style>
+
+<div style={{
+  display: 'grid',
+  gridTemplateColumns: 'repeat(4, 1fr)', // 4 images in a row
+  gap: '8em',
+  marginTop: '2em',
+  marginBottom: '2em',
+  marginRight: '5em',
+}}>
+  {/* Image 1 */}
+  <img 
+    src={SL1}
+    style={{ 
+      width: '150%', 
+      height: '320px',   // ✅ expanded height
+      objectFit: 'cover', 
+      borderRadius: '12px',
+      animation: 'float 3s ease-in-out infinite'
+    }} 
+  />
+
+  {/* Image 2 */}
+  <img 
+    src={SL2}
+    style={{ 
+      width: '150%', 
+      height: '320px',
+      objectFit: 'cover', 
+      borderRadius: '12px',
+      animation: 'float 3s ease-in-out infinite'
+    }} 
+  />
+
+  {/* Image 3 */}
+  <img 
+    src={SL3}
+    style={{ 
+      width: '150%', 
+      height: '320px',
+      objectFit: 'cover', 
+      borderRadius: '12px',
+      animation: 'float 3s ease-in-out infinite'
+    }} 
+  />
+
+  {/* Image 4 */}
+  <img 
+    src={SL4}
+    style={{ 
+      width: '150%', 
+      height: '320px',
+      objectFit: 'cover', 
+      borderRadius: '12px',
+      animation: 'float 3s ease-in-out infinite'
+    }} 
+  />
+</div>
+
+
+{/* ✅ Centered text (now below containers) */}
+<div style={{ position: 'relative', zIndex: 1, width: '100%' }}>
+  <div style={{
+    fontFamily: 'Poppins, sans-serif',
+    fontWeight: 700,
+    fontSize: '3.2em',
+    color: '#22223b',
+    letterSpacing: '0.04em',
+    marginBottom: '0.5em',
+    textAlign: 'center',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    minHeight: '1.2em',
+  }}>
+    <span>Ready to Sign?</span>
+  </div>
+  <div style={{
+    fontFamily: 'Roboto Mono, monospace',
+    fontSize: '1.25em',
+    color: '#22365a',
+    textAlign: 'center',
+    marginBottom: '1.5em'
+  }}>
+    Get more cards for enhancement of your Sign Language!
+  </div>
+</div>
+
     
         <div style={{margin: '3vw 0 2vw 0'}}>
           <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: '0.5vw', marginBottom: '1.5vw', marginLeft: '44vw'}}>
