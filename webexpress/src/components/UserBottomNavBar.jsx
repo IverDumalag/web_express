@@ -4,7 +4,7 @@ import { FiClipboard, FiHelpCircle, FiLogOut } from "react-icons/fi";
 import { FaUserCircle } from "react-icons/fa";
 import { getUserData } from '../data/UserData';
 import downloadImg from '../assets/download.png';
-import '../CSS/UserBottomNavbar.css';
+import '../CSS/UserBottomNavBar.css';
 
 const navs = [
   { label: "Home", path: "/userhome" },
