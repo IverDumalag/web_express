@@ -1,3 +1,25 @@
+/* Extra large container for user-requested big div */
+.big-container {
+  padding: 56px;
+  width: 100%;
+  max-width: 1400px;
+  min-height: 600px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+/* Larger scrollable content area */
+.scrollable-content {
+  padding: 48px;
+  overflow-y: auto;
+  max-height: 95vh;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+/* Add border to about-container */
+.about-container {
+  border: 1px solid #334E7B;
+}
 body, html {
   height: 100%;
   width: 100%;
@@ -7,7 +29,6 @@ body, html {
   font-family: 'Roboto Mono', sans-serif;
   color: #333;
 
-  /* Use userprofilebg.png as a static background image, always visible */
   background: url('/src/assets/userprofilebg.png') center center no-repeat;
   background-size: cover;
   background-attachment: fixed;

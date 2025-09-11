@@ -140,21 +140,35 @@ const UserMenuPage = () => {
       )}
       {/* About Popup */}
       {showAboutPopup && (
-        <div className="popup-overlay" style={{zIndex: 10000, alignItems: 'center', justifyContent: 'center', overflowY: 'auto'}}>
-          <div className="popup-content" style={{
-            maxWidth: 1200,
-            width: '99vw',
+        <div className="popup-overlay" style={{zIndex: 10000, alignItems: 'center', justifyContent: 'center', overflowY: 'auto', background: 'rgba(44,62,80,0.10)'}}>
+          <div style={{
+            maxWidth: 900,
+            width: '96vw',
             minWidth: 0,
-            maxHeight: '85vh',
+            maxHeight: '92vh',
             margin: '0 auto',
             padding: 0,
-            overflowY: 'auto',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 18,
+            boxShadow: '0 8px 32px rgba(44,62,80,0.18)',
+            background: 'transparent',
             position: 'relative',
-            borderRadius: 12,
-            boxShadow: '0 8px 32px rgba(0,0,0,0.18)'
           }}>
-            <button style={{position: 'absolute', top: 18, right: 18, fontSize: 28, background: 'none', border: 'none', cursor: 'pointer', color: '#334E7B', zIndex: 2}} onClick={() => setShowAboutPopup(false)} aria-label="Close">&#10005;</button>
-            <div style={{padding: 24, overflowY: 'auto', maxHeight: '70vh'}}>
+            <div style={{
+              background: '#fff',
+              borderRadius: 18,
+
+              boxShadow: '0 2px 16px rgba(44,62,80,0.10)',
+              width: '100%',
+              maxHeight: '92vh',
+              overflow: 'hidden',
+              position: 'relative',
+              display: 'flex',
+              flexDirection: 'column',
+            }}>
+              <button style={{position: 'absolute', top: 18, right: 18, fontSize: 28, background: 'none', border: 'none', cursor: 'pointer', color: '#334E7B', zIndex: 2}} onClick={() => setShowAboutPopup(false)} aria-label="Close">&#10005;</button>
               <UserAboutPage />
             </div>
           </div>
@@ -163,21 +177,28 @@ const UserMenuPage = () => {
 
       {/* Help Popup */}
       {showHelpPopup && (
-        <div className="popup-overlay" style={{zIndex: 10000, alignItems: 'center', justifyContent: 'center', overflowY: 'auto'}}>
-          <div className="popup-content" style={{
-            maxWidth: 1200,
-            width: '99vw',
+        <div className="popup-overlay" style={{zIndex: 10000, alignItems: 'center', justifyContent: 'center', overflowY: 'auto', background: 'rgba(44,62,80,0.10)'}}>
+          <div style={{
+            maxWidth: 900,
+            width: '96vw',
             minWidth: 0,
-            maxHeight: '85vh',
+            maxHeight: '92vh',
             margin: '0 auto',
             padding: 0,
-            overflowY: 'auto',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 18,
+            boxShadow: '0 8px 32px rgba(44,62,80,0.18)',
+            background: 'transparent',
             position: 'relative',
-            borderRadius: 12,
-            boxShadow: '0 8px 32px rgba(0,0,0,0.18)'
           }}>
-            <button style={{position: 'absolute', top: 18, right: 18, fontSize: 28, background: 'none', border: 'none', cursor: 'pointer', color: '#334E7B', zIndex: 2}} onClick={() => setShowHelpPopup(false)} aria-label="Close">&#10005;</button>
-            <div style={{padding: 24, overflowY: 'auto', maxHeight: '70vh'}}>
+            <div style={{
+              background: '#fff',
+
+             
+            }}>
+              <button style={{position: 'absolute', top: 18, right: 18, fontSize: 28, background: 'none', border: 'none', cursor: 'pointer', color: '#334E7B', zIndex: 2}} onClick={() => setShowHelpPopup(false)} aria-label="Close">&#10005;</button>
               <UserHelpPage />
             </div>
           </div>

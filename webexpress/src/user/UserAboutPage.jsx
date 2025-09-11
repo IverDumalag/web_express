@@ -7,8 +7,7 @@ const UserAboutPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="user-about-page">
-      <div className="about-container">
+    <div className="about-container">
         <h1>About This App</h1>
 
         {/* App Information Section */}
@@ -76,8 +75,7 @@ const UserAboutPage = () => {
         </section>
 
   {/* Back to Menu button removed for popup usage */}
-      </div>
-    </div>
+  </div>
   );
 };
 
