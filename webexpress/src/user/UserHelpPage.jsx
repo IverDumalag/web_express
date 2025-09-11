@@ -7,8 +7,7 @@ const UserHelpPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="user-about-page">
-      <div className="about-container">
+    <div className="about-container">
         <h1>Help & FAQ</h1>
 
         {/* Frequently Asked Questions Section */}
@@ -57,8 +56,7 @@ const UserHelpPage = () => {
         </section>
 
   {/* Back to Menu button removed for popup usage */}
-      </div>
-    </div>
+  </div>
   );
 };
 
