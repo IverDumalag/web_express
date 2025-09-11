@@ -228,7 +228,14 @@ export default function UserFeedback({ showModal, onCloseModal }) {
           alignItems: 'stretch',
           gap: '0.7em',
           position: 'relative',
+          animation: 'pop 0.32s cubic-bezier(.4,2,.6,1)',
         }}>
+          <style>{`
+            @keyframes pop {
+              0% { opacity: 0; transform: scale(0.95) translateY(30px); }
+              100% { opacity: 1; transform: scale(1) translateY(0); }
+            }
+          `}</style>
           <div style={{ fontWeight: 700, fontSize: '2em', textAlign: 'center', marginBottom: '1.2em', fontFamily: 'Inconsolata, monospace' }}>Submit Feedback</div>
           {/* Success/Error message can be added here if needed */}
           <label style={{ fontWeight: 500, fontSize: '1.1em', marginBottom: 2 }} htmlFor="main-concern">Main Concern</label>

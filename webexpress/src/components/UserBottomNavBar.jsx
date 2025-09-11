@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FiUser, FiClipboard, FiHelpCircle, FiLogOut } from "react-icons/fi";
+import { FiClipboard, FiHelpCircle, FiLogOut } from "react-icons/fi";
+import { FaUserCircle } from "react-icons/fa";
 import { getUserData } from '../data/UserData';
+import downloadImg from '../assets/download.png';
 import '../CSS/UserBottomNavbar.css';
 
 const navs = [
@@ -133,10 +135,10 @@ const UserBottomNavBar = () => {
 
         {/* Account Dropdown */}
         <div ref={dropdownRef} style={{ position: 'absolute', right: '4vw', cursor: 'pointer' }}>
-          <FiUser size={28} onClick={handleAccountClick} />
+          <FaUserCircle size={28} onClick={handleAccountClick} />
 
           {dropdownOpen && (
-            <div className="account-dropdown">
+            <div className="account-dropdown" style={{ minWidth: 330, maxWidth: 540 , borderRadius: 8}}>
               <div className="dropdown-header">
                 <div>
                   <div className="dropdown-name">{userName} </div>
@@ -147,22 +149,92 @@ const UserBottomNavBar = () => {
               {/* <div className="dropdown-item" onClick={() => handleDropdownClick("/usermenu")}>
                 <FiClipboard size={20} /><span>Menu</span>
               </div> */}
-              <div className="dropdown-item" onClick={() => handleDropdownClick("/userprofile")}>
-                <FiUser size={20} /><span>Profile</span>
+              <div 
+                className="dropdown-item" 
+                onClick={() => handleDropdownClick("/userprofile")}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 12,
+                  padding: '0.85em 1.2em',
+                  fontFamily: 'Inconsolata, monospace',
+                  fontSize: '0.98em',
+                  fontWeight: 600,
+                  color: '#334E7B',
+                  cursor: 'pointer',
+                  transition: 'background 0.18s',
+                  borderRadius: 8,
+                }}
+                onMouseOver={e => { e.currentTarget.style.background = '#f3f7fb'; }}
+                onMouseOut={e => { e.currentTarget.style.background = 'transparent'; }}
+              >
+                <FaUserCircle size={20} style={{ minWidth: 20 }} />
+                <span>Profile</span>
               </div>
-              <div className="dropdown-item">
-                <FiHelpCircle size={20} />
+              <div
+                style={{
+                  width: '92%',
+                  height: 0,
+                  borderTop: '1px solid #334E7B',
+                  margin: '0.18em auto 0.18em auto',
+                  display: 'flex',
+                }}
+              />
+              <div 
+                className="dropdown-item" 
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 12,
+                  padding: '0.85em 1.2em',
+                  fontFamily: 'Inconsolata, monospace',
+                  fontSize: '0.98em',
+                  fontWeight: 600,
+                  color: '#334E7B',
+                  borderRadius: 8,
+                }}
+              >
+                <FiHelpCircle size={20} style={{ minWidth: 20 }} />
                 <a
                   href="https://drive.google.com/uc?export=download&id=1D4QseDYlB9_3zezrNINM8eWWB3At1kVN"
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{ color: 'inherit', textDecoration: 'none', marginLeft: 8 }}
+                  style={{ color: '#334E7B', textDecoration: 'none', marginLeft: 0, fontWeight: 600 }}
                 >
                   Download our App
                 </a>
               </div>
-              <div className="dropdown-item logout" onClick={handleLogoutClick}>
-                <FiLogOut size={20} /><span>Log Out</span>
+              <div
+                style={{
+                  width: '92%',
+                  height: 0,
+                  borderTop: '1px solid #334E7B',
+                  margin: '0.18em auto 0.18em auto',
+                  display: 'flex',
+                }}
+              />
+              <div
+                className="dropdown-item logout"
+                onClick={handleLogoutClick}
+                style={{
+                  color: '#e74c3c',
+                  borderRadius: 10,
+                  fontWeight: 700,
+                  fontFamily: 'Inconsolata, monospace',
+                  fontSize: '1em',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 12,
+                  padding: '0.85em 1.2em',
+                  margin: 0,
+                  cursor: 'pointer',
+                  transition: 'background 0.18s',
+                }}
+                onMouseOver={e => { e.currentTarget.style.background = '#ffd6d6'; }}
+                onMouseOut={e => { e.currentTarget.style.background = '#ffeaea'; }}
+              >
+                <FiLogOut size={20} style={{ color: '#e74c3c', minWidth: 20 }} />
+                <span style={{ color: '#e74c3c' }}>Log Out</span>
               </div>
             </div>
           )}
@@ -171,13 +243,72 @@ const UserBottomNavBar = () => {
 
       {/* Logout Confirmation Popup */}
       {showLogoutPopup && (
-        <div className="popup-overlay">
-          <div className="popup-content">
-            <h2>Confirm Logout</h2>
-            <p>Are you sure you want to log out?</p>
-            <div className="popup-buttons">
-              <button className="btn-cancel" onClick={() => setShowLogoutPopup(false)}>Cancel</button>
-              <button className="btn-confirm" onClick={confirmLogout}>Logout</button>
+        <div className="popup-overlay" style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          background: 'rgba(0,0,0,0.08)', zIndex: 3000,
+          display: 'flex', alignItems: 'center', justifyContent: 'center'
+        }}>
+          <div style={{
+            borderRadius: 20,
+            border: '2px solid #334E7B',
+            background: '#fff',
+            width: '95%',
+            maxWidth: 440,
+            padding: '2.5em 2.5em 2em 2.5em',
+            display: 'flex',
+            flexDirection: 'column',
+            boxSizing: 'border-box',
+            color: '#334E7B',
+            fontFamily: 'Roboto Mono, monospace',
+            alignItems: 'stretch',
+            gap: '0.7em',
+            position: 'relative',
+          }}>
+            <div style={{ fontWeight: 700, fontSize: '2em', textAlign: 'center', marginBottom: '1.2em', fontFamily: 'Inconsolata, monospace', color: '#334E7B' }}>
+              Logout Confirmation
+            </div>
+            <div style={{ color: '#334E7B', textAlign: 'center', marginBottom: '1.2em', fontSize: '1.1em', fontWeight: 800 }}>
+              Are you sure you want to logout?
+            </div>
+            <div style={{ display: 'flex', gap: '1em', marginTop: '1.5em' }}>
+              <button
+                type="button"
+                onClick={confirmLogout}
+                style={{
+                  flex: 1,
+                  background: '#ef7070ff',
+                  color: '#fff',
+                  border: '2px solid #fff',
+                  borderRadius: 12,
+                  padding: '0.7em 0',
+                  fontWeight: 700,
+                  fontSize: '1.1em',
+                  fontFamily: 'Inconsolata, monospace',
+                  cursor: 'pointer',
+                  transition: 'background 0.2s, color 0.2s',
+                }}
+              >
+                Logout
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowLogoutPopup(false)}
+                style={{
+                  flex: 1,
+                  background: '#52677D',
+                  color: '#fff',
+                  border: '2px solid #fff',
+                  borderRadius: 12,
+                  padding: '0.7em 0',
+                  fontWeight: 700,
+                  fontSize: '1.1em',
+                  fontFamily: 'Inconsolata, monospace',
+                  cursor: 'pointer',
+                  transition: 'background 0.2s, color 0.2s',
+                }}
+              >
+                Cancel
+              </button>
             </div>
           </div>
         </div>
@@ -185,42 +316,146 @@ const UserBottomNavBar = () => {
 
       {/* Mobile Exclusive Feature Popup */}
       {showMobilePopup && (
-        <div className="popup-overlay">
-          <div className="popup-content" style={{ textAlign: 'center' }}>
-            <h2>Mobile Exclusive Feature</h2>
-            <p style={{ marginBottom: '20px', fontSize: '1.1em', lineHeight: '1.5' }}>
-              This is a mobile exclusive function.
-            </p>
-            <div className="popup-buttons" style={{ flexDirection: 'column', gap: '15px' }}>
-              <a
-                href="https://drive.google.com/uc?export=download&id=1D4QseDYlB9_3zezrNINM8eWWB3At1kVN"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  background: '#1C2E4A',
-                  color: '#fff',
-                  padding: '12px 24px',
-                  borderRadius: '8px',
-                  textDecoration: 'none',
-                  fontWeight: '600',
-                  fontSize: '1.1em',
-                  border: 'none',
-                  cursor: 'pointer',
-                  display: 'inline-block',
-                  transition: 'background 0.3s ease'
-                }}
-                onMouseOver={(e) => e.target.style.background = '#334E7B'}
-                onMouseOut={(e) => e.target.style.background = '#1C2E4A'}
-              >
-                Download our Mobile Application
-              </a>
-              <button 
-                className="btn-cancel" 
-                onClick={() => setShowMobilePopup(false)}
-                style={{ marginTop: '10px' }}
-              >
-                Close
-              </button>
+        <div style={{
+          position: 'fixed',
+          zIndex: 3002,
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(0,0,0,0.08)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+          <style>{`
+            .mobile-popup-animate {
+              animation: fadeScaleIn 0.32s cubic-bezier(.4,2,.6,1);
+            }
+            @keyframes fadeScaleIn {
+              from { opacity: 0; transform: scale(0.92); }
+              to { opacity: 1; transform: scale(1); }
+            }
+          `}</style>
+          <div className="mobile-popup-animate" style={{
+            background: '#fff',
+            borderRadius: 12,
+            boxShadow: '0 0.25rem 2rem rgba(0,0,0,0.18)',
+            border: '1px solid #334E7B',
+            width: '98%',
+            maxWidth: 720,
+            padding: '2.5em 2.5em 2em 2.5em',
+            display: 'flex',
+            flexDirection: 'row',
+            boxSizing: 'border-box',
+            color: '#fff',
+            fontFamily: 'Roboto Mono, monospace',
+            alignItems: 'center',
+            gap: '2.2em',
+            position: 'relative',
+          }}>
+            
+            <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{
+                width: '100%',
+                textAlign: 'center',
+                marginBottom: '1.2em',
+               
+                fontSize: '1.1em',
+                fontWeight: 800,
+                color: '#334E7B',
+              }}>
+                This is a Mobile Exclusive function.
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: '100%', gap: '2.2em' }}>
+                <div style={{ minWidth: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 0, margin: 0 }}>
+                  <style>{`
+                    @keyframes floatDownloadImg {
+                      0% { transform: translateY(0); }
+                      50% { transform: translateY(-18px); }
+                      100% { transform: translateY(0); }
+                    }
+                  `}</style>
+                  <img
+                    src={downloadImg}
+                    alt="Download"
+                    style={{
+                      width: 240,
+                      height: 210,
+                      margin: 0,
+                      padding: 0,
+                      objectFit: 'contain',
+                      animation: 'floatDownloadImg 2.2s ease-in-out infinite',
+                      display: 'block',
+                    }}
+                  />
+                </div>
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                  <div style={{ 
+      
+                    borderRadius: '1em', 
+                    padding: '1.5em', 
+                    textAlign: 'center',
+                    marginBottom: '1.5em'
+                  }}>
+                    <h3 style={{ fontSize: '1.8em', fontWeight: 700, marginBottom: '0.5em', color: '#334E7B' }}>
+                      Download <span style={{ color: '#4C75F2' }}>exPress</span> Mobile App
+                    </h3>
+                    <p style={{ fontSize: '1em', marginBottom: '1em', color: '#334E7B' }}>
+                      Get the full experience by installing the app.
+                    </p>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1.2em', marginTop: '1.2em' }}>
+                    <a
+                      href="https://drive.google.com/uc?export=download&id=1D4QseDYlB9_3zezrNINM8eWWB3At1kVN"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        minWidth: 120,
+                        maxWidth: 180,
+                        background: '#334E7B',
+                        color: '#fff',
+                        border: '2px solid #334E7B',
+                        borderRadius: 12,
+                        padding: '0.50em 1.5em',
+                        fontWeight: 700,
+                        fontSize: '1.1em',
+                        fontFamily: 'Inconsolata, monospace',
+                        cursor: 'pointer',
+                        transition: 'background 0.2s, color 0.2s',
+                        marginTop: 0,
+                        textDecoration: 'none',
+                        display: 'inline-block',
+                        textAlign: 'center',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      ⬇ APK Download
+                    </a>
+                    <button
+                      type="button"
+                      onClick={() => setShowMobilePopup(false)}
+                      style={{
+                        minWidth: 120,
+                        maxWidth: 180,
+                        background: '#52677D',
+                        color: '#fff',
+                        border: '2px solid #fff',
+                        borderRadius: 12,
+                        padding: '0.7em 1.5em',
+                        fontWeight: 700,
+                        fontSize: '1.1em',
+                        fontFamily: 'Inconsolata, monospace',
+                        cursor: 'pointer',
+                        transition: 'background 0.2s, color 0.2s',
+                        marginTop: 0,
+                      }}
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

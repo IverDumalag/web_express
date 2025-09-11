@@ -565,16 +565,16 @@ export default function UserCardsPage() {
           justifyContent: 'center',
         }}>
           <form className="add-modal" onSubmit={e => { e.preventDefault(); handleAddWord(); }} style={{
-            background: '#2B4066',
-            borderRadius: '1em',
-            boxShadow: '0 0.25rem 2rem rgba(0,0,0,0.18)',
+            borderRadius: 20,
+            border: '2px solid #334E7B',
+            background: '#fff',
             width: '95%',
             maxWidth: 440,
-            padding: '2.5em 2.5em 2em 2.5em',
+            padding: '2.5em 2.5em 2em',
             display: 'flex',
             flexDirection: 'column',
             boxSizing: 'border-box',
-            color: '#fff',
+            color: '#334E7B',
             fontFamily: 'Roboto Mono, monospace',
             alignItems: 'stretch',
             gap: '0.7em',
@@ -609,7 +609,21 @@ export default function UserCardsPage() {
               disabled={addLoading}
               autoFocus
               style={{
-                background: '#fff', color: '#2563eb', fontWeight: 600, fontSize: '1.1em', border: 'none', borderRadius: 8, padding: '0.6em 1em', marginBottom: 8, fontFamily: 'Inconsolata, monospace', outline: 'none', boxSizing: 'border-box',
+                background: '#fff',
+                color: '#2563eb',
+                fontWeight: 600,
+                fontSize: '1.1em',
+                border: '2px solid #334E7B',
+                borderRadius: 8,
+                padding: '0.6em 1em',
+                marginBottom: 8,
+                fontFamily: 'Inconsolata, monospace',
+                outline: 'none',
+                boxSizing: 'border-box',
+                userSelect: 'all',
+                MozUserSelect: 'all',
+                WebkitUserSelect: 'all',
+                msUserSelect: 'all',
               }}
             />
             <div style={{ display: 'flex', gap: '1em', marginTop: '1.5em' }}>
