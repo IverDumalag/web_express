@@ -86,10 +86,13 @@ const GuestNavBar = () => {
             e.stopPropagation();
             
             try {
+              // Use the same mechanism as other nav items to scroll to top/hero section
               if (location === "/") {
-                handleSmoothScrollToTop();
+                window.dispatchEvent(
+                  new CustomEvent("guestnav-scroll", { detail: { section: "hero" } })
+                );
               } else {
-                navigate("/");
+                navigate("/", { state: { scrollTo: "hero" } });
               }
             } catch (error) {
               console.error('Brand navigation error:', error);
