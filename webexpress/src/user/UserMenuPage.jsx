@@ -2,7 +2,8 @@
 
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FiUser, FiInfo, FiArchive, FiMessageCircle, FiHelpCircle, FiLogOut } from "react-icons/fi";
+import { FiInfo, FiArchive, FiMessageCircle, FiHelpCircle, FiLogOut } from "react-icons/fi";
+import { FaUserCircle } from "react-icons/fa";
 import UserBottomNavBar from "../components/UserBottomNavBar";
 import UserAboutPage from "./UserAboutPage";
 import UserHelpPage from "./UserHelpPage";
@@ -91,7 +92,7 @@ const UserMenuPage = () => {
   };
 
   const menuItems = [
-    { label: "Profile", icon: <FiUser size={36} />, path: "/userprofile" },
+    { label: "Profile", icon: <FaUserCircle size={36} />, path: "/userprofile" },
     { label: "About", icon: <FiInfo size={36} />, path: "about-popup" },
     { label: "Archive", icon: <FiArchive size={36} />, path: "/userarchived" },
     { label: "Feedback", icon: <FiMessageCircle size={36} />, path: "/userfeedback" },
@@ -186,88 +187,73 @@ const UserMenuPage = () => {
 
       {/* Custom Logout Popup */}
       {showLogoutPopup && (
-        <div className="popup-overlay" style={{
-          zIndex: 12000,
-          alignItems: 'center',
-          justifyContent: 'center',
-          overflowY: 'auto',
-          display: 'flex',
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'rgba(0,0,0,0.18)'
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          background: 'rgba(0,0,0,0.08)', zIndex: 3000,
+          display: 'flex', alignItems: 'center', justifyContent: 'center'
         }}>
-          <div className="popup-content" style={{
-            maxWidth: 420,
-            width: '95vw',
-            borderRadius: 12,
+          <div style={{
+            borderRadius: 20,
+            border: '2px solid #334E7B',
             background: '#fff',
-            padding: '2.5rem 2rem',
-            boxShadow: '0 12px 32px rgba(0,0,0,0.25)',
-            textAlign: 'center',
+            width: '95%',
+            maxWidth: 440,
+            padding: '2.5em 2.5em 2em 2.5em',
+            display: 'flex',
+            flexDirection: 'column',
+            boxSizing: 'border-box',
+            color: '#334E7B',
+            fontFamily: 'Roboto Mono, monospace',
+            alignItems: 'stretch',
+            gap: '0.7em',
             position: 'relative',
-            margin: 'auto'
           }}>
-            <button
-              style={{
-                position: 'absolute',
-                top: 18,
-                right: 18,
-                fontSize: 28,
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                color: '#334E7B',
-                zIndex: 2
-              }}
-              onClick={cancelLogout}
-              aria-label="Close"
-            >
-              &#10005;
-            </button>
-            <h2 style={{
-              marginBottom: '0.8rem',
-              fontSize: '1.8rem',
-              fontWeight: 700,
-              color: '#1C2E4A'
-            }}>Logout Confirmation</h2>
-            <p style={{
-              marginBottom: '2rem',
-              color: '#334E7B',
-              fontSize: '1rem',
-              lineHeight: 1.5
-            }}>
+          
+            <div style={{ fontWeight: 700, fontSize: '2em', textAlign: 'center', marginBottom: '1.2em', fontFamily: 'Inconsolata, monospace', color: '#334E7B' }}>
+              Logout Confirmation
+            </div>
+            <div style={{ color: '#334E7B', textAlign: 'center', marginBottom: '1.2em', fontSize: '1.1em', fontWeight: 800 }}>
               Are you sure you want to logout?
-            </p>
-            <div className="popup-buttons" style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              gap: '1rem'
-            }}>
-              <button className="btn-cancel" style={{
-                flex: 1,
-                padding: '0.6rem 1.5rem',
-                background: '#f5f5f5',
-                color: '#1C2E4A',
-                border: 'none',
-                borderRadius: 12,
-                cursor: 'pointer',
-                fontWeight: 600,
-                transition: 'all 0.3s ease'
-              }} onClick={cancelLogout}>Cancel</button>
-              <button className="btn-confirm" style={{
-                flex: 1,
-                padding: '0.6rem 1.5rem',
-                background: '#d9534f',
-                color: '#fff',
-                border: 'none',
-                borderRadius: 12,
-                cursor: 'pointer',
-                fontWeight: 600,
-                transition: 'all 0.3s ease'
-              }} onClick={confirmLogout}>Logout</button>
+            </div>
+            <div style={{ display: 'flex', gap: '1em', marginTop: '1.5em' }}>
+              <button
+                type="button"
+                onClick={confirmLogout}
+                style={{
+                  flex: 1,
+                  background: '#ef7070ff',
+                  color: '#fff',
+                  border: '2px solid #fff',
+                  borderRadius: 12,
+                  padding: '0.7em 0',
+                  fontWeight: 700,
+                  fontSize: '1.1em',
+                  fontFamily: 'Inconsolata, monospace',
+                  cursor: 'pointer',
+                  transition: 'background 0.2s, color 0.2s',
+                }}
+              >
+                Logout
+              </button>
+              <button
+                type="button"
+                onClick={cancelLogout}
+                style={{
+                  flex: 1,
+                  background: '#52677D',
+                  color: '#fff',
+                  border: '2px solid #fff',
+                  borderRadius: 12,
+                  padding: '0.7em 0',
+                  fontWeight: 700,
+                  fontSize: '1.1em',
+                  fontFamily: 'Inconsolata, monospace',
+                  cursor: 'pointer',
+                  transition: 'background 0.2s, color 0.2s',
+                }}
+              >
+                Cancel
+              </button>
             </div>
           </div>
         </div>
