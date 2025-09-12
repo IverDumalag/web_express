@@ -530,7 +530,7 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
                   <>
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '2.2em' }}>
                       <div style={{ color: "#334E7B", fontFamily: 'Roboto Mono, monospace', fontWeight: '800', textAlign: "center", fontSize: '1.4em', marginBottom: '0.8em', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.6em' }}>
-                        No media available yet, please wait for future's updates
+                        No media available yet, please wait for future updates
                         
                       </div>
                     </div>
@@ -835,25 +835,7 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
               {sourceMessage}
             </div>
             
-            <div style={{ marginTop: '20px', textAlign: 'center' }}>
-              <button
-                onClick={() => setShowSourcePopup(false)}
-                style={{
-                  background: '#1C2E4A',
-                  color: '#fff',
-                  border: '2px solid #fff',
-                  borderRadius: '12px',
-                  padding: '0.7em 2em',
-                  fontWeight: '700',
-                  fontSize: '1.1em',
-                  fontFamily: 'Inconsolata, monospace',
-                  cursor: 'pointer',
-                  transition: 'background 0.2s',
-                }}
-              >
-                OK
-              </button>
-            </div>
+            
           </div>
         </div>
       )}
