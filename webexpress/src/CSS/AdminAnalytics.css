@@ -87,21 +87,21 @@
 }
 
 .download-icon-btn.pdf {
-  border-color: #dc2626;
-  color: #dc2626;
+  border-color: #334E7B;
+  color: #334E7B;
 }
 
-.download-icon-btn.pdf:hover {
-  background: rgba(220, 38, 38, 0.1);
+ .download-icon-btn.pdf:hover {
+  background: rgba(51, 78, 123, 0.1);
 }
 
-.download-icon-btn.excel {
-  border-color: #16a34a;
-  color: #16a34a;
+ .download-icon-btn.excel {
+  border-color: #1C2E4A;
+  color: #1C2E4A;
 }
 
-.download-icon-btn.excel:hover {
-  background: rgba(22, 163, 74, 0.1);
+ .download-icon-btn.excel:hover {
+  background: rgba(28, 46, 74, 0.1);
 }
 body, #root {
   min-height: 100vh;
@@ -112,7 +112,7 @@ body, #root {
 }
 .admin-analytics-container {
   padding: 2vw;
-  background: rgba(255,255,255,0.96);
+  background: #fff;
   border-radius: 2vw;
   box-shadow: 0 8px 32px rgba(51,78,123,0.13);
   max-width: 1200px;
@@ -145,7 +145,8 @@ body, #root {
   background: #1d4ed8;
 }
 
-.analytics-summary-outer {
+ .analytics-summary-outer {
+  background: #fff;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
@@ -193,7 +194,7 @@ body, #root {
   margin-bottom: 2.8rem;
   flex-wrap: nowrap;
   min-width: 800px;
-  background: #f7faff;
+  background: #fff;
   border-radius: 1.2vw;
   box-shadow: 0 2px 12px rgba(51,78,123,0.07);
   padding: 2rem 1.5rem 1.5rem 1.5rem;
@@ -221,7 +222,7 @@ body, #root {
 .analytics-summary-box {
   min-width: 220px;
   flex: 0 0 auto;
-  background: linear-gradient(135deg, #fff 0%, #f8fafc 100%);
+  background: #fff;
   border-radius: 1rem;
   padding: 1.5rem;
   text-align: center;
@@ -891,22 +892,23 @@ body, #root {
   transform: translateY(0);
 }
 
+
 .download-btn.pdf {
-  background-color: #e53e3e;
-  color: white;
+  background-color: #334E7B;
+  color: #fff;
 }
 
 .download-btn.pdf:hover {
-  background-color: #c53030;
+  background-color: #22345a;
 }
 
 .download-btn.excel {
-  background-color: #38a169;
-  color: white;
+  background-color: #1C2E4A;
+  color: #fff;
 }
 
 .download-btn.excel:hover {
-  background-color: #2f855a;
+  background-color: #142035;
 }
 
 @media (max-width: 768px) {
