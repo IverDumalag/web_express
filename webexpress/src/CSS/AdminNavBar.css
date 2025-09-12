@@ -154,7 +154,7 @@
   overflow-y: auto; /* Allow vertical scrolling */
   font-family: 'Roboto Mono', monospace;
   transition: padding-left 0.2s;
-  background: #f4f6fa; /* Ensure continuous background */
+  background: #fff; /* Ensure continuous background */
   margin-top: 0; /* Remove any top margin that might interfere */
 }
 @media (max-width: 900px) {
