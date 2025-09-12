@@ -83,7 +83,6 @@ const UserMenuPage = () => {
 
   const confirmLogout = () => {
     setShowLogoutPopup(false);
-    alert("Logged out successfully!");
     navigate("/login");
   };
 

@@ -39,6 +39,14 @@ const HomePage = () => {
   React.useEffect(() => {
     if (location.state && location.state.scrollTo) {
       switch (location.state.scrollTo) {
+        case "hero":
+          setTimeout(() => {
+            const heroElement = document.getElementById("hero");
+            if (heroElement) {
+              heroElement.scrollIntoView({ behavior: "smooth" });
+            }
+          }, 80);
+          break;
         case "about":
           if (aboutPageRef.current)
             setTimeout(() => aboutPageRef.current.scrollIntoView({ behavior: "smooth" }), 80);
@@ -221,7 +229,7 @@ const HomePage = () => {
       <div className="app-container">
         <GuestNavBar />
 
-        <section className="hero-section">
+        <section id="hero" className="hero-section">
           <div className="hero-content">
             <div className="hero-image">
               <img src={signLanguageImage} alt="Sign language illustration" />

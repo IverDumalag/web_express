@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import MessagePopup from '../components/MessagePopup';
 import { setUserData } from '../data/UserData';
@@ -51,38 +51,42 @@ export default function UserLogin() {
           navigate(res.data.user.role === 'admin' ? '/adminanalytics' : '/userhome');
         }, 1000);
       } else {
-        setLoading(false);
-        let errorMessage = "We couldn't log you in. Please check your credentials and try again.";
-        if (res.data.message) {
-          if (res.data.message.includes('password')) {
-            errorMessage = "Incorrect password. Please check your password and try again.";
-          } else if (res.data.message.includes('email') || res.data.message.includes('user')) {
-            errorMessage = "No account found with this email address. Please check your email or register for a new account.";
-          }
-        }
-        setPopup({
-          open: true,
-          title: "Login Failed",
-          description: errorMessage
-        });
+        throw new Error(res.data.message || 'Login failed');
       }
     } catch (err) {
       setLoading(false);
-      let errorMessage = "We're having trouble connecting to our servers. Please check your internet connection and try again.";
       
-      if (err.code === 'ECONNABORTED' || err.message.includes('timeout')) {
+      let errorMessage = "We're having trouble connecting to our servers. Please check your internet connection and try again.";
+      let errorTitle = "Error";
+      
+      if (err.message && !err.code && !err.response) {
+        errorTitle = "Login Failed";
+        errorMessage = "We couldn't log you in. Please check your credentials and try again.";
+        if (err.message.includes('password')) {
+          errorMessage = "Incorrect password. Please check your password and try again.";
+        } else if (err.message.includes('email') || err.message.includes('user')) {
+          errorMessage = "No account found with this email address. Please check your email or register for a new account.";
+        }
+      } else if (err.code === 'ECONNABORTED' || err.message.includes('timeout')) {
+        errorTitle = "Connection Timeout";
         errorMessage = "The login is taking longer than expected. Please check your internet connection and try again.";
       } else if (err.response?.status === 500) {
+        errorTitle = "Server Error";
         errorMessage = "Our servers are temporarily unavailable. Please try again in a few moments.";
+      } else if (err.response?.status === 401) {
+        errorTitle = "Login Failed";
+        errorMessage = "Incorrect password or email. Please check your credentials and try again.";
       } else if (err.response?.status === 404) {
+        errorTitle = "Service Unavailable";
         errorMessage = "Login service is temporarily unavailable. Please try again later.";
       } else if (!navigator.onLine) {
+        errorTitle = "Network Error";
         errorMessage = "You appear to be offline. Please check your internet connection and try again.";
       }
       
       setPopup({
         open: true,
-        title: "Connection Problem",
+        title: errorTitle,
         description: errorMessage
       });
     }
