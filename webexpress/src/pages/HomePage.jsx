@@ -752,9 +752,7 @@ const HomePage = () => {
     <div style={{ flex: '1', minWidth: '250px' }}>
       <h4 style={{ marginBottom: '0.8em' }}>Trusted Data Sources</h4>
       <p style={{ fontSize: '0.95em', lineHeight: '1.6em' }}>
-        Our sign language recognition is powered by certified datasets from <strong>Kaggle</strong>  
-        and <strong>Mendeley</strong>, validated by professionals in the Philippines.  
-        This ensures authenticity and reliability in every interaction.
+        Our sign language recognition system is built on certified datasets from <strong>Kaggle</strong> and <strong>Mendeley</strong>, and has been validated by professionals in the Philippines. We are committed to ensuring authenticity, accuracy, and reliability in every interaction.
       </p>
     </div>
 

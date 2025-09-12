@@ -340,7 +340,7 @@ const GuestNavBar = () => {
                 color: "#334E7B",
               }}
             >
-              Login or Sign Up
+              Login or Register
             </div>
 
             <div
@@ -395,7 +395,7 @@ const GuestNavBar = () => {
                   minWidth: 180,
                 }}
               >
-                Sign Up
+                Register
               </button>
             </div>
           </div>
