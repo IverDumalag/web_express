@@ -58,27 +58,6 @@
     if (name === 'password') {
       validatePassword(value);
     }
-    
-    // Validate birthdate
-    if (name === 'birthdate') {
-      const today = new Date();
-      const birthDate = new Date(value);
-      let age = today.getFullYear() - birthDate.getFullYear();
-      const monthDiff = today.getMonth() - birthDate.getMonth();
-      
-      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-        age--;
-      }
-      
-      if (age > 100) {
-        setPopup({
-          open: true,
-          title: "Invalid Birthdate",
-          description: "Please enter a valid birthdate."
-        });
-        return;
-      }
-    }
   };      // Generate random 6-digit OTP
       const generateOTP = () => {
         return Math.floor(100000 + Math.random() * 900000).toString();
@@ -450,15 +429,7 @@ const sendOTP = async () => {
                   
                 <div className="center-form-group">
                     <label>Birthdate</label>
-                    <input 
-                      type="date" 
-                      name="birthdate" 
-                      value={form.birthdate} 
-                      onChange={handleChange} 
-                      max={new Date().toISOString().split('T')[0]}
-                      min={new Date(new Date().setFullYear(new Date().getFullYear() - 100)).toISOString().split('T')[0]}
-                      required 
-                    />
+                    <input type="date" name="birthdate" value={form.birthdate} onChange={handleChange} required />
                   </div>
                 </div>
 
