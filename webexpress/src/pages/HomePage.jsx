@@ -1,6 +1,7 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import GuestNavBar from "../components/GuestNavBar";
+import MessagePopup from "../components/MessagePopup";
 import signLanguageImage from "../assets/express.png"; 
 import demoVideo from "../assets/express video  demonstration.mp4";
 
@@ -25,6 +26,7 @@ function FAQItem({ question, answer }) {
 const HomePage = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [popup, setPopup] = useState({ open: false, title: '', description: '' });
   const aboutPageRef = useRef(null);
   const challengesPageRef = useRef(null);
   const featuresPageRef = useRef(null);
@@ -34,6 +36,14 @@ const HomePage = () => {
     if (aboutPageRef.current) {
       aboutPageRef.current.scrollIntoView({ behavior: "smooth" });
     }
+  };
+
+  const handleContactClick = () => {
+    setPopup({
+      open: true,
+      title: "Contact Us Here",
+      description: "Email: projectz681@gmail.com"
+    });
   };
 
   React.useEffect(() => {
@@ -228,6 +238,13 @@ const HomePage = () => {
 
       <div className="app-container">
         <GuestNavBar />
+        
+        <MessagePopup
+          open={popup.open}
+          title={popup.title}
+          description={popup.description}
+          onClose={() => setPopup({ ...popup, open: false })}
+        />
 
         <section id="hero" className="hero-section">
           <div className="hero-content">
@@ -760,21 +777,27 @@ const HomePage = () => {
     <div style={{ flex: '1', minWidth: '250px' }}>
       <h4 style={{ marginBottom: '0.8em' }}>Contact Us</h4>
       <p>Need help or want to collaborate? Reach out to us anytime.</p>
-      <a href="mailto:express.app@gmail.com" style={{
-        background: '#fff',
-        color: '#334E7B',
-        padding: '0.8em 1.4em',
-        borderRadius: '8px',
-        fontWeight: '600',
-        textDecoration: 'none',
-        fontSize: '0.95em',
-        margin: '1em 0',
-        display: 'inline-block'
-      }}>Contact Us</a>
+      <button 
+        onClick={handleContactClick}
+        style={{
+          background: '#fff',
+          color: '#334E7B',
+          padding: '0.8em 1.4em',
+          borderRadius: '8px',
+          fontWeight: '600',
+          border: 'none',
+          cursor: 'pointer',
+          fontSize: '0.95em',
+          margin: '1em 0',
+          display: 'inline-block'
+        }}
+      >
+        Contact Us
+      </button>
 
       {/* Social Media */}
+      {/* 
       <div style={{ display: 'flex', gap: '1.2em', marginTop: '0.5em' }}>
-        {/* Facebook */}
         <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="white" viewBox="0 0 24 24">
             <path d="M22.675 0h-21.35C.597 0 0 .597 0 
@@ -789,7 +812,6 @@ const HomePage = () => {
           </svg>
         </a>
 
-        {/* Twitter */}
         <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="white" viewBox="0 0 24 24">
             <path d="M24 4.557a9.83 9.83 0 0 
@@ -815,7 +837,6 @@ const HomePage = () => {
           </svg>
         </a>
 
-        {/* Gmail */}
         <a href="mailto:express.app@gmail.com" target="_blank" rel="noopener noreferrer">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="white">
             <path d="M12 12.713l-11.99-9.713h23.98l-11.99 9.713zm0 2.574l-12-9.713v13.426c0 
@@ -824,6 +845,7 @@ const HomePage = () => {
           </svg>
         </a>
       </div>
+      */}
     </div>
   </div>
 
