@@ -1,3 +1,39 @@
+.about-container {
+  max-width: 1100px;
+  width: 100%;
+  padding: 3rem;
+  background: transparent;
+  border-radius: 18px;
+  box-shadow: 0 2px 16px rgba(44,62,80,0.10);
+  /* text-align: center; */
+  outline: none;
+  max-height: 92vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  
+  /* Modern custom scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: #334E7B #ffffff;
+}
+
+.about-container::-webkit-scrollbar {
+  width: 10px;
+
+  border-radius: 8px;
+}
+.about-container::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #334E7B 60%, #5a7bbd 100%);
+  border-radius: 8px;
+  min-height: 40px;
+  box-shadow: 0 2px 8px rgba(44,62,80,0.10);
+}
+.about-container::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #5a7bbd 60%, #334E7B 100%);
+}
+
 .user-about-page {
   min-height: 100vh;
   background: #fff;
@@ -6,19 +42,10 @@
   display: flex;
   justify-content: center;
   align-items: center; /* vertical center */
-  padding: 1rem; /* small padding so container doesn't touch edges */
+  padding: 1rem; 
 }
 
-.about-container {
-  max-width: 1100px; /* smaller width */
-  width: 100%; /* responsive */
-  padding: 3rem; /* minimal padding */
-  background: #ffffffcc; /* very light with slight transparency */
-  border-radius: 30px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05); /* lighter shadow */
-  text-align: center;
-  overflow: hidden; /* prevent scroll */
-}
+
 
 .about-container h1 {
   margin-bottom: 1rem;

@@ -116,9 +116,19 @@ export default function AdminNavBar({ children }) {
           <div className="admin-navbar-right" style={{ display: 'flex', alignItems: 'flex-start' }}>
             <div className="admin-avatar-container" ref={avatarRef} style={{ position: 'relative', top: '-3px' }}>
               <span className="admin-avatar-icon" title="Account" style={{ cursor: 'pointer', fontSize: 32, background: '#fff', color: '#334E7B', borderRadius: '50%', width: 48, height: 48, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, boxShadow: '0 2px 8px rgba(51,78,123,0.13)' }}>
-                <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <ellipse cx="14" cy="11.5" rx="5.5" ry="5.5" fill="#334E7B"/>
-                  <ellipse cx="14" cy="21" rx="8.5" ry="4" fill="#334E7B"/>
+                <svg
+                  width="32"
+                  height="32"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#1C2E4A"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  style={{ display: "block" }}
+                >
+                  <circle cx="12" cy="8.2" r="4.2" />
+                  <path d="M4 20c0-3.6 3.2-6.5 8-6.5s8 2.9 8 6.5" />
                 </svg>
               </span>
               <div
@@ -306,83 +316,73 @@ export default function AdminNavBar({ children }) {
         </div>
       )}
 
-      {/* Logout Confirmation Popup */}
+      {/* Logout Confirmation Popup (User style) */}
       {showLogoutPopup && (
-        <div className="popup-overlay" style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          zIndex: 9999
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          background: 'rgba(0,0,0,0.08)', zIndex: 3000,
+          display: 'flex', alignItems: 'center', justifyContent: 'center'
         }}>
-          <div className="popup-content" style={{
+          <div style={{
+            borderRadius: 20,
+            border: '2px solid #334E7B',
             background: '#fff',
-            padding: '30px',
-            borderRadius: '12px',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15)',
-            maxWidth: '400px',
-            width: '90%',
-            textAlign: 'center'
+            width: '95%',
+            maxWidth: 440,
+            padding: '2.5em 2.5em 2em 2.5em',
+            display: 'flex',
+            flexDirection: 'column',
+            boxSizing: 'border-box',
+            color: '#334E7B',
+            fontFamily: 'Roboto Mono, monospace',
+            alignItems: 'stretch',
+            gap: '0.7em',
+            position: 'relative',
           }}>
-            <h2 style={{
-              color: '#334E7B',
-              marginBottom: '15px',
-              fontSize: '1.4em',
-              fontWeight: '600'
-            }}>Confirm Logout</h2>
-            <p style={{
-              color: '#666',
-              marginBottom: '25px',
-              fontSize: '1.1em',
-              lineHeight: '1.4'
-            }}>Are you sure you want to log out?</p>
-            <div className="popup-buttons" style={{
-              display: 'flex',
-              gap: '15px',
-              justifyContent: 'center'
-            }}>
-              <button 
-                className="btn-cancel" 
-                onClick={() => setShowLogoutPopup(false)}
-                style={{
-                  background: '#f5f5f5',
-                  color: '#666',
-                  border: '1px solid #ddd',
-                  padding: '12px 24px',
-                  borderRadius: '8px',
-                  cursor: 'pointer',
-                  fontWeight: '500',
-                  fontSize: '1em',
-                  transition: 'all 0.2s ease'
-                }}
-                onMouseOver={(e) => e.target.style.background = '#e9e9e9'}
-                onMouseOut={(e) => e.target.style.background = '#f5f5f5'}
-              >
-                Cancel
-              </button>
-              <button 
-                className="btn-confirm" 
+            <div style={{ fontWeight: 700, fontSize: '2em', textAlign: 'center', marginBottom: '1.2em', fontFamily: 'Inconsolata, monospace', color: '#334E7B' }}>
+              Logout Confirmation
+            </div>
+            <div style={{ color: '#334E7B', textAlign: 'center', marginBottom: '1.2em', fontSize: '1.1em', fontWeight: 800 }}>
+              Are you sure you want to logout?
+            </div>
+            <div style={{ display: 'flex', gap: '1em', marginTop: '1.5em' }}>
+              <button
+                type="button"
                 onClick={confirmLogout}
                 style={{
-                  background: '#dc3545',
+                  flex: 1,
+                  background: '#ef7070ff',
                   color: '#fff',
-                  border: 'none',
-                  padding: '12px 24px',
-                  borderRadius: '8px',
+                  border: '2px solid #fff',
+                  borderRadius: 12,
+                  padding: '0.7em 0',
+                  fontWeight: 700,
+                  fontSize: '1.1em',
+                  fontFamily: 'Inconsolata, monospace',
                   cursor: 'pointer',
-                  fontWeight: '500',
-                  fontSize: '1em',
-                  transition: 'all 0.2s ease'
+                  transition: 'background 0.2s, color 0.2s',
                 }}
-                onMouseOver={(e) => e.target.style.background = '#c82333'}
-                onMouseOut={(e) => e.target.style.background = '#dc3545'}
               >
                 Logout
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowLogoutPopup(false)}
+                style={{
+                  flex: 1,
+                  background: '#52677D',
+                  color: '#fff',
+                  border: '2px solid #fff',
+                  borderRadius: 12,
+                  padding: '0.7em 0',
+                  fontWeight: 700,
+                  fontSize: '1.1em',
+                  fontFamily: 'Inconsolata, monospace',
+                  cursor: 'pointer',
+                  transition: 'background 0.2s, color 0.2s',
+                }}
+              >
+                Cancel
               </button>
             </div>
           </div>

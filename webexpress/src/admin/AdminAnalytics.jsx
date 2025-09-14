@@ -2264,13 +2264,13 @@ export default function AdminAnalytics() {
                   className="download-btn pdf"
                   onClick={() => handleDownloadUserGrowth('pdf')}
                 >
-                  📄 Download PDF
+                   Download PDF
                 </button>
                 <button 
                   className="download-btn excel"
                   onClick={() => handleDownloadUserGrowth('excel')}
                 >
-                  📊 Download Excel
+                  Download Excel
                 </button>
               </div>
             </div>
@@ -2308,13 +2308,13 @@ export default function AdminAnalytics() {
                   className="download-btn pdf"
                   onClick={() => handleDownloadContentMatch('pdf')}
                 >
-                  📄 Download PDF
+                  Download PDF
                 </button>
                 <button 
                   className="download-btn excel"
                   onClick={() => handleDownloadContentMatch('excel')}
                 >
-                  📊 Download Excel
+                  Download Excel
                 </button>
               </div>
             </div>
@@ -2464,13 +2464,13 @@ export default function AdminAnalytics() {
                   className="download-btn pdf"
                   onClick={() => handleDownloadMainConcerns('pdf')}
                 >
-                  📄 Download PDF
+                 Download PDF
                 </button>
                 <button 
                   className="download-btn excel"
                   onClick={() => handleDownloadMainConcerns('excel')}
                 >
-                  📊 Download Excel
+                  Download Excel
                 </button>
               </div>
             </div>

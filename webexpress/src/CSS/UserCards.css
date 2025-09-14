@@ -119,3 +119,12 @@
     padding: 5vw 2vw 4vw 2vw;
   }
 }
+.animated-img {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); } /* moves up */
+  100% { transform: translateY(0px); }  /* back down */
+}

@@ -8,6 +8,10 @@ import { useNavigate } from "react-router-dom";
 import UserBottomNavBar from '../components/UserBottomNavBar';
 import boyImg from '../assets/boy.png';
 import Snowfall from '../components/Snowfall';
+import SL1 from "../assets/SL1.jpg";
+import SL2 from "../assets/SL2.jpg";
+import SL3 from "../assets/SL3.jpg";
+import SL4 from "../assets/SL4.jpg";
 
 const API_URL = import.meta.env.VITE_PHRASESWORDSBYIDGET;
 const INSERT_API_URL = import.meta.env.VITE_PHRASESWORDSINSERT;
@@ -220,323 +224,296 @@ export default function UserCardsPage() {
   // Speech bubble message for this page
   const boyBubbleMessage = "welcome, these are your cards";
 
-  return (
-    <div style={{ minHeight: '100vh', background: '#fff' }}>
-      <UserBottomNavBar />
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '2vw' }}>
-        <div style={{
-          width: '100%',
-          overflow: 'hidden',
-          marginBottom: '1vw',
-          position: 'relative',
-        }}>
-          
-        </div>
-        <div style={{
-          position: 'relative',
+return (
+  <div style={{ minHeight: '100vh', background: '#fff' }}>
+    <UserBottomNavBar />
+    <div style={{ maxWidth: 1200, margin: '0 auto', padding: '2vw' }}>
+      <div style={{
+        width: '100%',
+        overflow: 'hidden',
+        marginBottom: '1vw',
+        position: 'relative',
+      }}>
+      </div>
 
-          borderRadius: '28px',
-          margin: '2vw -4vw',
-          padding: '2vw 9vw',
+
+{/* ✅ Floating animation keyframes */}
+<style>
+  {`
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-12px); }
+      100% { transform: translateY(0px); }
+    }
+  `}
+</style>
+
+<div style={{
+  display: 'grid',
+  gridTemplateColumns: 'repeat(4, 1fr)', // 4 images in a row
+  gap: '8em',
+  marginTop: '2em',
+  marginBottom: '2em',
+  marginRight: '5em',
+}}>
+  {/* Image 1 */}
+  <img 
+    src={SL1}
+    style={{ 
+      width: '150%', 
+      height: '320px',   // ✅ expanded height
+      objectFit: 'cover', 
+      borderRadius: '12px',
+      animation: 'float 3s ease-in-out infinite'
+    }} 
+  />
+
+  {/* Image 2 */}
+  <img 
+    src={SL2}
+    style={{ 
+      width: '150%', 
+      height: '320px',
+      objectFit: 'cover', 
+      borderRadius: '12px',
+      animation: 'float 3s ease-in-out infinite'
+    }} 
+  />
+
+  {/* Image 3 */}
+  <img 
+    src={SL3}
+    style={{ 
+      width: '150%', 
+      height: '320px',
+      objectFit: 'cover', 
+      borderRadius: '12px',
+      animation: 'float 3s ease-in-out infinite'
+    }} 
+  />
+
+  {/* Image 4 */}
+  <img 
+    src={SL4}
+    style={{ 
+      width: '150%', 
+      height: '320px',
+      objectFit: 'cover', 
+      borderRadius: '12px',
+      animation: 'float 3s ease-in-out infinite'
+    }} 
+  />
+</div>
+
+{/* ✅ Centered text (now below containers) */}
+<div style={{ position: 'relative', zIndex: 1, width: '100%' }}>
+  <div style={{
+    fontFamily: 'Poppins, sans-serif',
+    fontWeight: 700,
+    fontSize: '3.2em',
+    color: '#22223b',
+    letterSpacing: '0.04em',
+    marginBottom: '0.5em',
+    textAlign: 'center',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    minHeight: '1.2em',
+  }}>
+    <span>Ready to Sign?</span>
+  </div>
+  <div style={{
+    fontFamily: 'Roboto Mono, monospace',
+    fontSize: '1.25em',
+    color: '#22365a',
+    textAlign: 'center',
+    marginBottom: '1.5em'
+  }}>
+    Get more cards for enhancement of your Sign Language!
+  </div>
+</div>
+
+    
+       <div style={{ margin: '3vw 0 2vw 0' }}>
+  {/* Top section */}
+  <div style={{
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between', // left & right pushed apart
+    gap: '2vw',
+    marginLeft: '1vw', // closer to left edge
+    marginRight: '1vw', // closer to right edge
+    flexWrap: 'nowrap',
+    marginBottom: '1.5vw'
+  }}>
+    {/* Left side: Your Cards & Favorited Cards */}
+    <div style={{ display: 'flex', gap: '1vw' }}>
+      <button
+        className={`tab-btn${activeTab === "wave" ? " active" : ""}`}
+        onClick={() => setActiveTab("wave")}
+        title="Your cards"
+        style={{
+          background: activeTab === "wave" ? '#1C2E4A' : '#52677D',
+          color: '#fff',
+          border: '2px solid #fff',
+          borderRadius: 6,
+          padding: '0.7em 2em',
+          fontWeight: 700,
+          fontSize: '1.1em',
+          fontFamily: 'Inconsolata, monospace',
+          cursor: 'pointer',
+          transition: 'background 0.18s, color 0.18s, box-shadow 0.18s',
+          opacity: activeTab === "wave" ? 1 : 0.85,
+          boxShadow: activeTab === "wave"
+            ? '0 2px 12px 0 rgba(37,99,235,0.20), 0 1.5px 6px 0 rgba(44,62,80,0.10)'
+            : '0 1.5px 6px 0 rgba(44,62,80,0.10)',
+          outline: 'none',
+        }}
+      >
+        <MdOutlineWavingHand style={{ marginRight: 8, fontSize: '1.2em' }} />
+        Your cards
+      </button>
+      <button
+        className={`tab-btn${activeTab === "favorite" ? " active" : ""}`}
+        onClick={() => setActiveTab("favorite")}
+        title="Favorite"
+        style={{
+          background: activeTab === "favorite" ? '#1C2E4A' : '#52677D',
+          color: '#fff',
+          border: '2px solid #fff',
+          borderRadius: 6,
+          padding: '0.7em 0.8em',
+          fontWeight: 700,
+          fontSize: '1.1em',
+          fontFamily: 'Inconsolata, monospace',
+          cursor: 'pointer',
+          transition: 'background 0.18s, color 0.18s, box-shadow 0.18s',
+          opacity: activeTab === "favorite" ? 1 : 0.85,
+          boxShadow: activeTab === "favorite"
+            ? '0 2px 12px 0 rgba(37,99,235,0.20), 0 1.5px 6px 0 rgba(44,62,80,0.10)'
+            : '0 1.5px 6px 0 rgba(44,62,80,0.10)',
+          outline: 'none',
+        }}
+      >
+        <FaStar style={{ marginRight: 8, fontSize: '1.1em' }} />
+        Favorited Cards
+      </button>
+    </div>
+
+    {/* Right side: Search + Filter + Add */}
+    <div style={{ display: 'flex', gap: '1vw', alignItems: 'center', flex: 1, justifyContent: 'flex-end' }}>
+      {/* Search Input */}
+      <div style={{ position: 'relative', minWidth: 220, maxWidth: 420, flex: 1 }}>
+        <span style={{
+          position: 'absolute',
+          left: '0.8em',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          color: '#bfc9d1',
+          pointerEvents: 'none',
           display: 'flex',
-          flexDirection: 'column',
+          alignItems: 'center',
+          fontSize: '1.25em',
+          zIndex: 2,
+        }}>
+          <svg width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </span>
+        <input
+          className="search-input"
+          style={{
+            width: '100%',
+            padding: '0.9em 2.9em 0.6em 3.4em',
+            borderRadius: '5px',
+            border: '1.5px solid #1C2E4A',
+            background: 'rgba(255,255,255,0.7)',
+            fontFamily: 'Roboto Mono, monospace',
+            fontSize: '1em',
+            color: '#22365a',
+            boxShadow: '0 2px 4px #2221',
+            outline: 'none',
+          }}
+          placeholder=""
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+        />
+      </div>
+
+     {/* Filter Button */}
+<button
+  className="filter-icon-btn"
+  title="Sort"
+  onClick={() => setShowFilter(v => !v)}
+  style={{
+    background: 'none',
+    border: 'none',
+    color: '#1976d2',
+    fontSize: '1.6em',  // reduced from 2em for better balance
+    cursor: 'pointer',
+    padding: '0.15em 0.3em', // slightly smaller padding
+    borderRadius: '50%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative'
+  }}
+>
+  <FaFilter style={{ color: '#334E7B', fontSize: '0.85em' }} /> {/* adjusted icon size */}
+  {showFilter && (
+    <div className="filter-dropdown" style={{ minWidth: '280px', maxWidth: '360px' }}> {/* smaller dropdown */}
+      {sortOptions.map(opt => (
+        <button
+          key={opt.value}
+          className={`filter-option${sortBy === opt.value ? ' selected' : ''}`}
+          onClick={() => { setSortBy(opt.value); setShowFilter(false); }}
+          style={{ fontSize: '0.72em', padding: '0.7em 1.2em' }} // slightly smaller options
+        >
+          {opt.label}
+        </button>
+      ))}
+    </div>
+  )}
+</button>
+
+
+      {/* Add Button */}
+      <button
+        className="add-word-btn"
+        title="Add Word/Phrase"
+        onClick={() => setShowAddModal(true)}
+        style={{
+          background: 'none',
+          border: 'none',
+          color: '#1976d2',
+          fontSize: '2em',
+          cursor: 'pointer',
+          padding: '0.2em 0.4em',
+          borderRadius: '50%',
+          display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          border: '3.5px solid #22314a',
-          boxSizing: 'border-box',
-          overflow: 'hidden',
-        }}>
-          <div style={{ position: 'relative', zIndex: 1, width: '100%' }}>
-            <div style={{
-              fontFamily: 'Poppins, sans-serif',
-              fontWeight: 700,
-              fontSize: '3.2em',
-              color: '#22223b',
-              letterSpacing: '0.04em',
-              marginBottom: '0.5em',
-              textAlign: 'center',
-              position: 'relative',
-              overflow: 'hidden',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: '100%',
-              minHeight: '1.2em',
-            }}>
-              <span>SIGN LANGUAGE CARDS</span>
-            </div>
-            <div style={{ fontFamily: 'Roboto Mono, monospace', fontSize: '1.35em', color: '#22365a', textAlign: 'center', marginBottom: '0.5em' }}>
-              Get more cards for enhancement of your Sign Language!
-            </div>
-          </div>
-        </div>
-    
-        <div style={{margin: '3vw 0 2vw 0'}}>
-          <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: '0.5vw', marginBottom: '1.5vw', marginLeft: '44vw'}}>
-            <div style={{fontFamily: 'Poppins, sans-serif', fontWeight: 500, fontSize: '2em', color: '#1e1f23ff', letterSpacing: '0.02em'}}>
-               <span style={{fontSize: '0.8em', verticalAlign: 'middle'}}></span>
-            </div>
-            <div style={{display: 'flex', alignItems: 'center', gap: '1vw'}}>
-              <div style={{ position: 'relative', marginRight: '0.3vw', minWidth: 220, maxWidth: 420, width: '100%' }}>
-                <span style={{
-                  position: 'absolute',
-                  left: '0.8em',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  color: '#bfc9d1',
-                  pointerEvents: 'none',
-                  display: 'flex',
-                  alignItems: 'center',
-                  fontSize: '1.25em',
-                  zIndex: 2,
-                }}>
-                  <svg width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                </span>
-                <input className="search-input" style={{
-                  width: '100%',
-                  padding: '0.9em 2.9em 0.6em 3.4em',
-                  borderRadius: '5px',
-                  border: '1.5px solid #1C2E4A',
-                  background: 'rgba(255,255,255,0.7)',
-                  fontFamily: 'Roboto Mono, sans-serif',
-                  fontSize: '1.0em',
-                  color: '#22365a',
-                  boxShadow: '0 2px 4px #2221',
-                  outline: 'none',
-                  marginLeft: 0,
-                  marginTop: 0,
-                  maxWidth: 420,
-                  marginRight: '0.2vw',
-                }} placeholder="" value={search} onChange={e => setSearch(e.target.value)} />
-              </div>
-              <button className="filter-icon-btn" title="Sort" onClick={() => setShowFilter(v => !v)} style={{
-                background: 'none',
-                border: 'none',
-                color: '#1976d2',
-                fontSize: '2em',
-                cursor: 'pointer',
-                padding: '0.2em 0.4em',
-                borderRadius: '50%',
-                boxShadow: 'none',
-                transition: 'background 0.18s, color 0.18s',
-                marginLeft: 8,
-                marginTop: 2,
-                outline: 'none',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                position: 'relative'
-              }}>
-                <FaFilter style={{ color: '#334E7B', fontSize: '0.95em', verticalAlign: 'middle' }} />
-                {showFilter && (
-                  <div className="filter-dropdown">
-                    {sortOptions.map(opt => (
-                      <button
-                        key={opt.value}
-                        className={`filter-option${sortBy === opt.value ? ' selected' : ''}`}
-                        onClick={() => { setSortBy(opt.value); setShowFilter(false); }}
-                      >
-                        {opt.label}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </button>
-      {/* Modern filter dropdown styles for filter-dropdown and filter-option, plus responsive styles */}
-      <style>{`
-        .filter-dropdown {
-          position: absolute;
-          top: 110%;
-          right: 0;
-          background: #fff;
-          border-radius: 14px;
-          box-shadow: 0 8px 32px rgba(44,62,80,0.18), 0 1.5px 8px #1C2E4A11;
-          padding: 0.5em 0;
-          min-width: 360px;
-          max-width: 500px;
-          z-index: 100;
-          font-family: 'Roboto Mono', monospace;
-          border: 1px solid #1C2E4A;
-          animation: fadeIn 0.18s cubic-bezier(.4,2,.6,1);
-          word-break: break-word;
-        }
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(-10px);}
-          to { opacity: 1; transform: translateY(0);}
-        }
-        .filter-option {
-          width: 100%;
-          background: none;
-          border: none;
-          text-align: left;
-          padding: 0.85em 1.5em;
-          font-size: 0.75em;
-          color: #22365a;
-          cursor: pointer;
-          transition: background 0.18s, color 0.18s;
-          border-radius: 8px;
-          font-family: inherit;
-          font-weight: 500;
-          outline: none;
-          white-space: normal;
-        }
-        .filter-option:hover,
-        .filter-option:focus {
-          background: #e8f0fe;
-          color: #334E7B;
-        }
-        .filter-option.selected {
-          background: #334E7B;
-          color: #fff;
-          font-weight: 700;
-        }
+        }}
+      >
+        <FaPlus style={{ color: '#334E7B', fontSize: '0.95em' }} />
+      </button>
+    </div>
+  </div>
 
-        /* Responsive styles for UserCardsPage */
-        @media (max-width: 900px) {
-          .card-list {
-            grid-template-columns: 1fr !important;
-            gap: 4vw !important;
-            margin-left: 0 !important;
-          }
-          .search-main-container {
-            padding: 0 2vw !important;
-          }
-          .tab-row {
-            margin-left: 0 !important;
-            flex-direction: column !important;
-            gap: 0.7em !important;
-            align-items: stretch !important;
-          }
-          .filter-dropdown, .meatball-dropdown {
-            min-width: 90vw !important;
-            max-width: 98vw !important;
-            right: 0 !important;
-            left: 0 !important;
-            margin: 0 auto !important;
-          }
-        }
-        @media (max-width: 600px) {
-          .card-list {
-            grid-template-columns: 1fr !important;
-            gap: 6vw !important;
-          }
-          .add-modal {
-            padding: 1.2em 0.7em 1em 0.7em !important;
-            max-width: 98vw !important;
-          }
-          .speech-bubble {
-            min-width: 120px !important;
-            max-width: 90vw !important;
-            font-size: 0.95em !important;
-            padding: 0.7em 0.7em 0.7em 0.7em !important;
-          }
-          .speech-bubble-tail, .speech-bubble-tail-border {
-            right: 10px !important;
-          }
-        }
-      `}</style>
-              <button
-                className="add-word-btn"
-                title="Add Word/Phrase"
-                onClick={() => setShowAddModal(true)}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  color: '#1976d2',
-                  fontSize: '2em',
-                  cursor: 'pointer',
-                  padding: '0.2em 0.4em',
-                  borderRadius: '50%',
-                  boxShadow: 'none',
-                  transition: 'background 0.18s, color 0.18s',
-                  marginLeft: 8,
-                  marginTop: 2,
-                  outline: 'none',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <FaPlus style={{ color: '#334E7B', fontSize: '0.95em', verticalAlign: 'middle' }} />
-              </button>
-            </div>
-          </div>
-          {/* Search bar and actions row */}
-          <div className="search-main-container">
-            <div className="tab-row" style={{ marginLeft: '-4vw', display: 'flex', gap: '1em', marginBottom: '1.5em' }}>
-              <button
-                className={`tab-btn${activeTab === "wave" ? " active" : ""}`}
-                onClick={() => setActiveTab("wave")}
-                title="Your cards"
-                style={{
-                  background: activeTab === "wave" ? '#1C2E4A' : '#52677D',
-                  color: '#fff',
-                  border: '2px solid #fff',
-                  borderRadius: 6,
-                  padding: '0.7em 2.0em',
-                  fontWeight: 700,
-                  fontSize: '1.1em',
-                  fontFamily: 'Inconsolata, monospace',
-                  cursor: 'pointer',
-                  transition: 'background 0.18s, color 0.18s, box-shadow 0.18s',
-                  opacity: activeTab === "wave" ? 1 : 0.85,
-                  boxShadow: activeTab === "wave"
-                    ? '0 2px 12px 0 rgba(37,99,235,0.20), 0 1.5px 6px 0 rgba(44,62,80,0.10)'
-                    : '0 1.5px 6px 0 rgba(44,62,80,0.10)',
-                  outline: 'none',
-                }}
-              >
-                <MdOutlineWavingHand style={{ marginRight: 8, fontSize: '1.2em', verticalAlign: 'middle' }} />
-                Your cards
-              </button>
-              <button
-                className={`tab-btn${activeTab === "favorite" ? " active" : ""}`}
-                onClick={() => setActiveTab("favorite")}
-                title="Favorite"
-                style={{
-                  background: activeTab === "favorite" ? '#1C2E4A' : '#52677D',
-                  color: '#fff',
-                  border: '2px solid #fff',
-                  borderRadius: 6,
-                  padding: '0.7em 0.8em',
-                  fontWeight: 700,
-                  fontSize: '1.1em',
-                  fontFamily: 'Inconsolata, monospace',
-                  cursor: 'pointer',
-                  transition: 'background 0.18s, color 0.18s, box-shadow 0.18s',
-                  opacity: activeTab === "favorite" ? 1 : 0.85,
-                  boxShadow: activeTab === "favorite"
-                    ? '0 2px 12px 0 rgba(37,99,235,0.20), 0 1.5px 6px 0 rgba(44,62,80,0.10)'
-                    : '0 1.5px 6px 0 rgba(44,62,80,0.10)',
-                  outline: 'none',
-                }}
-              >
-                <FaStar style={{ marginRight: 8, fontSize: '1.1em', verticalAlign: 'middle' }} />
-                Favorited Cards
-              </button>
-            </div>
-            <div style={{display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '1vw', flexWrap: 'wrap'}}>
-              <div style={{flex: 1, minWidth: 220, maxWidth: 420, position: 'relative', display: 'flex', justifyContent: 'flex-start', marginLeft: '2vw'}}>
-                <span style={{
-                  position: 'absolute',
-                  left: '0.8em',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  color: '#bfc9d1',
-                  pointerEvents: 'none',
-                  display: 'flex',
-                  alignItems: 'center',
-                  fontSize: '1.25em',
-                  zIndex: 2,
-                }}>
-                  
-                </span>
-                
-              </div>
-            </div>
-          </div>
-        </div>
-        {/* End reference layout section */}
+  {/* Keep the rest of your original reference layout below */}
+  <div className="search-main-container">
+    <div className="tab-row" style={{ marginLeft: '-4vw', display: 'flex', gap: '1em', marginBottom: '1.5em' }}>
+      {/* Your original tabs repeated for layout consistency if needed */}
+    </div>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '1vw', flexWrap: 'wrap' }}>
+      {/* Any additional layout content */}
+    </div>
+  </div>
+</div>
+
 
         <div className="search-main-container">
           {loading ? (
