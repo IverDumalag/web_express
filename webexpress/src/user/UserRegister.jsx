@@ -35,6 +35,14 @@
     number: false,
     special: false
   });
+  
+  // Name validation states
+  const [nameValidation, setNameValidation] = useState({
+    firstName: { hasNumbers: false, hasSpecialChars: false, validLength: true },
+    middleName: { hasNumbers: false, hasSpecialChars: false, validLength: true },
+    lastName: { hasNumbers: false, hasSpecialChars: false, validLength: true }
+  });
+  
   const mainColor = '#334E7B';
 
   // Password strength validation function
@@ -50,6 +58,41 @@
     return Object.values(validation).every(Boolean);
   };
 
+  // Name validation function
+  const validateName = (name, fieldType) => {
+    const hasNumbers = /\d/.test(name);
+    const hasSpecialChars = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~`]/.test(name);
+    const validLength = name.length <= 50;
+    
+    const validation = { hasNumbers, hasSpecialChars, validLength };
+    
+    setNameValidation(prev => ({
+      ...prev,
+      [fieldType]: validation
+    }));
+    
+    return !hasNumbers && !hasSpecialChars && validLength;
+  };
+
+  // Helper function to render name validation indicators
+  const renderNameValidation = (fieldValidation, fieldValue) => {
+    if (!fieldValue) return null;
+    
+    return (
+      <div style={{ marginTop: '0.3rem', fontSize: '0.75rem' }}>
+        <div style={{ color: !fieldValidation.hasNumbers ? '#28a745' : '#dc3545' }}>
+          {!fieldValidation.hasNumbers ? '✓' : '✗'} No numbers allowed
+        </div>
+        <div style={{ color: !fieldValidation.hasSpecialChars ? '#28a745' : '#dc3545' }}>
+          {!fieldValidation.hasSpecialChars ? '✓' : '✗'} No special characters allowed
+        </div>
+        <div style={{ color: fieldValidation.validLength ? '#28a745' : '#dc3545' }}>
+          {fieldValidation.validLength ? '✓' : '✗'} Maximum 50 characters ({fieldValue.length}/50)
+        </div>
+      </div>
+    );
+  };
+
   const handleChange = e => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
@@ -57,6 +100,36 @@
     // Validate password on change
     if (name === 'password') {
       validatePassword(value);
+    }
+    
+    // Validate name fields on change
+    if (name === 'f_name') {
+      validateName(value, 'firstName');
+    } else if (name === 'm_name') {
+      validateName(value, 'middleName');
+    } else if (name === 'l_name') {
+      validateName(value, 'lastName');
+    }
+    
+    // Validate birthdate
+    if (name === 'birthdate') {
+      const today = new Date();
+      const birthDate = new Date(value);
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+      
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      
+      if (age > 100) {
+        setPopup({
+          open: true,
+          title: "Invalid Birthdate",
+          description: "Please enter a valid birthdate."
+        });
+        return;
+      }
     }
   };      // Generate random 6-digit OTP
       const generateOTP = () => {
@@ -70,6 +143,35 @@ const sendOTP = async () => {
     return;
   }
 
+  // Check if email already exists
+  try {
+    setOtpLoading(true);
+    const emailCheckResponse = await axios.post(import.meta.env.VITE_USERS, {
+      email: form.email
+    }, {
+      timeout: 30000
+    });
+
+    if (emailCheckResponse.data.exists) {
+      setPopup({ 
+        open: true, 
+        title: "Email Already Used", 
+        description: "An account with this email already exists. Please use a different email or try logging in instead." 
+      });
+      setOtpLoading(false);
+      return;
+    }
+  } catch (error) {
+    console.error('Error checking email:', error);
+    setPopup({ 
+      open: true, 
+      title: "Connection Error", 
+      description: "Unable to verify email availability. Please check your internet connection and try again." 
+    });
+    setOtpLoading(false);
+    return;
+  }
+
   // Validate password strength
   if (!validatePassword(form.password)) {
     setPopup({ 
@@ -77,6 +179,22 @@ const sendOTP = async () => {
       title: "Password Requirements Not Met", 
       description: "Please ensure your password meets all the requirements shown below." 
     });
+    setOtpLoading(false);
+    return;
+  }
+
+  // Validate name fields
+  const isFirstNameValid = validateName(form.f_name, 'firstName');
+  const isLastNameValid = validateName(form.l_name, 'lastName');
+  const isMiddleNameValid = form.m_name ? validateName(form.m_name, 'middleName') : true;
+  
+  if (!isFirstNameValid || !isLastNameValid || !isMiddleNameValid) {
+    setPopup({ 
+      open: true, 
+      title: "Invalid Name Format", 
+      description: "Please ensure all name fields meet the requirements shown below each field." 
+    });
+    setOtpLoading(false);
     return;
   }
 
@@ -87,10 +205,10 @@ const sendOTP = async () => {
       title: "Password Mismatch", 
       description: "Password and confirm password do not match." 
     });
+    setOtpLoading(false);
     return;
   }
 
-  setOtpLoading(true);
   const otp = generateOTP();
   setSentOtp(otp);
   
@@ -402,18 +520,56 @@ const sendOTP = async () => {
                 
                 <div className="center-form-group">
                   <label>First name</label>
-                  <input type="text" name="f_name" value={form.f_name} onChange={handleChange} required />
+                  <input 
+                    type="text" 
+                    name="f_name" 
+                    value={form.f_name} 
+                    onChange={handleChange} 
+                    maxLength={50}
+                    style={{
+                      borderColor: form.f_name && (!nameValidation.firstName.validLength || 
+                        nameValidation.firstName.hasNumbers || 
+                        nameValidation.firstName.hasSpecialChars) ? '#dc3545' : undefined
+                    }}
+                    required 
+                  />
+                  {renderNameValidation(nameValidation.firstName, form.f_name)}
                 </div>
 
                 <div className="center-form-row">
                   <div className="center-form-group">
                     <label>Middle Name</label>
-                    <input type="text" name="m_name" value={form.m_name} onChange={handleChange} />
+                    <input 
+                      type="text" 
+                      name="m_name" 
+                      value={form.m_name} 
+                      onChange={handleChange} 
+                      maxLength={50}
+                      style={{
+                        borderColor: form.m_name && (!nameValidation.middleName.validLength || 
+                          nameValidation.middleName.hasNumbers || 
+                          nameValidation.middleName.hasSpecialChars) ? '#dc3545' : undefined
+                      }}
+                    />
+                    {renderNameValidation(nameValidation.middleName, form.m_name)}
                   </div>
 
                 <div className="center-form-group">
                     <label>Last Name</label>
-                    <input type="text" name="l_name" value={form.l_name} onChange={handleChange} required />
+                    <input 
+                      type="text" 
+                      name="l_name" 
+                      value={form.l_name} 
+                      onChange={handleChange} 
+                      maxLength={50}
+                      style={{
+                        borderColor: form.l_name && (!nameValidation.lastName.validLength || 
+                          nameValidation.lastName.hasNumbers || 
+                          nameValidation.lastName.hasSpecialChars) ? '#dc3545' : undefined
+                      }}
+                      required 
+                    />
+                    {renderNameValidation(nameValidation.lastName, form.l_name)}
                   </div>
                 </div>
 
@@ -429,7 +585,15 @@ const sendOTP = async () => {
                   
                 <div className="center-form-group">
                     <label>Birthdate</label>
-                    <input type="date" name="birthdate" value={form.birthdate} onChange={handleChange} required />
+                    <input 
+                      type="date" 
+                      name="birthdate" 
+                      value={form.birthdate} 
+                      onChange={handleChange} 
+                      max={new Date().toISOString().split('T')[0]}
+                      min={new Date(new Date().setFullYear(new Date().getFullYear() - 100)).toISOString().split('T')[0]}
+                      required 
+                    />
                   </div>
                 </div>
 

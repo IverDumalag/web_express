@@ -17,6 +17,13 @@ export default function UserFeedback({ showModal, onCloseModal }) {
   const [loading, setLoading] = useState(false);
   const [popup, setPopup] = useState({ open: false, message: "", type: "info" });
   const [showSuccess, setShowSuccess] = useState(false);
+  
+  // Validation states
+  const [validationErrors, setValidationErrors] = useState({
+    mainConcern: false,
+    details: false,
+    user: false
+  });
 
   const userData = getUserData();
   const user_id = userData?.user_id || "";
@@ -28,6 +35,11 @@ export default function UserFeedback({ showModal, onCloseModal }) {
       setMainConcern("");
       setDetails("");
       setShowSuccess(false);
+      setValidationErrors({
+        mainConcern: false,
+        details: false,
+        user: false
+      });
     }
   }, [showModal]);
 
@@ -37,14 +49,37 @@ export default function UserFeedback({ showModal, onCloseModal }) {
 
   const handleSubmit = async (e) => {
     e?.preventDefault();
+    
+    // Reset validation errors
+    setValidationErrors({
+      mainConcern: false,
+      details: false,
+      user: false
+    });
+
+    // Validate fields and set error states
+    let hasErrors = false;
+    
     if (!user_id) {
-      setPopup({ open: true, message: "User not logged in. Please log in again.", type: "error" });
+      setValidationErrors(prev => ({ ...prev, user: true }));
+      hasErrors = true;
+    }
+    
+    if (!mainConcern.trim()) {
+      setValidationErrors(prev => ({ ...prev, mainConcern: true }));
+      hasErrors = true;
+    }
+    
+    if (!details.trim()) {
+      setValidationErrors(prev => ({ ...prev, details: true }));
+      hasErrors = true;
+    }
+
+    // If there are validation errors, don't proceed with submission
+    if (hasErrors) {
       return;
     }
-    if (!mainConcern.trim() || !details.trim() || !user_email.trim()) {
-      setPopup({ open: true, message: "Please fill in all fields.", type: "error" });
-      return;
-    }
+
     setLoading(true);
     try {
       const payload = {
@@ -249,9 +284,14 @@ export default function UserFeedback({ showModal, onCloseModal }) {
             autoComplete="off"
             disabled={loading}
             style={{
-              background: '#fff', color: '#2563eb', fontWeight: 600, fontSize: '1.1em', border: 'none', borderRadius: 8, padding: '0.6em 1em', marginBottom: 8, fontFamily: 'Inconsolata, monospace', outline: 'none', boxSizing: 'border-box',
+              background: '#fff', color: '#2563eb', fontWeight: 600, fontSize: '1.1em', border: 'none', borderRadius: 8, padding: '0.6em 1em', marginBottom: validationErrors.mainConcern ? 4 : 8, fontFamily: 'Inconsolata, monospace', outline: 'none', boxSizing: 'border-box',
             }}
           />
+          {validationErrors.mainConcern && (
+            <div style={{ color: '#ff6b6b', fontSize: '0.9em', marginBottom: 8 }}>
+              Main concern is required
+            </div>
+          )}
           <datalist id="main-concern-options">
             {MAIN_CONCERN_OPTIONS.map(opt => (
               <option value={opt} key={opt} />
@@ -265,8 +305,13 @@ export default function UserFeedback({ showModal, onCloseModal }) {
             onChange={e => setDetails(e.target.value)}
             placeholder="Describe your concern or suggestion"
             disabled={loading}
-            style={{ minHeight: 100, background: '#fff', color: '#2563eb', fontWeight: 600, fontSize: '1.1em', border: 'none', borderRadius: 8, padding: '0.6em 1em', marginBottom: 8, fontFamily: 'Inconsolata, monospace', outline: 'none', boxSizing: 'border-box', resize: 'vertical' }}
+            style={{ minHeight: 100, background: '#fff', color: '#2563eb', fontWeight: 600, fontSize: '1.1em', border: 'none', borderRadius: 8, padding: '0.6em 1em', marginBottom: validationErrors.details ? 4 : 8, fontFamily: 'Inconsolata, monospace', outline: 'none', boxSizing: 'border-box', resize: 'vertical' }}
           />
+          {validationErrors.details && (
+            <div style={{ color: '#ff6b6b', fontSize: '0.9em', marginBottom: 8 }}>
+              Details are required
+            </div>
+          )}
           <label style={{ fontWeight: 500, fontSize: '1.1em', marginBottom: 2 }} htmlFor="email">Email</label>
           <input
             className="profile-edit-input"
@@ -275,8 +320,13 @@ export default function UserFeedback({ showModal, onCloseModal }) {
             value={user_email}
             placeholder="Your email"
             disabled
-            style={{ background: '#fff', color: '#2563eb', fontWeight: 600, fontSize: '1.1em', border: 'none', borderRadius: 8, padding: '0.6em 1em', marginBottom: 8, fontFamily: 'Inconsolata, monospace', outline: 'none', boxSizing: 'border-box' }}
+            style={{ background: '#fff', color: '#2563eb', fontWeight: 600, fontSize: '1.1em', border: 'none', borderRadius: 8, padding: '0.6em 1em', marginBottom: validationErrors.user ? 4 : 8, fontFamily: 'Inconsolata, monospace', outline: 'none', boxSizing: 'border-box' }}
           />
+          {validationErrors.user && (
+            <div style={{ color: '#ff6b6b', fontSize: '0.9em', marginBottom: 8 }}>
+              User not logged in. Please log in again.
+            </div>
+          )}
           <div style={{ display: 'flex', gap: '1em', marginTop: '1.5em' }}>
             <button
               className="profile-edit-btn"

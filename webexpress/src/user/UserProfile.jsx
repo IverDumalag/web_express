@@ -1,7 +1,7 @@
 import boyImg from '../assets/boy.png';
   import React, { useEffect, useState } from 'react';
   import { useNavigate } from "react-router-dom";
-  import { FaEdit, FaChevronLeft } from 'react-icons/fa';
+  import { FaEdit, FaChevronLeft, FaCheckCircle } from 'react-icons/fa';
   import { getUserData, setUserData } from '../data/UserData';
   import '../CSS/UserProfile.css';
 
@@ -13,6 +13,13 @@ import boyImg from '../assets/boy.png';
     const [editError, setEditError] = useState('');
     const [editSuccess, setEditSuccess] = useState('');
     const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+    
+    // Name validation states
+    const [nameValidation, setNameValidation] = useState({
+      firstName: { hasNumbers: false, hasSpecialChars: false, validLength: true },
+      middleName: { hasNumbers: false, hasSpecialChars: false, validLength: true },
+      lastName: { hasNumbers: false, hasSpecialChars: false, validLength: true }
+    });
 
     const navigate = useNavigate();
 
@@ -22,7 +29,7 @@ import boyImg from '../assets/boy.png';
     }, []);
 
     const handleEditOpen = () => {
-      setEditForm({
+      const formData = {
         f_name: user?.f_name || "",
         m_name: user?.m_name || "",
         l_name: user?.l_name || "",
@@ -30,14 +37,66 @@ import boyImg from '../assets/boy.png';
         sex: user?.sex || "",
         birthdate: user?.birthdate || "",
         user_id: user?.user_id || "",
-      });
+      };
+      
+      setEditForm(formData);
+      
+      // Initialize validation for existing name values
+      if (formData.f_name) validateNameField('f_name', formData.f_name);
+      if (formData.m_name) validateNameField('m_name', formData.m_name);
+      if (formData.l_name) validateNameField('l_name', formData.l_name);
+      
       setEditError('');
       setEditSuccess('');
       setShowEdit(true);
     };
 
     const handleEditChange = e => {
-      setEditForm({ ...editForm, [e.target.name]: e.target.value });
+      const { name, value } = e.target;
+      setEditForm({ ...editForm, [name]: value });
+
+      // Validate name fields
+      if (name === 'f_name' || name === 'm_name' || name === 'l_name') {
+        validateNameField(name, value);
+      }
+    };
+
+    const validateNameField = (fieldName, value) => {
+      const hasNumbers = /\d/.test(value);
+      const hasSpecialChars = /[^a-zA-Z\s]/.test(value);
+      const validLength = value.length <= 50;
+
+      const fieldMap = {
+        'f_name': 'firstName',
+        'm_name': 'middleName',
+        'l_name': 'lastName'
+      };
+
+      setNameValidation(prev => ({
+        ...prev,
+        [fieldMap[fieldName]]: {
+          hasNumbers,
+          hasSpecialChars,
+          validLength
+        }
+      }));
+    };
+
+    const isNameFieldValid = (fieldName) => {
+      const fieldMap = {
+        'f_name': 'firstName',
+        'm_name': 'middleName',
+        'l_name': 'lastName'
+      };
+      
+      const validation = nameValidation[fieldMap[fieldName]];
+      return !validation.hasNumbers && !validation.hasSpecialChars && validation.validLength;
+    };
+
+    const areAllNameFieldsValid = () => {
+      return isNameFieldValid('f_name') && 
+             isNameFieldValid('m_name') && 
+             isNameFieldValid('l_name');
     };
 
     const handleEditSubmit = async e => {
@@ -84,68 +143,185 @@ import boyImg from '../assets/boy.png';
 
   {/* Floating Boy Animation removed */}
 
-        <div className="profile-main-container">
-    <div className="profile-card profile-card-modern" style={{ border: '2px solid #334E7B', display: 'flex', flexDirection: 'column' }}>
+        <div className="profile-main-container" style={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'flex-start',
+          width: '100%',
+          padding: '20px'
+        }}>
+          <div className="profile-card profile-card-modern" style={{ 
+            border: '2px solid #334E7B', 
+            display: 'flex', 
+            flexDirection: 'column',
+            width: '50%',
+            maxWidth: '600px',
+            minWidth: '400px'
+          }}>
             <div className="profile-header-row">
               <div className="profile-header-title-col">
-                <span className="profile-title modern">Profile Details</span><br/><br/>
+                <span className="profile-title modern">Profile</span><br/><br/>
                 <span className="profile-desc">First Name, Middle Name, Last Name are the only editable fields.</span> <br/><br/><br/><br/>
               </div>
             </div>
             {user ? (
               <>
-                <div className="profile-row">
-                  <div className="profile-label">First Name:</div>
-                  <div className="profile-value">{user.f_name || "-"}</div>
-                </div>
-                <div className="profile-row">
-                  <div className="profile-label">Middle Name:</div>
-                  <div className="profile-value">{user.m_name || "-"}</div>
-                </div>
-                <div className="profile-row">
-                  <div className="profile-label">Last Name:</div>
-                  <div className="profile-value">{user.l_name || "-"}</div>
-                </div>
-                <div className="profile-row">
-                  <div className="profile-label">Email:</div>
-                  <div className="profile-value">{user.email || "-"}</div>
-                </div>
-                <div className="profile-row">
-                  <div className="profile-label">Sex:</div>
-                  <div className="profile-value">{user.sex || "-"}</div>
-                </div>
-                <div className="profile-row">
-                  <div className="profile-label">Birthdate:</div>
-                  <div className="profile-value">
-                    {user.birthdate ?
-                      (() => {
-                        const d = new Date(user.birthdate);
-                        if (isNaN(d)) return user.birthdate;
-                        return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-                      })()
-                      : "-"}
+                {/* Full Name Section */}
+                <div style={{ marginBottom: '16px' }}>
+                  <div style={{ 
+                    fontSize: '16px', 
+                    fontWeight: '600',
+                    color: '#334E7B',
+                    marginBottom: '8px',
+                    textAlign: 'left'
+                  }}>
+                    Full Name
+                  </div>
+                  <div style={{
+                    width: '100%',
+                    padding: '16px',
+                    backgroundColor: 'white',
+                    border: '2px solid #334E7B',
+                    borderRadius: '12px',
+                    boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between'
+                  }}>
+                    <span style={{
+                      fontSize: '16px',
+                      fontWeight: '500',
+                      color: '#334E7B',
+                      fontFamily: 'monospace'
+                    }}>
+                      {`${user.f_name || ''} ${user.m_name || ''} ${user.l_name || ''}`.trim() || 'Full Name'}
+                    </span>
+                    <FaCheckCircle style={{ color: '#334E7B', fontSize: '22px' }} />
                   </div>
                 </div>
-                <div className="profile-row">
-                  <div className="profile-label">Account Created:</div>
-                  <div className="profile-value">
-                    {user.created_at ?
-                      (() => {
-                        const d = new Date(user.created_at);
-                        if (isNaN(d)) return user.created_at;
-                        return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-                      })()
-                      : "-"}
+
+                {/* Account Created Section */}
+                <div style={{ marginBottom: '24px' }}>
+                  <div style={{ 
+                    fontSize: '16px', 
+                    fontWeight: '600',
+                    color: '#334E7B',
+                    marginBottom: '8px',
+                    textAlign: 'left'
+                  }}>
+                    Account Created
+                  </div>
+                  <div style={{
+                    width: '100%',
+                    padding: '16px',
+                    backgroundColor: 'white',
+                    border: '1.2px solid rgba(51, 78, 123, 0.4)',
+                    borderRadius: '12px',
+                    boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)'
+                  }}>
+                    <span style={{
+                      fontSize: '15px',
+                      color: '#607d8b',
+                      fontFamily: 'monospace'
+                    }}>
+                      {user.created_at ?
+                        (() => {
+                          const d = new Date(user.created_at);
+                          if (isNaN(d)) return user.created_at;
+                          return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                        })()
+                        : "Unknown registration date"}
+                    </span>
                   </div>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '2rem' }}>
+
+                {/* Profile Details Section */}
+                <div style={{ marginBottom: '24px' }}>
+                  <div style={{ 
+                    fontSize: '16px', 
+                    fontWeight: '600',
+                    color: '#334E7B',
+                    marginBottom: '8px',
+                    textAlign: 'left'
+                  }}>
+                    Profile Details
+                  </div>
+                  
+                  <div style={{
+                    backgroundColor: 'white',
+                    borderRadius: '12px',
+                    padding: '16px 0 16px 0'
+                  }}>
+                    {/* Email */}
+                    <div style={{ padding: '8px 0' }}>
+                      <div style={{ fontSize: '14px', color: '#546e7a', fontFamily: 'monospace' }}>
+                        Email
+                      </div>
+                      <div style={{ fontSize: '15px', color: '#334E7B', fontWeight: '500', fontFamily: 'monospace', marginTop: '4px' }}>
+                        {user.email || "-"}
+                      </div>
+                    </div>
+                    
+                    <div style={{ height: '1px', backgroundColor: '#334E7B', margin: '8px 0' }}></div>
+                    
+                    {/* Birthdate */}
+                    <div style={{ padding: '8px 0' }}>
+                      <div style={{ fontSize: '14px', color: '#546e7a', fontFamily: 'monospace' }}>
+                        Birthdate
+                      </div>
+                      <div style={{ fontSize: '15px', color: '#334E7B', fontWeight: '500', fontFamily: 'monospace', marginTop: '4px' }}>
+                        {user.birthdate ?
+                          (() => {
+                            const d = new Date(user.birthdate);
+                            if (isNaN(d)) return user.birthdate;
+                            return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                          })()
+                          : "-"}
+                      </div>
+                    </div>
+                    
+                    <div style={{ height: '1px', backgroundColor: '#334E7B', margin: '8px 0' }}></div>
+                    
+                    {/* Sex */}
+                    <div style={{ padding: '8px 0' }}>
+                      <div style={{ fontSize: '14px', color: '#546e7a', fontFamily: 'monospace' }}>
+                        Sex
+                      </div>
+                      <div style={{ fontSize: '15px', color: '#334E7B', fontWeight: '500', fontFamily: 'monospace', marginTop: '4px' }}>
+                        {user.sex || "-"}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Edit Button */}
+                <div style={{ marginTop: '24px' }}>
                   <button
-                    className="profile-edit-btn"
-                    type="button"
+                    style={{
+                      width: '100%',
+                      minHeight: '56px',
+                      background: 'linear-gradient(135deg, #334E7B 0%, #4A6BA5 100%)',
+                      border: 'none',
+                      borderRadius: '12px',
+                      boxShadow: '0 5px 10px rgba(51, 78, 123, 0.3)',
+                      color: 'white',
+                      fontSize: '16px',
+                      fontWeight: '600',
+                      fontFamily: 'monospace',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '12px',
+                      transition: 'all 0.3s ease'
+                    }}
                     onClick={handleEditOpen}
-                    style={{ minWidth: 60, maxWidth: 90, padding: '0.5em 1em', fontSize: '1em', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                    onMouseOver={(e) => e.target.style.transform = 'translateY(-2px)'}
+                    onMouseOut={(e) => e.target.style.transform = 'translateY(0)'}
                   >
-                    <FaEdit style={{ marginRight: 6 }} /> Edit
+                    <FaEdit style={{ fontSize: '16px' }} />
+                    Edit Profile
+                    <span style={{ fontSize: '20px' }}>›</span>
                   </button>
                 </div>
               </>
@@ -170,6 +346,25 @@ import boyImg from '../assets/boy.png';
                 required
                 disabled={editLoading}
               />
+              {editForm.f_name && (
+                <>
+                  {nameValidation.firstName.hasNumbers && (
+                    <div style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}>
+                      First name cannot contain numbers
+                    </div>
+                  )}
+                  {nameValidation.firstName.hasSpecialChars && (
+                    <div style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}>
+                      First name cannot contain special characters
+                    </div>
+                  )}
+                  {!nameValidation.firstName.validLength && (
+                    <div style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}>
+                      First name cannot exceed 50 characters
+                    </div>
+                  )}
+                </>
+              )}
               <label className="profile-edit-label">Middle Name</label>
               <input
                 className="profile-edit-input"
@@ -178,6 +373,25 @@ import boyImg from '../assets/boy.png';
                 onChange={handleEditChange}
                 disabled={editLoading}
               />
+              {editForm.m_name && (
+                <>
+                  {nameValidation.middleName.hasNumbers && (
+                    <div style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}>
+                      Middle name cannot contain numbers
+                    </div>
+                  )}
+                  {nameValidation.middleName.hasSpecialChars && (
+                    <div style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}>
+                      Middle name cannot contain special characters
+                    </div>
+                  )}
+                  {!nameValidation.middleName.validLength && (
+                    <div style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}>
+                      Middle name cannot exceed 50 characters
+                    </div>
+                  )}
+                </>
+              )}
               <label className="profile-edit-label">Last Name</label>
               <input
                 className="profile-edit-input"
@@ -187,15 +401,29 @@ import boyImg from '../assets/boy.png';
                 required
                 disabled={editLoading}
               />
+              {editForm.l_name && (
+                <>
+                  {nameValidation.lastName.hasNumbers && (
+                    <div style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}>
+                      Last name cannot contain numbers
+                    </div>
+                  )}
+                  {nameValidation.lastName.hasSpecialChars && (
+                    <div style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}>
+                      Last name cannot contain special characters
+                    </div>
+                  )}
+                  {!nameValidation.lastName.validLength && (
+                    <div style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}>
+                      Last name cannot exceed 50 characters
+                    </div>
+                  )}
+                </>
+              )}
               <label className="profile-edit-label">Email</label>
-              <input
-                className="profile-edit-input"
-                name="email"
-                type="email"
-                value={editForm.email}
-                required
-                disabled // ✅ email is non-editable
-              />
+              <div className="profile-edit-input" style={{ backgroundColor: '#f5f5f5', color: '#666', padding: '12px', border: '1px solid #ddd', borderRadius: '4px' }}>
+                {editForm.email || "-"}
+              </div>
               <label className="profile-edit-label">Sex</label>
               <div className="profile-edit-input" style={{ backgroundColor: '#f5f5f5', color: '#666', padding: '12px', border: '1px solid #ddd', borderRadius: '4px' }}>
                 {editForm.sex || "-"}
@@ -205,7 +433,7 @@ import boyImg from '../assets/boy.png';
                 {editForm.birthdate || "-"}
               </div>
               <div className="profile-edit-actions">
-                <button className="profile-edit-btn" type="submit" disabled={editLoading}>
+                <button className="profile-edit-btn" type="submit" disabled={editLoading || !areAllNameFieldsValid()}>
                   {editLoading ? "Saving..." : "Save"}
                 </button>
                 <button className="profile-edit-btn cancel" type="button" onClick={() => setShowEdit(false)} disabled={editLoading}>
