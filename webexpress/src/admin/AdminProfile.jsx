@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { FaCheckCircle } from 'react-icons/fa';
 import MessagePopup from "../components/MessagePopup";
 import { getUserData, setUserData } from "../data/UserData";
 import "../CSS/AdminProfile.css";
@@ -11,6 +12,13 @@ export default function AdminProfile({ open, onClose }) {
   const [editError, setEditError] = useState('');
   const [editSuccess, setEditSuccess] = useState('');
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  
+  // Name validation states
+  const [nameValidation, setNameValidation] = useState({
+    firstName: { hasNumbers: false, hasSpecialChars: false, validLength: true },
+    middleName: { hasNumbers: false, hasSpecialChars: false, validLength: true },
+    lastName: { hasNumbers: false, hasSpecialChars: false, validLength: true }
+  });
 
   useEffect(() => {
     if (open) {
@@ -25,7 +33,7 @@ export default function AdminProfile({ open, onClose }) {
   if (!open) return null;
 
   const handleEditOpen = () => {
-    setEditForm({
+    const formData = {
       f_name: admin?.f_name || "",
       m_name: admin?.m_name || "",
       l_name: admin?.l_name || "",
@@ -33,14 +41,66 @@ export default function AdminProfile({ open, onClose }) {
       sex: admin?.sex || "",
       birthdate: admin?.birthdate || "",
       user_id: admin?.user_id || "",
-    });
+    };
+    
+    setEditForm(formData);
+    
+    // Initialize validation for existing name values
+    if (formData.f_name) validateNameField('f_name', formData.f_name);
+    if (formData.m_name) validateNameField('m_name', formData.m_name);
+    if (formData.l_name) validateNameField('l_name', formData.l_name);
+    
     setEditError('');
     setEditSuccess('');
     setShowEdit(true);
   };
 
   const handleEditChange = e => {
-    setEditForm({ ...editForm, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setEditForm({ ...editForm, [name]: value });
+
+    // Validate name fields
+    if (name === 'f_name' || name === 'm_name' || name === 'l_name') {
+      validateNameField(name, value);
+    }
+  };
+
+  const validateNameField = (fieldName, value) => {
+    const hasNumbers = /\d/.test(value);
+    const hasSpecialChars = /[^a-zA-Z\s]/.test(value);
+    const validLength = value.length <= 50;
+
+    const fieldMap = {
+      'f_name': 'firstName',
+      'm_name': 'middleName',
+      'l_name': 'lastName'
+    };
+
+    setNameValidation(prev => ({
+      ...prev,
+      [fieldMap[fieldName]]: {
+        hasNumbers,
+        hasSpecialChars,
+        validLength
+      }
+    }));
+  };
+
+  const isNameFieldValid = (fieldName) => {
+    const fieldMap = {
+      'f_name': 'firstName',
+      'm_name': 'middleName',
+      'l_name': 'lastName'
+    };
+    
+    const validation = nameValidation[fieldMap[fieldName]];
+    return !validation.hasNumbers && !validation.hasSpecialChars && validation.validLength;
+  };
+
+  const areAllNameFieldsValid = () => {
+    return isNameFieldValid('f_name') && 
+           isNameFieldValid('m_name') && 
+           isNameFieldValid('l_name');
   };
 
   const handleEditSubmit = async e => {
@@ -88,34 +148,162 @@ export default function AdminProfile({ open, onClose }) {
         {!showEdit ? (
           admin ? (
             <>
-              <div className="admin-profile-row">
-                <div className="admin-profile-label">First Name:</div>
-                <div className="admin-profile-value">{admin.f_name || "-"}</div>
+              {/* Full Name Section */}
+              <div style={{ marginBottom: '16px' }}>
+                <div style={{ 
+                  fontSize: '16px', 
+                  fontWeight: '600',
+                  color: '#334E7B',
+                  marginBottom: '8px',
+                  textAlign: 'left'
+                }}>
+                  Full Name
+                </div>
+                <div style={{
+                  width: '100%',
+                  padding: '16px',
+                  backgroundColor: 'white',
+                  border: '2px solid #334E7B',
+                  borderRadius: '12px',
+                  boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between'
+                }}>
+                  <span style={{
+                    fontSize: '16px',
+                    fontWeight: '500',
+                    color: '#334E7B',
+                    fontFamily: 'monospace'
+                  }}>
+                    {`${admin.f_name || ''} ${admin.m_name || ''} ${admin.l_name || ''}`.trim() || 'Full Name'}
+                  </span>
+                  <FaCheckCircle style={{ color: '#334E7B', fontSize: '22px' }} />
+                </div>
               </div>
-              <div className="admin-profile-row">
-                <div className="admin-profile-label">Middle Name:</div>
-                <div className="admin-profile-value">{admin.m_name || "-"}</div>
+
+              {/* Account Created Section */}
+              <div style={{ marginBottom: '24px' }}>
+                <div style={{ 
+                  fontSize: '16px', 
+                  fontWeight: '600',
+                  color: '#334E7B',
+                  marginBottom: '8px',
+                  textAlign: 'left'
+                }}>
+                  Account Created
+                </div>
+                <div style={{
+                  width: '100%',
+                  padding: '16px',
+                  backgroundColor: 'white',
+                  border: '1.2px solid rgba(51, 78, 123, 0.4)',
+                  borderRadius: '12px',
+                  boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)'
+                }}>
+                  <span style={{
+                    fontSize: '15px',
+                    color: '#607d8b',
+                    fontFamily: 'monospace'
+                  }}>
+                    {admin.created_at ?
+                      (() => {
+                        const d = new Date(admin.created_at);
+                        if (isNaN(d)) return admin.created_at;
+                        return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                      })()
+                      : "Unknown registration date"}
+                  </span>
+                </div>
               </div>
-              <div className="admin-profile-row">
-                <div className="admin-profile-label">Last Name:</div>
-                <div className="admin-profile-value">{admin.l_name || "-"}</div>
+
+              {/* Profile Details Section */}
+              <div style={{ marginBottom: '24px' }}>
+                <div style={{ 
+                  fontSize: '16px', 
+                  fontWeight: '600',
+                  color: '#334E7B',
+                  marginBottom: '8px',
+                  textAlign: 'left'
+                }}>
+                  Profile Details
+                </div>
+                
+                <div style={{
+                  backgroundColor: 'white',
+                  borderRadius: '12px',
+                  padding: '16px 0 16px 0'
+                }}>
+                  {/* Email */}
+                  <div style={{ padding: '8px 0' }}>
+                    <div style={{ fontSize: '14px', color: '#546e7a', fontFamily: 'monospace' }}>
+                      Email
+                    </div>
+                    <div style={{ fontSize: '15px', color: '#334E7B', fontWeight: '500', fontFamily: 'monospace', marginTop: '4px' }}>
+                      {admin.email || "-"}
+                    </div>
+                  </div>
+                  
+                  <div style={{ height: '1px', backgroundColor: '#334E7B', margin: '8px 0' }}></div>
+                  
+                  {/* Birthdate */}
+                  <div style={{ padding: '8px 0' }}>
+                    <div style={{ fontSize: '14px', color: '#546e7a', fontFamily: 'monospace' }}>
+                      Birthdate
+                    </div>
+                    <div style={{ fontSize: '15px', color: '#334E7B', fontWeight: '500', fontFamily: 'monospace', marginTop: '4px' }}>
+                      {admin.birthdate ?
+                        (() => {
+                          const d = new Date(admin.birthdate);
+                          if (isNaN(d)) return admin.birthdate;
+                          return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                        })()
+                        : admin.birthdate || "-"}
+                    </div>
+                  </div>
+                  
+                  <div style={{ height: '1px', backgroundColor: '#334E7B', margin: '8px 0' }}></div>
+                  
+                  {/* Sex */}
+                  <div style={{ padding: '8px 0' }}>
+                    <div style={{ fontSize: '14px', color: '#546e7a', fontFamily: 'monospace' }}>
+                      Sex
+                    </div>
+                    <div style={{ fontSize: '15px', color: '#334E7B', fontWeight: '500', fontFamily: 'monospace', marginTop: '4px' }}>
+                      {admin.sex || "-"}
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="admin-profile-row">
-                <div className="admin-profile-label">Email:</div>
-                <div className="admin-profile-value">{admin.email || "-"}</div>
-              </div>
-              <div className="admin-profile-row">
-                <div className="admin-profile-label">Sex:</div>
-                <div className="admin-profile-value">{admin.sex || "-"}</div>
-              </div>
-              <div className="admin-profile-row">
-                <div className="admin-profile-label">Birthdate:</div>
-                <div className="admin-profile-value">{admin.birthdate || "-"}</div>
-              </div>
-              {/* Edit button at the bottom */}
-              <div className="admin-profile-bottom-actions">
-                <button className="admin-profile-edit-btn" title="Edit Profile" onClick={handleEditOpen}>
-                  Edit
+
+              {/* Edit Button */}
+              <div style={{ marginTop: '24px' }}>
+                <button
+                  style={{
+                    width: '100%',
+                    minHeight: '56px',
+                    background: 'linear-gradient(135deg, #334E7B 0%, #4A6BA5 100%)',
+                    border: 'none',
+                    borderRadius: '12px',
+                    boxShadow: '0 5px 10px rgba(51, 78, 123, 0.3)',
+                    color: 'white',
+                    fontSize: '16px',
+                    fontWeight: '600',
+                    fontFamily: 'monospace',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '12px',
+                    transition: 'all 0.3s ease'
+                  }}
+                  onClick={handleEditOpen}
+                  onMouseOver={(e) => e.target.style.transform = 'translateY(-2px)'}
+                  onMouseOut={(e) => e.target.style.transform = 'translateY(0)'}
+                >
+                  <span style={{ fontSize: '16px' }}>✏️</span>
+                  Edit Profile
+                  <span style={{ fontSize: '20px' }}>›</span>
                 </button>
               </div>
             </>
@@ -134,6 +322,25 @@ export default function AdminProfile({ open, onClose }) {
               required
               disabled={editLoading}
             />
+            {editForm.f_name && (
+              <>
+                {nameValidation.firstName.hasNumbers && (
+                  <div style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}>
+                    First name cannot contain numbers
+                  </div>
+                )}
+                {nameValidation.firstName.hasSpecialChars && (
+                  <div style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}>
+                    First name cannot contain special characters
+                  </div>
+                )}
+                {!nameValidation.firstName.validLength && (
+                  <div style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}>
+                    First name cannot exceed 50 characters
+                  </div>
+                )}
+              </>
+            )}
             <label className="admin-profile-edit-label">Middle Name</label>
             <input
               className="admin-profile-edit-input"
@@ -142,6 +349,25 @@ export default function AdminProfile({ open, onClose }) {
               onChange={handleEditChange}
               disabled={editLoading}
             />
+            {editForm.m_name && (
+              <>
+                {nameValidation.middleName.hasNumbers && (
+                  <div style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}>
+                    Middle name cannot contain numbers
+                  </div>
+                )}
+                {nameValidation.middleName.hasSpecialChars && (
+                  <div style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}>
+                    Middle name cannot contain special characters
+                  </div>
+                )}
+                {!nameValidation.middleName.validLength && (
+                  <div style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}>
+                    Middle name cannot exceed 50 characters
+                  </div>
+                )}
+              </>
+            )}
             <label className="admin-profile-edit-label">Last Name</label>
             <input
               className="admin-profile-edit-input"
@@ -151,6 +377,25 @@ export default function AdminProfile({ open, onClose }) {
               required
               disabled={editLoading}
             />
+            {editForm.l_name && (
+              <>
+                {nameValidation.lastName.hasNumbers && (
+                  <div style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}>
+                    Last name cannot contain numbers
+                  </div>
+                )}
+                {nameValidation.lastName.hasSpecialChars && (
+                  <div style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}>
+                    Last name cannot contain special characters
+                  </div>
+                )}
+                {!nameValidation.lastName.validLength && (
+                  <div style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}>
+                    Last name cannot exceed 50 characters
+                  </div>
+                )}
+              </>
+            )}
             <label className="admin-profile-edit-label">Sex</label>
             <div className="admin-profile-edit-input" style={{ backgroundColor: '#f5f5f5', color: '#666', padding: '12px', border: '1px solid #ddd', borderRadius: '4px' }}>
               {editForm.sex || "-"}
@@ -163,7 +408,7 @@ export default function AdminProfile({ open, onClose }) {
               <button
                 className="admin-profile-edit-btn"
                 type="submit"
-                disabled={editLoading}
+                disabled={editLoading || !areAllNameFieldsValid()}
               >
                 {editLoading ? "Saving..." : "Save"}
               </button>

@@ -31,55 +31,6 @@ const UserMenuPage = () => {
       navigate(path);
     }
   };
-      {/* Feedback Drawer Popup */}
-      {showFeedbackDrawer && (
-        <div style={{
-          position: 'fixed',
-          left: 0,
-          right: 0,
-          bottom: 0,
-          zIndex: 12000,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'flex-end',
-          background: 'rgba(0,0,0,0.18)',
-          minHeight: '100vh',
-          transition: 'background 0.2s',
-        }}>
-          <div style={{
-            width: '100%',
-            maxWidth: 520,
-            borderTopLeftRadius: 24,
-            borderTopRightRadius: 24,
-            background: '#fff',
-            boxShadow: '0 -8px 32px rgba(44,62,80,0.18)',
-            padding: 0,
-            position: 'relative',
-            minHeight: '50vh',
-            maxHeight: '90vh',
-            overflowY: 'auto',
-            margin: 0,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-            <div style={{
-              width: '100%',
-              maxWidth: 420,
-              margin: '0 auto',
-              padding: '2em 1em',
-              boxSizing: 'border-box',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <UserFeedback showModal={true} onCloseModal={() => setShowFeedbackDrawer(false)} />
-            </div>
-          </div>
-        </div>
-      )}
 
   const confirmLogout = () => {
     setShowLogoutPopup(false);
@@ -241,7 +192,7 @@ const UserMenuPage = () => {
                 onClick={confirmLogout}
                 style={{
                   flex: 1,
-                  background: '#ef7070ff',
+                  background: '#ef7070',
                   color: '#fff',
                   border: '2px solid #fff',
                   borderRadius: 12,
