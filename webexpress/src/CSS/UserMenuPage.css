@@ -101,15 +101,15 @@
 
 /* Logout card */
 .menu-card.logout {
-  color: #d9534f;
+  color: #334E7B;
 }
 
 .menu-card.logout .menu-icon {
-  color: #d9534f;
+  color: #334E7B;
 }
 
 .menu-card.logout:hover {
-  background: #fde4e4;
+  background: rgb(82, 103, 125) !important;
 }
 
 /* Responsive adjustments */

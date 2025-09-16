@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FaFilter, FaStar, FaPlus } from "react-icons/fa";
 import { MdOutlineWavingHand } from "react-icons/md";
 import UserCards from '../components/UserCards';
@@ -30,14 +30,24 @@ export default function UserCardsPage() {
   const navigate = useNavigate();
   const [showAddModal, setShowAddModal] = useState(false);
   const [addInput, setAddInput] = useState("");
+  const [addInputError, setAddInputError] = useState("");
   const [addLoading, setAddLoading] = useState(false);
+  const addInputRef = useRef(null);
+
   const [popup, setPopup] = useState({ open: false, message: "", type: "info" });
   const showPopup = (message, type = "info", timeout = 5000) => {
     setPopup({ open: true, message, type });
     setTimeout(() => setPopup(p => ({ ...p, open: false })), timeout);
   };
+
   const userData = getUserData();
   const user_id = userData?.user_id || "";
+
+  // Debug: Log error state changes
+  useEffect(() => {
+    console.log("addInputError changed:", addInputError);
+  }, [addInputError]);
+
   useEffect(() => {
     async function fetchCards() {
       if (!user_id) {
@@ -50,17 +60,17 @@ export default function UserCardsPage() {
         const res = await fetch(`${API_URL}?user_id=${encodeURIComponent(user_id)}`, {
           timeout: 15000 // 15 second timeout
         });
-        
+
         if (!res.ok) {
           throw new Error(`HTTP ${res.status}: ${res.statusText}`);
         }
-        
+
         const json = await res.json();
         setCards(Array.isArray(json.data) ? json.data.filter(card => card.status === "active") : []);
       } catch (e) {
         console.error('Error fetching cards:', e);
         setCards([]);
-        
+
         let errorMessage = "We couldn't load your cards right now. Please try again.";
         if (e.message.includes('Failed to fetch') || !navigator.onLine) {
           errorMessage = "You appear to be offline. Please check your internet connection and try again.";
@@ -69,13 +79,14 @@ export default function UserCardsPage() {
         } else if (e.message.includes('500')) {
           errorMessage = "Our servers are temporarily unavailable. Please try again in a few moments.";
         }
-        
+
         showPopup(errorMessage, "error");
       }
       setLoading(false);
     }
     if (user_id) fetchCards();
   }, [user_id, reloadCards]);
+
   const handleCardUpdated = (updatedCard) => {
     setCards(prevCards => {
       if (updatedCard.status === "archived") {
@@ -85,7 +96,9 @@ export default function UserCardsPage() {
       }
     });
   };
+
   const getCardString = (card) => (card.words || card.wordsphrases || card.title || "").toString();
+
   let filteredCards = cards;
   if (activeTab === "favorite") {
     filteredCards = filteredCards.filter(card => card.is_favorite === 1);
@@ -93,9 +106,11 @@ export default function UserCardsPage() {
   if (search.trim() !== "") {
     filteredCards = filteredCards.filter(card => getCardString(card).toLowerCase().includes(search.toLowerCase()));
   }
+
   function naturalCompare(a, b) {
     return a.localeCompare(b, undefined, { numeric: true, sensitivity: "base" });
   }
+
   if (sortBy === "alpha") {
     filteredCards = [...filteredCards].sort((a, b) => naturalCompare(getCardString(a), getCardString(b)));
   } else if (sortBy === "alpha-rev") {
@@ -107,18 +122,20 @@ export default function UserCardsPage() {
   } else if (sortBy === "clear-filter") {
     filteredCards = [...filteredCards];
   }
+
   React.useEffect(() => {
     const handleClick = (e) => {
       if (!e.target.closest('.filter-icon-btn') && !e.target.closest('.filter-dropdown')) {
         setShowFilter(false);
       }
       if (!e.target.closest('.meatball-icon-btn') && !e.target.closest('.meatball-dropdown')) {
-        setShowMeatball(false);
+        // setShowMeatball(false);
       }
     };
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
+
   const sortOptions = [
     { label: "Clear Filter", value: "clear-filter" },
     { label: "Alphabetically (A-Z)", value: "alpha" },
@@ -126,31 +143,45 @@ export default function UserCardsPage() {
     { label: "Date (Newest)", value: "date-new" },
     { label: "Date (Oldest)", value: "date-old" },
   ];
-  const normalize = str => (str || "").replace(/'/g, "").trim().toLowerCase();
+
+  const normalize = (str) => (str || "").replace(/'/g, "").trim().toLowerCase();
+
   const handleAddWord = async () => {
-    if (!addInput.trim()) {
-      showPopup("Please enter a word or phrase to add.", "error");
+    console.log("handleAddWord called, addInput:", addInput.trim());
+
+    const trimmed = addInput.trim();
+    if (!trimmed) {
+      setAddInputError("Please enter a word or phrase");
+      addInputRef.current?.focus();
       return;
     }
-    
-    const normalizedInput = normalize(addInput);
-    const isDuplicate = cards.some(card => normalize(card.words) === normalizedInput);
+
+    // Clear any previous error
+    setAddInputError("");
+
+    // safer duplicate check against words / wordsphrases / title
+    const normalizedInput = normalize(trimmed);
+    const isDuplicate = cards.some(card => {
+      const value = card?.words ?? card?.wordsphrases ?? card?.title ?? "";
+      return normalize(value) === normalizedInput;
+    });
     if (isDuplicate) {
-      showPopup("This word or phrase is already in your collection.", "error");
+      setAddInputError("This word or phrase is already in your collection");
+      addInputRef.current?.focus();
       return;
     }
-    
+
     setAddLoading(true);
     let sign_language_url = "";
     let is_match = 0;
     let matchFound = false;
-    
+
     try {
       // Search for sign language match
-      const searchRes = await fetch(`${TRYSEARCH_API_URL}?q=${encodeURIComponent(addInput)}`, {
+      const searchRes = await fetch(`${TRYSEARCH_API_URL}?q=${encodeURIComponent(trimmed)}`, {
         timeout: 15000 // 15 second timeout
       });
-      
+
       if (!searchRes.ok) {
         console.warn('Search service unavailable, proceeding without sign language match');
       } else {
@@ -164,25 +195,26 @@ export default function UserCardsPage() {
           }
         }
       }
-      
+
       // Add to user's collection
       const insertRes = await fetch(INSERT_API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user_id, words: addInput, sign_language: sign_language_url, is_match }),
+        body: JSON.stringify({ user_id, words: trimmed, sign_language: sign_language_url, is_match }),
         timeout: 15000 // 15 second timeout
       });
-      
+
       if (!insertRes.ok) {
         throw new Error(`HTTP ${insertRes.status}: ${insertRes.statusText}`);
       }
-      
+
       const insertJson = await insertRes.json();
       if (insertJson.status === 201 || insertJson.status === "201") {
         setShowAddModal(false);
         setAddInput("");
+        setAddInputError("");  // Clear error on successful add
         setReloadCards(prev => prev + 1);
-        
+
         if (matchFound) {
           showPopup("Great! We found a sign language match for your word.", "success");
         } else {
@@ -200,7 +232,7 @@ export default function UserCardsPage() {
     } catch (e) {
       console.error('Error adding word:', e);
       let errorMessage = "We couldn't add your word right now. Please try again.";
-      
+
       if (e.message.includes('Failed to fetch') || !navigator.onLine) {
         errorMessage = "You appear to be offline. Please check your internet connection and try again.";
       } else if (e.message.includes('timeout')) {
@@ -208,11 +240,12 @@ export default function UserCardsPage() {
       } else if (e.message.includes('500')) {
         errorMessage = "Our servers are temporarily unavailable. Please try again in a few moments.";
       }
-      
+
       showPopup(errorMessage, "error");
     }
     setAddLoading(false);
   };
+
   // Show the boy and speech bubble for a longer period (e.g., 10 seconds)
   const [showBoyBubble, setShowBoyBubble] = useState(true);
   useEffect(() => {
@@ -224,296 +257,296 @@ export default function UserCardsPage() {
   // Speech bubble message for this page
   const boyBubbleMessage = "welcome, these are your cards";
 
-return (
-  <div style={{ minHeight: '100vh', background: '#fff' }}>
-    <UserBottomNavBar />
-    <div style={{ maxWidth: 1200, margin: '0 auto', padding: '2vw' }}>
-      <div style={{
-        width: '100%',
-        overflow: 'hidden',
-        marginBottom: '1vw',
-        position: 'relative',
-      }}>
-      </div>
-
-
-{/* ✅ Floating animation keyframes */}
-<style>
-  {`
-    @keyframes float {
-      0% { transform: translateY(0px); }
-      50% { transform: translateY(-12px); }
-      100% { transform: translateY(0px); }
-    }
-  `}
-</style>
-
-<div style={{
-  display: 'grid',
-  gridTemplateColumns: 'repeat(4, 1fr)', // 4 images in a row
-  gap: '8em',
-  marginTop: '2em',
-  marginBottom: '2em',
-  marginRight: '5em',
-}}>
-  {/* Image 1 */}
-  <img 
-    src={SL1}
-    style={{ 
-      width: '150%', 
-      height: '320px',   // ✅ expanded height
-      objectFit: 'cover', 
-      borderRadius: '12px',
-      animation: 'float 3s ease-in-out infinite'
-    }} 
-  />
-
-  {/* Image 2 */}
-  <img 
-    src={SL2}
-    style={{ 
-      width: '150%', 
-      height: '320px',
-      objectFit: 'cover', 
-      borderRadius: '12px',
-      animation: 'float 3s ease-in-out infinite'
-    }} 
-  />
-
-  {/* Image 3 */}
-  <img 
-    src={SL3}
-    style={{ 
-      width: '150%', 
-      height: '320px',
-      objectFit: 'cover', 
-      borderRadius: '12px',
-      animation: 'float 3s ease-in-out infinite'
-    }} 
-  />
-
-  {/* Image 4 */}
-  <img 
-    src={SL4}
-    style={{ 
-      width: '150%', 
-      height: '320px',
-      objectFit: 'cover', 
-      borderRadius: '12px',
-      animation: 'float 3s ease-in-out infinite'
-    }} 
-  />
-</div>
-
-{/* ✅ Centered text (now below containers) */}
-<div style={{ position: 'relative', zIndex: 1, width: '100%' }}>
-  <div style={{
-    fontFamily: 'Poppins, sans-serif',
-    fontWeight: 700,
-    fontSize: '3.2em',
-    color: '#22223b',
-    letterSpacing: '0.04em',
-    marginBottom: '0.5em',
-    textAlign: 'center',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-    minHeight: '1.2em',
-  }}>
-    <span>Ready to Sign?</span>
-  </div>
-  <div style={{
-    fontFamily: 'Roboto Mono, monospace',
-    fontSize: '1.25em',
-    color: '#22365a',
-    textAlign: 'center',
-    marginBottom: '1.5em'
-  }}>
-    Get more cards for enhancement of your Sign Language!
-  </div>
-</div>
-
-    
-       <div style={{ margin: '3vw 0 2vw 0' }}>
-  {/* Top section */}
-  <div style={{
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between', // left & right pushed apart
-    gap: '2vw',
-    marginLeft: '1vw', // closer to left edge
-    marginRight: '1vw', // closer to right edge
-    flexWrap: 'nowrap',
-    marginBottom: '1.5vw'
-  }}>
-    {/* Left side: Your Cards & Favorited Cards */}
-    <div style={{ display: 'flex', gap: '1vw' }}>
-      <button
-        className={`tab-btn${activeTab === "wave" ? " active" : ""}`}
-        onClick={() => setActiveTab("wave")}
-        title="Your cards"
-        style={{
-          background: activeTab === "wave" ? '#1C2E4A' : '#52677D',
-          color: '#fff',
-          border: '2px solid #fff',
-          borderRadius: 6,
-          padding: '0.7em 2em',
-          fontWeight: 700,
-          fontSize: '1.1em',
-          fontFamily: 'Inconsolata, monospace',
-          cursor: 'pointer',
-          transition: 'background 0.18s, color 0.18s, box-shadow 0.18s',
-          opacity: activeTab === "wave" ? 1 : 0.85,
-          boxShadow: activeTab === "wave"
-            ? '0 2px 12px 0 rgba(37,99,235,0.20), 0 1.5px 6px 0 rgba(44,62,80,0.10)'
-            : '0 1.5px 6px 0 rgba(44,62,80,0.10)',
-          outline: 'none',
-        }}
-      >
-        <MdOutlineWavingHand style={{ marginRight: 8, fontSize: '1.2em' }} />
-        Your cards
-      </button>
-      <button
-        className={`tab-btn${activeTab === "favorite" ? " active" : ""}`}
-        onClick={() => setActiveTab("favorite")}
-        title="Favorite"
-        style={{
-          background: activeTab === "favorite" ? '#1C2E4A' : '#52677D',
-          color: '#fff',
-          border: '2px solid #fff',
-          borderRadius: 6,
-          padding: '0.7em 0.8em',
-          fontWeight: 700,
-          fontSize: '1.1em',
-          fontFamily: 'Inconsolata, monospace',
-          cursor: 'pointer',
-          transition: 'background 0.18s, color 0.18s, box-shadow 0.18s',
-          opacity: activeTab === "favorite" ? 1 : 0.85,
-          boxShadow: activeTab === "favorite"
-            ? '0 2px 12px 0 rgba(37,99,235,0.20), 0 1.5px 6px 0 rgba(44,62,80,0.10)'
-            : '0 1.5px 6px 0 rgba(44,62,80,0.10)',
-          outline: 'none',
-        }}
-      >
-        <FaStar style={{ marginRight: 8, fontSize: '1.1em' }} />
-        Favorited Cards
-      </button>
-    </div>
-
-    {/* Right side: Search + Filter + Add */}
-    <div style={{ display: 'flex', gap: '1vw', alignItems: 'center', flex: 1, justifyContent: 'flex-end' }}>
-      {/* Search Input */}
-      <div style={{ position: 'relative', minWidth: 220, maxWidth: 420, flex: 1 }}>
-        <span style={{
-          position: 'absolute',
-          left: '0.8em',
-          top: '50%',
-          transform: 'translateY(-50%)',
-          color: '#bfc9d1',
-          pointerEvents: 'none',
-          display: 'flex',
-          alignItems: 'center',
-          fontSize: '1.25em',
-          zIndex: 2,
+  return (
+    <div style={{ minHeight: '100vh', background: '#fff' }}>
+      <UserBottomNavBar />
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '2vw' }}>
+        <div style={{
+          width: '100%',
+          overflow: 'hidden',
+          marginBottom: '1vw',
+          position: 'relative',
         }}>
-          <svg width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="11" cy="11" r="8"/>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-          </svg>
-        </span>
-        <input
-          className="search-input"
-          style={{
+        </div>
+
+        {/* ✅ Floating animation keyframes */}
+        <style>
+          {`
+            @keyframes float {
+              0% { transform: translateY(0px); }
+              50% { transform: translateY(-12px); }
+              100% { transform: translateY(0px); }
+            }
+          `}
+        </style>
+
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(4, 1fr)',
+          gap: '8em',
+          marginTop: '2em',
+          marginBottom: '2em',
+          marginRight: '5em',
+        }}>
+          {/* Image 1 */}
+          <img
+            src={SL1}
+            style={{
+              width: '150%',
+              height: '320px',
+              objectFit: 'cover',
+              borderRadius: '12px',
+              animation: 'float 3s ease-in-out infinite'
+            }}
+          />
+
+          {/* Image 2 */}
+          <img
+            src={SL2}
+            style={{
+              width: '150%',
+              height: '320px',
+              objectFit: 'cover',
+              borderRadius: '12px',
+              animation: 'float 3s ease-in-out infinite'
+            }}
+          />
+
+          {/* Image 3 */}
+          <img
+            src={SL3}
+            style={{
+              width: '150%',
+              height: '320px',
+              objectFit: 'cover',
+              borderRadius: '12px',
+              animation: 'float 3s ease-in-out infinite'
+            }}
+          />
+
+          {/* Image 4 */}
+          <img
+            src={SL4}
+            style={{
+              width: '150%',
+              height: '320px',
+              objectFit: 'cover',
+              borderRadius: '12px',
+              animation: 'float 3s ease-in-out infinite'
+            }}
+          />
+        </div>
+
+        {/* ✅ Centered text */}
+        <div style={{ position: 'relative', zIndex: 1, width: '100%' }}>
+          <div style={{
+            fontFamily: 'Poppins, sans-serif',
+            fontWeight: 700,
+            fontSize: '3.2em',
+            color: '#22223b',
+            letterSpacing: '0.04em',
+            marginBottom: '0.5em',
+            textAlign: 'center',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
             width: '100%',
-            padding: '0.9em 2.9em 0.6em 3.4em',
-            borderRadius: '5px',
-            border: '1.5px solid #1C2E4A',
-            background: 'rgba(255,255,255,0.7)',
+            minHeight: '1.2em',
+          }}>
+            <span>Ready to Sign?</span>
+          </div>
+          <div style={{
             fontFamily: 'Roboto Mono, monospace',
-            fontSize: '1em',
+            fontSize: '1.25em',
             color: '#22365a',
-            boxShadow: '0 2px 4px #2221',
-            outline: 'none',
-          }}
-          placeholder=""
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-        />
-      </div>
+            textAlign: 'center',
+            marginBottom: '1.5em'
+          }}>
+            Get more cards for enhancement of your Sign Language!
+          </div>
+        </div>
 
-     {/* Filter Button */}
-<button
-  className="filter-icon-btn"
-  title="Sort"
-  onClick={() => setShowFilter(v => !v)}
-  style={{
-    background: 'none',
-    border: 'none',
-    color: '#1976d2',
-    fontSize: '1.6em',  // reduced from 2em for better balance
-    cursor: 'pointer',
-    padding: '0.15em 0.3em', // slightly smaller padding
-    borderRadius: '50%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'relative'
-  }}
->
-  <FaFilter style={{ color: '#334E7B', fontSize: '0.85em' }} /> {/* adjusted icon size */}
-  {showFilter && (
-    <div className="filter-dropdown" style={{ minWidth: '280px', maxWidth: '360px' }}> {/* smaller dropdown */}
-      {sortOptions.map(opt => (
-        <button
-          key={opt.value}
-          className={`filter-option${sortBy === opt.value ? ' selected' : ''}`}
-          onClick={() => { setSortBy(opt.value); setShowFilter(false); }}
-          style={{ fontSize: '0.72em', padding: '0.7em 1.2em' }} // slightly smaller options
-        >
-          {opt.label}
-        </button>
-      ))}
-    </div>
-  )}
-</button>
+        <div style={{ margin: '3vw 0 2vw 0' }}>
+          {/* Top section */}
+          <div style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '2vw',
+            marginLeft: '1vw',
+            marginRight: '1vw',
+            flexWrap: 'nowrap',
+            marginBottom: '1.5vw'
+          }}>
+            {/* Left side: Your Cards & Favorited Cards */}
+            <div style={{ display: 'flex', gap: '1vw' }}>
+              <button
+                className={`tab-btn${activeTab === "wave" ? " active" : ""}`}
+                onClick={() => setActiveTab("wave")}
+                title="Your cards"
+                style={{
+                  background: activeTab === "wave" ? '#1C2E4A' : '#52677D',
+                  color: '#fff',
+                  border: '2px solid #fff',
+                  borderRadius: 6,
+                  padding: '0.7em 2em',
+                  fontWeight: 700,
+                  fontSize: '1.1em',
+                  fontFamily: 'Inconsolata, monospace',
+                  cursor: 'pointer',
+                  transition: 'background 0.18s, color 0.18s, box-shadow 0.18s',
+                  opacity: activeTab === "wave" ? 1 : 0.85,
+                  boxShadow: activeTab === "wave"
+                    ? '0 2px 12px 0 rgba(37,99,235,0.20), 0 1.5px 6px 0 rgba(44,62,80,0.10)'
+                    : '0 1.5px 6px 0 rgba(44,62,80,0.10)',
+                  outline: 'none',
+                }}
+              >
+                <MdOutlineWavingHand style={{ marginRight: 8, fontSize: '1.2em' }} />
+                Your cards
+              </button>
+              <button
+                className={`tab-btn${activeTab === "favorite" ? " active" : ""}`}
+                onClick={() => setActiveTab("favorite")}
+                title="Favorite"
+                style={{
+                  background: activeTab === "favorite" ? '#1C2E4A' : '#52677D',
+                  color: '#fff',
+                  border: '2px solid #fff',
+                  borderRadius: 6,
+                  padding: '0.7em 0.8em',
+                  fontWeight: 700,
+                  fontSize: '1.1em',
+                  fontFamily: 'Inconsolata, monospace',
+                  cursor: 'pointer',
+                  transition: 'background 0.18s, color 0.18s, box-shadow 0.18s',
+                  opacity: activeTab === "favorite" ? 1 : 0.85,
+                  boxShadow: activeTab === "favorite"
+                    ? '0 2px 12px 0 rgba(37,99,235,0.20), 0 1.5px 6px 0 rgba(44,62,80,0.10)'
+                    : '0 1.5px 6px 0 rgba(44,62,80,0.10)',
+                  outline: 'none',
+                }}
+              >
+                <FaStar style={{ marginRight: 8, fontSize: '1.1em' }} />
+                Favorited Cards
+              </button>
+            </div>
 
+            {/* Right side: Search + Filter + Add */}
+            <div style={{ display: 'flex', gap: '1vw', alignItems: 'center', flex: 1, justifyContent: 'flex-end' }}>
+              {/* Search Input */}
+              <div style={{ position: 'relative', minWidth: 220, maxWidth: 420, flex: 1 }}>
+                <span style={{
+                  position: 'absolute',
+                  left: '0.8em',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  color: '#bfc9d1',
+                  pointerEvents: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  fontSize: '1.25em',
+                  zIndex: 2,
+                }}>
+                  <svg width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                  </svg>
+                </span>
+                <input
+                  className="search-input"
+                  style={{
+                    width: '100%',
+                    padding: '0.9em 2.9em 0.6em 3.4em',
+                    borderRadius: '5px',
+                    border: '1.5px solid #1C2E4A',
+                    background: 'rgba(255,255,255,0.7)',
+                    fontFamily: 'Roboto Mono, monospace',
+                    fontSize: '1em',
+                    color: '#22365a',
+                    boxShadow: '0 2px 4px #2221',
+                    outline: 'none',
+                  }}
+                  placeholder=""
+                  value={search}
+                  onChange={e => setSearch(e.target.value)}
+                />
+              </div>
 
-      {/* Add Button */}
-      <button
-        className="add-word-btn"
-        title="Add Word/Phrase"
-        onClick={() => setShowAddModal(true)}
-        style={{
-          background: 'none',
-          border: 'none',
-          color: '#1976d2',
-          fontSize: '2em',
-          cursor: 'pointer',
-          padding: '0.2em 0.4em',
-          borderRadius: '50%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <FaPlus style={{ color: '#334E7B', fontSize: '0.95em' }} />
-      </button>
-    </div>
-  </div>
+              {/* Filter Button */}
+              <button
+                className="filter-icon-btn"
+                title="Sort"
+                onClick={() => setShowFilter(v => !v)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#1976d2',
+                  fontSize: '1.6em',
+                  cursor: 'pointer',
+                  padding: '0.15em 0.3em',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  position: 'relative'
+                }}
+              >
+                <FaFilter style={{ color: '#334E7B', fontSize: '0.85em' }} />
+                {showFilter && (
+                  <div className="filter-dropdown" style={{ minWidth: '280px', maxWidth: '360px' }}>
+                    {sortOptions.map(opt => (
+                      <button
+                        key={opt.value}
+                        className={`filter-option${sortBy === opt.value ? ' selected' : ''}`}
+                        onClick={() => { setSortBy(opt.value); setShowFilter(false); }}
+                        style={{ fontSize: '0.72em', padding: '0.7em 1.2em' }}
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </button>
 
-  {/* Keep the rest of your original reference layout below */}
-  <div className="search-main-container">
-    <div className="tab-row" style={{ marginLeft: '-4vw', display: 'flex', gap: '1em', marginBottom: '1.5em' }}>
-      {/* Your original tabs repeated for layout consistency if needed */}
-    </div>
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '1vw', flexWrap: 'wrap' }}>
-      {/* Any additional layout content */}
-    </div>
-  </div>
-</div>
+              {/* Add Button */}
+              <button
+                className="add-word-btn"
+                title="Add Word/Phrase"
+                onClick={() => {
+                  setShowAddModal(true);
+                  setAddInputError("");  // Clear any previous error
+                  setTimeout(() => addInputRef.current?.focus(), 0);
+                }}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#1976d2',
+                  fontSize: '2em',
+                  cursor: 'pointer',
+                  padding: '0.2em 0.4em',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <FaPlus style={{ color: '#334E7B', fontSize: '0.95em' }} />
+              </button>
+            </div>
+          </div>
 
+          {/* Keep the rest of your original reference layout below */}
+          <div className="search-main-container">
+            <div className="tab-row" style={{ marginLeft: '-4vw', display: 'flex', gap: '1em', marginBottom: '1.5em' }}>
+              {/* Your original tabs repeated for layout consistency if needed */}
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '1vw', flexWrap: 'wrap' }}>
+              {/* Any additional layout content */}
+            </div>
+          </div>
+        </div>
 
         <div className="search-main-container">
           {loading ? (
@@ -526,8 +559,9 @@ return (
             </div>
           )}
         </div>
-      
+
       </div>
+
       {showAddModal && (
         <div className="add-modal-overlay" style={{
           position: 'fixed',
@@ -541,25 +575,33 @@ return (
           alignItems: 'center',
           justifyContent: 'center',
         }}>
-          <form className="add-modal" onSubmit={e => { e.preventDefault(); handleAddWord(); }} style={{
-            borderRadius: 20,
-            border: '2px solid #334E7B',
-            background: '#fff',
-            width: '95%',
-            maxWidth: 440,
-            padding: '2.5em 2.5em 2em',
-            display: 'flex',
-            flexDirection: 'column',
-            boxSizing: 'border-box',
-            color: '#334E7B',
-            fontFamily: 'Roboto Mono, monospace',
-            alignItems: 'stretch',
-            gap: '0.7em',
-            position: 'relative',
-          }}>
+          <form
+            className="add-modal"
+            onSubmit={e => { e.preventDefault(); handleAddWord(); }}
+            style={{
+              borderRadius: 20,
+              border: '2px solid #334E7B',
+              background: '#fff',
+              width: '95%',
+              maxWidth: 440,
+              padding: '2.5em 2.5em 2em',
+              display: 'flex',
+              flexDirection: 'column',
+              boxSizing: 'border-box',
+              color: '#334E7B',
+              fontFamily: 'Roboto Mono, monospace',
+              alignItems: 'stretch',
+              gap: '0.7em',
+              position: 'relative',
+            }}
+          >
             <button
               type="button"
-              onClick={() => setShowAddModal(false)}
+              onClick={() => {
+                setShowAddModal(false);
+                setAddInput("");
+                setAddInputError("");  // Clear error on close
+              }}
               style={{
                 position: 'absolute',
                 top: 18,
@@ -567,7 +609,7 @@ return (
                 background: 'none',
                 border: 'none',
                 fontSize: '1.5em',
-                color: '#FFFFFF',
+                color: '#334E7B',
                 cursor: 'pointer',
                 fontWeight: 700,
                 lineHeight: 1,
@@ -576,24 +618,38 @@ return (
             >
               ×
             </button>
-            <div style={{ fontWeight: 700, fontSize: '2em', textAlign: 'center', marginBottom: '1.2em', fontFamily: 'Inconsolata, monospace' }}>Add Word/Phrase</div>
+
+            <div style={{ fontWeight: 700, fontSize: '2em', textAlign: 'center', marginBottom: '1.2em', fontFamily: 'Inconsolata, monospace' }}>
+              Add Word/Phrase
+            </div>
+
             <input
+              ref={addInputRef}
               className="add-modal-input"
               type="text"
               value={addInput}
-              onChange={e => setAddInput(e.target.value)}
+              onChange={e => {
+                setAddInput(e.target.value);
+                // Clear error when user starts typing
+                if (addInputError) {
+                  console.log("Clearing error because user is typing");
+                  setAddInputError("");
+                }
+              }}
               placeholder="Enter word or phrase"
               disabled={addLoading}
               autoFocus
+              aria-invalid={!!addInputError}
+              aria-describedby={addInputError ? "add-input-error" : undefined}
               style={{
                 background: '#fff',
                 color: '#2563eb',
                 fontWeight: 600,
                 fontSize: '1.1em',
-                border: '2px solid #334E7B',
+                border: `2px solid ${addInputError ? '#dc3545' : '#334E7B'}`,
                 borderRadius: 8,
                 padding: '0.6em 1em',
-                marginBottom: 8,
+                marginBottom: addInputError ? 4 : 8,
                 fontFamily: 'Inconsolata, monospace',
                 outline: 'none',
                 boxSizing: 'border-box',
@@ -603,11 +659,28 @@ return (
                 msUserSelect: 'all',
               }}
             />
+
+            {addInputError && (
+              <div
+                id="add-input-error"
+                style={{
+                  color: '#dc3545',
+                  fontSize: '0.9em',
+                  fontFamily: 'Inconsolata, monospace',
+                  marginBottom: '0.5em',
+                  marginTop: '0.25em',
+                  fontWeight: 500
+                }}
+              >
+                {addInputError}
+              </div>
+            )}
+
             <div style={{ display: 'flex', gap: '1em', marginTop: '1.5em' }}>
               <button
                 className="add-modal-btn"
                 type="submit"
-                disabled={addLoading || !addInput.trim()}
+                disabled={addLoading}
                 style={{
                   flex: 1,
                   background: '#1C2E4A',
@@ -625,10 +698,15 @@ return (
               >
                 {addLoading ? "Adding..." : "Add"}
               </button>
+
               <button
                 className="add-modal-btn cancel"
                 type="button"
-                onClick={() => setShowAddModal(false)}
+                onClick={() => {
+                  setShowAddModal(false);
+                  setAddInput("");
+                  setAddInputError("");  // Clear error on cancel
+                }}
                 disabled={addLoading}
                 style={{
                   flex: 1,
@@ -649,12 +727,26 @@ return (
               </button>
             </div>
           </form>
-          <MessagePopup open={popup.open} title={popup.type === "success" ? "Success!" : popup.type === "error" ? "Error" : "Info"} description={popup.message} onClose={() => setPopup(p => ({ ...p, open: false }))} style={{ zIndex: 3000 }} />
+
+          <MessagePopup
+            open={popup.open}
+            title={popup.type === "success" ? "Success!" : popup.type === "error" ? "Error" : "Info"}
+            description={popup.message}
+            onClose={() => setPopup(p => ({ ...p, open: false }))}
+            style={{ zIndex: 3000 }}
+          />
         </div>
       )}
+
       {!showAddModal && (
-        <MessagePopup open={popup.open} title={popup.type === "success" ? "Success!" : popup.type === "error" ? "Error" : "Info"} description={popup.message} onClose={() => setPopup(p => ({ ...p, open: false }))} />
+        <MessagePopup
+          open={popup.open}
+          title={popup.type === "success" ? "Success!" : popup.type === "error" ? "Error" : "Info"}
+          description={popup.message}
+          onClose={() => setPopup(p => ({ ...p, open: false }))}
+        />
       )}
+
       {showBoyBubble && (
         <div style={{
           position: 'fixed',
