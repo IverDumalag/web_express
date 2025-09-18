@@ -42,7 +42,7 @@ const HomePage = () => {
     setPopup({
       open: true,
       title: "Contact Us Here",
-      description: "Email: projectz681@gmail.com"
+      description: "projectz681@gmail.com, garciaumiko@gmail.com, rossangelaisha201423@gmail.com"
     });
   };
 
