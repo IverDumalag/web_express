@@ -8,26 +8,33 @@ const UserAboutPage = () => {
 
   return (
     <div className="about-container">
-        <h1>About This App</h1>
+        <h1>About Our Web</h1>
 
-        {/* App Information Section */}
+        {/* Web Information Section */}
         <section className="about-section">
-          <h2>App Information</h2>
+          <h2>Web Information</h2>
           <p>
-            Version: 1.0.0<br />
-            Build Number: basta number d2<br />
-            Release Date: Di ko pa sure<br /><br />
+            Version: v1.1.0<br />
+            Release Date: September 16, 2025<br /><br />
             exPress is a communication app designed to bridge the gap between the deaf-mute community 
             and the general public. It offers real-time speech-to-text and text-to-speech functionalities, 
             making conversations seamless and inclusive.<br /><br />
-            For support or inquiries, contact us at @exPress@gmail.com
+            <span style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '8px' }}>
+             
+              <span>
+                <strong>For support or inquiries:</strong><br />
+                <a href="mailto:projectz681@gmail.com">projectz681@gmail.com</a><br />
+                <a href="mailto:garciaumiko@gmail.com">garciaumiko@gmail.com</a><br />
+                <a href="mailto:rossangelaisha201423@gmail.com">rossangelaisha201423@gmail.com</a>
+              </span>
+            </span>
           </p>
         </section>
 
         {/* About Us Section */}
         <section className="about-section">
           <h2>About Us</h2>
-          <p>
+          <p style={{ textAlign: 'justify', textJustify: 'inter-word' }}>
             We are the team behind exPress—Alyssa, Aisha, and Iver, a group of developers, innovators, 
             and advocates for inclusivity. Our journey began with one simple question: how can technology 
             help break down the barriers that keep people from understanding one another?<br /><br />
