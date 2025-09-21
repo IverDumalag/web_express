@@ -156,18 +156,46 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.archived-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
 .archived-action-btn {
   background: none;
   border: none;
-  color: #ffffff ;
+  color: #ffffff;
   font-size: 1.3em;
   cursor: pointer;
-  margin-left: 2vw;
   border-radius: 8px;
+  padding: 8px;
+  transition: all 0.2s ease;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
 }
 .archived-action-btn:hover {
-  color: #000000 ;
-  border-radius: 8px;
+  color: #000000;
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.1);
+}
+.archived-action-btn:focus,
+.archived-action-btn:focus-visible {
+  outline: 2px solid #4285f4;
+  outline-offset: 2px;
+}
+.archived-action-btn.restore-btn {
+  color: #ffffff;
+}
+.archived-action-btn.restore-btn:hover {
+  color: #000000;
+  background: rgba(255, 255, 255, 0.1);
+}
+.archived-action-btn.delete-btn {
+  color: #ffffff;
+}
+.archived-action-btn.delete-btn:hover {
+  color: #000000;
+  background: rgba(255, 255, 255, 0.1);
 }
 .archived-bg-booksearch {
   position: absolute;
