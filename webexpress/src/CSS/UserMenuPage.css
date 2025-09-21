@@ -112,6 +112,86 @@
   background: rgb(82, 103, 125) !important;
 }
 
+/* Apply dark-brand look to specific menu-card types */
+.menu-card.about,
+.menu-card.profile,
+.menu-card.archive,
+.menu-card.help,
+.menu-card.feedback,
+.menu-card.logout {
+  border: 0.1px solid #1C2E4A;
+}
+
+.menu-card.about .menu-icon,
+.menu-card.profile .menu-icon,
+.menu-card.archive .menu-icon,
+.menu-card.help .menu-icon,
+.menu-card.feedback .menu-icon,
+.menu-card.logout .menu-icon {
+  color: #1C2E4A;
+}
+
+.menu-card.about .menu-label,
+.menu-card.profile .menu-label,
+.menu-card.archive .menu-label,
+.menu-card.help .menu-label,
+.menu-card.feedback .menu-label,
+.menu-card.logout .menu-label {
+  color: #1C2E4A;
+}
+
+/* Hover variant for these specific cards */
+.menu-card.about:hover,
+.menu-card.profile:hover,
+.menu-card.archive:hover,
+.menu-card.help:hover,
+.menu-card.feedback:hover,
+.menu-card.logout:hover {
+  background: #1C2E4A !important;
+}
+
+.menu-card.about:hover .menu-icon,
+.menu-card.profile:hover .menu-icon,
+.menu-card.archive:hover .menu-icon,
+.menu-card.help:hover .menu-icon,
+.menu-card.feedback:hover .menu-icon,
+.menu-card.logout:hover .menu-icon,
+.menu-card.about:hover .menu-label,
+.menu-card.profile:hover .menu-label,
+.menu-card.archive:hover .menu-label,
+.menu-card.help:hover .menu-label,
+.menu-card.feedback:hover .menu-label,
+.menu-card.logout:hover .menu-label {
+  color: #fff !important;
+}
+
+@media (max-width: 1024px) {
+  .menu-card.about,
+  .menu-card.profile,
+  .menu-card.archive,
+  .menu-card.help,
+  .menu-card.feedback,
+  .menu-card.logout { border: 0.1px solid #1C2E4A; }
+}
+
+@media (max-width: 768px) {
+  .menu-card.about,
+  .menu-card.profile,
+  .menu-card.archive,
+  .menu-card.help,
+  .menu-card.feedback,
+  .menu-card.logout { border: 0.1px solid #1C2E4A; }
+}
+
+@media (max-width: 480px) {
+  .menu-card.about,
+  .menu-card.profile,
+  .menu-card.archive,
+  .menu-card.help,
+  .menu-card.feedback,
+  .menu-card.logout { border: 0.1px solid #1C2E4A; }
+}
+
 /* Responsive adjustments */
 @media (max-width: 1024px) {
   .menu-grid { grid-template-columns: repeat(2, minmax(260px, 1fr)); gap: 2rem; }

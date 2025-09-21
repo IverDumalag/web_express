@@ -661,7 +661,7 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
                     disabled={editLoading}
                     style={{
                       flex: 1,
-                      background: '#52677D',
+                      background: '#334E7B',
                       color: '#fff',
                       border: '2px solid #fff',
                       borderRadius: 12,
@@ -747,7 +747,7 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
                 disabled={deleteLoading}
                 style={{
                   flex: 1,
-                  background: '#52677D',
+                  background: '#334E7B',
                   color: '#fff',
                   border: '2px solid #fff',
                   borderRadius: 12,
@@ -826,7 +826,7 @@ export default function UserCardDetailsModal({ card, onClose, onPrev, onNext, ha
             </div>
             
             <div style={{
-              color: '#42526E',
+              color: '#334E7B',
               fontSize: '1em',
               lineHeight: '1.6',
               whiteSpace: 'pre-line',
