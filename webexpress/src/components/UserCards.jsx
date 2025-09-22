@@ -3,6 +3,7 @@ import { FaStar, FaRegStar, FaTrash, FaEdit, FaArchive } from "react-icons/fa";
 import { MdSpeakerPhone } from "react-icons/md";
 import { RiSpeakerFill } from "react-icons/ri";
 import UserCardDetailsModal from "./UserCardsDetails";
+import '../CSS/UserCards.css';
 
 
 const FAVORITE_API_URL = import.meta.env.VITE_PHRASESWORDSISFAVORITEUPDATE;
@@ -221,7 +222,7 @@ export default function UserCards({ cards: initialCards, onCardUpdated }) {
                 className="card-item"
                 key={card.entry_id}
                 onClick={e => {
-                  if (e.target.closest('.card-action-btn')) return;
+                  if (e.target.closest('.card-action-btn, .card-action-favorite')) return;
                   setSelectedCard(card);
                 }}
                 onKeyDown={e => handleCardKeyDown(e, card)}
@@ -276,7 +277,7 @@ export default function UserCards({ cards: initialCards, onCardUpdated }) {
                 
                 {/* Favorite icon - top left */}
                 <button
-                  className="card-action-btn"
+                  className={`card-action-favorite ${card.is_favorite ? 'favorite-active' : ''}`}
                   title={card.is_favorite ? `Remove ${card.words} from favorites` : `Add ${card.words} to favorites`}
                   aria-label={card.is_favorite ? `Remove "${card.words}" from favorites` : `Add "${card.words}" to favorites`}
                   aria-pressed={card.is_favorite}
@@ -284,24 +285,22 @@ export default function UserCards({ cards: initialCards, onCardUpdated }) {
                   onKeyDown={e => handleActionKeyDown(e, (c) => handleFavorite(c, c.is_favorite), card)}
                   disabled={updatingId === card.entry_id}
                   type="button"
-                  style={{
-                    position: 'absolute',
-                    top: 14,
-                    left: 14,
-                    background: 'none',
-                    border: 'none',
-                    cursor: updatingId === card.entry_id ? 'not-allowed' : 'pointer',
-                    outline: 'none',
-                    fontSize: '1.7em',
-                    color: card.is_favorite ? '#f7b731' : '#bfc9d1',
-                    transition: 'color 0.2s, transform 0.15s',
-                    padding: 4,
-                    borderRadius: '4px',
-                    zIndex: 3
-                  }}
                 >
                   {updatingId === card.entry_id ? (
-                    <span aria-hidden="true" style={{ animation: 'spin 1s linear infinite' }}>⟳</span>
+                    <span 
+                      aria-hidden="true" 
+                      style={{ 
+                        animation: 'spin 1s linear infinite',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: '100%',
+                        height: '100%',
+                        fontSize: '1.2em'
+                      }}
+                    >
+                      ⟳
+                    </span>
                   ) : card.is_favorite ? (
                     <FaStar aria-hidden="true" />
                   ) : (
