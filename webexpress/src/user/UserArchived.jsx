@@ -441,6 +441,8 @@ export default function UserArchived() {
         onConfirm={handleDeleteConfirm}
         onCancel={() => setDeleteId(null)}
         loading={deleteLoading}
+        confirmText="Yes, Delete"
+        loadingText="Deleting..."
       />
       <ConfirmationPopup
         open={!!restoreId}
@@ -449,6 +451,8 @@ export default function UserArchived() {
         onConfirm={handleRestoreConfirm}
         onCancel={() => setRestoreId(null)}
         loading={restoreLoading}
+        confirmText="Yes, Restore"
+        loadingText="Restoring..."
       />
       <MessagePopup
         open={popup.open}
