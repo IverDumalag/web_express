@@ -34,7 +34,7 @@ const ChallengesPage = React.forwardRef((props, ref) => {
           lineHeight: "1.6",
           maxWidth: "1200px", // optionally increase max width for larger screens
           marginBottom: "3em",
-          color: "#333",
+          color: "#334E7B",
         }}
       >
         Many individuals struggle to learn sign language due to the lack of

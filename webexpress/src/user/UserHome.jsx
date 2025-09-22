@@ -70,7 +70,7 @@ export default function UserHome() {
             <div style={{ fontFamily: 'Roboto Mono, monospace', fontWeight: 600, fontSize: '2.7em', color: '#22365a', marginBottom: 8 , marginLeft: '18px' }} className="user-home-header">
               {getGreeting()}, <span style={{ color: '#4C75F2', fontFamily: 'Roboto Mono, monospace', marginLeft: '-9px' }}>{userData?.f_name || 'User'}</span>!
             </div>
-            <div style={{ fontFamily: 'Roboto Mono, monospace', color: '#7b8794', fontSize: '1.25em', marginBottom: 24, marginLeft: '20px' }} className="user-home-subheader">Use the Sign Language Cards Today</div>
+            <div style={{ fontFamily: 'Roboto Mono, monospace', color: '#334E7B', fontSize: '1.25em', marginBottom: 24, marginLeft: '20px' }} className="user-home-subheader">Use the Sign Language Cards Today</div>
           </div>
 
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 32 }}>

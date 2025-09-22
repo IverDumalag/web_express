@@ -386,9 +386,9 @@ export default function UserCardsPage() {
                 onClick={() => setActiveTab("wave")}
                 title="Your cards"
                 style={{
-                  background: activeTab === "wave" ? '#1C2E4A' : '#52677D',
-                  color: '#fff',
-                  border: '2px solid #fff',
+                  background: activeTab === "wave" ? '#334E7B' : '#ffffff',
+                  color: activeTab === "wave" ? '#fff' : '#334E7B',
+                  border: activeTab === "wave" ? '2px solid #334E7B' : '2px solid #334E7B',
                   borderRadius: 6,
                   padding: '0.7em 2em',
                   fontWeight: 700,
@@ -398,7 +398,7 @@ export default function UserCardsPage() {
                   transition: 'background 0.18s, color 0.18s, box-shadow 0.18s',
                   opacity: activeTab === "wave" ? 1 : 0.85,
                   boxShadow: activeTab === "wave"
-                    ? '0 2px 12px 0 rgba(37,99,235,0.20), 0 1.5px 6px 0 rgba(44,62,80,0.10)'
+                    ? '0 2px 12px 0 rgba(51,78,123,0.20), 0 1.5px 6px 0 rgba(44,62,80,0.10)'
                     : '0 1.5px 6px 0 rgba(44,62,80,0.10)',
                   outline: 'none',
                 }}
@@ -411,9 +411,9 @@ export default function UserCardsPage() {
                 onClick={() => setActiveTab("favorite")}
                 title="Favorite"
                 style={{
-                  background: activeTab === "favorite" ? '#1C2E4A' : '#52677D',
-                  color: '#fff',
-                  border: '2px solid #fff',
+                  background: activeTab === "favorite" ? '#334E7B' : '#ffffff',
+                  color: activeTab === "favorite" ? '#fff' : '#334E7B',
+                  border: activeTab === "favorite" ? '2px solid #334E7B' : '2px solid #334E7B',
                   borderRadius: 6,
                   padding: '0.7em 0.8em',
                   fontWeight: 700,
@@ -423,7 +423,7 @@ export default function UserCardsPage() {
                   transition: 'background 0.18s, color 0.18s, box-shadow 0.18s',
                   opacity: activeTab === "favorite" ? 1 : 0.85,
                   boxShadow: activeTab === "favorite"
-                    ? '0 2px 12px 0 rgba(37,99,235,0.20), 0 1.5px 6px 0 rgba(44,62,80,0.10)'
+                    ? '0 2px 12px 0 rgba(51,78,123,0.20), 0 1.5px 6px 0 rgba(44,62,80,0.10)'
                     : '0 1.5px 6px 0 rgba(44,62,80,0.10)',
                   outline: 'none',
                 }}

@@ -1,7 +1,7 @@
 import React from "react";
 import '../CSS/ConfirmationPopup.css';
 
-export default function ConfirmationPopup({ open, title = "Confirm", message, onConfirm, onCancel, loading }) {
+export default function ConfirmationPopup({ open, title = "Confirm", message, onConfirm, onCancel, loading, confirmText = "Yes", loadingText = "Processing..." }) {
   if (!open) return null;
   return (
     <div style={{
@@ -78,7 +78,7 @@ export default function ConfirmationPopup({ open, title = "Confirm", message, on
               opacity: loading ? 0.7 : 1,
             }}
           >
-            {loading ? 'Deleting...' : 'Yes, Delete'}
+            {loading ? loadingText : confirmText}
           </button>
           <button
             type="button"

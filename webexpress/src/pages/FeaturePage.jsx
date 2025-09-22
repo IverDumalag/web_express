@@ -91,7 +91,7 @@ const FeaturePage = () => {
         .section-text p {
           font-size: 1.1rem;
           line-height: 1.5;
-          color: #333;
+          color: #334E7B;
         }
 
         @media (max-width: 1200px) {
