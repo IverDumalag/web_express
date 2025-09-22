@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FiClipboard, FiHelpCircle, FiLogOut } from "react-icons/fi";
+import { FiClipboard, FiHelpCircle, FiLogOut, FiDownload } from "react-icons/fi";
 import { FaUserCircle } from "react-icons/fa";
 import { getUserData } from '../data/UserData';
 import downloadImg from '../assets/download.png';
@@ -194,7 +194,7 @@ const UserBottomNavBar = () => {
                   borderRadius: 8,
                 }}
               >
-                <FiHelpCircle size={20} style={{ minWidth: 20 }} />
+                <FiDownload size={20} style={{ minWidth: 20 }} />
                 <a
                   href="https://drive.google.com/uc?export=download&id=1D4QseDYlB9_3zezrNINM8eWWB3At1kVN"
                   target="_blank"
@@ -417,7 +417,7 @@ const UserBottomNavBar = () => {
                         color: '#fff',
                         border: '2px solid #334E7B',
                         borderRadius: 12,
-                        padding: '0.50em 1.5em',
+                        padding: '0.50em 1.5em 0.50em 1em',
                         fontWeight: 700,
                         fontSize: '1.1em',
                         fontFamily: 'Inconsolata, monospace',
@@ -430,7 +430,8 @@ const UserBottomNavBar = () => {
                         whiteSpace: 'nowrap',
                       }}
                     >
-                      ⬇ APK Download
+                      <FiDownload size={18} style={{ verticalAlign: 'middle', marginRight: '0.5em' }} aria-hidden="true" />
+                      <span style={{ verticalAlign: 'middle' }}>APK Download</span>
                     </a>
                     <button
                       type="button"

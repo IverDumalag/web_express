@@ -263,8 +263,8 @@
 .btn-cancel {
   flex: 1;
   padding: 0.6rem 1.5rem;
-  background: #f5f5f5;
-  color: #1C2E4A;
+  background: #334E7B;
+  color: #fff;
   border: none;
   border-radius: 12px;
   cursor: pointer;
@@ -273,7 +273,7 @@
 }
 
 .btn-cancel:hover {
-  background: #e0e0e0;
+  background: #2b4270;
   transform: translateY(-1px);
 }
 

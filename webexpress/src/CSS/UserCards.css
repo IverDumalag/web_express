@@ -166,9 +166,9 @@
 
 .card-item-lighthouse:focus,
 .card-item-lighthouse:focus-visible {
-  outline: 3px solid #4285f4;
+  outline: 3px solid #334E7B;
   outline-offset: 2px;
-  box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2), 0 8px 32px 0 rgba(51,78,123,0.16), 0 2px 12px rgba(51,78,123,0.10);
+  box-shadow: 0 0 0 2px rgba(51,78,123,0.12), 0 8px 32px 0 rgba(51,78,123,0.16), 0 2px 12px rgba(51,78,123,0.10);
 }
 
 .card-image-section {
@@ -237,7 +237,7 @@
 
 .card-action-favorite:focus,
 .card-action-favorite:focus-visible {
-  outline: 2px solid #4285f4;
+  outline: 2px solid #334E7B;
   outline-offset: 2px;
 }
 
@@ -283,7 +283,7 @@
 
 .card-action-secondary:focus,
 .card-action-secondary:focus-visible {
-  outline: 2px solid #4285f4;
+  outline: 2px solid #334E7B;
   outline-offset: 2px;
 }
 
@@ -368,8 +368,8 @@
 }
 
 .modal-input:focus {
-  border-color: #4285f4;
-  box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.1);
+  border-color: #334E7B;
+  box-shadow: 0 0 0 2px rgba(51,78,123,0.08);
 }
 
 .modal-button-group {
@@ -399,7 +399,7 @@
 
 .modal-button-primary:focus,
 .modal-button-primary:focus-visible {
-  outline: 2px solid #4285f4;
+  outline: 2px solid #334E7B;
   outline-offset: 2px;
 }
 
@@ -429,7 +429,7 @@
 
 .modal-button-secondary:focus,
 .modal-button-secondary:focus-visible {
-  outline: 2px solid #4285f4;
+  outline: 2px solid #334E7B;
   outline-offset: 2px;
 }
 
@@ -472,7 +472,7 @@
 
 /* Focus within improvements */
 .card-item-lighthouse:focus-within {
-  box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.1), 0 8px 32px 0 rgba(51,78,123,0.16), 0 2px 12px rgba(51,78,123,0.10);
+  box-shadow: 0 0 0 2px rgba(51,78,123,0.12), 0 8px 32px 0 rgba(51,78,123,0.16), 0 2px 12px rgba(51,78,123,0.10);
 }
 
 /* Ensure minimum touch target size (44px for mobile) */

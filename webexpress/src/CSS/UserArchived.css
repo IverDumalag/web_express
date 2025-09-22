@@ -180,7 +180,7 @@
 }
 .archived-action-btn:focus,
 .archived-action-btn:focus-visible {
-  outline: 2px solid #4285f4;
+  outline: 2px solid #334E7B;
   outline-offset: 2px;
 }
 .archived-action-btn.restore-btn {
@@ -328,7 +328,7 @@
     linear-gradient(to bottom, transparent 68.5%, transparent 76%, #111 76%, #111 77.5%, transparent 77.5%, transparent 86%, #111 86%, #111 87.5%, transparent 87.5%),
     linear-gradient(to right, transparent 35%, #222 35%, #2e2e2e 41%, transparent 41%),
     linear-gradient(to bottom, #111 68%, transparent 68%),
-    linear-gradient(to right, transparent 78%, #333 78%, #333 80%, transparent 80%, transparent 82%, #333 82%, #333 83%, transparent 83%),
+  linear-gradient(to right, transparent 78%, #334E7B 78%, #334E7B 80%, transparent 80%, transparent 82%, #334E7B 82%, #334E7B 83%, transparent 83%),
     linear-gradient(to right, transparent 66%, #222 66%, #2e2e2e 85%, transparent 85%);
   background-size: 300px 150px;
   background-position: center bottom;
