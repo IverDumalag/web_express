@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { FaCheckCircle } from 'react-icons/fa';
+import { FaCheckCircle, FaEdit } from 'react-icons/fa';
 import MessagePopup from "../components/MessagePopup";
 import { getUserData, setUserData } from "../data/UserData";
-import "../CSS/AdminProfile.css";
+import "../CSS/UserProfile.css";
 
 export default function AdminProfile({ open, onClose }) {
   const [admin, setAdmin] = useState(null);
@@ -131,127 +131,97 @@ export default function AdminProfile({ open, onClose }) {
 
   const handleSuccessPopupClose = () => {
     setShowSuccessPopup(false);
-    setShowEdit(false);
     setEditSuccess('');
     setEditError('');
   };
 
   return (
-    <div className="admin-profile-popup-bg">
-      <div className="admin-profile-popup">
-        <div className="admin-profile-title-row">
-          <span className="admin-profile-title">Edit Profile</span>
-          <button className="admin-profile-close-btn" title="Close" onClick={onClose}>
-            &times;
-          </button>
-        </div>
-        {!showEdit ? (
-          admin ? (
-            <>
-              {/* Full Name Section */}
-              <div style={{ marginBottom: '16px' }}>
-                <div style={{ 
-                  fontSize: '16px', 
-                  fontWeight: '600',
-                  color: '#334E7B',
-                  marginBottom: '8px',
-                  textAlign: 'left'
-                }}>
-                  Full Name
-                </div>
-                <div style={{
-                  width: '100%',
-                  padding: '16px',
-                  backgroundColor: 'white',
-                  border: '2px solid #334E7B',
-                  borderRadius: '12px',
-                  boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between'
-                }}>
-                  <span style={{
-                    fontSize: '16px',
-                    fontWeight: '500',
+    <>
+      {/* Main Profile Modal */}
+      <div className="profile-edit-popup-bg">
+        <div className="profile-card">
+          <div className="profile-title-row">
+            <h2 className="profile-title modern" style={{ color: '#334E7B' }}>Admin Profile</h2>
+            <button 
+              className="profile-close-btn" 
+              onClick={onClose}
+              style={{ 
+                background: 'none', 
+                border: 'none', 
+                fontSize: '2rem', 
+                cursor: 'pointer', 
+                color: '#334E7B' 
+              }}
+            >
+              ×
+            </button>
+          </div>
+          
+          <div className="profile-content">
+            {admin ? (
+              <>
+                {/* Full Name Section */}
+                <div style={{ marginBottom: '1.5rem' }}>
+                  <div style={{ 
+                    fontSize: '16px', 
+                    fontWeight: '600',
                     color: '#334E7B',
-                    fontFamily: 'monospace'
+                    marginBottom: '8px',
+                    textAlign: 'left'
                   }}>
-                    {`${admin.f_name || ''} ${admin.m_name || ''} ${admin.l_name || ''}`.trim() || 'Full Name'}
-                  </span>
-                  <FaCheckCircle style={{ color: '#334E7B', fontSize: '22px' }} />
-                </div>
-              </div>
-
-              {/* Account Created Section */}
-              <div style={{ marginBottom: '24px' }}>
-                <div style={{ 
-                  fontSize: '16px', 
-                  fontWeight: '600',
-                  color: '#334E7B',
-                  marginBottom: '8px',
-                  textAlign: 'left'
-                }}>
-                  Account Created
-                </div>
-                <div style={{
-                  width: '100%',
-                  padding: '16px',
-                  backgroundColor: 'white',
-                  border: '1.2px solid rgba(51, 78, 123, 0.4)',
-                  borderRadius: '12px',
-                  boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)'
-                }}>
-                  <span style={{
-                    fontSize: '15px',
-                    color: '#607d8b',
-                    fontFamily: 'monospace'
+                    Full Name
+                  </div>
+                  <div style={{
+                    width: '100%',
+                    padding: '16px',
+                    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                    border: '1px solid #cbd5e1',
+                    borderRadius: '0.6rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    backdropFilter: 'blur(6px)'
                   }}>
-                    {admin.created_at ?
-                      (() => {
-                        const d = new Date(admin.created_at);
-                        if (isNaN(d)) return admin.created_at;
-                        return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-                      })()
-                      : "Unknown registration date"}
-                  </span>
+                    <span style={{
+                      fontSize: '16px',
+                      fontWeight: '500',
+                      color: '#334155',
+                      fontFamily: 'Roboto Mono, monospace'
+                    }}>
+                      {`${admin.f_name || ''} ${admin.m_name || ''} ${admin.l_name || ''}`.trim() || 'Full Name'}
+                    </span>
+                    <FaCheckCircle style={{ color: '#334E7B', fontSize: '18px' }} />
+                  </div>
                 </div>
-              </div>
 
-              {/* Profile Details Section */}
-              <div style={{ marginBottom: '24px' }}>
-                <div style={{ 
-                  fontSize: '16px', 
-                  fontWeight: '600',
-                  color: '#334E7B',
-                  marginBottom: '8px',
-                  textAlign: 'left'
-                }}>
-                  Profile Details
-                </div>
-                
-                <div style={{
-                  backgroundColor: 'white',
-                  borderRadius: '12px',
-                  padding: '16px 0 16px 0'
-                }}>
-                  {/* Email */}
-                  <div style={{ padding: '8px 0' }}>
-                    <div style={{ fontSize: '14px', color: '#546e7a', fontFamily: 'monospace' }}>
-                      Email
+                {/* Profile Information Grid */}
+                <div className="profile-form-grid" style={{ gridTemplateColumns: '1fr', gap: '1rem' }}>
+                  {/* Account Created */}
+                  <div className="profile-form-row">
+                    <label className="profile-form-label">Account Created</label>
+                    <div className="profile-form-input" style={{ backgroundColor: 'rgba(255, 255, 255, 0.6)' }}>
+                      {admin.created_at ?
+                        (() => {
+                          const d = new Date(admin.created_at);
+                          if (isNaN(d)) return admin.created_at;
+                          return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                        })()
+                        : "Unknown registration date"}
                     </div>
-                    <div style={{ fontSize: '15px', color: '#334E7B', fontWeight: '500', fontFamily: 'monospace', marginTop: '4px' }}>
+                  </div>
+
+                  {/* Email */}
+                  <div className="profile-form-row">
+                    <label className="profile-form-label">Email</label>
+                    <div className="profile-form-input" style={{ backgroundColor: 'rgba(255, 255, 255, 0.6)' }}>
                       {admin.email || "-"}
                     </div>
                   </div>
-                  
-                  <div style={{ height: '1px', backgroundColor: '#334E7B', margin: '8px 0' }}></div>
-                  
+
                   {/* Birthdate */}
-                  <div style={{ padding: '8px 0' }}>
-                    <div style={{ fontSize: '14px', color: '#546e7a', fontFamily: 'monospace' }}>
-                      Birthdate
-                    </div>
-                    <div style={{ fontSize: '15px', color: '#334E7B', fontWeight: '500', fontFamily: 'monospace', marginTop: '4px' }}>
+                  <div className="profile-form-row">
+                    <label className="profile-form-label">Birthdate</label>
+                    <div className="profile-form-input" style={{ backgroundColor: 'rgba(255, 255, 255, 0.6)' }}>
                       {admin.birthdate ?
                         (() => {
                           const d = new Date(admin.birthdate);
@@ -261,61 +231,64 @@ export default function AdminProfile({ open, onClose }) {
                         : admin.birthdate || "-"}
                     </div>
                   </div>
-                  
-                  <div style={{ height: '1px', backgroundColor: '#334E7B', margin: '8px 0' }}></div>
-                  
+
                   {/* Sex */}
-                  <div style={{ padding: '8px 0' }}>
-                    <div style={{ fontSize: '14px', color: '#546e7a', fontFamily: 'monospace' }}>
-                      Sex
-                    </div>
-                    <div style={{ fontSize: '15px', color: '#334E7B', fontWeight: '500', fontFamily: 'monospace', marginTop: '4px' }}>
+                  <div className="profile-form-row">
+                    <label className="profile-form-label">Sex</label>
+                    <div className="profile-form-input" style={{ backgroundColor: 'rgba(255, 255, 255, 0.6)' }}>
                       {admin.sex || "-"}
                     </div>
                   </div>
-                </div>
-              </div>
 
-              {/* Edit Button */}
-              <div style={{ marginTop: '24px' }}>
-                <button
-                  style={{
-                    width: '100%',
-                    minHeight: '56px',
-                    background: 'linear-gradient(135deg, #334E7B 0%, #4A6BA5 100%)',
-                    border: 'none',
-                    borderRadius: '12px',
-                    boxShadow: '0 5px 10px rgba(51, 78, 123, 0.3)',
-                    color: 'white',
-                    fontSize: '16px',
-                    fontWeight: '600',
-                    fontFamily: 'monospace',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '12px',
-                    transition: 'all 0.3s ease'
-                  }}
-                  onClick={handleEditOpen}
-                  onMouseOver={(e) => e.target.style.transform = 'translateY(-2px)'}
-                  onMouseOut={(e) => e.target.style.transform = 'translateY(0)'}
-                >
-                  <span style={{ fontSize: '16px' }}>✏️</span>
-                  Edit Profile
-                  <span style={{ fontSize: '20px' }}>›</span>
-                </button>
-              </div>
-            </>
-          ) : (
-            <div className="admin-profile-loading">Loading...</div>
-          )
-        ) : (
-          <form onSubmit={handleEditSubmit}>
-            {editError && <div className="admin-profile-edit-error">{editError}</div>}
-            <label className="admin-profile-edit-label">First Name</label>
+                  {/* Edit Button */}
+                  <div className="profile-form-actions-wide" style={{ gridColumn: 'span 1', marginTop: '1rem' }}>
+                    <button
+                      style={{
+                        width: '100%',
+                        minHeight: '56px',
+                        background: 'linear-gradient(135deg, #334E7B 0%, #4A6BA5 100%)',
+                        border: 'none',
+                        borderRadius: '12px',
+                        boxShadow: '0 5px 10px rgba(51, 78, 123, 0.3)',
+                        color: 'white',
+                        fontSize: '16px',
+                        fontWeight: '600',
+                        fontFamily: 'monospace',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '12px',
+                        transition: 'all 0.3s ease'
+                      }}
+                      onClick={handleEditOpen}
+                      onMouseOver={(e) => e.target.style.transform = 'translateY(-2px)'}
+                      onMouseOut={(e) => e.target.style.transform = 'translateY(0)'}
+                    >
+                      <FaEdit style={{ fontSize: '16px' }} />
+                      Edit Profile
+                      <span style={{ fontSize: '20px' }}>›</span>
+                    </button>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div style={{ textAlign: "center", color: "#aaa" }}>Loading...</div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Edit Popup */}
+      {showEdit && (
+        <div className="profile-edit-popup-bg">
+          <form className="profile-edit-popup" onSubmit={handleEditSubmit}>
+            <div className="profile-edit-title">Edit Profile</div>
+            {editError && <div className="profile-edit-error">{editError}</div>}
+            
+            <label className="profile-edit-label">First Name</label>
             <input
-              className="admin-profile-edit-input"
+              className="profile-edit-input"
               name="f_name"
               value={editForm.f_name}
               onChange={handleEditChange}
@@ -341,9 +314,10 @@ export default function AdminProfile({ open, onClose }) {
                 )}
               </>
             )}
-            <label className="admin-profile-edit-label">Middle Name</label>
+
+            <label className="profile-edit-label">Middle Name</label>
             <input
-              className="admin-profile-edit-input"
+              className="profile-edit-input"
               name="m_name"
               value={editForm.m_name}
               onChange={handleEditChange}
@@ -368,9 +342,10 @@ export default function AdminProfile({ open, onClose }) {
                 )}
               </>
             )}
-            <label className="admin-profile-edit-label">Last Name</label>
+
+            <label className="profile-edit-label">Last Name</label>
             <input
-              className="admin-profile-edit-input"
+              className="profile-edit-input"
               name="l_name"
               value={editForm.l_name}
               onChange={handleEditChange}
@@ -396,43 +371,63 @@ export default function AdminProfile({ open, onClose }) {
                 )}
               </>
             )}
-            <label className="admin-profile-edit-label">Sex</label>
-            <div className="admin-profile-edit-input" style={{ backgroundColor: '#f5f5f5', color: '#666', padding: '12px', border: '1px solid #ddd', borderRadius: '4px' }}>
+
+            <label className="profile-edit-label">Email</label>
+            <div className="profile-edit-input" style={{ backgroundColor: '#f5f5f5', color: '#666', padding: '12px', border: '1px solid #ddd', borderRadius: '4px' }}>
+              {editForm.email || "-"}
+            </div>
+
+            <label className="profile-edit-label">Sex</label>
+            <div className="profile-edit-input" style={{ backgroundColor: '#f5f5f5', color: '#666', padding: '12px', border: '1px solid #ddd', borderRadius: '4px' }}>
               {editForm.sex || "-"}
             </div>
-            <label className="admin-profile-edit-label">Birthdate</label>
-            <div className="admin-profile-edit-input" style={{ backgroundColor: '#f5f5f5', color: '#666', padding: '12px', border: '1px solid #ddd', borderRadius: '4px' }}>
+
+            <label className="profile-edit-label">Birthdate</label>
+            <div className="profile-edit-input" style={{ backgroundColor: '#f5f5f5', color: '#666', padding: '12px', border: '1px solid #ddd', borderRadius: '4px' }}>
               {editForm.birthdate || "-"}
             </div>
-            <div className="admin-profile-edit-actions">
-              <button
-                className="admin-profile-edit-btn"
-                type="submit"
-                disabled={editLoading || !areAllNameFieldsValid()}
-              >
+
+            <div className="profile-edit-actions">
+              <button className="profile-edit-btn" type="submit" disabled={editLoading || !areAllNameFieldsValid()}>
                 {editLoading ? "Saving..." : "Save"}
               </button>
-              <button
-                className="admin-profile-edit-btn cancel"
-                type="button"
-                onClick={() => setShowEdit(false)}
-                disabled={editLoading}
-              >
+              <button className="profile-edit-btn cancel" type="button" onClick={() => setShowEdit(false)} disabled={editLoading}>
                 Cancel
               </button>
             </div>
           </form>
-        )}
-        {showSuccessPopup && (
-          <MessagePopup
-            open={true}
-            title="Success!"
-            description="Profile updated!"
-            onClose={handleSuccessPopupClose}
-            style={{ zIndex: 4002 }}
-          />
-        )}
-      </div>
-    </div>
+        </div>
+      )}
+
+      {/* Success Popup */}
+      {showSuccessPopup && (
+        <div className="profile-popup-center-bg" style={{ zIndex: 4002 }}>
+          <div className="profile-popup-center" style={{ position: 'relative' }}>
+            {/* Close button top-right */}
+            <button
+              onClick={handleSuccessPopupClose}
+              aria-label="Close"
+              style={{
+                position: 'absolute',
+                top: '12px',
+                right: '12px',
+                background: 'transparent',
+                border: 'none',
+                fontSize: '1.5rem',
+                cursor: 'pointer',
+                color: '#334E7B',
+              }}
+            >
+              ×
+            </button>
+            <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ marginTop: '20px' }}>
+              <circle cx="30" cy="30" r="30" fill="#334E7B"/>
+              <path d="M18 32L27 41L43 25" stroke="#fff" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <div style={{ fontWeight: 700, fontSize: '1.7em', color: '#334E7B', marginBottom: 4 }}>Profile updated!</div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
