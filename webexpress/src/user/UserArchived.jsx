@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaFilter, FaTrash } from "react-icons/fa";
+import { FaFilter, FaTrash, FaUndo } from "react-icons/fa";
 import { MdArrowBack } from "react-icons/md";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { getUserData } from '../data/UserData';
@@ -12,6 +12,7 @@ import boyImg from '../assets/boy.png';
 // API endpoints
 const API_URL = import.meta.env.VITE_PHRASESWORDSBYIDGET;
 const DELETE_API_URL = import.meta.env.VITE_PHRASESWORDSDELETE;
+const STATUS_UPDATE_API_URL = import.meta.env.VITE_PHRASESWORDSSTATUSUPDATE;
 
 export default function UserArchived() {
   const [search, setSearch] = useState("");
@@ -23,6 +24,11 @@ export default function UserArchived() {
   // For delete confirmation and message
   const [deleteId, setDeleteId] = useState(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
+  
+  // For restore functionality
+  const [restoreId, setRestoreId] = useState(null);
+  const [restoreLoading, setRestoreLoading] = useState(false);
+  
   const [popup, setPopup] = useState({ open: false, message: "", type: "info" });
 
   const userData = getUserData();
@@ -145,6 +151,33 @@ export default function UserArchived() {
     }
     setDeleteLoading(false);
     setDeleteId(null);
+  };
+
+  // Restore handler with confirmation and popup
+  const handleRestore = (entry_id) => {
+    setRestoreId(entry_id);
+  };
+
+  const handleRestoreConfirm = async () => {
+    setRestoreLoading(true);
+    try {
+      const res = await fetch(STATUS_UPDATE_API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ entry_id: restoreId, status: "active" }),
+      });
+      const json = await res.json();
+      if (json.status === 200 || json.status === "200" || json.status === 201 || json.status === "201") {
+        setCards(cards => cards.filter(card => card.entry_id !== restoreId));
+        setPopup({ open: true, message: "Successfully restored the card", type: "success" });
+      } else {
+        setPopup({ open: true, message: json.message || "Failed to restore card.", type: "error" });
+      }
+    } catch (e) {
+      setPopup({ open: true, message: "Network error restoring card.", type: "error" });
+    }
+    setRestoreLoading(false);
+    setRestoreId(null);
   };
 
   return (
@@ -377,13 +410,24 @@ export default function UserArchived() {
                   <div className="archived-content">
                     <div className="archived-title">{card.words}</div>
                   </div>
-                  <button
-                    className="archived-action-btn"
-                    title="Delete"
-                    onClick={() => handleDelete(card.entry_id)}
-                  >
-                    <FaTrash />
-                  </button>
+                  <div className="archived-actions">
+                    <button
+                      className="archived-action-btn restore-btn"
+                      title="Restore card"
+                      onClick={() => handleRestore(card.entry_id)}
+                      aria-label={`Restore "${card.words}" to active cards`}
+                    >
+                      <FaUndo />
+                    </button>
+                    <button
+                      className="archived-action-btn delete-btn"
+                      title="Delete permanently"
+                      onClick={() => handleDelete(card.entry_id)}
+                      aria-label={`Permanently delete "${card.words}"`}
+                    >
+                      <FaTrash />
+                    </button>
+                  </div>
                 </div>
               ))
             )}
@@ -397,10 +441,22 @@ export default function UserArchived() {
         onConfirm={handleDeleteConfirm}
         onCancel={() => setDeleteId(null)}
         loading={deleteLoading}
+        confirmText="Yes, Delete"
+        loadingText="Deleting..."
+      />
+      <ConfirmationPopup
+        open={!!restoreId}
+        title="Restore Card"
+        message="Are you sure you want to restore this card? It will be moved back to your active cards."
+        onConfirm={handleRestoreConfirm}
+        onCancel={() => setRestoreId(null)}
+        loading={restoreLoading}
+        confirmText="Yes, Restore"
+        loadingText="Restoring..."
       />
       <MessagePopup
         open={popup.open}
-        title={popup.type === "success" ? "Deleted" : popup.type === "error" ? "Error" : "Info"}
+        title={popup.type === "success" ? "Success" : popup.type === "error" ? "Error" : "Info"}
         description={popup.message}
         onClose={() => setPopup(p => ({ ...p, open: false }))}
         style={{ zIndex: 3001 }}

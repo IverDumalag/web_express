@@ -159,13 +159,13 @@
   margin-top: 1.2rem;
 }
 .admin-profile-edit-btn.cancel {
-  background: #6c7a8a;
+  background: #334E7B;
   color: #fff;
-  border: 2px solid #fff;
+  border: 2px solid transparent;
 }
 .admin-profile-edit-btn.cancel:hover {
-  background: #fff;
-  color: #6c7a8a;
+  background: #2b4270;
+  color: #fff;
 }
 .admin-profile-edit-error {
   color: #e11d48;

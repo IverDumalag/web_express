@@ -219,12 +219,13 @@
   color: #fff !important;
 }
 .ucd-cancel-btn {
-  background: #fff !important;
-  color: #334E7B !important;
-  border: 1.5px solid #b6cfff !important;
+  background: #334E7B !important;
+  color: #fff !important;
+  border: 1.5px solid transparent !important;
 }
 .ucd-cancel-btn:hover {
-  background: #e3ecff !important;
+  background: #2b4270 !important;
+  color: #fff !important;
 }
 @media (max-width: 900px) {
   .ucd-modal {

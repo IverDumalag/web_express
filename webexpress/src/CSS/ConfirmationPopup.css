@@ -58,12 +58,13 @@
   transition: background 0.18s, color 0.18s, transform 0.12s;
 }
 .confirmation-popup-btn.cancel {
-  background: #fff;
-  color: #334E7B;
-  border: 1.5px solid #b6cfff;
+  background: #334E7B;
+  color: #fff;
+  border: 1.5px solid transparent;
 }
 .confirmation-popup-btn.cancel:hover {
-  background: #e3ecff;
+  background: #2b4270; /* slightly darker on hover */
+  color: #fff;
 }
 .confirmation-popup-btn:disabled {
   background: #b6cfff;
