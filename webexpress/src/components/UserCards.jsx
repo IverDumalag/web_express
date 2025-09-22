@@ -184,6 +184,12 @@ export default function UserCards({ cards: initialCards, onCardUpdated }) {
           outline: 2px solid #334E7B;
           outline-offset: 2px;
         }
+        .card-action-btn {
+          color: #334E7B !important;
+        }
+        .card-action-btn.speaking {
+          color: #4C75F2 !important;
+        }
         @media (prefers-reduced-motion: reduce) {
           .card-item {
             transition: none;
@@ -319,7 +325,7 @@ export default function UserCards({ cards: initialCards, onCardUpdated }) {
                   }}
                 >
                   <button
-                    className="card-action-btn"
+                    className={`card-action-btn ${speakingId === card.entry_id ? 'speaking' : ''}`}
                     title={speakingId === card.entry_id ? `Stop speaking "${card.words}"` : `Speak "${card.words}"`}
                     aria-label={speakingId === card.entry_id ? `Stop speaking "${card.words}"` : `Speak "${card.words}"`}
                     aria-pressed={speakingId === card.entry_id}
@@ -332,14 +338,14 @@ export default function UserCards({ cards: initialCards, onCardUpdated }) {
                       cursor: 'pointer',
                       outline: 'none',
                       fontSize: '1.7em',
-                      color: '#334E7B',
+                      color: speakingId === card.entry_id ? '#4C75F2' : '#334E7B',
                       transition: 'color 0.2s, transform 0.15s',
                       padding: 4,
                       borderRadius: '4px',
                     }}
                   >
                     <svg width="1.1em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                      <path d="M11 5L6 9H2v6h4l5 4V5z" fill="#334E7B"/>
+                      <path d="M11 5L6 9H2v6h4l5 4V5z" fill={speakingId === card.entry_id ? '#4C75F2' : '#334E7B'}/>
                       <path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07" stroke="currentColor" strokeWidth="2" fill="none"/>
                     </svg>
                   </button>
@@ -368,7 +374,7 @@ export default function UserCards({ cards: initialCards, onCardUpdated }) {
                       cursor: 'pointer',
                       outline: 'none',
                       fontSize: '1.7em',
-                      color: '#334E7B',
+                      color: '#334E7B !important',
                       transition: 'color 0.2s, transform 0.15s',
                       padding: 4,
                       borderRadius: '4px',
@@ -397,7 +403,7 @@ export default function UserCards({ cards: initialCards, onCardUpdated }) {
                       cursor: 'pointer',
                       outline: 'none',
                       fontSize: '1.7em',
-                      color: '#334E7B',
+                      color: '#334E7B !important',
                       transition: 'color 0.2s, transform 0.15s',
                       padding: 4,
                       borderRadius: '4px',
