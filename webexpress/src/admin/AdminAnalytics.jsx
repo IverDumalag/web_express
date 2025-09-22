@@ -1273,78 +1273,165 @@ export default function AdminAnalytics() {
         <div className="analytics-section content-area-scroll">
           <h2 className="section-title" style={{ textAlign: 'left' }}>User Analytics</h2>
 
-          <div className="demographics-horizontal-scroll mobile-scroll"
-               style={{ display: 'flex', gap: 12, justifyContent: 'center', alignItems: 'stretch', flexWrap: 'wrap' }}>
-            {/* Demographics by Sex Card */}
-            <div className="demographics-card">
-              <div className="demographics-header">
-                <div className="demographics-title">By Sex</div>
-                <div className="demographics-downloads">
-                  <button
-                    className="download-icon-btn pdf"
-                    onClick={() => handleDownloadDemographicsSex('pdf')}
-                    title="Download Sex Demographics PDF"
-                  >
-                    📄
-                  </button>
-                  <button
-                    className="download-icon-btn excel"
-                    onClick={() => handleDownloadDemographicsSex('excel')}
-                    title="Download Sex Demographics Excel"
-                  >
-                    📊
-                  </button>
+          {/* Demographics by Age Group Container */}
+          <div className="demographics-container" style={{ marginBottom: '2rem', display: 'flex', alignItems: 'flex-start', gap: '1.5rem' }}>
+            <div className="demographics-horizontal-scroll mobile-scroll"
+                 style={{ display: 'flex', gap: 12, justifyContent: 'center', alignItems: 'stretch', flexWrap: 'wrap', flex: 1 }}>
+              <div className="demographics-card">
+                <div className="demographics-header">
+                  <div className="demographics-title">By Age Group</div>
+                </div>
+                <div className="chart-container" style={{ width: '100%', maxWidth: '280px', height: '280px', position: 'relative' }}>
+                  {loadingDemographics ? (
+                    <div className="admin-analytics-loading" style={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      justifyContent: 'center', 
+                      height: '100%',
+                      color: '#6b7280',
+                      fontSize: '1.1em'
+                    }}>
+                      <div className="loading-spinner" style={{ 
+                        width: '24px', 
+                        height: '24px', 
+                        border: '3px solid #e5e7eb',
+                        borderTop: '3px solid #2563eb',
+                        borderRadius: '50%',
+                        animation: 'spin 1s linear infinite',
+                        marginRight: '10px'
+                      }}></div>
+                      Loading...
+                    </div>
+                  ) : (
+                    <Pie
+                      data={agePieData}
+                      options={{
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                          legend: { 
+                            display: true, 
+                            position: "bottom",
+                            labels: {
+                              padding: 15,
+                              usePointStyle: true,
+                              font: {
+                                size: 12,
+                                weight: '500'
+                              }
+                            }
+                          },
+                          tooltip: { 
+                            callbacks: { label: ctx => `${ctx.label}: ${ctx.raw} users` },
+                            backgroundColor: 'rgba(0,0,0,0.8)',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            borderColor: '#2563eb',
+                            borderWidth: 1
+                          },
+                        },
+                      }}
+                    />
+                  )}
                 </div>
               </div>
-              {loadingDemographics ? (
-                <div className="admin-analytics-loading">Loading...</div>
-              ) : (
-                <Pie
-                  data={sexPieData}
-                  options={{
-                    plugins: {
-                      legend: { display: true, position: "bottom" },
-                      tooltip: { callbacks: { label: ctx => `${ctx.label}: ${ctx.raw}` } },
-                    },
-                  }}
-                />
-              )}
             </div>
+            <div className="demographics-downloads" style={{ display: 'flex', flexDirection: 'row', gap: '0.75rem', alignSelf: 'center' }}>
+              <button
+                className="download-icon-btn pdf"
+                onClick={() => handleDownloadDemographicsAge('pdf')}
+                title="Download Age Demographics PDF"
+              >
+                Download PDF
+              </button>
+              <button
+                className="download-icon-btn excel"
+                onClick={() => handleDownloadDemographicsAge('excel')}
+                title="Download Age Demographics Excel"
+              >
+                Download Excel
+              </button>
+            </div>
+          </div>
 
-            {/* Demographics by Age Group Card */}
-            <div className="demographics-card">
-              <div className="demographics-header">
-                <div className="demographics-title">By Age Group</div>
-                <div className="demographics-downloads">
-                  <button
-                    className="download-icon-btn pdf"
-                    onClick={() => handleDownloadDemographicsAge('pdf')}
-                    title="Download Age Demographics PDF"
-                  >
-                    📄
-                  </button>
-                  <button
-                    className="download-icon-btn excel"
-                    onClick={() => handleDownloadDemographicsAge('excel')}
-                    title="Download Age Demographics Excel"
-                  >
-                    📊
-                  </button>
+          {/* Demographics by Sex Container */}
+          <div className="demographics-container" style={{ display: 'flex', alignItems: 'flex-start', gap: '1.5rem' }}>
+            <div className="demographics-horizontal-scroll mobile-scroll"
+                 style={{ display: 'flex', gap: 12, justifyContent: 'center', alignItems: 'stretch', flexWrap: 'wrap', flex: 1 }}>
+              <div className="demographics-card">
+                <div className="demographics-header">
+                  <div className="demographics-title">By Sex</div>
+                </div>
+                <div className="chart-container" style={{ width: '100%', maxWidth: '280px', height: '280px', position: 'relative' }}>
+                  {loadingDemographics ? (
+                    <div className="admin-analytics-loading" style={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      justifyContent: 'center', 
+                      height: '100%',
+                      color: '#6b7280',
+                      fontSize: '1.1em'
+                    }}>
+                      <div className="loading-spinner" style={{ 
+                        width: '24px', 
+                        height: '24px', 
+                        border: '3px solid #e5e7eb',
+                        borderTop: '3px solid #2563eb',
+                        borderRadius: '50%',
+                        animation: 'spin 1s linear infinite',
+                        marginRight: '10px'
+                      }}></div>
+                      Loading...
+                    </div>
+                  ) : (
+                    <Pie
+                      data={sexPieData}
+                      options={{
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                          legend: { 
+                            display: true, 
+                            position: "bottom",
+                            labels: {
+                              padding: 15,
+                              usePointStyle: true,
+                              font: {
+                                size: 12,
+                                weight: '500'
+                              }
+                            }
+                          },
+                          tooltip: { 
+                            callbacks: { label: ctx => `${ctx.label}: ${ctx.raw}` },
+                            backgroundColor: 'rgba(0,0,0,0.8)',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            borderColor: '#2563eb',
+                            borderWidth: 1
+                          },
+                        },
+                      }}
+                    />
+                  )}
                 </div>
               </div>
-              {loadingDemographics ? (
-                <div className="admin-analytics-loading">Loading...</div>
-              ) : (
-                <Pie
-                  data={agePieData}
-                  options={{
-                    plugins: {
-                      legend: { display: true, position: "bottom" },
-                      tooltip: { callbacks: { label: ctx => `${ctx.label}: ${ctx.raw} users` } },
-                    },
-                  }}
-                />
-              )}
+            </div>
+            <div className="demographics-downloads" style={{ display: 'flex', flexDirection: 'row', gap: '0.75rem', alignSelf: 'center' }}>
+              <button
+                className="download-icon-btn pdf"
+                onClick={() => handleDownloadDemographicsSex('pdf')}
+                title="Download Sex Demographics PDF"
+              >
+                Download PDF
+              </button>
+              <button
+                className="download-icon-btn excel"
+                onClick={() => handleDownloadDemographicsSex('excel')}
+                title="Download Sex Demographics Excel"
+              >
+                Download Excel
+              </button>
             </div>
           </div>
         </div>
