@@ -3,6 +3,7 @@
     import axios from 'axios';
     import MessagePopup from '../components/MessagePopup';
     import '../CSS/UserRegister.css';
+    import UserAboutPage from './UserAboutPage';
 
     export default function UserRegister() {
   const [form, setForm] = useState({
@@ -25,6 +26,8 @@
   const [sentOtp, setSentOtp] = useState('');
   const [otpLoading, setOtpLoading] = useState(false);
   const [resendTimer, setResendTimer] = useState(0);
+  const [showPolicyModal, setShowPolicyModal] = useState(false);
+  const [policyContent, setPolicyContent] = useState('');
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -61,7 +64,8 @@
   // Name validation function
   const validateName = (name, fieldType) => {
     const hasNumbers = /\d/.test(name);
-    const hasSpecialChars = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~`]/.test(name);
+    // Allow letters, spaces, hyphens, apostrophes, and periods only
+    const hasSpecialChars = /[^a-zA-Z\s'-.]/.test(name);
     const validLength = name.length <= 50;
     
     const validation = { hasNumbers, hasSpecialChars, validLength };
@@ -84,7 +88,7 @@
           {!fieldValidation.hasNumbers ? '✓' : '✗'} No numbers allowed
         </div>
         <div style={{ color: !fieldValidation.hasSpecialChars ? '#28a745' : '#dc3545' }}>
-          {!fieldValidation.hasSpecialChars ? '✓' : '✗'} No special characters allowed
+          {!fieldValidation.hasSpecialChars ? '✓' : '✗'} Only letters, spaces, hyphens (-), apostrophes ('), and periods (.) allowed
         </div>
         <div style={{ color: fieldValidation.validLength ? '#28a745' : '#dc3545' }}>
           {fieldValidation.validLength ? '✓' : '✗'} Maximum 50 characters ({fieldValue.length}/50)
@@ -267,6 +271,24 @@ const sendOTP = async () => {
             return prev - 1;
           });
         }, 1000);
+      };
+
+      // Show Privacy Policy
+      const showPrivacyPolicy = () => {
+        setPolicyContent('privacy');
+        setShowPolicyModal(true);
+      };
+
+      // Show Terms & Conditions
+      const showTerms = () => {
+        setPolicyContent('terms');
+        setShowPolicyModal(true);
+      };
+
+      // Close Policy Modal
+      const closePolicyModal = () => {
+        setShowPolicyModal(false);
+        setPolicyContent('');
       };
 
       // Verify OTP and proceed with registration
@@ -597,6 +619,38 @@ const sendOTP = async () => {
                   </div>
                 </div>
 
+                {/* Terms and Privacy Policy Acceptance */}
+                <div style={{ 
+                  textAlign: 'center', 
+                  margin: '1rem 0 1.5rem 0',
+                  fontSize: '0.85rem',
+                  color: '#666',
+                  lineHeight: '1.5'
+                }}>
+                  By registering, you agree to our{' '}
+                  <span 
+                    onClick={showTerms}
+                    style={{ 
+                      color: 'blue', 
+                      textDecoration: 'underline',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Terms & Conditions
+                  </span>
+                  {' '}and{' '}
+                  <span 
+                    onClick={showPrivacyPolicy}
+                    style={{ 
+                      color: 'blue', 
+                      textDecoration: 'underline',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Privacy Policy
+                  </span>
+                </div>
+
                       <button type="submit" disabled={otpLoading} className="center-btn">
                           {otpLoading ? "Sending OTP..." : "Send Verification Code"}
                         </button>
@@ -670,6 +724,123 @@ const sendOTP = async () => {
               </div>
             )}
           </div>
+
+          {/* Privacy Policy and Terms Modal */}
+          {showPolicyModal && (
+            <div 
+              style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                zIndex: 1000,
+                padding: '20px'
+              }}
+              onClick={closePolicyModal}
+            >
+              <div 
+                style={{
+                  backgroundColor: 'white',
+                  borderRadius: '12px',
+                  maxWidth: '800px',
+                  maxHeight: '80vh',
+                  width: '100%',
+                  overflow: 'auto',
+                  padding: '2rem',
+                  position: 'relative',
+                  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+                }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <button
+                  onClick={closePolicyModal}
+                  style={{
+                    position: 'absolute',
+                    top: '1rem',
+                    right: '1rem',
+                    background: 'none',
+                    border: 'none',
+                    fontSize: '1.5rem',
+                    cursor: 'pointer',
+                    color: '#666',
+                    padding: '0.5rem',
+                    lineHeight: 1
+                  }}
+                >
+                  ×
+                </button>
+
+                {policyContent === 'privacy' ? (
+                  <div>
+                    <h2 style={{ color: mainColor, marginBottom: '0.5rem' }}>Privacy Policy</h2>
+                    <p style={{ fontSize: '0.85rem', fontStyle: 'italic', color: '#666', marginBottom: '1.5rem' }}>
+                      Last Updated: August 22, 2025
+                    </p>
+                    <div style={{ lineHeight: '1.6', color: '#333' }}>
+                      <p>
+                        exPress is committed to protecting your privacy. This Privacy Policy explains how we collect, 
+                        use, and safeguard your personal information when you use our mobile and web applications.
+                      </p>
+                      <ul style={{ marginTop: '1rem', paddingLeft: '1.5rem' }}>
+                        <li>We collect only the minimum data necessary to provide and improve functionality.</li>
+                        <li>Conversations are processed locally whenever possible to maximize privacy.</li>
+                        <li>We never sell or trade your personal information to third parties.</li>
+                        <li>You may request access, correction, or deletion of your data at any time.</li>
+                      </ul>
+                      <p style={{ marginTop: '1rem' }}>
+                        We apply industry-standard security measures to protect your information. 
+                        If data must be stored in the cloud, it is encrypted and handled with strict safeguards.
+                      </p>
+                      <p style={{ marginTop: '1rem' }}>
+                        By using exPress, you consent to this Privacy Policy. Updates will be reflected with a revised "Last Updated" date above. 
+                        For questions or requests regarding your data, contact us at @exPress@gmail.com.
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <h2 style={{ color: mainColor, marginBottom: '0.5rem' }}>Terms & Conditions</h2>
+                    <p style={{ fontSize: '0.85rem', fontStyle: 'italic', color: '#666', marginBottom: '1.5rem' }}>
+                      Last Updated: August 22, 2025
+                    </p>
+                    <div style={{ lineHeight: '1.6', color: '#333' }}>
+                      <p>By using exPress, you agree to the following terms:</p>
+                      <ul style={{ marginTop: '1rem', paddingLeft: '1.5rem' }}>
+                        <li>Use the app for lawful purposes only.</li>
+                        <li>Respect other users and their privacy.</li>
+                        <li>Do not attempt to reverse engineer the app.</li>
+                        <li>We reserve the right to update these terms.</li>
+                        <li>Continued use constitutes acceptance of changes.</li>
+                      </ul>
+                    </div>
+                  </div>
+                )}
+
+                <button
+                  onClick={closePolicyModal}
+                  style={{
+                    marginTop: '2rem',
+                    padding: '0.75rem 2rem',
+                    backgroundColor: mainColor,
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    fontSize: '1rem',
+                    fontWeight: '600',
+                    width: '100%'
+                  }}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       );
     }

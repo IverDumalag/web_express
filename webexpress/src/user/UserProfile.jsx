@@ -1,11 +1,10 @@
-import boyImg from '../assets/boy.png';
+  import boyImg from '../assets/boy.png';
   import React, { useEffect, useState } from 'react';
   import { useNavigate } from "react-router-dom";
   import { FaEdit, FaChevronLeft, FaCheckCircle } from 'react-icons/fa';
   import { getUserData, setUserData } from '../data/UserData';
   import '../CSS/UserProfile.css';
-
-  export default function UserProfile() {
+  import ConfirmationPopup from '../components/ConfirmationPopup';  export default function UserProfile() {
     const [user, setUser] = useState(null);
     const [showEdit, setShowEdit] = useState(false);
     const [editForm, setEditForm] = useState({});
@@ -13,6 +12,7 @@ import boyImg from '../assets/boy.png';
     const [editError, setEditError] = useState('');
     const [editSuccess, setEditSuccess] = useState('');
     const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+    const [showConfirmation, setShowConfirmation] = useState(false);
     
     // Name validation states
     const [nameValidation, setNameValidation] = useState({
@@ -63,7 +63,8 @@ import boyImg from '../assets/boy.png';
 
     const validateNameField = (fieldName, value) => {
       const hasNumbers = /\d/.test(value);
-      const hasSpecialChars = /[^a-zA-Z\s]/.test(value);
+      // Allow letters, spaces, hyphens, apostrophes, and periods only
+      const hasSpecialChars = /[^a-zA-Z\s'-.]/.test(value);
       const validLength = value.length <= 50;
 
       const fieldMap = {
@@ -99,8 +100,14 @@ import boyImg from '../assets/boy.png';
              isNameFieldValid('l_name');
     };
 
-    const handleEditSubmit = async e => {
+    const handleEditSubmit = e => {
       e.preventDefault();
+      // Show confirmation popup instead of saving directly
+      setShowConfirmation(true);
+    };
+
+    const handleConfirmSave = async () => {
+      setShowConfirmation(false);
       setEditLoading(true);
       setEditError('');
       setEditSuccess('');
@@ -123,6 +130,10 @@ import boyImg from '../assets/boy.png';
         setEditError("Network error.");
       }
       setEditLoading(false);
+    };
+
+    const handleCancelSave = () => {
+      setShowConfirmation(false);
     };
 
     const handleSuccessPopupClose = () => {
@@ -355,7 +366,7 @@ import boyImg from '../assets/boy.png';
                   )}
                   {nameValidation.firstName.hasSpecialChars && (
                     <div style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}>
-                      First name cannot contain special characters
+                      First name can only contain letters, spaces, hyphens (-), apostrophes ('), and periods (.)
                     </div>
                   )}
                   {!nameValidation.firstName.validLength && (
@@ -382,7 +393,7 @@ import boyImg from '../assets/boy.png';
                   )}
                   {nameValidation.middleName.hasSpecialChars && (
                     <div style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}>
-                      Middle name cannot contain special characters
+                      Middle name can only contain letters, spaces, hyphens (-), apostrophes ('), and periods (.)
                     </div>
                   )}
                   {!nameValidation.middleName.validLength && (
@@ -410,7 +421,7 @@ import boyImg from '../assets/boy.png';
                   )}
                   {nameValidation.lastName.hasSpecialChars && (
                     <div style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}>
-                      Last name cannot contain special characters
+                      Last name can only contain letters, spaces, hyphens (-), apostrophes ('), and periods (.)
                     </div>
                   )}
                   {!nameValidation.lastName.validLength && (
@@ -443,6 +454,18 @@ import boyImg from '../assets/boy.png';
             </form>
           </div>
         )}
+
+        {/* Confirmation Popup */}
+        <ConfirmationPopup
+          open={showConfirmation}
+          title="Save Changes"
+          message="Are you sure you want to save these changes to your profile?"
+          onConfirm={handleConfirmSave}
+          onCancel={handleCancelSave}
+          loading={editLoading}
+          confirmText="Save"
+          loadingText="Saving..."
+        />
 
         {/* Success Popup */}
         {showSuccessPopup && (
