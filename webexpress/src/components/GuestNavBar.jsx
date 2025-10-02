@@ -169,7 +169,7 @@ const GuestNavBar = () => {
         {/* Download + Account */}
         <div style={{ display: "flex", alignItems: "center" }}>
           <a
-            href="https://drive.google.com/uc?export=download&id=1D4QseDYlB9_3zezrNINM8eWWB3At1kVN"
+            href="https://drive.google.com/uc?export=download&id=1kUykCA4L9awtt1Lp_vVRfcwai2R-H_qO"
             target="_blank"
             rel="noopener noreferrer"
             style={{ textDecoration: "none", color: "#334E7B", fontWeight: 600 }}

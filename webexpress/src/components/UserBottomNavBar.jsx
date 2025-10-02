@@ -196,7 +196,7 @@ const UserBottomNavBar = () => {
               >
                 <FiDownload size={20} style={{ minWidth: 20 }} />
                 <a
-                  href="https://drive.google.com/uc?export=download&id=1D4QseDYlB9_3zezrNINM8eWWB3At1kVN"
+                  href="https://drive.google.com/uc?export=download&id=1kUykCA4L9awtt1Lp_vVRfcwai2R-H_qO"
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{ color: '#334E7B', textDecoration: 'none', marginLeft: 0, fontWeight: 600 }}
@@ -407,7 +407,7 @@ const UserBottomNavBar = () => {
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1.2em', marginTop: '1.2em' }}>
                     <a
-                      href="https://drive.google.com/uc?export=download&id=1D4QseDYlB9_3zezrNINM8eWWB3At1kVN"
+                      href="https://drive.google.com/uc?export=download&id=1kUykCA4L9awtt1Lp_vVRfcwai2R-H_qO"
                       target="_blank"
                       rel="noopener noreferrer"
                       style={{
