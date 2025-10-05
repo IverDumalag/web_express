@@ -34,6 +34,9 @@ const UserMenuPage = () => {
 
   const confirmLogout = () => {
     setShowLogoutPopup(false);
+    clearUserData();
+    localStorage.clear();
+    sessionStorage.clear();
     navigate("/login");
   };
 

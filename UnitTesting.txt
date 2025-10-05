@@ -1,0 +1,880 @@
+================================================================================
+                             UNIT TEST DOCUMENT
+                        WEB EXPRESS - REACT APPLICATION
+================================================================================
+
+UNIT TEST DOCUMENT
+Module Name = "UserData.jsx"
+Test Cycle No. = 1
+Component Name = "setUserData Function"
+Date Tested = ""
+Type of System = "Web"
+
+Pre-conditions
+- localStorage is available in browser environment
+- Function receives valid data parameter
+
+Action Description
+- Call setUserData() with user object containing {id: 1, email: "test@email.com", role: "user"}
+
+Verification Steps
+- Verify localStorage.setItem is called with correct key "userData"
+- Verify data is properly stringified to JSON format
+- Verify stored data can be retrieved and parsed correctly
+
+Test Scenario = "1"
+Data (Input Values) = "{id: 1, email: "test@email.com", role: "user"}"
+Expected Results = "Data stored successfully in localStorage as JSON string"
+Actual Results = ""
+Remarks = ""
+
+================================================================================
+
+UNIT TEST DOCUMENT
+Module Name = "UserData.jsx"
+Test Cycle No. = 1
+Component Name = "getUserData Function"
+Date Tested = ""
+Type of System = "Web"
+
+Pre-conditions
+- localStorage contains valid user data
+- Data was previously stored using setUserData function
+
+Action Description
+- Call getUserData() to retrieve stored user information
+
+Verification Steps
+- Verify localStorage.getItem is called with key "userData"
+- Verify JSON.parse is applied to retrieved string
+- Verify returned object matches original stored data structure
+
+Test Scenario = "2"
+Data (Input Values) = "No input parameters required"
+Expected Results = "Returns parsed user object from localStorage"
+Actual Results = ""
+Remarks = ""
+
+================================================================================
+
+UNIT TEST DOCUMENT
+Module Name = "UserData.jsx"
+Test Cycle No. = 1
+Component Name = "getUserData Function - Null Handling"
+Date Tested = ""
+Type of System = "Web"
+
+Pre-conditions
+- localStorage is empty or contains null value for "userData" key
+
+Action Description
+- Call getUserData() when no user data is stored
+
+Verification Steps
+- Verify function returns null when no data is stored
+- Verify no errors are thrown during execution
+- Verify graceful handling of empty localStorage
+
+Test Scenario = "3"
+Data (Input Values) = "No stored data in localStorage"
+Expected Results = "Returns null"
+Actual Results = ""
+Remarks = ""
+
+================================================================================
+
+UNIT TEST DOCUMENT
+Module Name = "UserData.jsx"
+Test Cycle No. = 1
+Component Name = "clearUserData Function"
+Date Tested = ""
+Type of System = "Web"
+
+Pre-conditions
+- localStorage contains user data
+- User data exists in browser storage
+
+Action Description
+- Call clearUserData() to remove stored user information
+
+Verification Steps
+- Verify localStorage.removeItem is called with key "userData"
+- Verify subsequent getUserData() call returns null
+- Verify user data is completely removed from storage
+
+Test Scenario = "4"
+Data (Input Values) = "No input parameters required"
+Expected Results = "User data removed from localStorage"
+Actual Results = ""
+Remarks = ""
+
+================================================================================
+
+UNIT TEST DOCUMENT
+Module Name = "UserLogin.jsx"
+Test Cycle No. = 1
+Component Name = "handleChange Function"
+Date Tested = ""
+Type of System = "Web"
+
+Pre-conditions
+- Component is mounted and initialized
+- Form state is properly initialized
+
+Action Description
+- Trigger input change event with email field
+- Input value "test@email.com" in email field
+
+Verification Steps
+- Verify form state is updated with new email value
+- Verify state change triggers re-render
+- Verify input value reflects in form state
+
+Test Scenario = "5"
+Data (Input Values) = "email: 'test@email.com'"
+Expected Results = "Form state updated with email value"
+Actual Results = ""
+Remarks = ""
+
+================================================================================
+
+UNIT TEST DOCUMENT
+Module Name = "UserLogin.jsx"
+Test Cycle No. = 1
+Component Name = "handleSubmit Function - Validation"
+Date Tested = ""
+Type of System = "Web"
+
+Pre-conditions
+- Component is mounted
+- Form fields are empty
+
+Action Description
+- Submit login form without entering email or password
+
+Verification Steps
+- Verify popup is displayed with "Missing Information" title
+- Verify form submission is prevented
+- Verify no API call is made with empty fields
+
+Test Scenario = "6"
+Data (Input Values) = "email: '', password: ''"
+Expected Results = "Shows validation error popup"
+Actual Results = ""
+Remarks = ""
+
+================================================================================
+
+UNIT TEST DOCUMENT
+Module Name = "UserLogin.jsx"
+Test Cycle No. = 1
+Component Name = "handleSubmit Function - API Call"
+Date Tested = ""
+Type of System = "Web"
+
+Pre-conditions
+- Component is mounted
+- Form contains valid email and password
+- Network connection is available
+
+Action Description
+- Submit form with valid credentials
+- Mock successful API response
+
+Verification Steps
+- Verify axios.post is called with correct URL and data
+- Verify loading state is set during API call
+- Verify success popup is shown on successful login
+
+Test Scenario = "7"
+Data (Input Values) = "email: 'test@email.com', password: 'validpass123'"
+Expected Results = "API call made with proper data and headers"
+Actual Results = ""
+Remarks = ""
+
+================================================================================
+
+UNIT TEST DOCUMENT
+Module Name = "UserLogin.jsx"
+Test Cycle No. = 1
+Component Name = "Password Visibility Toggle"
+Date Tested = ""
+Type of System = "Web"
+
+Pre-conditions
+- Component is rendered
+- Password field is initially obscured
+
+Action Description
+- Click password visibility toggle button
+
+Verification Steps
+- Verify showPassword state changes from false to true
+- Verify password field type changes from "password" to "text"
+- Verify eye icon changes to indicate visibility state
+
+Test Scenario = "8"
+Data (Input Values) = "Click on eye icon button"
+Expected Results = "Password visibility toggled and field type changes"
+Actual Results = ""
+Remarks = ""
+
+================================================================================
+
+UNIT TEST DOCUMENT
+Module Name = "UserRegister.jsx"
+Test Cycle No. = 1
+Component Name = "validateName Function"
+Date Tested = ""
+Type of System = "Web"
+
+Pre-conditions
+- Component is initialized
+- Name validation state is properly set up
+
+Action Description
+- Call validateName with "John123" (contains numbers)
+
+Verification Steps
+- Verify function detects numbers in name
+- Verify validation state is updated with hasNumbers: true
+- Verify function returns false for invalid name
+
+Test Scenario = "9"
+Data (Input Values) = "name: 'John123', fieldType: 'firstName'"
+Expected Results = "Returns false, sets hasNumbers validation flag"
+Actual Results = ""
+Remarks = ""
+
+================================================================================
+
+UNIT TEST DOCUMENT
+Module Name = "UserRegister.jsx"
+Test Cycle No. = 1
+Component Name = "validateName Function - Valid Name"
+Date Tested = ""
+Type of System = "Web"
+
+Pre-conditions
+- Component is initialized
+- Name validation state is properly set up
+
+Action Description
+- Call validateName with "John Doe" (valid name)
+
+Verification Steps
+- Verify function accepts alphabetic characters and spaces
+- Verify validation state shows no numbers or special characters
+- Verify function returns true for valid name
+
+Test Scenario = "10"
+Data (Input Values) = "name: 'John Doe', fieldType: 'firstName'"
+Expected Results = "Returns true, validation flags show valid name"
+Actual Results = ""
+Remarks = ""
+
+================================================================================
+
+UNIT TEST DOCUMENT
+Module Name = "UserRegister.jsx"
+Test Cycle No. = 1
+Component Name = "validatePassword Function"
+Date Tested = ""
+Type of System = "Web"
+
+Pre-conditions
+- Component is initialized
+- Password validation state is set up
+
+Action Description
+- Test password "Password123!" against validation criteria
+
+Verification Steps
+- Verify length requirement (≥8 characters) is checked
+- Verify uppercase letter requirement is validated
+- Verify lowercase letter requirement is validated
+- Verify number requirement is validated
+- Verify special character requirement is validated
+
+Test Scenario = "11"
+Data (Input Values) = "password: 'Password123!'"
+Expected Results = "All validation criteria return true"
+Actual Results = ""
+Remarks = ""
+
+================================================================================
+
+UNIT TEST DOCUMENT
+Module Name = "UserRegister.jsx"
+Test Cycle No. = 1
+Component Name = "validatePassword Function - Weak Password"
+Date Tested = ""
+Type of System = "Web"
+
+Pre-conditions
+- Component is initialized
+- Password validation state is set up
+
+Action Description
+- Test weak password "abc" against validation criteria
+
+Verification Steps
+- Verify length requirement fails (less than 8 characters)
+- Verify missing uppercase letter is detected
+- Verify missing number is detected
+- Verify missing special character is detected
+- Verify overall validation returns false
+
+Test Scenario = "12"
+Data (Input Values) = "password: 'abc'"
+Expected Results = "Length, uppercase, number, and special character validations fail"
+Actual Results = ""
+Remarks = ""
+
+================================================================================
+
+UNIT TEST DOCUMENT
+Module Name = "UserRegister.jsx"
+Test Cycle No. = 1
+Component Name = "Age Validation from Birthdate"
+Date Tested = ""
+Type of System = "Web"
+
+Pre-conditions
+- Component is initialized
+- Current date is available
+
+Action Description
+- Enter birthdate that results in age over 100 years
+
+Verification Steps
+- Verify age calculation from birthdate is accurate
+- Verify popup is shown for invalid age (>100)
+- Verify form submission is prevented for invalid age
+
+Test Scenario = "13"
+Data (Input Values) = "birthdate: '1920-01-01'"
+Expected Results = "Shows invalid birthdate popup for age over 100"
+Actual Results = ""
+Remarks = ""
+
+================================================================================
+
+UNIT TEST DOCUMENT
+Module Name = "UserProfile.jsx"
+Test Cycle No. = 1
+Component Name = "validateNameField Function"
+Date Tested = ""
+Type of System = "Web"
+
+Pre-conditions
+- UserProfile component is mounted
+- Name validation state is initialized
+
+Action Description
+- Call validateNameField with "John@Doe" (contains special characters)
+
+Verification Steps
+- Verify special character detection using regex /[^a-zA-Z\s]/
+- Verify validation state is updated correctly
+- Verify hasSpecialChars flag is set to true
+
+Test Scenario = "14"
+Data (Input Values) = "fieldName: 'f_name', value: 'John@Doe'"
+Expected Results = "hasSpecialChars validation flag set to true"
+Actual Results = ""
+Remarks = ""
+
+================================================================================
+
+UNIT TEST DOCUMENT
+Module Name = "UserProfile.jsx"
+Test Cycle No. = 1
+Component Name = "isNameFieldValid Function"
+Date Tested = ""
+Type of System = "Web"
+
+Pre-conditions
+- UserProfile component is mounted
+- Name validation state contains validation results
+
+Action Description
+- Call isNameFieldValid for a field that has validation errors
+
+Verification Steps
+- Verify function checks all validation criteria
+- Verify function returns false when any validation fails
+- Verify function uses proper field mapping
+
+Test Scenario = "15"
+Data (Input Values) = "fieldName: 'f_name' with validation errors"
+Expected Results = "Returns false when validation criteria fail"
+Actual Results = ""
+Remarks = ""
+
+================================================================================
+
+UNIT TEST DOCUMENT
+Module Name = "AdminAnalytics.jsx"
+Test Cycle No. = 1
+Component Name = "toNum Function"
+Date Tested = ""
+Type of System = "Web"
+
+Pre-conditions
+- AdminAnalytics component utility functions are available
+
+Action Description
+- Test toNum function with various input types including null, string numbers, and comma-separated values
+
+Verification Steps
+- Verify null/undefined inputs return 0
+- Verify string numbers like "123" are converted to 123
+- Verify comma-separated numbers like "1,234" are parsed correctly
+- Verify NaN values return 0
+
+Test Scenario = "16"
+Data (Input Values) = "null"
+Expected Results = "Returns 0"
+Actual Results = ""
+Remarks = ""
+Test Scenario = "16"
+Data (Input Values) = "'123'"
+Expected Results = "Returns 123"
+Actual Results = ""
+Remarks = ""
+Test Scenario = "16"
+Data (Input Values) = "'1,234'"
+Expected Results = "Returns 1234"
+Actual Results = ""
+Remarks = ""
+Test Scenario = "16"
+Data (Input Values) = "'invalid'"
+Expected Results = "Returns 0"
+Actual Results = ""
+Remarks = ""
+Test Scenario = "16"
+Data (Input Values) = "undefined"
+Expected Results = "Returns 0"
+Actual Results = ""
+Remarks = ""
+
+================================================================================
+
+UNIT TEST DOCUMENT
+Module Name = "AdminAnalytics.jsx"
+Test Cycle No. = 1
+Component Name = "formatCountData Function"
+Date Tested = ""
+Type of System = "Web"
+
+Pre-conditions
+- AdminAnalytics component is loaded
+- Sample data array is available
+
+Action Description
+- Call formatCountData with raw API data to format for charts
+
+Verification Steps
+- Verify data is properly mapped to label and count format
+- Verify function handles empty arrays gracefully
+- Verify date/label formatting is applied correctly
+
+Test Scenario = "17"
+Data (Input Values) = "Raw API data array with date and count fields"
+Expected Results = "Returns formatted array with label and count properties"
+Actual Results = ""
+Remarks = ""
+
+================================================================================
+
+UNIT TEST DOCUMENT
+Module Name = "ProtectedRoute.jsx"
+Test Cycle No. = 1
+Component Name = "UserProtectedRoute Function"
+Date Tested = ""
+Type of System = "Web"
+
+Pre-conditions
+- getUserData function is available
+- User data is stored in localStorage
+
+Action Description
+- Test UserProtectedRoute with authenticated user role
+
+Verification Steps
+- Verify getUserData is called to check authentication
+- Verify user role is checked against 'user'
+- Verify Outlet component is rendered for valid user
+- Verify Navigate to login for invalid/missing user
+
+Test Scenario = "18"
+Data (Input Values) = "User data with role: 'user'"
+Expected Results = "Renders Outlet component for authenticated user"
+Actual Results = ""
+Remarks = ""
+
+================================================================================
+
+UNIT TEST DOCUMENT
+Module Name = "ProtectedRoute.jsx"
+Test Cycle No. = 1
+Component Name = "AdminProtectedRoute Function"
+Date Tested = ""
+Type of System = "Web"
+
+Pre-conditions
+- getUserData function is available
+- Admin data is stored in localStorage
+
+Action Description
+- Test AdminProtectedRoute with authenticated admin role
+
+Verification Steps
+- Verify getUserData is called to check authentication
+- Verify user role is checked against 'admin'
+- Verify Outlet component is rendered for valid admin
+- Verify Navigate to login for non-admin users
+
+Test Scenario = "19"
+Data (Input Values) = "User data with role: 'admin'"
+Expected Results = "Renders Outlet component for authenticated admin"
+Actual Results = ""
+Remarks = ""
+
+================================================================================
+
+UNIT TEST DOCUMENT
+Module Name = "AdminProfile.jsx"
+Test Cycle No. = 1
+Component Name = "handleEditChange Function"
+Date Tested = ""
+Type of System = "Web"
+
+Pre-conditions
+- AdminProfile component is mounted and open
+- Edit form state is initialized
+
+Action Description
+- Trigger edit change for name field with validation
+
+Verification Steps
+- Verify form state is updated with new value
+- Verify name validation is triggered for name fields
+- Verify validateNameField is called for f_name, m_name, l_name
+
+Test Scenario = "20"
+Data (Input Values) = "name: 'f_name', value: 'NewName'"
+Expected Results = "Form updated and name validation triggered"
+Actual Results = ""
+Remarks = ""
+Test Scenario = "20"
+Data (Input Values) = "name: 'm_name', value: 'NewName'"
+Expected Results = "Form updated and name validation triggered"
+Actual Results = ""
+Remarks = ""
+Test Scenario = "20"
+Data (Input Values) = "name: 'l_name', value: 'NewName'"
+Expected Results = "Form updated and name validation triggered"
+Actual Results = ""
+Remarks = ""
+
+================================================================================
+
+UNIT TEST DOCUMENT
+Module Name = "UserBottomNavBar.jsx"
+Test Cycle No. = 1
+Component Name = "getUserData Integration"
+Date Tested = ""
+Type of System = "Web"
+
+Pre-conditions
+- UserBottomNavBar component is mounted
+- User data exists in localStorage
+
+Action Description
+- Test user name and email display from getUserData
+
+Verification Steps
+- Verify getUserData is called to retrieve user information
+- Verify user name is formatted correctly from f_name and l_name
+- Verify email is displayed from user data
+- Verify fallback values are used when data is missing
+
+Test Scenario = "21"
+Data (Input Values) = "User data with f_name: 'John', l_name: 'Doe', email: 'john@email.com'"
+Expected Results = "Displays 'John Doe' and 'john@email.com'"
+Actual Results = ""
+Remarks = ""
+
+================================================================================
+
+UNIT TEST DOCUMENT
+Module Name = "UserCardsPage.jsx"
+Test Cycle No. = 1
+Component Name = "Search Sanitization"
+Date Tested = ""
+Type of System = "Web"
+
+Pre-conditions
+- UserCardsPage component is mounted
+- Search input field is available
+
+Action Description
+- Test search input sanitization for XSS prevention
+
+Verification Steps
+- Verify malicious scripts are removed from search input
+- Verify HTML tags are stripped or escaped
+- Verify normal search text is preserved
+- Verify empty searches are handled properly
+
+Test Scenario = "22"
+Data (Input Values) = "searchQuery: '<script>alert(\"xss\")</script>hello'"
+Expected Results = "Script tags removed, only 'hello' remains"
+Actual Results = ""
+Remarks = ""
+
+================================================================================
+
+UNIT TEST DOCUMENT
+Module Name = "AdminAnalytics.jsx"
+Test Cycle No. = 1
+Component Name = "Error Handling in Data Fetch"
+Date Tested = ""
+Type of System = "Web"
+
+Pre-conditions
+- AdminAnalytics component is mounted
+- API endpoints are configured
+
+Action Description
+- Test error handling when API fetch fails
+
+Verification Steps
+- Verify error state is set when fetch fails
+- Verify user-friendly error message is displayed
+- Verify component doesn't crash on network errors
+- Verify retry functionality is available
+
+Test Scenario = "23"
+Data (Input Values) = "Simulated network error during data fetch"
+Expected Results = "Error state set, error message displayed"
+Actual Results = ""
+Remarks = ""
+
+================================================================================
+
+UNIT TEST DOCUMENT
+Module Name = "AdminAnalytics.jsx"
+Test Cycle No. = 1
+Component Name = "Chart Data Processing"
+Date Tested = ""
+Type of System = "Web"
+
+Pre-conditions
+- AdminAnalytics component has loaded data
+- Chart.js is properly configured
+
+Action Description
+- Test chart data formatting for different chart types
+
+Verification Steps
+- Verify line chart data format with x/y coordinates
+- Verify pie chart data format with labels and datasets
+- Verify color assignments for chart elements
+- Verify data is properly aggregated for display
+
+Test Scenario = "24"
+Data (Input Values) = "Raw analytics data for chart processing"
+Expected Results = "Properly formatted chart data objects"
+Actual Results = ""
+Remarks = ""
+
+================================================================================
+
+UNIT TEST DOCUMENT
+Module Name = "MessagePopup.jsx"
+Test Cycle No. = 1
+Component Name = "Popup Display Logic"
+Date Tested = ""
+Type of System = "Web"
+
+Pre-conditions
+- MessagePopup component is available
+- Popup state management is functional
+
+Action Description
+- Test popup show/hide functionality
+
+Verification Steps
+- Verify popup appears when open prop is true
+- Verify popup hides when open prop is false
+- Verify title and description are displayed correctly
+- Verify close functionality works properly
+
+Test Scenario = "25"
+Data (Input Values) = "open: true, title: 'Test Title', description: 'Test Description'"
+Expected Results = "Popup displays with correct title and description"
+Actual Results = ""
+Remarks = ""
+
+================================================================================
+
+UNIT TEST DOCUMENT
+Module Name = "UserCards.jsx"
+Test Cycle No. = 1
+Component Name = "Favorite Toggle Function"
+Date Tested = ""
+Type of System = "Web"
+
+Pre-conditions
+- UserCards component is mounted
+- Card data includes favorite status
+
+Action Description
+- Test favorite toggle functionality for cards
+
+Verification Steps
+- Verify favorite state changes when toggle is clicked
+- Verify API call is made to update favorite status
+- Verify visual indicator updates (star icon)
+- Verify error handling for failed toggle operations
+
+Test Scenario = "26"
+Data (Input Values) = "cardId: 1, currentFavoriteStatus: false"
+Expected Results = "Favorite status toggled to true, UI updated"
+Actual Results = ""
+Remarks = ""
+
+================================================================================
+
+UNIT TEST DOCUMENT
+Module Name = "App.jsx"
+Test Cycle No. = 1
+Component Name = "Route Configuration"
+Date Tested = ""
+Type of System = "Web"
+
+Pre-conditions
+- React Router is properly configured
+- All components are imported correctly
+
+Action Description
+- Test route navigation and component rendering
+
+Verification Steps
+- Verify correct components render for each route
+- Verify protected routes redirect unauthorized users
+- Verify navigation between different sections works
+- Verify route parameters are passed correctly
+
+Test Scenario = "27"
+Data (Input Values) = "Navigation to /userhome' route" with account with the role of user"
+Expected Results = "UserHome component renders for accounts with role of user"
+Actual Results = ""
+Remarks = ""
+Test Scenario = "27"
+Data (Input Values) = "Navigation to '/adminanalytics route" with account with the role of admin"
+Expected Results = "AdminAnalytics component renders for accounts with role of admin"
+Actual Results = ""
+Remarks = ""
+Test Scenario = "27"
+Data (Input Values) = "Navigation to /userhome route" without authenticated user"
+Expected Results = "UserLogin component renders for non-authenticated users"
+Actual Results = ""
+Remarks = ""
+Test Scenario = "27"
+Data (Input Values) = "Navigation to /adminanalytics route" without authenticated user"
+Expected Results = "UserLogin component renders for non-authenticated users"
+Actual Results = ""
+Remarks = ""
+
+================================================================================
+
+UNIT TEST DOCUMENT
+Module Name = "TrySearch.jsx"
+Test Cycle No. = 1
+Component Name = "Search Query Processing"
+Date Tested = ""
+Type of System = "Web"
+
+Pre-conditions
+- TrySearch component is mounted
+- API endpoint for search is configured
+
+Action Description
+- Test search query processing and API integration
+
+Verification Steps
+- Verify search input is properly trimmed
+- Verify empty searches are handled appropriately
+- Verify API call is made with correct search parameters
+- Verify search results are displayed properly
+
+Test Scenario = "28"
+Data (Input Values) = "searchQuery: '  hello world  '"
+Expected Results = "Trimmed query 'helloworld' sent to API"
+Actual Results = ""
+Remarks = ""
+
+================================================================================
+
+UNIT TEST DOCUMENT
+Module Name = "UserFeedback.jsx"
+Test Cycle No. = 1
+Component Name = "Feedback Submission"
+Date Tested = ""
+Type of System = "Web"
+
+Pre-conditions
+- UserFeedback component is mounted
+- Feedback form is properly initialized
+
+Action Description
+- Test feedback form submission with valid data
+
+Verification Steps
+- Verify form validation before submission
+- Verify feedback data is properly formatted
+- Verify API call is made with correct payload
+- Verify success/error handling after submission
+
+Test Scenario = "29"
+Data (Input Values) = { "main_concern": "No Match Found",
+  "details": "No match for sad" } as Authenticated User
+Expected Results = "Feedback submitted successfully with confirmation"
+Actual Results = ""
+Remarks = ""
+
+================================================================================
+
+UNIT TEST DOCUMENT
+Module Name = "AdminLogs.jsx"
+Test Cycle No. = 1
+Component Name = "Log Data Filtering"
+Date Tested = ""
+Type of System = "Web"
+
+Pre-conditions
+- AdminLogs component is mounted
+- Log data is available from API
+
+Action Description
+- Test log filtering functionality by date range
+
+Verification Steps
+- Verify date range picker updates filter state
+- Verify filtered logs match selected criteria
+- Verify pagination works with filtered data
+- Verify filter reset functionality
+
+Test Scenario = "30"
+Data (Input Values) = "startDate: '2023-01-01', endDate: '2023-12-31'"
+Expected Results = "Logs filtered to show only entries within date range"
+Actual Results = ""
+Remarks = ""
+
+================================================================================
+                                END OF DOCUMENT
+================================================================================

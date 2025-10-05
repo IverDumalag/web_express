@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+// Helper function to process search query by trimming and removing spaces
+export const processSearchQuery = (inputQuery) => {
+  return inputQuery.trim().replace(/\s+/g, '');
+};
+
 export default function TrySearch() {
    const [query, setQuery] = useState('');
    const [result, setResult] = useState(null);
@@ -20,8 +25,10 @@ export default function TrySearch() {
     setAllFiles([]);
 
     try {
+      // Use helper function to process the query
+      const processedQuery = processSearchQuery(query);
       const response = await axios.get(
-        `https://express-nodejs-nc12.onrender.com/api/search?q=${encodeURIComponent(query)}`,
+        `https://express-nodejs-nc12.onrender.com/api/search?q=${encodeURIComponent(processedQuery)}`,
         { timeout: 15000 } // 15 second timeout
       );
       setResult(response.data);
