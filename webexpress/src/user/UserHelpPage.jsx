@@ -17,7 +17,7 @@ const UserHelpPage = () => {
             <strong>What is exPress?</strong><br />
             - exPress is a mobile and web-based communication tool that translates sign language 
             into text and text or audio into sign language animations, helping bridge conversations 
-            between deaf-mute individuals and non-signers.<br /><br />
+            between deaf individuals and non-signers.<br /><br />
 
             <strong>Is exPress an e-learning app?</strong><br />
             - No. exPress is not an e-learning platform. Its main purpose is to support real-time 
