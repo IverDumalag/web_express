@@ -623,6 +623,22 @@ export default function UserCardsPage() {
               Add Word/Phrase
             </div>
 
+            {/* Dataset Disclaimer */}
+            <div style={{
+              background: '#f8f9fa',
+              border: '1px solid #e9ecef',
+              borderRadius: 8,
+              padding: '0.8em 1em',
+              marginBottom: '1.2em',
+              fontSize: '0.9em',
+              color: '#6c757d',
+              fontFamily: 'Roboto Mono, monospace',
+              lineHeight: 1.4,
+              textAlign: 'center'
+            }}>
+              <strong style={{ color: '#495057' }}>Note:</strong> Our dataset has limited coverage and contains introductory words/phrases and alphabet. Some words may not have sign language matches available.
+            </div>
+
             <input
               ref={addInputRef}
               className="add-modal-input"
