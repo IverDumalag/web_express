@@ -168,14 +168,26 @@ const GuestNavBar = () => {
 
         {/* Download + Account */}
         <div style={{ display: "flex", alignItems: "center" }}>
-          <a
-            href="https://drive.google.com/uc?export=download&id=1kUykCA4L9awtt1Lp_vVRfcwai2R-H_qO"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ textDecoration: "none", color: "#334E7B", fontWeight: 600 }}
+          <span
+            onClick={() => {
+              try {
+                window.dispatchEvent(
+                  new CustomEvent("show-download-popup")
+                );
+              } catch (error) {
+                console.error('Download popup error:', error);
+                showError('Unable to show download popup. Please try refreshing the page.');
+              }
+            }}
+            style={{ 
+              textDecoration: "none", 
+              color: "#334E7B", 
+              fontWeight: 600,
+              cursor: "pointer" 
+            }}
           >
             Download App
-          </a>
+          </span>
 
           <div className="account-container" ref={accountRef}>
             <span
