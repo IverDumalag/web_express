@@ -2,6 +2,7 @@
     import { Link, useNavigate } from 'react-router-dom';
     import axios from 'axios';
     import MessagePopup from '../components/MessagePopup';
+    import { addDefaultCards } from '../utils/defaultCards';
     import '../CSS/UserRegister.css';
     import UserAboutPage from './UserAboutPage';
 
@@ -45,6 +46,9 @@
     middleName: { hasNumbers: false, hasSpecialChars: false, validLength: true },
     lastName: { hasNumbers: false, hasSpecialChars: false, validLength: true }
   });
+  
+  // Terms and Privacy Policy acceptance state
+  const [acceptTerms, setAcceptTerms] = useState(false);
   
   const mainColor = '#334E7B';
 
@@ -144,6 +148,16 @@
 const sendOTP = async () => {
   if (!form.email) {
     setPopup({ open: true, title: "Error", description: "Please enter your email first." });
+    return;
+  }
+
+  // Check if terms and conditions are accepted
+  if (!acceptTerms) {
+    setPopup({ 
+      open: true, 
+      title: "Terms and Conditions Required", 
+      description: "Please accept the Terms & Conditions and Privacy Policy to continue." 
+    });
     return;
   }
 
@@ -324,10 +338,25 @@ const sendOTP = async () => {
           );
           
           if (res.data.status === 201) {
+            // Add default cards for the newly created user
+            if (res.data.user && res.data.user.user_id) {
+              try {
+                const defaultCardsResult = await addDefaultCards(res.data.user.user_id);
+                if (defaultCardsResult.success) {
+                  console.log('Default cards added for new user:', defaultCardsResult.message);
+                } else {
+                  console.warn('Default cards failed for new user:', defaultCardsResult.message);
+                }
+              } catch (defaultCardsError) {
+                console.error('Error adding default cards for new user:', defaultCardsError);
+                // Don't block registration if default cards fail
+              }
+            }
+            
             setPopup({ 
               open: true, 
               title: "Account Created Successfully!", 
-              description: "Welcome to exPress! Your account has been created. You can now sign in with your credentials." 
+              description: "Welcome to exPress! Your account has been created with default cards. You can now sign in with your credentials." 
             });
             // Reset form and OTP states
             setForm({
@@ -338,9 +367,11 @@ const sendOTP = async () => {
               sex: '',
               birthdate: '',
               password: '',
+              confirmPassword: '',
               role: 'user',
               updated_at: new Date().toISOString(),
             });
+            setAcceptTerms(false);
             setOtpStep(false);
             setOtpCode('');
             setSentOtp('');
@@ -420,13 +451,23 @@ const sendOTP = async () => {
               
               className="center-form">
 
+                {/* Required fields note */}
+                <div style={{ 
+                  fontSize: '0.85rem',
+                  color: '#666',
+                  marginBottom: '1rem',
+                  textAlign: 'center'
+                }}>
+                  <span style={{ color: '#dc3545' }}>*</span> Required fields are marked with an asterisk
+                </div>
+
                 <div className="center-form-group">
-                  <label>Email</label>
+                  <label>Email <span style={{ color: '#dc3545' }}>*</span></label>
                   <input type="email" name="email" value={form.email} onChange={handleChange} required />
                 </div>
                 
                 <div className="center-form-group">
-                  <label>Password</label>
+                  <label>Password <span style={{ color: '#dc3545' }}>*</span></label>
                     <div style={{ position: 'relative', width: '100%' }}>
                       <input
                         type={showPassword ? 'text' : 'password'}
@@ -489,7 +530,7 @@ const sendOTP = async () => {
                 </div>
                 
                 <div className="center-form-group">
-                  <label>Confirm Password</label>
+                  <label>Confirm Password <span style={{ color: '#dc3545' }}>*</span></label>
                     <div style={{ position: 'relative', width: '100%' }}>
                       <input
                         type={showConfirmPassword ? 'text' : 'password'}
@@ -541,7 +582,7 @@ const sendOTP = async () => {
                 </div>
                 
                 <div className="center-form-group">
-                  <label>First name</label>
+                  <label>First name <span style={{ color: '#dc3545' }}>*</span></label>
                   <input 
                     type="text" 
                     name="f_name" 
@@ -577,7 +618,7 @@ const sendOTP = async () => {
                   </div>
 
                 <div className="center-form-group">
-                    <label>Last Name</label>
+                    <label>Last Name <span style={{ color: '#dc3545' }}>*</span></label>
                     <input 
                       type="text" 
                       name="l_name" 
@@ -597,7 +638,7 @@ const sendOTP = async () => {
 
                 <div className="center-form-row">
                   <div className="center-form-group">
-                    <label>Sex</label>
+                    <label>Sex <span style={{ color: '#dc3545' }}>*</span></label>
                     <select name="sex" value={form.sex} onChange={handleChange} required>
                       <option value="">Select</option>
                       <option value="Male">Male</option>
@@ -606,7 +647,7 @@ const sendOTP = async () => {
                   </div>
                   
                 <div className="center-form-group">
-                    <label>Birthdate</label>
+                    <label>Birthdate <span style={{ color: '#dc3545' }}>*</span></label>
                     <input 
                       type="date" 
                       name="birthdate" 
@@ -619,41 +660,88 @@ const sendOTP = async () => {
                   </div>
                 </div>
 
-                {/* Terms and Privacy Policy Acceptance */}
+                {/* Terms and Privacy Policy Acceptance Checkbox */}
                 <div style={{ 
-                  textAlign: 'center', 
                   margin: '1rem 0 1.5rem 0',
-                  fontSize: '0.85rem',
-                  color: '#666',
+                  fontSize: '0.9rem',
                   lineHeight: '1.5'
                 }}>
-                  By registering, you agree to our{' '}
-                  <span 
-                    onClick={showTerms}
-                    style={{ 
-                      color: 'blue', 
-                      textDecoration: 'underline',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    Terms & Conditions
-                  </span>
-                  {' '}and{' '}
-                  <span 
-                    onClick={showPrivacyPolicy}
-                    style={{ 
-                      color: 'blue', 
-                      textDecoration: 'underline',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    Privacy Policy
-                  </span>
+                  <label style={{ 
+                    display: 'flex', 
+                    alignItems: 'flex-start', 
+                    gap: '0.5rem',
+                    cursor: 'pointer',
+                    color: '#333'
+                  }}>
+                    <input 
+                      type="checkbox" 
+                      checked={acceptTerms}
+                      onChange={(e) => setAcceptTerms(e.target.checked)}
+                      style={{ 
+                        marginTop: '0.2rem',
+                        width: '16px',
+                        height: '16px',
+                        accentColor: '#334E7B'
+                      }}
+                      required
+                    />
+                    <span>
+                      I agree to the{' '}
+                      <span 
+                        onClick={(e) => {
+                          e.preventDefault();
+                          showTerms();
+                        }}
+                        style={{ 
+                          color: '#334E7B', 
+                          textDecoration: 'underline',
+                          cursor: 'pointer',
+                          fontWeight: '500'
+                        }}
+                      >
+                        Terms & Conditions
+                      </span>
+                      {' '}and{' '}
+                      <span 
+                        onClick={(e) => {
+                          e.preventDefault();
+                          showPrivacyPolicy();
+                        }}
+                        style={{ 
+                          color: '#334E7B', 
+                          textDecoration: 'underline',
+                          cursor: 'pointer',
+                          fontWeight: '500'
+                        }}
+                      >
+                        Privacy Policy
+                      </span>
+                    </span>
+                  </label>
                 </div>
 
-                      <button type="submit" disabled={otpLoading} className="center-btn">
+                      <button 
+                        type="submit" 
+                        disabled={otpLoading || !acceptTerms} 
+                        className="center-btn"
+                        style={{
+                          opacity: (!acceptTerms && !otpLoading) ? 0.6 : 1,
+                          cursor: (!acceptTerms && !otpLoading) ? 'not-allowed' : 'pointer'
+                        }}
+                      >
                           {otpLoading ? "Sending OTP..." : "Send Verification Code"}
                         </button>
+                        
+                        {!acceptTerms && !otpLoading && (
+                          <div style={{ 
+                            fontSize: '0.8rem', 
+                            color: '#dc3545', 
+                            textAlign: 'center', 
+                            marginTop: '0.5rem' 
+                          }}>
+                            Please accept the Terms & Conditions to continue
+                          </div>
+                        )}
                       
                       <div className="center-or">or</div>
                           <button type="button" className="center-btn center-btn-alt" onClick={() => navigate('/login')}>

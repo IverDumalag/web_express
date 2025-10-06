@@ -616,6 +616,7 @@ export default function AdminAnalytics() {
   const [sexData, setSexData] = useState([]);
   const [ageData, setAgeData] = useState([]);
   const [loadingDemographics, setLoadingDemographics] = useState(true);
+  const [demographicsFilter, setDemographicsFilter] = useState('sex'); // 'sex' or 'age'
 
   // Content Rate
   const [contentRate, setContentRate] = useState({ overall: 0, monthly: [] });
@@ -632,6 +633,7 @@ export default function AdminAnalytics() {
   const [loadingMain, setLoadingMain] = useState(true);
   const [loadingFeedback, setLoadingFeedback] = useState(false);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [feedbackFilter, setFeedbackFilter] = useState('all'); // 'all' or specific main concern
 
   // Time
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -1089,15 +1091,26 @@ export default function AdminAnalytics() {
     _hasData: agePieValues.some(v => v > 0),
   };
 
+  // Combined function to get chart data based on filter
+  const getCombinedDemographicsData = () => {
+    if (demographicsFilter === 'sex') {
+      return sexPieData;
+    } else {
+      return agePieData;
+    }
+  };
+
+  const combinedDemographicsData = getCombinedDemographicsData();
+
   const contentRateLineData = {
     labels: contentRate.monthly.map(m => m.creation_month),
     datasets: [{
       label: "Monthly Match Rate (%)",
       data: contentRate.monthly.map(m => m.monthly_match_rate),
       fill: false,
-      borderColor: "#10b981",
-      backgroundColor: "#10b981",
-      pointBackgroundColor: "#10b981",
+      borderColor: "#2563eb",
+      backgroundColor: "#2563eb",
+      pointBackgroundColor: "#2563eb",
       tension: 0.3
     }]
   };
@@ -1144,11 +1157,11 @@ export default function AdminAnalytics() {
     responsive: true, maintainAspectRatio: false,
     plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${ctx.parsed.y?.toFixed(1) ?? 0}%` } } },
     scales: {
-      x: { ticks: { color: "#10b981", font: { size: 14 } }, grid: { color: "rgba(16,185,129,0.08)" } },
+      x: { ticks: { color: "#2563eb", font: { size: 14 } }, grid: { color: "rgba(37,99,235,0.08)" } },
       y: {
         beginAtZero: true, max: 100,
-        ticks: { stepSize: 10, callback: value => `${value}%`, color: "#10b981", font: { size: 14 } },
-        grid: { color: "rgba(16,185,129,0.08)" },
+        ticks: { stepSize: 10, callback: value => `${value}%`, color: "#2563eb", font: { size: 14 } },
+        grid: { color: "rgba(37,99,235,0.08)" },
       },
     },
   };
@@ -1225,9 +1238,9 @@ export default function AdminAnalytics() {
         </div>
 
         {/* --- Content Rate Section --- */}
-        <div className="content-rate-section content-area-scroll">
+        <div className="analytics-section content-area-scroll">
           <div className="section-header" style={{ justifyContent: 'space-between' }}>
-            <h2 className="content-rate-title" style={{ textAlign: 'left' }}>Content Match Rate</h2>
+            <h2 className="section-title" style={{ textAlign: 'left' }}>Content Match Rate</h2>
             <div className="download-buttons">
               <button className="download-btn pdf" onClick={() => handleDownloadContentMatch('pdf')}>Download PDF</button>
               <button className="download-btn excel" onClick={() => handleDownloadContentMatch('excel')}>Download Excel</button>
@@ -1239,19 +1252,19 @@ export default function AdminAnalytics() {
             title="Click to view content match table"
           >
             {loadingContentRate ? (
-              <div className="admin-analytics-loading-green">Loading overall match rate...</div>
+              <div className="admin-analytics-loading">Loading overall match rate...</div>
             ) : (
               <GaugeChart value={contentRate.overall} />
             )}
-            <div className="admin-analytics-gauge-label">
+            <div className="admin-analytics-label">
               Click to view content match table
             </div>
           </div>
           <div className="content-rate-line-container mobile-scroll">
-            <div className="growth-chart-label admin-analytics-green">Monthly Match Rate Trend</div>
+            <div className="growth-chart-label">Monthly Match Rate Trend</div>
             <div className="content-rate-line-box">
               {loadingContentRate ? (
-                <div className="admin-analytics-loading-green">Loading trend...</div>
+                <div className="admin-analytics-loading">Loading trend...</div>
               ) : (
                 <Line data={contentRateLineData} options={contentRateLineOptions} />
               )}
@@ -1265,21 +1278,74 @@ export default function AdminAnalytics() {
               countName="Match Status"
               percentName={null}
             />
-            {loadingContentMatch && <div className="admin-analytics-loading-green">Loading...</div>}
+            {loadingContentMatch && <div className="admin-analytics-loading">Loading...</div>}
           </Modal>
         </div>
 
         {/* --- User Analytics Section --- */}
         <div className="analytics-section content-area-scroll">
-          <h2 className="section-title" style={{ textAlign: 'left' }}>User Analytics</h2>
+          <div className="section-header" style={{ justifyContent: 'space-between' }}>
+            <h2 className="section-title" style={{ textAlign: 'left' }}>User Analytics</h2>
+            <div className="download-buttons">
+              <button
+                className="download-btn pdf"
+                onClick={() => demographicsFilter === 'sex' ? handleDownloadDemographicsSex('pdf') : handleDownloadDemographicsAge('pdf')}
+                title={`Download ${demographicsFilter === 'sex' ? 'Sex' : 'Age'} Demographics PDF`}
+              >
+                Download PDF
+              </button>
+              <button
+                className="download-btn excel"
+                onClick={() => demographicsFilter === 'sex' ? handleDownloadDemographicsSex('excel') : handleDownloadDemographicsAge('excel')}
+                title={`Download ${demographicsFilter === 'sex' ? 'Sex' : 'Age'} Demographics Excel`}
+              >
+                Download Excel
+              </button>
+            </div>
+          </div>
 
-          {/* Demographics by Age Group Container */}
+          {/* Combined Demographics Container */}
           <div className="demographics-container" style={{ marginBottom: '2rem', display: 'flex', alignItems: 'flex-start', gap: '1.5rem' }}>
             <div className="demographics-horizontal-scroll mobile-scroll"
                  style={{ display: 'flex', gap: 12, justifyContent: 'center', alignItems: 'stretch', flexWrap: 'wrap', flex: 1 }}>
               <div className="demographics-card">
                 <div className="demographics-header">
-                  <div className="demographics-title">By Age Group</div>
+                  <div className="demographics-title">User Demographics</div>
+                  {/* Filter Buttons */}
+                  <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
+                    <button
+                      onClick={() => setDemographicsFilter('sex')}
+                      style={{
+                        padding: '0.5rem 1rem',
+                        border: '1px solid #2563eb',
+                        borderRadius: '0.375rem',
+                        backgroundColor: demographicsFilter === 'sex' ? '#2563eb' : 'transparent',
+                        color: demographicsFilter === 'sex' ? 'white' : '#2563eb',
+                        cursor: 'pointer',
+                        fontSize: '0.875rem',
+                        fontWeight: '500',
+                        transition: 'all 0.2s ease-in-out'
+                      }}
+                    >
+                      By Sex
+                    </button>
+                    <button
+                      onClick={() => setDemographicsFilter('age')}
+                      style={{
+                        padding: '0.5rem 1rem',
+                        border: '1px solid #2563eb',
+                        borderRadius: '0.375rem',
+                        backgroundColor: demographicsFilter === 'age' ? '#2563eb' : 'transparent',
+                        color: demographicsFilter === 'age' ? 'white' : '#2563eb',
+                        cursor: 'pointer',
+                        fontSize: '0.875rem',
+                        fontWeight: '500',
+                        transition: 'all 0.2s ease-in-out'
+                      }}
+                    >
+                      By Age
+                    </button>
+                  </div>
                 </div>
                 <div className="chart-container" style={{ width: '100%', maxWidth: '280px', height: '280px', position: 'relative' }}>
                   {loadingDemographics ? (
@@ -1304,7 +1370,7 @@ export default function AdminAnalytics() {
                     </div>
                   ) : (
                     <Pie
-                      data={agePieData}
+                      data={combinedDemographicsData}
                       options={{
                         responsive: true,
                         maintainAspectRatio: true,
@@ -1336,103 +1402,6 @@ export default function AdminAnalytics() {
                 </div>
               </div>
             </div>
-            <div className="demographics-downloads" style={{ display: 'flex', flexDirection: 'row', gap: '0.75rem', alignSelf: 'center' }}>
-              <button
-                className="download-icon-btn pdf"
-                onClick={() => handleDownloadDemographicsAge('pdf')}
-                title="Download Age Demographics PDF"
-              >
-                Download PDF
-              </button>
-              <button
-                className="download-icon-btn excel"
-                onClick={() => handleDownloadDemographicsAge('excel')}
-                title="Download Age Demographics Excel"
-              >
-                Download Excel
-              </button>
-            </div>
-          </div>
-
-          {/* Demographics by Sex Container */}
-          <div className="demographics-container" style={{ display: 'flex', alignItems: 'flex-start', gap: '1.5rem' }}>
-            <div className="demographics-horizontal-scroll mobile-scroll"
-                 style={{ display: 'flex', gap: 12, justifyContent: 'center', alignItems: 'stretch', flexWrap: 'wrap', flex: 1 }}>
-              <div className="demographics-card">
-                <div className="demographics-header">
-                  <div className="demographics-title">By Sex</div>
-                </div>
-                <div className="chart-container" style={{ width: '100%', maxWidth: '280px', height: '280px', position: 'relative' }}>
-                  {loadingDemographics ? (
-                    <div className="admin-analytics-loading" style={{ 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      justifyContent: 'center', 
-                      height: '100%',
-                      color: '#6b7280',
-                      fontSize: '1.1em'
-                    }}>
-                      <div className="loading-spinner" style={{ 
-                        width: '24px', 
-                        height: '24px', 
-                        border: '3px solid #e5e7eb',
-                        borderTop: '3px solid #2563eb',
-                        borderRadius: '50%',
-                        animation: 'spin 1s linear infinite',
-                        marginRight: '10px'
-                      }}></div>
-                      Loading...
-                    </div>
-                  ) : (
-                    <Pie
-                      data={sexPieData}
-                      options={{
-                        responsive: true,
-                        maintainAspectRatio: true,
-                        plugins: {
-                          legend: { 
-                            display: true, 
-                            position: "bottom",
-                            labels: {
-                              padding: 15,
-                              usePointStyle: true,
-                              font: {
-                                size: 12,
-                                weight: '500'
-                              }
-                            }
-                          },
-                          tooltip: { 
-                            callbacks: { label: ctx => `${ctx.label}: ${ctx.raw}` },
-                            backgroundColor: 'rgba(0,0,0,0.8)',
-                            titleColor: '#fff',
-                            bodyColor: '#fff',
-                            borderColor: '#2563eb',
-                            borderWidth: 1
-                          },
-                        },
-                      }}
-                    />
-                  )}
-                </div>
-              </div>
-            </div>
-            <div className="demographics-downloads" style={{ display: 'flex', flexDirection: 'row', gap: '0.75rem', alignSelf: 'center' }}>
-              <button
-                className="download-icon-btn pdf"
-                onClick={() => handleDownloadDemographicsSex('pdf')}
-                title="Download Sex Demographics PDF"
-              >
-                Download PDF
-              </button>
-              <button
-                className="download-icon-btn excel"
-                onClick={() => handleDownloadDemographicsSex('excel')}
-                title="Download Sex Demographics Excel"
-              >
-                Download Excel
-              </button>
-            </div>
           </div>
         </div>
 
@@ -1445,6 +1414,7 @@ export default function AdminAnalytics() {
               <button className="download-btn excel" onClick={() => handleDownloadMainConcerns('excel')}>Download Excel</button>
             </div>
           </div>
+
           <div
             className="bar-chart-box"
             title="Click to view all feedback"
@@ -1457,19 +1427,55 @@ export default function AdminAnalytics() {
             )}
           </div>
           <Modal open={showFeedbackModal} onClose={() => setShowFeedbackModal(false)}>
-            <AdminTable
-              title="All Feedback"
-              data={feedback.map(row => ({
-                label: row.main_concern,
-                count: row.details,
-                percent: null,
-                email: row.email,
-                created_at: row.created_at,
-              }))}
-              labelName="Main Concern"
-              countName="Details"
-              percentName={null}
-            />
+            <div style={{ marginBottom: '1rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', paddingRight: '2rem' }}>
+                <h3 style={{ margin: 0, fontSize: '1.25rem', fontWeight: '600', color: '#1f2937' }}>
+                  {feedbackFilter === 'all' ? 'All Feedback' : `Feedback: ${feedbackFilter}`}
+                </h3>
+                {/* Filter Dropdown */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <label htmlFor="feedback-filter" style={{ fontSize: '0.9rem', fontWeight: '500', color: '#374151' }}>Filter:</label>
+                  <select
+                    id="feedback-filter"
+                    value={feedbackFilter}
+                    onChange={(e) => setFeedbackFilter(e.target.value)}
+                    style={{
+                      padding: '0.5rem',
+                      border: '1px solid #d1d5db',
+                      borderRadius: '0.375rem',
+                      fontSize: '0.875rem',
+                      backgroundColor: 'white',
+                      cursor: 'pointer',
+                      minWidth: '150px'
+                    }}
+                  >
+                    <option value="all">All Concerns</option>
+                    {mainConcerns.map((concern, index) => (
+                      <option key={index} value={concern.main_concern}>
+                        {concern.main_concern} ({concern.concern_count})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+              <AdminTable
+                title="" // Remove title since we have it above
+                data={feedback
+                  .filter(row => feedbackFilter === 'all' || row.main_concern === feedbackFilter)
+                  .map(row => ({
+                    label: row.main_concern,
+                    count: row.details,
+                    percent: row.email,
+                    created_at: new Date(row.created_at).toLocaleDateString(),
+                  }))}
+                labelName="Main Concern"
+                countName="Details"
+                percentName="Email"
+                extraColumns={[
+                  { key: 'created_at', label: 'Date Sent' }
+                ]}
+              />
+            </div>
             {loadingFeedback && <div className="admin-analytics-loading">Loading...</div>}
           </Modal>
         </div>

@@ -4,6 +4,7 @@ import { FiClipboard, FiHelpCircle, FiLogOut, FiDownload } from "react-icons/fi"
 import { FaUserCircle } from "react-icons/fa";
 import { getUserData } from '../data/UserData';
 import qrCodeImg from '../assets/express_apk_qr.png';
+import UserProfile from '../user/UserProfile';
 import '../CSS/UserBottomNavBar.css';
 
 const navs = [
@@ -22,6 +23,7 @@ const UserBottomNavBar = () => {
   const [showLogoutPopup, setShowLogoutPopup] = useState(false);
   const [showMobilePopup, setShowMobilePopup] = useState(false);
   const [showErrorPopup, setShowErrorPopup] = useState(false);
+  const [showProfilePopup, setShowProfilePopup] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const dropdownRef = useRef(null);
 
@@ -151,7 +153,10 @@ const UserBottomNavBar = () => {
               </div> */}
               <div 
                 className="dropdown-item" 
-                onClick={() => handleDropdownClick("/userprofile")}
+                onClick={() => {
+                  setShowProfilePopup(true);
+                  setDropdownOpen(false);
+                }}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -536,6 +541,9 @@ const UserBottomNavBar = () => {
           </div>
         </div>
       )}
+
+      {/* Profile Popup */}
+      <UserProfile showModal={showProfilePopup} onCloseModal={() => setShowProfilePopup(false)} />
     </>
   );
 };
