@@ -159,7 +159,7 @@ const DownloadAppPopup = ({ open, onClose }) => {
             width: '100%'
           }}>
             <a
-              href="https://drive.google.com/uc?export=download&id=1kUykCA4L9awtt1Lp_vVRfcwai2R-H_qO"
+              href="https://drive.google.com/uc?export=download&id=1jZF77ErGHax8T9XwxneRfGVKjgvPIJa4"
               target="_blank"
               rel="noopener noreferrer"
               style={{
