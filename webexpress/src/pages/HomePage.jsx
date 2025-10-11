@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import GuestNavBar from "../components/GuestNavBar";
 import MessagePopup from "../components/MessagePopup";
+import DownloadAppPopup from "../components/DownloadAppPopup";
 import signLanguageImage from "../assets/express.png"; 
 import demoVideo from "../assets/express video  demonstration.mp4";
 
@@ -27,6 +28,7 @@ const HomePage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [popup, setPopup] = useState({ open: false, title: '', description: '' });
+  const [showDownloadPopup, setShowDownloadPopup] = useState(false);
   const aboutPageRef = useRef(null);
   const challengesPageRef = useRef(null);
   const featuresPageRef = useRef(null);
@@ -92,6 +94,14 @@ const HomePage = () => {
     };
     window.addEventListener("guestnav-scroll", handleGuestNavScroll);
     return () => window.removeEventListener("guestnav-scroll", handleGuestNavScroll);
+  }, []);
+
+  React.useEffect(() => {
+    const handleDownloadPopup = () => {
+      setShowDownloadPopup(true);
+    };
+    window.addEventListener("show-download-popup", handleDownloadPopup);
+    return () => window.removeEventListener("show-download-popup", handleDownloadPopup);
   }, []);
 
   return (
@@ -244,6 +254,11 @@ const HomePage = () => {
           title={popup.title}
           description={popup.description}
           onClose={() => setPopup({ ...popup, open: false })}
+        />
+
+        <DownloadAppPopup
+          open={showDownloadPopup}
+          onClose={() => setShowDownloadPopup(false)}
         />
 
         <section id="hero" className="hero-section">

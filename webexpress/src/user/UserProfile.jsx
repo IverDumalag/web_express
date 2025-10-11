@@ -1,11 +1,13 @@
-import boyImg from '../assets/boy.png';
   import React, { useEffect, useState } from 'react';
-  import { useNavigate } from "react-router-dom";
-  import { FaEdit, FaChevronLeft, FaCheckCircle } from 'react-icons/fa';
+  import { useNavigate } from 'react-router-dom';
+  import { FaEdit, FaCheckCircle, FaChevronLeft } from 'react-icons/fa';
   import { getUserData, setUserData } from '../data/UserData';
   import '../CSS/UserProfile.css';
+  import ConfirmationPopup from '../components/ConfirmationPopup';
 
-  export default function UserProfile() {
+  export default function UserProfile({ showModal, onCloseModal }) {
+    const navigate = useNavigate();
+    const isModalMode = showModal !== undefined;
     const [user, setUser] = useState(null);
     const [showEdit, setShowEdit] = useState(false);
     const [editForm, setEditForm] = useState({});
@@ -13,6 +15,7 @@ import boyImg from '../assets/boy.png';
     const [editError, setEditError] = useState('');
     const [editSuccess, setEditSuccess] = useState('');
     const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+    const [showConfirmation, setShowConfirmation] = useState(false);
     
     // Name validation states
     const [nameValidation, setNameValidation] = useState({
@@ -21,12 +24,20 @@ import boyImg from '../assets/boy.png';
       lastName: { hasNumbers: false, hasSpecialChars: false, validLength: true }
     });
 
-    const navigate = useNavigate();
-
     useEffect(() => {
       const data = getUserData();
       setUser(data);
     }, []);
+
+    // Reset form when modal closes
+    useEffect(() => {
+      if (!showModal) {
+        setShowEdit(false);
+        setEditError('');
+        setEditSuccess('');
+        setShowSuccessPopup(false);
+      }
+    }, [showModal]);
 
     const handleEditOpen = () => {
       const formData = {
@@ -63,7 +74,8 @@ import boyImg from '../assets/boy.png';
 
     const validateNameField = (fieldName, value) => {
       const hasNumbers = /\d/.test(value);
-      const hasSpecialChars = /[^a-zA-Z\s]/.test(value);
+      // Allow letters, spaces, hyphens, apostrophes, and periods only
+      const hasSpecialChars = /[^a-zA-Z\s'-.]/.test(value);
       const validLength = value.length <= 50;
 
       const fieldMap = {
@@ -99,8 +111,14 @@ import boyImg from '../assets/boy.png';
              isNameFieldValid('l_name');
     };
 
-    const handleEditSubmit = async e => {
+    const handleEditSubmit = e => {
       e.preventDefault();
+      // Show confirmation popup instead of saving directly
+      setShowConfirmation(true);
+    };
+
+    const handleConfirmSave = async () => {
+      setShowConfirmation(false);
       setEditLoading(true);
       setEditError('');
       setEditSuccess('');
@@ -125,45 +143,122 @@ import boyImg from '../assets/boy.png';
       setEditLoading(false);
     };
 
+    const handleCancelSave = () => {
+      setShowConfirmation(false);
+    };
+
     const handleSuccessPopupClose = () => {
       setShowSuccessPopup(false);
       setShowEdit(false);
       setEditSuccess('');
       setEditError('');
+      if (isModalMode && onCloseModal) onCloseModal();
     };
+
+    const handleCloseModal = () => {
+      if (!showEdit) {
+        if (isModalMode && onCloseModal) {
+          onCloseModal();
+        } else {
+          navigate(-1);
+        }
+      }
+    };
+
+    // If in modal mode and modal is not shown, return null
+    if (isModalMode && !showModal) return null;
+
+    // Modal mode wrapper
+    const ModalWrapper = ({ children }) => (
+      <div style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        background: 'rgba(0,0,0,0.08)',
+        zIndex: 3002,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '20px'
+      }}>
+        {children}
+      </div>
+    );
+
+    // Page mode wrapper
+    const PageWrapper = ({ children }) => (
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'flex-start',
+        width: '100%',
+        padding: '20px',
+        minHeight: '100vh'
+      }}>
+        {children}
+      </div>
+    );
+
+    const Wrapper = isModalMode ? ModalWrapper : PageWrapper;
 
     return (
       <>
-        <FaChevronLeft
-          className="profile-back-icon"
-          size={24}
-          style={{ marginLeft: 85, marginTop: 40 }}
-          onClick={() => navigate(-1)}
-        />
+        {!isModalMode && (
+          <FaChevronLeft
+            className="profile-back-icon"
+            size={24}
+            style={{ position: 'absolute', marginLeft: 85, marginTop: 40, cursor: 'pointer', zIndex: 10 }}
+            onClick={() => navigate(-1)}
+          />
+        )}
 
-  {/* Floating Boy Animation removed */}
-
-        <div className="profile-main-container" style={{ 
-          display: 'flex', 
-          justifyContent: 'center', 
-          alignItems: 'flex-start',
-          width: '100%',
-          padding: '20px'
-        }}>
-          <div className="profile-card profile-card-modern" style={{ 
-            border: '2px solid #334E7B', 
-            display: 'flex', 
-            flexDirection: 'column',
-            width: '50%',
+        <Wrapper>
+          <div style={{
+            background: '#fff',
+            borderRadius: '20px',
+            border: '2px solid #334E7B',
+            width: isModalMode ? '95%' : '50%',
             maxWidth: '600px',
-            minWidth: '400px'
+            minWidth: isModalMode ? 'auto' : '400px',
+            maxHeight: isModalMode ? '90vh' : 'none',
+            overflowY: isModalMode ? 'auto' : 'visible',
+            padding: '2em',
+            position: 'relative',
+            boxShadow: '0 8px 32px rgba(51, 78, 123, 0.2)'
           }}>
-            <div className="profile-header-row">
-              <div className="profile-header-title-col">
-                <span className="profile-title modern">Profile</span><br/><br/>
-                <span className="profile-desc">First Name, Middle Name, Last Name are the only editable fields.</span> <br/><br/><br/><br/>
+            {/* Close Button */}
+            <button
+              onClick={handleCloseModal}
+              style={{
+                position: 'absolute',
+                top: '18px',
+                right: '18px',
+                background: 'none',
+                border: 'none',
+                fontSize: '28px',
+                cursor: 'pointer',
+                color: '#334E7B',
+                zIndex: 2,
+                fontWeight: 'bold',
+                lineHeight: 1
+              }}
+              aria-label="Close"
+            >
+              ×
+            </button>
+
+            <div style={{ 
+              display: 'flex', 
+              flexDirection: 'column'
+            }}>
+              <div className="profile-header-row">
+                <div className="profile-header-title-col">
+                  <span className="profile-title modern">Profile</span><br/><br/>
+                  <span className="profile-desc">First Name, Middle Name, Last Name are the only editable fields.</span> <br/><br/>
+                </div>
               </div>
-            </div>
             {user ? (
               <>
                 {/* Full Name Section */}
@@ -328,8 +423,9 @@ import boyImg from '../assets/boy.png';
             ) : (
               <div style={{ textAlign: "center", color: "#aaa" }}>Loading...</div>
             )}
+            </div>
           </div>
-        </div>
+        </Wrapper>
 
         {/* Edit Popup */}
         {showEdit && (
@@ -355,7 +451,7 @@ import boyImg from '../assets/boy.png';
                   )}
                   {nameValidation.firstName.hasSpecialChars && (
                     <div style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}>
-                      First name cannot contain special characters
+                      First name can only contain letters, spaces, hyphens (-), apostrophes ('), and periods (.)
                     </div>
                   )}
                   {!nameValidation.firstName.validLength && (
@@ -382,7 +478,7 @@ import boyImg from '../assets/boy.png';
                   )}
                   {nameValidation.middleName.hasSpecialChars && (
                     <div style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}>
-                      Middle name cannot contain special characters
+                      Middle name can only contain letters, spaces, hyphens (-), apostrophes ('), and periods (.)
                     </div>
                   )}
                   {!nameValidation.middleName.validLength && (
@@ -410,7 +506,7 @@ import boyImg from '../assets/boy.png';
                   )}
                   {nameValidation.lastName.hasSpecialChars && (
                     <div style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}>
-                      Last name cannot contain special characters
+                      Last name can only contain letters, spaces, hyphens (-), apostrophes ('), and periods (.)
                     </div>
                   )}
                   {!nameValidation.lastName.validLength && (
@@ -443,6 +539,18 @@ import boyImg from '../assets/boy.png';
             </form>
           </div>
         )}
+
+        {/* Confirmation Popup */}
+        <ConfirmationPopup
+          open={showConfirmation}
+          title="Save Changes"
+          message="Are you sure you want to save these changes to your profile?"
+          onConfirm={handleConfirmSave}
+          onCancel={handleCancelSave}
+          loading={editLoading}
+          confirmText="Save"
+          loadingText="Saving..."
+        />
 
         {/* Success Popup */}
         {showSuccessPopup && (

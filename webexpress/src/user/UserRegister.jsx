@@ -2,7 +2,9 @@
     import { Link, useNavigate } from 'react-router-dom';
     import axios from 'axios';
     import MessagePopup from '../components/MessagePopup';
+    import { addDefaultCards } from '../utils/defaultCards';
     import '../CSS/UserRegister.css';
+    import UserAboutPage from './UserAboutPage';
 
     export default function UserRegister() {
   const [form, setForm] = useState({
@@ -25,6 +27,8 @@
   const [sentOtp, setSentOtp] = useState('');
   const [otpLoading, setOtpLoading] = useState(false);
   const [resendTimer, setResendTimer] = useState(0);
+  const [showPolicyModal, setShowPolicyModal] = useState(false);
+  const [policyContent, setPolicyContent] = useState('');
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -42,6 +46,9 @@
     middleName: { hasNumbers: false, hasSpecialChars: false, validLength: true },
     lastName: { hasNumbers: false, hasSpecialChars: false, validLength: true }
   });
+  
+  // Terms and Privacy Policy acceptance state
+  const [acceptTerms, setAcceptTerms] = useState(false);
   
   const mainColor = '#334E7B';
 
@@ -61,7 +68,8 @@
   // Name validation function
   const validateName = (name, fieldType) => {
     const hasNumbers = /\d/.test(name);
-    const hasSpecialChars = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~`]/.test(name);
+    // Allow letters, spaces, hyphens, apostrophes, and periods only
+    const hasSpecialChars = /[^a-zA-Z\s'-.]/.test(name);
     const validLength = name.length <= 50;
     
     const validation = { hasNumbers, hasSpecialChars, validLength };
@@ -84,7 +92,7 @@
           {!fieldValidation.hasNumbers ? '✓' : '✗'} No numbers allowed
         </div>
         <div style={{ color: !fieldValidation.hasSpecialChars ? '#28a745' : '#dc3545' }}>
-          {!fieldValidation.hasSpecialChars ? '✓' : '✗'} No special characters allowed
+          {!fieldValidation.hasSpecialChars ? '✓' : '✗'} Only letters, spaces, hyphens (-), apostrophes ('), and periods (.) allowed
         </div>
         <div style={{ color: fieldValidation.validLength ? '#28a745' : '#dc3545' }}>
           {fieldValidation.validLength ? '✓' : '✗'} Maximum 50 characters ({fieldValue.length}/50)
@@ -140,6 +148,16 @@
 const sendOTP = async () => {
   if (!form.email) {
     setPopup({ open: true, title: "Error", description: "Please enter your email first." });
+    return;
+  }
+
+  // Check if terms and conditions are accepted
+  if (!acceptTerms) {
+    setPopup({ 
+      open: true, 
+      title: "Terms and Conditions Required", 
+      description: "Please accept the Terms & Conditions and Privacy Policy to continue." 
+    });
     return;
   }
 
@@ -269,6 +287,24 @@ const sendOTP = async () => {
         }, 1000);
       };
 
+      // Show Privacy Policy
+      const showPrivacyPolicy = () => {
+        setPolicyContent('privacy');
+        setShowPolicyModal(true);
+      };
+
+      // Show Terms & Conditions
+      const showTerms = () => {
+        setPolicyContent('terms');
+        setShowPolicyModal(true);
+      };
+
+      // Close Policy Modal
+      const closePolicyModal = () => {
+        setShowPolicyModal(false);
+        setPolicyContent('');
+      };
+
       // Verify OTP and proceed with registration
       const verifyOTPAndRegister = async () => {
         if (!otpCode || otpCode.length !== 6) {
@@ -302,10 +338,25 @@ const sendOTP = async () => {
           );
           
           if (res.data.status === 201) {
+            // Add default cards for the newly created user
+            if (res.data.user && res.data.user.user_id) {
+              try {
+                const defaultCardsResult = await addDefaultCards(res.data.user.user_id);
+                if (defaultCardsResult.success) {
+                  console.log('Default cards added for new user:', defaultCardsResult.message);
+                } else {
+                  console.warn('Default cards failed for new user:', defaultCardsResult.message);
+                }
+              } catch (defaultCardsError) {
+                console.error('Error adding default cards for new user:', defaultCardsError);
+                // Don't block registration if default cards fail
+              }
+            }
+            
             setPopup({ 
               open: true, 
               title: "Account Created Successfully!", 
-              description: "Welcome to exPress! Your account has been created. You can now sign in with your credentials." 
+              description: "Welcome to exPress! Your account has been created with default cards. You can now sign in with your credentials." 
             });
             // Reset form and OTP states
             setForm({
@@ -316,9 +367,11 @@ const sendOTP = async () => {
               sex: '',
               birthdate: '',
               password: '',
+              confirmPassword: '',
               role: 'user',
               updated_at: new Date().toISOString(),
             });
+            setAcceptTerms(false);
             setOtpStep(false);
             setOtpCode('');
             setSentOtp('');
@@ -398,13 +451,23 @@ const sendOTP = async () => {
               
               className="center-form">
 
+                {/* Required fields note */}
+                <div style={{ 
+                  fontSize: '0.85rem',
+                  color: '#666',
+                  marginBottom: '1rem',
+                  textAlign: 'center'
+                }}>
+                  <span style={{ color: '#dc3545' }}>*</span> Required fields are marked with an asterisk
+                </div>
+
                 <div className="center-form-group">
-                  <label>Email</label>
+                  <label>Email <span style={{ color: '#dc3545' }}>*</span></label>
                   <input type="email" name="email" value={form.email} onChange={handleChange} required />
                 </div>
                 
                 <div className="center-form-group">
-                  <label>Password</label>
+                  <label>Password <span style={{ color: '#dc3545' }}>*</span></label>
                     <div style={{ position: 'relative', width: '100%' }}>
                       <input
                         type={showPassword ? 'text' : 'password'}
@@ -467,7 +530,7 @@ const sendOTP = async () => {
                 </div>
                 
                 <div className="center-form-group">
-                  <label>Confirm Password</label>
+                  <label>Confirm Password <span style={{ color: '#dc3545' }}>*</span></label>
                     <div style={{ position: 'relative', width: '100%' }}>
                       <input
                         type={showConfirmPassword ? 'text' : 'password'}
@@ -519,7 +582,7 @@ const sendOTP = async () => {
                 </div>
                 
                 <div className="center-form-group">
-                  <label>First name</label>
+                  <label>First name <span style={{ color: '#dc3545' }}>*</span></label>
                   <input 
                     type="text" 
                     name="f_name" 
@@ -555,7 +618,7 @@ const sendOTP = async () => {
                   </div>
 
                 <div className="center-form-group">
-                    <label>Last Name</label>
+                    <label>Last Name <span style={{ color: '#dc3545' }}>*</span></label>
                     <input 
                       type="text" 
                       name="l_name" 
@@ -575,7 +638,7 @@ const sendOTP = async () => {
 
                 <div className="center-form-row">
                   <div className="center-form-group">
-                    <label>Sex</label>
+                    <label>Sex <span style={{ color: '#dc3545' }}>*</span></label>
                     <select name="sex" value={form.sex} onChange={handleChange} required>
                       <option value="">Select</option>
                       <option value="Male">Male</option>
@@ -584,7 +647,7 @@ const sendOTP = async () => {
                   </div>
                   
                 <div className="center-form-group">
-                    <label>Birthdate</label>
+                    <label>Birthdate <span style={{ color: '#dc3545' }}>*</span></label>
                     <input 
                       type="date" 
                       name="birthdate" 
@@ -597,9 +660,88 @@ const sendOTP = async () => {
                   </div>
                 </div>
 
-                      <button type="submit" disabled={otpLoading} className="center-btn">
+                {/* Terms and Privacy Policy Acceptance Checkbox */}
+                <div style={{ 
+                  margin: '1rem 0 1.5rem 0',
+                  fontSize: '0.9rem',
+                  lineHeight: '1.5'
+                }}>
+                  <label style={{ 
+                    display: 'flex', 
+                    alignItems: 'flex-start', 
+                    gap: '0.5rem',
+                    cursor: 'pointer',
+                    color: '#333'
+                  }}>
+                    <input 
+                      type="checkbox" 
+                      checked={acceptTerms}
+                      onChange={(e) => setAcceptTerms(e.target.checked)}
+                      style={{ 
+                        marginTop: '0.2rem',
+                        width: '16px',
+                        height: '16px',
+                        accentColor: '#334E7B'
+                      }}
+                      required
+                    />
+                    <span>
+                      I agree to the{' '}
+                      <span 
+                        onClick={(e) => {
+                          e.preventDefault();
+                          showTerms();
+                        }}
+                        style={{ 
+                          color: '#334E7B', 
+                          textDecoration: 'underline',
+                          cursor: 'pointer',
+                          fontWeight: '500'
+                        }}
+                      >
+                        Terms & Conditions
+                      </span>
+                      {' '}and{' '}
+                      <span 
+                        onClick={(e) => {
+                          e.preventDefault();
+                          showPrivacyPolicy();
+                        }}
+                        style={{ 
+                          color: '#334E7B', 
+                          textDecoration: 'underline',
+                          cursor: 'pointer',
+                          fontWeight: '500'
+                        }}
+                      >
+                        Privacy Policy
+                      </span>
+                    </span>
+                  </label>
+                </div>
+
+                      <button 
+                        type="submit" 
+                        disabled={otpLoading || !acceptTerms} 
+                        className="center-btn"
+                        style={{
+                          opacity: (!acceptTerms && !otpLoading) ? 0.6 : 1,
+                          cursor: (!acceptTerms && !otpLoading) ? 'not-allowed' : 'pointer'
+                        }}
+                      >
                           {otpLoading ? "Sending OTP..." : "Send Verification Code"}
                         </button>
+                        
+                        {!acceptTerms && !otpLoading && (
+                          <div style={{ 
+                            fontSize: '0.8rem', 
+                            color: '#dc3545', 
+                            textAlign: 'center', 
+                            marginTop: '0.5rem' 
+                          }}>
+                            Please accept the Terms & Conditions to continue
+                          </div>
+                        )}
                       
                       <div className="center-or">or</div>
                           <button type="button" className="center-btn center-btn-alt" onClick={() => navigate('/login')}>
@@ -670,6 +812,123 @@ const sendOTP = async () => {
               </div>
             )}
           </div>
+
+          {/* Privacy Policy and Terms Modal */}
+          {showPolicyModal && (
+            <div 
+              style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                zIndex: 1000,
+                padding: '20px'
+              }}
+              onClick={closePolicyModal}
+            >
+              <div 
+                style={{
+                  backgroundColor: 'white',
+                  borderRadius: '12px',
+                  maxWidth: '800px',
+                  maxHeight: '80vh',
+                  width: '100%',
+                  overflow: 'auto',
+                  padding: '2rem',
+                  position: 'relative',
+                  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+                }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <button
+                  onClick={closePolicyModal}
+                  style={{
+                    position: 'absolute',
+                    top: '1rem',
+                    right: '1rem',
+                    background: 'none',
+                    border: 'none',
+                    fontSize: '1.5rem',
+                    cursor: 'pointer',
+                    color: '#666',
+                    padding: '0.5rem',
+                    lineHeight: 1
+                  }}
+                >
+                  ×
+                </button>
+
+                {policyContent === 'privacy' ? (
+                  <div>
+                    <h2 style={{ color: mainColor, marginBottom: '0.5rem' }}>Privacy Policy</h2>
+                    <p style={{ fontSize: '0.85rem', fontStyle: 'italic', color: '#666', marginBottom: '1.5rem' }}>
+                      Last Updated: August 22, 2025
+                    </p>
+                    <div style={{ lineHeight: '1.6', color: '#333' }}>
+                      <p>
+                        exPress is committed to protecting your privacy. This Privacy Policy explains how we collect, 
+                        use, and safeguard your personal information when you use our mobile and web applications.
+                      </p>
+                      <ul style={{ marginTop: '1rem', paddingLeft: '1.5rem' }}>
+                        <li>We collect only the minimum data necessary to provide and improve functionality.</li>
+                        <li>Conversations are processed locally whenever possible to maximize privacy.</li>
+                        <li>We never sell or trade your personal information to third parties.</li>
+                        <li>You may request access, correction, or deletion of your data at any time.</li>
+                      </ul>
+                      <p style={{ marginTop: '1rem' }}>
+                        We apply industry-standard security measures to protect your information. 
+                        If data must be stored in the cloud, it is encrypted and handled with strict safeguards.
+                      </p>
+                      <p style={{ marginTop: '1rem' }}>
+                        By using exPress, you consent to this Privacy Policy. Updates will be reflected with a revised "Last Updated" date above. 
+                        For questions or requests regarding your data, contact us at @exPress@gmail.com.
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <h2 style={{ color: mainColor, marginBottom: '0.5rem' }}>Terms & Conditions</h2>
+                    <p style={{ fontSize: '0.85rem', fontStyle: 'italic', color: '#666', marginBottom: '1.5rem' }}>
+                      Last Updated: August 22, 2025
+                    </p>
+                    <div style={{ lineHeight: '1.6', color: '#333' }}>
+                      <p>By using exPress, you agree to the following terms:</p>
+                      <ul style={{ marginTop: '1rem', paddingLeft: '1.5rem' }}>
+                        <li>Use the app for lawful purposes only.</li>
+                        <li>Respect other users and their privacy.</li>
+                        <li>Do not attempt to reverse engineer the app.</li>
+                        <li>We reserve the right to update these terms.</li>
+                        <li>Continued use constitutes acceptance of changes.</li>
+                      </ul>
+                    </div>
+                  </div>
+                )}
+
+                <button
+                  onClick={closePolicyModal}
+                  style={{
+                    marginTop: '2rem',
+                    padding: '0.75rem 2rem',
+                    backgroundColor: mainColor,
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    fontSize: '1rem',
+                    fontWeight: '600',
+                    width: '100%'
+                  }}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       );
     }

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import MessagePopup from '../components/MessagePopup';
 import { setUserData } from '../data/UserData';
+import { addDefaultCards } from '../utils/defaultCards';
 import '../CSS/UserLogin.css';
 
 export default function UserLogin() {
@@ -45,6 +46,24 @@ export default function UserLogin() {
       
       if (res.data.status === 200) {
         setUserData(res.data.user);
+        
+        // Add default cards for new users (only if they're a regular user, not admin)
+        if (res.data.user.role === 'user') {
+          try {
+            const defaultCardsResult = await addDefaultCards(res.data.user.user_id);
+            if (defaultCardsResult.success && !defaultCardsResult.skipped) {
+              console.log('Default cards added:', defaultCardsResult.message);
+            } else if (defaultCardsResult.skipped) {
+              console.log('Default cards skipped: User already has cards');
+            } else {
+              console.warn('Default cards failed:', defaultCardsResult.message);
+            }
+          } catch (defaultCardsError) {
+            console.error('Error adding default cards:', defaultCardsError);
+            // Don't block login if default cards fail
+          }
+        }
+        
         setPopup({ open: true, title: "Success", description: "Welcome back! Redirecting to your dashboard..." });
         setTimeout(() => {
           setLoading(false);

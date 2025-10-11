@@ -116,7 +116,7 @@ export default function UserHome() {
 
               {/* Video */}
               <div className="express-demo-video-wrapper">
-                <video src={expressVideo} className="express-demo-video" controls muted />
+                <video src={expressVideo} className="express-demo-video" controls />
               </div>
             </div>
 

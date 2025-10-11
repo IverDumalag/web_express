@@ -8,6 +8,7 @@ import UserBottomNavBar from "../components/UserBottomNavBar";
 import UserAboutPage from "./UserAboutPage";
 import UserHelpPage from "./UserHelpPage";
 import UserFeedback from "./UserFeedback";
+import UserProfile from "./UserProfile";
 import '../CSS/UserMenuPage.css';
 
 const UserMenuPage = () => {
@@ -17,6 +18,7 @@ const UserMenuPage = () => {
   const [showAboutPopup, setShowAboutPopup] = useState(false);
   const [showHelpPopup, setShowHelpPopup] = useState(false);
   const [showFeedbackDrawer, setShowFeedbackDrawer] = useState(false);
+  const [showProfilePopup, setShowProfilePopup] = useState(false);
 
   const handleClick = (path) => {
     if (path === "logout") {
@@ -27,6 +29,8 @@ const UserMenuPage = () => {
       setShowHelpPopup(true);
     } else if (path === "/userfeedback") {
       setShowFeedbackDrawer(true);
+    } else if (path === "profile-popup") {
+      setShowProfilePopup(true);
     } else {
       navigate(path);
     }
@@ -42,7 +46,7 @@ const UserMenuPage = () => {
   };
 
   const menuItems = [
-    { label: "Profile", icon: <FaUserCircle size={36} />, path: "/userprofile" },
+    { label: "Profile", icon: <FaUserCircle size={36} />, path: "profile-popup" },
     { label: "About", icon: <FiInfo size={36} />, path: "about-popup" },
     { label: "Archive", icon: <FiArchive size={36} />, path: "/userarchived" },
     { label: "Feedback", icon: <FiMessageCircle size={36} />, path: "/userfeedback" },
@@ -155,6 +159,9 @@ const UserMenuPage = () => {
           </div>
         </div>
       )}
+
+      {/* Profile Popup */}
+      <UserProfile showModal={showProfilePopup} onCloseModal={() => setShowProfilePopup(false)} />
 
       {/* Custom Logout Popup */}
       {showLogoutPopup && (

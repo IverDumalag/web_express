@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { FiClipboard, FiHelpCircle, FiLogOut, FiDownload } from "react-icons/fi";
 import { FaUserCircle } from "react-icons/fa";
 import { getUserData } from '../data/UserData';
-import downloadImg from '../assets/download.png';
+import qrCodeImg from '../assets/express_apk_qr.png';
+import UserProfile from '../user/UserProfile';
 import '../CSS/UserBottomNavBar.css';
 
 const navs = [
@@ -22,6 +23,7 @@ const UserBottomNavBar = () => {
   const [showLogoutPopup, setShowLogoutPopup] = useState(false);
   const [showMobilePopup, setShowMobilePopup] = useState(false);
   const [showErrorPopup, setShowErrorPopup] = useState(false);
+  const [showProfilePopup, setShowProfilePopup] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const dropdownRef = useRef(null);
 
@@ -151,7 +153,10 @@ const UserBottomNavBar = () => {
               </div> */}
               <div 
                 className="dropdown-item" 
-                onClick={() => handleDropdownClick("/userprofile")}
+                onClick={() => {
+                  setShowProfilePopup(true);
+                  setDropdownOpen(false);
+                }}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -182,6 +187,10 @@ const UserBottomNavBar = () => {
               />
               <div 
                 className="dropdown-item" 
+                onClick={() => {
+                  setShowMobilePopup(true);
+                  setDropdownOpen(false);
+                }}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -192,17 +201,13 @@ const UserBottomNavBar = () => {
                   fontWeight: 600,
                   color: '#334E7B',
                   borderRadius: 8,
+                  cursor: 'pointer',
                 }}
               >
                 <FiDownload size={20} style={{ minWidth: 20 }} />
-                <a
-                  href="https://drive.google.com/uc?export=download&id=1D4QseDYlB9_3zezrNINM8eWWB3At1kVN"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ color: '#334E7B', textDecoration: 'none', marginLeft: 0, fontWeight: 600 }}
-                >
+                <span style={{ color: '#334E7B', marginLeft: 0, fontWeight: 600 }}>
                   Download our App
-                </a>
+                </span>
               </div>
               <div
                 style={{
@@ -370,23 +375,25 @@ const UserBottomNavBar = () => {
               <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: '100%', gap: '2.2em' }}>
                 <div style={{ minWidth: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 0, margin: 0 }}>
                   <style>{`
-                    @keyframes floatDownloadImg {
+                    @keyframes floatQRCode {
                       0% { transform: translateY(0); }
-                      50% { transform: translateY(-18px); }
+                      50% { transform: translateY(-12px); }
                       100% { transform: translateY(0); }
                     }
                   `}</style>
                   <img
-                    src={downloadImg}
-                    alt="Download"
+                    src={qrCodeImg}
+                    alt="QR Code to download exPress app"
                     style={{
-                      width: 240,
-                      height: 210,
+                      width: 180,
+                      height: 180,
                       margin: 0,
-                      padding: 0,
+                      padding: 8,
                       objectFit: 'contain',
-                      animation: 'floatDownloadImg 2.2s ease-in-out infinite',
+                      animation: 'floatQRCode 3s ease-in-out infinite',
                       display: 'block',
+                      border: '2px solid #334E7B',
+                      borderRadius: 12,
                     }}
                   />
                 </div>
@@ -407,7 +414,7 @@ const UserBottomNavBar = () => {
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1.2em', marginTop: '1.2em' }}>
                     <a
-                      href="https://drive.google.com/uc?export=download&id=1D4QseDYlB9_3zezrNINM8eWWB3At1kVN"
+                      href="https://drive.google.com/uc?export=download&id=1kUykCA4L9awtt1Lp_vVRfcwai2R-H_qO"
                       target="_blank"
                       rel="noopener noreferrer"
                       style={{
@@ -534,6 +541,9 @@ const UserBottomNavBar = () => {
           </div>
         </div>
       )}
+
+      {/* Profile Popup */}
+      <UserProfile showModal={showProfilePopup} onCloseModal={() => setShowProfilePopup(false)} />
     </>
   );
 };

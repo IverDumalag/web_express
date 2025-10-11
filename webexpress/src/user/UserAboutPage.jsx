@@ -16,7 +16,7 @@ const UserAboutPage = () => {
           <p>
             Version: v1.1.0<br />
             Release Date: September 16, 2025<br /><br />
-            exPress is a communication app designed to bridge the gap between the deaf-mute community 
+            exPress is a communication app designed to bridge the gap between the deaf community 
             and the general public. It offers real-time speech-to-text and text-to-speech functionalities, 
             making conversations seamless and inclusive.<br /><br />
             <span style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '8px' }}>
@@ -38,12 +38,12 @@ const UserAboutPage = () => {
             We are the team behind exPress—Alyssa, Aisha, and Iver, a group of developers, innovators, 
             and advocates for inclusivity. Our journey began with one simple question: how can technology 
             help break down the barriers that keep people from understanding one another?<br /><br />
-            We realized that communication challenges, especially for the deaf-mute community, often go unnoticed. 
+            We realized that communication challenges, especially for the deaf community, often go unnoticed. 
             Many people struggle to express themselves or be understood, simply because sign language is not universally known. 
             This inspired us to create exPress, a tool that empowers individuals to connect, learn, and communicate without limits.<br /><br />
             We combined global and local knowledge by training our models with international sign language datasets from Kaggle 
             and Filipino Sign Language data from Mendeley to ensure accuracy and relevance for the Filipino community.<br /><br />
-            Our mission: Develop innovative technologies that empower the deaf-mute community and foster inclusive communication for all.<br /><br />
+            Our mission: Develop innovative technologies that empower the deaf community and foster inclusive communication for all.<br /><br />
             Our vision: A future where communication knows no limits, where exPress serves as both a tool and movement toward universal inclusivity.<br /><br />
             Our values: Inclusivity, purposeful innovation, community-first mindset, and empowerment guide everything we do.
           </p>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaCheckCircle, FaEdit } from 'react-icons/fa';
 import MessagePopup from "../components/MessagePopup";
+import ConfirmationPopup from "../components/ConfirmationPopup";
 import { getUserData, setUserData } from "../data/UserData";
 import "../CSS/UserProfile.css";
 
@@ -12,6 +13,7 @@ export default function AdminProfile({ open, onClose }) {
   const [editError, setEditError] = useState('');
   const [editSuccess, setEditSuccess] = useState('');
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
   
   // Name validation states
   const [nameValidation, setNameValidation] = useState({
@@ -67,7 +69,8 @@ export default function AdminProfile({ open, onClose }) {
 
   const validateNameField = (fieldName, value) => {
     const hasNumbers = /\d/.test(value);
-    const hasSpecialChars = /[^a-zA-Z\s]/.test(value);
+    // Allow letters, spaces, hyphens, apostrophes, and periods only
+    const hasSpecialChars = /[^a-zA-Z\s'-.]/.test(value);
     const validLength = value.length <= 50;
 
     const fieldMap = {
@@ -103,8 +106,14 @@ export default function AdminProfile({ open, onClose }) {
            isNameFieldValid('l_name');
   };
 
-  const handleEditSubmit = async e => {
+  const handleEditSubmit = e => {
     e.preventDefault();
+    // Show confirmation popup instead of saving directly
+    setShowConfirmation(true);
+  };
+
+  const handleConfirmSave = async () => {
+    setShowConfirmation(false);
     setEditLoading(true);
     setEditError('');
     setEditSuccess('');
@@ -127,6 +136,10 @@ export default function AdminProfile({ open, onClose }) {
       setEditError("Network error.");
     }
     setEditLoading(false);
+  };
+
+  const handleCancelSave = () => {
+    setShowConfirmation(false);
   };
 
   const handleSuccessPopupClose = () => {
@@ -304,7 +317,7 @@ export default function AdminProfile({ open, onClose }) {
                 )}
                 {nameValidation.firstName.hasSpecialChars && (
                   <div style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}>
-                    First name cannot contain special characters
+                    First name can only contain letters, spaces, hyphens (-), apostrophes ('), and periods (.)
                   </div>
                 )}
                 {!nameValidation.firstName.validLength && (
@@ -332,7 +345,7 @@ export default function AdminProfile({ open, onClose }) {
                 )}
                 {nameValidation.middleName.hasSpecialChars && (
                   <div style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}>
-                    Middle name cannot contain special characters
+                    Middle name can only contain letters, spaces, hyphens (-), apostrophes ('), and periods (.)
                   </div>
                 )}
                 {!nameValidation.middleName.validLength && (
@@ -361,7 +374,7 @@ export default function AdminProfile({ open, onClose }) {
                 )}
                 {nameValidation.lastName.hasSpecialChars && (
                   <div style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}>
-                    Last name cannot contain special characters
+                    Last name can only contain letters, spaces, hyphens (-), apostrophes ('), and periods (.)
                   </div>
                 )}
                 {!nameValidation.lastName.validLength && (
@@ -398,6 +411,18 @@ export default function AdminProfile({ open, onClose }) {
           </form>
         </div>
       )}
+
+      {/* Confirmation Popup */}
+      <ConfirmationPopup
+        open={showConfirmation}
+        title="Save Changes"
+        message="Are you sure you want to save these changes to your profile?"
+        onConfirm={handleConfirmSave}
+        onCancel={handleCancelSave}
+        loading={editLoading}
+        confirmText="Save"
+        loadingText="Saving..."
+      />
 
       {/* Success Popup */}
       {showSuccessPopup && (
