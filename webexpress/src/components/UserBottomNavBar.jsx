@@ -408,7 +408,7 @@ const UserBottomNavBar = () => {
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1.2em', marginTop: '1.2em' }}>
                     <a
-                      href="https://drive.google.com/uc?export=download&id=1kUykCA4L9awtt1Lp_vVRfcwai2R-H_qO"
+                      href="https://drive.google.com/uc?export=download&id=1RvjOzqLLVCQq0EqvUltaqqO-VDKdq_rU"
                       target="_blank"
                       rel="noopener noreferrer"
                       style={{

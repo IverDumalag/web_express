@@ -92,7 +92,6 @@ const DownloadAppPopup = ({ open, onClose }) => {
               width: 180,
               height: 180,
               objectFit: 'contain',
-              animation: 'floatQR 3s ease-in-out infinite',
               border: '2px solid #334E7B',
               borderRadius: 12,
               padding: 8,
@@ -159,7 +158,7 @@ const DownloadAppPopup = ({ open, onClose }) => {
             width: '100%'
           }}>
             <a
-              href="https://drive.google.com/uc?export=download&id=1jZF77ErGHax8T9XwxneRfGVKjgvPIJa4"
+              href="https://drive.google.com/uc?export=download&id=1RvjOzqLLVCQq0EqvUltaqqO-VDKdq_rU"
               target="_blank"
               rel="noopener noreferrer"
               style={{

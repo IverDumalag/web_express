@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FaFilter, FaStar, FaPlus } from "react-icons/fa";
-import { MdOutlineWavingHand } from "react-icons/md";
+import { FaFilter, FaStar, FaPlus, FaArrowLeft, FaArrowRight, FaHandPaper } from "react-icons/fa";
+import { MdOutlineWavingHand, MdCategory, MdRestaurant, MdLocalDrink, MdPalette, MdCalendarToday, MdToday, MdPeople, MdHelp, MdNumbers, MdFamilyRestroom } from "react-icons/md";
 import UserCards from '../components/UserCards';
 import { getUserData } from '../data/UserData';
 import MessagePopup from '../components/MessagePopup';
@@ -33,6 +33,14 @@ export default function UserCardsPage() {
   const [addInputError, setAddInputError] = useState("");
   const [addLoading, setAddLoading] = useState(false);
   const addInputRef = useRef(null);
+  
+  // Category selection states
+  const [showCategoryModal, setShowCategoryModal] = useState(false);
+  const [showWordModal, setShowWordModal] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedWord, setSelectedWord] = useState("");
+  const [categorizedWords, setCategorizedWords] = useState({});
 
   const [popup, setPopup] = useState({ open: false, message: "", type: "info" });
   const showPopup = (message, type = "info", timeout = 5000) => {
@@ -42,6 +50,56 @@ export default function UserCardsPage() {
 
   const userData = getUserData();
   const user_id = userData?.user_id || "";
+
+  // Category data from CSV (matching Flutter app wordsphrases.csv)
+  const categoryData = {
+    "GREETING": ["GOOD MORNING", "GOOD AFTERNOON", "GOOD EVENING", "HELLO", "HOW ARE YOU", "IM FINE", "NICE TO MEET YOU", "THANK YOU", "YOURE WELCOME", "SEE YOU TOMORROW"],
+    "SURVIVAL": ["UNDERSTAND", "DON'T UNDERSTAND", "KNOW", "DON'T KNOW", "NO", "YES", "WRONG", "CORRECT", "SLOW", "FAST"],
+    "NUMBER": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+    "CALENDAR": ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"],
+    "DAYS": ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY", "TODAY", "TOMORROW", "YESTERDAY"],
+    "FAMILY": ["FATHER", "MOTHER", "SON", "DAUGHTER", "GRANDFATHER", "GRANDMOTHER", "UNCLE", "AUNTIE", "COUSIN", "PARENTS"],
+    "RELATIONSHIPS": ["BOY", "GIRL", "MAN", "WOMAN", "DEAF", "HARD OF HEARING", "WEELCHAIR PERSON", "BLIND", "DEAF BLIND", "MARRIED"],
+    "COLOR": ["BLUE", "GREEN", "RED", "BROWN", "BLACK", "WHITE", "YELLOW", "ORANGE", "GRAY", "PINK", "VIOLET", "LIGHT", "DARK"],
+    "FOOD": ["BREAD", "EGG", "FISH", "MEAT", "CHICKEN", "SPAGHETTI", "RICE", "LONGANISA", "SHRIMP", "CRAB"],
+    "DRINK": ["HOT", "COLD", "JUICE", "MILK", "COFFEE", "TEA", "BEER", "WINE", "SUGAR", "NO SUGAR"],
+  };
+
+  useEffect(() => {
+    setCategorizedWords(categoryData);
+  }, []);
+
+  const getCategoryIcon = (category) => {
+    const iconMap = {
+      "GREETING": MdOutlineWavingHand,
+      "NUMBER": MdNumbers,
+      "FAMILY": MdFamilyRestroom,
+      "COLOR": MdPalette,
+      "FOOD": MdRestaurant,
+      "DRINK": MdLocalDrink,
+      "CALENDAR": MdCalendarToday,
+      "DAYS": MdToday,
+      "RELATIONSHIPS": MdPeople,
+      "SURVIVAL": MdHelp,
+    };
+    return iconMap[category] || MdCategory;
+  };
+
+  const formatCategoryName = (category) => {
+    const nameMap = {
+      "GREETING": "Greetings",
+      "NUMBER": "Numbers",
+      "FAMILY": "Family",
+      "COLOR": "Colors",
+      "FOOD": "Food",
+      "DRINK": "Drinks",
+      "CALENDAR": "Calendar",
+      "DAYS": "Days",
+      "RELATIONSHIPS": "Relationships",
+      "SURVIVAL": "Survival",
+    };
+    return nameMap[category] || category;
+  };
 
   // Debug: Log error state changes
   useEffect(() => {
@@ -145,6 +203,132 @@ export default function UserCardsPage() {
   ];
 
   const normalize = (str) => (str || "").replace(/'/g, "").trim().toLowerCase();
+
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
+    setShowCategoryModal(false);
+    setShowWordModal(true);
+  };
+
+  const handleWordSelect = (word) => {
+    setSelectedWord(word);
+    setShowWordModal(false);
+    setShowConfirmModal(true);
+  };
+
+  const handleBackToCategories = () => {
+    setShowWordModal(false);
+    setShowCategoryModal(true);
+  };
+
+  const handleConfirmAddWord = async () => {
+    if (!selectedWord) return;
+    setAddLoading(true);
+
+    const trimmed = selectedWord.trim();
+    const normalized = normalize(trimmed);
+    
+    // Check for duplicates - same logic as handleAddWord
+    const isDuplicate = cards.some(card => {
+      const value = card?.words ?? card?.wordsphrases ?? card?.title ?? "";
+      return normalize(value) === normalized;
+    });
+    if (isDuplicate) {
+      showPopup("This word or phrase is already in your collection.", "error");
+      setAddLoading(false);
+      return;
+    }
+
+    let sign_language_url = "";
+    let is_match = 0;
+    let matchFound = false;
+
+    try {
+      // Search for sign language match - using same API call as handleAddWord
+      const searchRes = await fetch(`${TRYSEARCH_API_URL}?q=${encodeURIComponent(trimmed)}`, {
+        timeout: 15000
+      });
+
+      if (!searchRes.ok) {
+        console.warn('Search service unavailable, proceeding without sign language match');
+      } else {
+        const searchJson = await searchRes.json();
+        if (searchJson?.public_id && Array.isArray(searchJson.all_files)) {
+          const file = searchJson.all_files.find(f => f.public_id === searchJson.public_id);
+          if (file) {
+            sign_language_url = file.url;
+            is_match = 1;
+            matchFound = true;
+          }
+        }
+      }
+
+      // Add to user's collection
+      const insertRes = await fetch(INSERT_API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_id, words: trimmed, sign_language: sign_language_url, is_match }),
+        timeout: 15000
+      });
+
+      if (!insertRes.ok) {
+        throw new Error(`HTTP ${insertRes.status}: ${insertRes.statusText}`);
+      }
+
+      const insertJson = await insertRes.json();
+      if (insertJson.status === 201 || insertJson.status === "201") {
+        setShowConfirmModal(false);
+        setShowWordModal(false);
+        setShowCategoryModal(false);
+        setSelectedCategory("");
+        setSelectedWord("");
+        setReloadCards(prev => prev + 1);
+
+        if (matchFound) {
+          showPopup("Great! We found a sign language match for your word.", "success");
+        } else {
+          showPopup("Added to your collection. Sign language match will be added when available.", "info");
+        }
+      } else {
+        let errorMessage = "We couldn't add your word right now. Please try again.";
+        if (insertJson.message) {
+          if (insertJson.message.includes('duplicate')) {
+            errorMessage = "This word or phrase is already in your collection.";
+          }
+        }
+        showPopup(errorMessage, "error");
+      }
+    } catch (e) {
+      console.error('Error adding word from category:', e);
+      let errorMessage = "We couldn't add your word right now. Please try again.";
+
+      if (e.message.includes('Failed to fetch') || !navigator.onLine) {
+        errorMessage = "You appear to be offline. Please check your internet connection and try again.";
+      } else if (e.message.includes('timeout')) {
+        errorMessage = "Adding is taking longer than expected. Please check your internet connection and try again.";
+      } else if (e.message.includes('500')) {
+        errorMessage = "Our servers are temporarily unavailable. Please try again in a few moments.";
+      }
+
+      showPopup(errorMessage, "error");
+    }
+    setAddLoading(false);
+  };
+
+  const handleCancelCategorySelection = () => {
+    setShowCategoryModal(false);
+    setSelectedCategory("");
+  };
+
+  const handleCancelWordSelection = () => {
+    setShowWordModal(false);
+    setSelectedWord("");
+  };
+
+  const handleCancelConfirmation = () => {
+    setShowConfirmModal(false);
+    setSelectedWord("");
+  };
 
   const handleAddWord = async () => {
     console.log("handleAddWord called, addInput:", addInput.trim());
@@ -692,6 +876,72 @@ export default function UserCardsPage() {
               </div>
             )}
 
+            <div style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '1em', 
+              marginTop: '1.5em',
+              marginBottom: '1em'
+            }}>
+              <div style={{ flex: 1, height: '1px', background: '#ccc' }}></div>
+              <span style={{ 
+                color: '#52677D', 
+                fontSize: '0.9em', 
+                fontFamily: 'Inconsolata, monospace',
+                fontWeight: 600
+              }}>OR</span>
+              <div style={{ flex: 1, height: '1px', background: '#ccc' }}></div>
+            </div>
+
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setShowAddModal(false);
+                setShowCategoryModal(true);
+              }}
+              disabled={addLoading}
+              style={{
+                width: '100%',
+                background: 'transparent',
+                color: '#1C2E4A',
+                border: '2px solid #1C2E4A',
+                borderRadius: 12,
+                padding: '0.8em',
+                fontWeight: 700,
+                fontSize: '1em',
+                fontFamily: 'Inconsolata, monospace',
+                cursor: addLoading ? 'not-allowed' : 'pointer',
+                transition: 'all 0.2s',
+                marginBottom: '0.5em',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.3em'
+              }}
+              onMouseEnter={(e) => {
+                if (!addLoading) {
+                  e.target.style.background = '#1C2E4A';
+                  e.target.style.color = '#fff';
+                }
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.background = 'transparent';
+                e.target.style.color = '#1C2E4A';
+              }}
+            >
+              <span>Words with sign language available</span>
+              <span style={{
+                fontSize: '0.85em',
+                fontWeight: 500,
+                opacity: 0.8
+              }}>
+                Browse categories with verified signs
+              </span>
+            </button>
+
             <div style={{ display: 'flex', gap: '1em', marginTop: '1.5em' }}>
               <button
                 className="add-modal-btn"
@@ -761,6 +1011,352 @@ export default function UserCardsPage() {
           description={popup.message}
           onClose={() => setPopup(p => ({ ...p, open: false }))}
         />
+      )}
+
+      {/* Category Selection Modal */}
+      {showCategoryModal && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(0,0,0,0.5)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 2000,
+          padding: '1em'
+        }}>
+          <div style={{
+            background: '#1C2E4A',
+            borderRadius: 20,
+            padding: '2em',
+            maxWidth: '500px',
+            width: '100%',
+            maxHeight: '80vh',
+            display: 'flex',
+            flexDirection: 'column',
+            boxShadow: '0 10px 40px rgba(0,0,0,0.3)'
+          }}>
+            <h2 style={{
+              color: '#fff',
+              fontFamily: 'Inconsolata, monospace',
+              fontSize: '1.5em',
+              fontWeight: 700,
+              marginBottom: '1.5em',
+              textAlign: 'center'
+            }}>
+              Select Category
+            </h2>
+
+            <div style={{
+              flex: 1,
+              overflowY: 'auto',
+              marginBottom: '1.5em'
+            }}>
+              {Object.keys(categoryData).map((category) => {
+                const CategoryIcon = getCategoryIcon(category);
+                const wordCount = categoryData[category].length;
+
+                return (
+                  <div
+                    key={category}
+                    onClick={() => handleCategorySelect(category)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '1em',
+                      padding: '0.8em 1em',
+                      marginBottom: '0.5em',
+                      background: '#2E5C9A',
+                      borderRadius: 12,
+                      cursor: 'pointer',
+                      transition: 'background 0.2s, transform 0.1s',
+                      border: '2px solid transparent'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = '#334E7B';
+                      e.currentTarget.style.transform = 'scale(1.02)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = '#2E5C9A';
+                      e.currentTarget.style.transform = 'scale(1)';
+                    }}
+                  >
+                    <div style={{
+                      width: '45px',
+                      height: '45px',
+                      borderRadius: '50%',
+                      background: '#fff',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexShrink: 0
+                    }}>
+                      <CategoryIcon size={24} color="#1C2E4A" />
+                    </div>
+
+                    <div style={{ flex: 1 }}>
+                      <div style={{
+                        color: '#fff',
+                        fontFamily: 'Inconsolata, monospace',
+                        fontSize: '1em',
+                        fontWeight: 700,
+                        marginBottom: '0.2em'
+                      }}>
+                        {formatCategoryName(category)}
+                      </div>
+                      <div style={{
+                        color: '#b8c5d6',
+                        fontFamily: 'Inconsolata, monospace',
+                        fontSize: '0.85em'
+                      }}>
+                        {wordCount} {wordCount === 1 ? 'word' : 'words'}
+                      </div>
+                    </div>
+
+                    <FaArrowRight size={18} color="#fff" />
+                  </div>
+                );
+              })}
+            </div>
+
+            <button
+              onClick={handleCancelCategorySelection}
+              style={{
+                width: '100%',
+                background: '#52677D',
+                color: '#fff',
+                border: '2px solid #fff',
+                borderRadius: 12,
+                padding: '0.8em',
+                fontWeight: 700,
+                fontSize: '1.1em',
+                fontFamily: 'Inconsolata, monospace',
+                cursor: 'pointer',
+                transition: 'background 0.2s'
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Word Selection Modal */}
+      {showWordModal && selectedCategory && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(0,0,0,0.5)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 2000,
+          padding: '1em'
+        }}>
+          <div style={{
+            background: '#1C2E4A',
+            borderRadius: 20,
+            padding: '2em',
+            maxWidth: '500px',
+            width: '100%',
+            maxHeight: '80vh',
+            display: 'flex',
+            flexDirection: 'column',
+            boxShadow: '0 10px 40px rgba(0,0,0,0.3)'
+          }}>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '1em',
+              marginBottom: '1.5em'
+            }}>
+              <button
+                onClick={handleBackToCategories}
+                style={{
+                  background: 'transparent',
+                  border: 'none',
+                  color: '#fff',
+                  cursor: 'pointer',
+                  padding: '0.5em',
+                  display: 'flex',
+                  alignItems: 'center',
+                  borderRadius: 8,
+                  transition: 'background 0.2s'
+                }}
+                onMouseEnter={(e) => e.target.style.background = '#2E5C9A'}
+                onMouseLeave={(e) => e.target.style.background = 'transparent'}
+              >
+                <FaArrowLeft size={20} />
+              </button>
+
+              <h2 style={{
+                color: '#fff',
+                fontFamily: 'Inconsolata, monospace',
+                fontSize: '1.5em',
+                fontWeight: 700,
+                flex: 1
+              }}>
+                {formatCategoryName(selectedCategory)}
+              </h2>
+            </div>
+
+            <div style={{
+              flex: 1,
+              overflowY: 'auto',
+              marginBottom: '1.5em'
+            }}>
+              {categoryData[selectedCategory].map((word, index) => (
+                <div
+                  key={index}
+                  onClick={() => handleWordSelect(word)}
+                  style={{
+                    padding: '0.9em 1.2em',
+                    marginBottom: '0.5em',
+                    background: '#2E5C9A',
+                    borderRadius: 12,
+                    cursor: 'pointer',
+                    transition: 'background 0.2s, transform 0.1s',
+                    border: '2px solid transparent'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = '#334E7B';
+                    e.currentTarget.style.transform = 'scale(1.02)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = '#2E5C9A';
+                    e.currentTarget.style.transform = 'scale(1)';
+                  }}
+                >
+                  <div style={{
+                    color: '#fff',
+                    fontFamily: 'Inconsolata, monospace',
+                    fontSize: '1em',
+                    fontWeight: 600
+                  }}>
+                    {word}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <button
+              onClick={handleCancelWordSelection}
+              style={{
+                width: '100%',
+                background: '#52677D',
+                color: '#fff',
+                border: '2px solid #fff',
+                borderRadius: 12,
+                padding: '0.8em 1.5em',
+                fontWeight: 700,
+                fontSize: '1.1em',
+                fontFamily: 'Inconsolata, monospace',
+                cursor: 'pointer',
+                transition: 'background 0.2s'
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Confirmation Modal */}
+      {showConfirmModal && selectedWord && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(0,0,0,0.5)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 2000,
+          padding: '1em'
+        }}>
+          <div style={{
+            background: '#1C2E4A',
+            borderRadius: 20,
+            padding: '2em',
+            maxWidth: '400px',
+            width: '100%',
+            boxShadow: '0 10px 40px rgba(0,0,0,0.3)'
+          }}>
+            <h2 style={{
+              color: '#fff',
+              fontFamily: 'Inconsolata, monospace',
+              fontSize: '1.3em',
+              fontWeight: 700,
+              marginBottom: '1em',
+              textAlign: 'center'
+            }}>
+              Add Word to Collection?
+            </h2>
+
+            <p style={{
+              color: '#b8c5d6',
+              fontFamily: 'Inconsolata, monospace',
+              fontSize: '1.1em',
+              marginBottom: '1.5em',
+              textAlign: 'center',
+              fontWeight: 600
+            }}>
+              "{selectedWord}"
+            </p>
+
+            <div style={{ display: 'flex', gap: '1em' }}>
+              <button
+                onClick={handleConfirmAddWord}
+                disabled={addLoading}
+                style={{
+                  flex: 1,
+                  background: '#2E5C9A',
+                  color: '#fff',
+                  border: '2px solid #fff',
+                  borderRadius: 12,
+                  padding: '0.8em',
+                  fontWeight: 700,
+                  fontSize: '1.1em',
+                  fontFamily: 'Inconsolata, monospace',
+                  cursor: addLoading ? 'not-allowed' : 'pointer',
+                  transition: 'background 0.2s',
+                  opacity: addLoading ? 0.7 : 1
+                }}
+              >
+                {addLoading ? "Adding..." : "Add"}
+              </button>
+
+              <button
+                onClick={handleCancelConfirmation}
+                disabled={addLoading}
+                style={{
+                  flex: 1,
+                  background: '#52677D',
+                  color: '#fff',
+                  border: '2px solid #fff',
+                  borderRadius: 12,
+                  padding: '0.8em 1.5em',
+                  fontWeight: 700,
+                  fontSize: '1.1em',
+                  fontFamily: 'Inconsolata, monospace',
+                  cursor: addLoading ? 'not-allowed' : 'pointer',
+                  transition: 'background 0.2s',
+                  opacity: addLoading ? 0.7 : 1
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
       {showBoyBubble && (
