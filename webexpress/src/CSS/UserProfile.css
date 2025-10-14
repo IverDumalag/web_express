@@ -561,7 +561,7 @@ select.profile-edit-input::-ms-expand {
   transform: translateY(-50%);
   background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="111" height="111" viewBox="0 0 111 111" fill="none"><path d="M32.375 46.25L55.5 69.375L78.625 46.25" stroke="%23334E7B" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M32.375 46.25L55.5 69.375L78.625 46.25" stroke="%23334E7B" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></svg>') no-repeat center center;
   background-size: 1.5em 1.5em;
-  opacity: 0.95;
+  opacity: 1;
 }
 
 @media (max-width: 600px) {
@@ -597,5 +597,13 @@ select.profile-edit-input::-ms-expand {
   cursor: pointer;
   color: #1c2e4a;
   z-index: 1000; 
+}
+
+/* Style for input elements with datalist to always 
+  
+
+/* Ensure the arrow is always visible for datalist inputs */
+input[list]::-webkit-calendar-picker-indicator {
+  opacity: 1 !important;
 }
 
