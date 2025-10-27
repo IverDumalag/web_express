@@ -14,6 +14,7 @@
     "@cloudinary/url-gen": "^1.21.0",
     "@emailjs/browser": "^4.4.1",
     "@imagekit/react": "^5.0.1",
+    "@supabase/supabase-js": "^2.76.1",
     "axios": "^1.9.0",
     "chart.js": "^4.4.9",
     "cors": "^2.8.5",
