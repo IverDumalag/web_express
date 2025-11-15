@@ -72,6 +72,3 @@ Attempting to open these on web will trigger a popup directing users to download
 - Mozilla Firefox  
 - Microsoft Edge  
 - Opera  
-
-npm install
-npm start
