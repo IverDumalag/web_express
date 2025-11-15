@@ -1,84 +1,77 @@
-# exPress (Web)
-## A Mobile Application for Seamless Communication Between Abled and Deaf Individuals
-
-### National University of Dasmariñas: Capstone Project
-
----
-
-## Group: Owlets
-- **Dumalag, Iver Marl**
-- **Garcia, Alyssa Umiko**
-- **Ross, Angel Aisha**
+# exPress Web Application
+The exPress Web Application is a lightweight browser platform designed mainly for **managing word and phrase cards**.  
+Full translation features such as FSL-to-Text and Audio/Text-to-FSL are **exclusive to the mobile app**.
 
 ---
 
-## Overview
+## 👥 Developed By
+**exPress Capstone Team – National University Dasmariñas**
+- **Iver Marl Dumalag** – Backend Developer / Database Architect  
+- **Alyssa Umiko Garcia** – Project Manager / UI/UX Designer  
+- **Angel Aisha Ross** – Frontend Developer / Mobile Developer  
 
-**exPress** is a mobile application designed to allow abled people to connect within deaf communities seamlessly and vice-versa. With features like sign language to text and text/audio to sign language conversion, exPress breaks down the barrier between abled people and deaf individuals.
-
----
-
-## Features
-
-- **Real-Time Translation:** Translation between sign language and text/audio.
+Advised by: **Ms. Alyssa C. Vicente**
 
 ---
 
+## 📌 Available Features (Web)
 
-## Technology Stack
+### 📚 Word & Phrase Card Library
+- Add new words/phrases  
+- View, edit, delete cards  
+- Archive & restore entries  
+- Uses sign-language media stored in Cloudinary
 
-- **Frontend:** React (Vite, JSX, CSS)
-- **Backend:** Render
-- **Database:** MySQL
-- **Other Tools:** Git, ESLint, Vite
+### 🗂 Archive Management
+- Shows deleted cards  
+- Allows permanent deletion or restoration  
 
----
+### 👤 User Account
+- Register, Login, and Logout  
+- OTP email verification  
+- Edit user profile  
+- Access Help, About, and Feedback pages  
 
-## Installation
-
-### Prerequisites
-- Node.js (v16 or higher recommended)
-- npm (comes with Node.js)
-- Git (for cloning the repository)
-
-### Steps
-1. **Clone the repository:**
-	```bash
-	git clone https://github.com/IverDumalag/web_express.git
-	cd web_express/webexpress
-	```
-2. **Install dependencies:**
-	```bash
-	npm install
-	```
-3. **Start the development server:**
-	```bash
-	npm run dev
-	```
-4. **Open the app:**
-	Visit `http://localhost:5173` in your browser.
+### 📩 Feedback System
+- Users may submit feedback for admin review
 
 ---
 
-## Usage
+## 🚫 Features Exclusive to Mobile
+Attempting to open these on web will trigger a popup directing users to download the app:
 
-This project is currently a web-based frontend for the exPress application. It demonstrates the UI and navigation for both abled and deaf users, including admin and user dashboards, sign language resources, and translation features (to be integrated).
-
----
-
-## Contributing
-
-1. Fork the repository
-2. Create a new branch (`git checkout -b feature/your-feature`)
-3. Commit your changes (`git commit -m 'Add some feature'`)
-4. Push to the branch (`git push origin feature/your-feature`)
-5. Open a Pull Request
+- ✋ FSL → Text  
+- 🔊 Audio/Text → FSL  
+- 🎥 Real-time gesture recognition  
 
 ---
 
-## Contact
+## 🛠 Tech Stack
 
-For questions or collaboration, contact:
-- Iver Marl Dumalag
-- Alyssa Umiko Garcia
-- Angel Aisha Ross
+### Frontend
+- React.js  
+- HTML5 / CSS3  
+- JavaScript  
+
+### Backend
+- PHP REST API  
+- Render (Deployment)  
+- Docker (Containerized)  
+
+### Database
+- MySQL (Online)  
+- MySQL Workbench + phpMyAdmin  
+
+### Media Handling
+- Cloudinary (for sign-language images/videos)
+
+---
+
+## 🌐 Browser Compatibility
+- Google Chrome  
+- Mozilla Firefox  
+- Microsoft Edge  
+- Opera  
+
+npm install
+npm start
