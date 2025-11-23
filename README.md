@@ -6,9 +6,9 @@ Full translation features such as FSL-to-Text and Audio/Text-to-FSL are **exclus
 
 ## 👥 Developed By
 **exPress Capstone Team – National University Dasmariñas**
-- **Iver Marl Dumalag** – Backend Developer / Database Architect  
-- **Alyssa Umiko Garcia** – Project Manager / UI/UX Designer  
-- **Angel Aisha Ross** – Frontend Developer / Mobile Developer  
+- **Iver Marl Dumalag** – Full Stack Developer / Database Architect  
+- **Alyssa Umiko Garcia** – Project Manager / UI/UX Designer / Frontend Developer / Mobile Developer 
+- **Angel Aisha Ross** – UI/UX Designer / Frontend Developer / Mobile Developer  
 
 Advised by: **Ms. Alyssa C. Vicente**
 
