@@ -7,7 +7,7 @@ const FEEDBACK_API_URL = import.meta.env.VITE_FEEDBACKINSERT;
 
 const MAIN_CONCERN_OPTIONS = [
   "Word/Phrases No Match",
-  "Bug Found",
+  "Error Found",
   "Suggestion"
 ];
 

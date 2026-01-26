@@ -718,22 +718,26 @@ const HomePage = () => {
     <FAQItem 
       question="What is exPress?" 
       answer="exPress is a sign language learning platform that provides real-time translation and interactive learning tools." 
-      icon="▼"
     />
     <FAQItem 
       question="Who can use exPress?" 
       answer="Anyone interested in learning Filipino Sign Language, including beginners and advanced learners, can use exPress." 
-      icon="▼"
     />
     <FAQItem 
       question="Is exPress available on mobile devices?" 
       answer="Yes! exPress works across multiple platforms including web and mobile devices." 
-      icon="▼"
+    />
+    <FAQItem 
+      question="Why is the Roboto Mono font used in the system?" 
+      answer="Roboto Mono is chosen because it is optimized for readability across different screens and devices, making text easy to read in both web and mobile environments. Its clean, monospaced design ensures consistent alignment and clear distinction of characters, which improves the overall user experience and interface clarity." 
+    />
+    <FAQItem 
+      question="What are the colors used in the system and why were they chosen?" 
+      answer="The colors White (#FFFFFF), Cyan-Blue (#334E7B), and Ultramarine Blue (#4C75F2) were chosen to create a clean, modern, and professional visual style. White provides a neutral and spacious background that enhances readability, Cyan-Blue conveys trust and stability suitable for formal systems, and Ultramarine Blue adds vibrancy to highlight key elements. Together, these colors create a balanced contrast that improves user focus and ensures a visually appealing and consistent interface across web and mobile platforms." 
     />
     <FAQItem 
       question="Can exPress translate both sign-to-text and text-to-sign?" 
       answer="Absolutely! It supports real-time translation in both directions to facilitate communication." 
-      icon="▼"
     />
   </div>
 </section>

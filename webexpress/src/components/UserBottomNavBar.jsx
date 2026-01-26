@@ -374,13 +374,7 @@ const UserBottomNavBar = () => {
               </div>
               <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: '100%', gap: '2.2em' }}>
                 <div style={{ minWidth: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 0, margin: 0 }}>
-                  <style>{`
-                    @keyframes floatQRCode {
-                      0% { transform: translateY(0); }
-                      50% { transform: translateY(-12px); }
-                      100% { transform: translateY(0); }
-                    }
-                  `}</style>
+                  
                   <img
                     src={qrCodeImg}
                     alt="QR Code to download exPress app"
@@ -406,7 +400,7 @@ const UserBottomNavBar = () => {
                     marginBottom: '1.5em'
                   }}>
                     <h3 style={{ fontSize: '1.8em', fontWeight: 700, marginBottom: '0.5em', color: '#334E7B' }}>
-                      Download <span style={{ color: '#4C75F2' }}>exPress</span> Mobile App
+                      Download <span style={{ color: '#4C75F2' }}>exPress</span> in Android device
                     </h3>
                     <p style={{ fontSize: '1em', marginBottom: '1em', color: '#334E7B' }}>
                       Get the full experience by installing the app.
