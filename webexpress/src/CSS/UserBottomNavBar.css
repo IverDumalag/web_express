@@ -1,20 +1,21 @@
 /* ============================= */
-/* User Bottom Navbar Styles */
+/* User Bottom Navbar Styles     */
 /* ============================= */
+
 .user-bottom-nav {
   position: fixed;
   left: 0;
   bottom: 0;
   width: 100vw;
-  height: 10vh; /* slightly taller */
+  height: 10vh;
   min-height: 55px;
   max-height: 80px;
   background: rgba(255,255,255,0.98);
   display: flex;
   align-items: center;
-  justify-content: center; /* center nav links */
-  padding: 0 4vw;
-  padding-left: 80%;
+  /* RESPONSIVE FIX: removed padding-left: 80% which pushed everything to the right */
+  justify-content: space-between;
+  padding: 0 clamp(0.5em, 4vw, 2em);
   z-index: 100;
   box-shadow: 0 -3px 12px rgba(0,0,0,0.1);
   box-sizing: border-box;
@@ -24,16 +25,17 @@
 .user-bottom-nav .nav-group {
   display: flex;
   align-items: center;
+  gap: clamp(0.5em, 2vw, 1.5em); /* RESPONSIVE FIX: fluid gap */
 }
 
 .user-bottom-nav .nav-item {
   color: #334E7B;
-  font-size: 1.15em; /* slightly larger */
+  font-size: clamp(0.9em, 2.5vw, 1.15em); /* RESPONSIVE FIX: fluid font */
   font-weight: bold;
   background: none;
   border: none;
   cursor: pointer;
-  padding: 1.2vh 2.5vw 0.7vh 2.5vw; /* more spacious */
+  padding: 1.2vh clamp(0.5em, 2vw, 2.5vw) 0.7vh;
   border-radius: 2vw 2vw 0 0;
   transition: all 0.25s ease;
   position: relative;
@@ -41,6 +43,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
+  white-space: nowrap;
 }
 
 .user-bottom-nav .nav-item:hover {
@@ -74,33 +77,44 @@
 .user-bottom-nav .owlets {
   color: #222;
   font-weight: bold;
-  font-size: 1.3em; /* larger */
+  font-size: clamp(1em, 3vw, 1.3em); /* RESPONSIVE FIX: fluid font */
   letter-spacing: 2px;
-  margin-left: auto; /* keep account icon to right */
 }
 
+/* ============================================= */
+/* RESPONSIVE: Mobile small screens              */
+/* ============================================= */
 @media (max-width: 600px) {
   .user-bottom-nav {
     height: 9vh;
     min-height: 45px;
-    padding: 0 2vw;
-    gap: 40px;
+    padding: 0 clamp(0.3em, 2vw, 1em);
+    gap: 0;
+    /* RESPONSIVE FIX: removed gap: 40px that caused overflow on small screens */
   }
+
   .user-bottom-nav .nav-group {
-    gap: 4vw;
+    gap: clamp(0.3em, 2vw, 1em);
   }
+
   .user-bottom-nav .nav-item {
-    font-size: 1.05em;
-    padding: 1vh 3vw 0.7vh 3vw;
+    font-size: clamp(0.8em, 2.5vw, 1.05em);
+    padding: 1vh clamp(0.3em, 1.5vw, 1em) 0.7vh;
   }
+
   .user-bottom-nav .owlets {
-    font-size: 1.1em;
-    margin-left: auto;
+    font-size: clamp(0.9em, 2.5vw, 1.1em);
+  }
+}
+
+@media (max-width: 380px) {
+  .user-bottom-nav .nav-item span {
+    display: none; /* hide text labels on very small screens, show only icons */
   }
 }
 
 /* ============================= */
-/* Account Dropdown Styles (Expanded) */
+/* Account Dropdown Styles       */
 /* ============================= */
 .account-dropdown {
   position: absolute;
@@ -108,10 +122,11 @@
   top: 60px;
   background: #fff;
   color: #1C2E4A;
-  width: 300px; /* expanded width */
-  border-radius: 18px; /* slightly more rounded */
+  /* RESPONSIVE FIX: fluid width */
+  width: clamp(240px, 80vw, 300px);
+  border-radius: 18px;
   box-shadow: 0 16px 36px rgba(0,0,0,0.3);
-  font-size: 1em; /* slightly larger */
+  font-size: 1em;
   overflow: hidden;
   z-index: 200;
   transition: all 0.35s ease;
@@ -122,9 +137,10 @@
   align-items: center;
   background: linear-gradient(135deg, #334E7B, #1C2E4A);
   color: #fff;
-  padding: 18px; /* more padding */
+  padding: 18px;
   font-weight: bold;
   gap: 14px;
+  flex-wrap: wrap; /* RESPONSIVE FIX: allow wrap on small screens */
 }
 
 .dropdown-header img {
@@ -133,6 +149,7 @@
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid #fff;
+  flex-shrink: 0;
 }
 
 .dropdown-name {
@@ -143,14 +160,15 @@
 .dropdown-email {
   font-size: 0.9em;
   color: #ddd;
+  word-break: break-all; /* RESPONSIVE FIX: long emails won't overflow */
 }
 
 .dropdown-item {
-  padding: 18px 24px; /* more spacious */
+  padding: 18px 24px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 16px; /* more space for icons */
+  gap: 16px;
   border-bottom: 1px solid #f1f1f1;
   transition: all 0.25s ease;
 }
@@ -176,4 +194,12 @@
 .dropdown-item.logout:hover {
   background: #fde4e4;
   color: #c9302c;
+}
+
+@media (max-width: 480px) {
+  .account-dropdown {
+    right: -10px;
+    width: calc(100vw - 2em);
+    max-width: 300px;
+  }
 }

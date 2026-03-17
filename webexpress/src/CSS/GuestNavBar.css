@@ -1,111 +1,318 @@
 /* ============================= */
-/* Centered Navbar Styles */
+/* GuestNavBar — Responsive CSS  */
 /* ============================= */
-.navbar {
+
+/* RESPONSIVE FIX: Base = mobile-first. Desktop styles added via min-width queries */
+
+.guest-navbar {
   display: flex;
-  justify-content: center; /* center all content horizontally */
+  justify-content: space-between;
   align-items: center;
   background-color: #fff;
-  padding: 10px 5px;
-  border-radius: 0px;
+  /* RESPONSIVE FIX: clamp() for padding — no hardcoded 6em that collapses on mobile */
+  padding: 0.8em clamp(1em, 4vw, 3em);
   width: 100%;
-  max-width: 2000px;
   box-sizing: border-box;
-  flex-shrink: 0;
+  border-bottom: 1px solid #eee;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
   font-family: 'Roboto Mono', monospace;
-  position: relative;
 }
 
-.navbar > .nav-left,
-.navbar > .nav-center,
-.navbar > .nav-right {
+/* Brand */
+.nav-brand {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 700;
+  /* RESPONSIVE FIX: fluid font size instead of fixed */
+  font-size: clamp(1em, 3vw, 1.2em);
+  color: #1C2E4A;
+  user-select: none;
+  /* RESPONSIVE FIX: removed hardcoded marginLeft: 100px */
+}
+
+.brand-accent {
+  color: #2354C7;
+}
+
+/* Nav Links — hidden on mobile, shown on desktop */
+.nav-links {
+  display: none; /* RESPONSIVE FIX: hidden by default (mobile-first) */
+  gap: 2em;
+  font-size: 0.95em;
+  align-items: center;
+}
+
+.nav-link {
+  cursor: pointer;
+  color: #334E7B;
+  font-weight: 500;
+  transition: color 0.2s;
+  padding: 4px 0;
+}
+
+.nav-link:hover {
+  color: #2354C7;
+}
+
+/* Right actions */
+.nav-right-actions {
   display: flex;
   align-items: center;
   gap: 1em;
 }
 
-/* Center links in the navbar */
-.nav-center {
+.nav-download-link {
+  text-decoration: none;
+  color: #334E7B;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.9em;
+  /* RESPONSIVE FIX: hide on very small screens to save space */
+  display: none;
+}
+
+.account-container {
+  position: relative;
+  cursor: pointer;
+}
+
+.account-icon {
+  display: flex;
+  align-items: center;
+  padding: 4px;
+}
+
+/* RESPONSIVE FIX: Hamburger button — visible on mobile, hidden on desktop */
+.mobile-menu-btn {
+  display: flex; /* visible on mobile by default */
+  background: none;
+  border: none;
+  font-size: 1.5em;
+  color: #1C2E4A;
+  cursor: pointer;
+  padding: 5px;
+  order: 3; /* push to far right on mobile */
+}
+
+/* Mobile dropdown menu */
+.mobile-menu {
+  position: fixed;
+  top: 56px; /* height of navbar */
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-bottom: 2px solid #eee;
+  z-index: 999;
+  padding: 0.5em 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-menu-item {
+  padding: 1em 1.5em;
+  cursor: pointer;
+  color: #334E7B;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 500;
+  font-size: 1em;
+  border-bottom: 1px solid #f5f5f5;
+  transition: background 0.15s;
+}
+
+.mobile-menu-item:hover {
+  background: #f0f4ff;
+  color: #2354C7;
+}
+
+/* Auth Modal */
+.auth-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.08);
+  display: flex;
+  align-items: center;
   justify-content: center;
-  flex: 1;
+  z-index: 3002;
+  padding: 1em; /* RESPONSIVE FIX: padding ensures modal doesn't touch edges */
 }
 
-/* Optional left and right sections (account, brand) */
-.nav-left {
-  justify-content: flex-start;
+.auth-modal-content {
+  width: 95%;
+  max-width: 460px;
+  /* RESPONSIVE FIX: fluid padding */
+  padding: clamp(2em, 8vw, 8em) clamp(1.5em, 5vw, 2.7em) 2.7em;
+  border-radius: 20px;
+  border: 2px solid #334E7B;
+  background: rgba(255,255,255,0.10);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(18px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5em;
+  color: #334E7B;
+  animation: modal-pop 0.22s cubic-bezier(.68,-0.55,.27,1.55);
+  position: relative;
+  box-sizing: border-box;
 }
 
-.nav-right {
-  justify-content: flex-end;
-  margin-left: auto; /* push right section to far right */
+@keyframes modal-pop {
+  0% { transform: scale(0.92); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
 }
 
-/* Brand link styling */
-.small-brand-link {
-  font-size: 1.1em !important;
-  margin-right: 0.5em !important;
-  color: #334E7B !important;
-  font-weight: 700 !important;
+.auth-modal-close {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  background: none;
+  border: none;
+  font-size: 1.5em;
+  color: #334E7B;
+  cursor: pointer;
+  font-weight: 700;
 }
 
-/* Nav item styling */
-.small-nav-item,
-.small-download-link {
-  font-size: 0.85em !important;
-  padding: 2px 8px !important;
-  color: #334E7B !important;
-  font-weight: 500 !important;
+.auth-modal-title {
+  font-weight: 700;
+  /* RESPONSIVE FIX: fluid font size */
+  font-size: clamp(1.4em, 4vw, 2em);
+  text-align: center;
+  font-family: 'Inconsolata', monospace;
+  color: #334E7B;
 }
 
-/* Account icon styling */
-.small-account-icon {
-  font-size: 1.1em !important;
-  color: #334E7B !important;
+.auth-modal-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  align-items: center;
+  width: 100%;
 }
 
-/* Responsive Design for Mobile Devices */
-@media (max-width: 768px) {
-  .navbar {
-    padding: 8px 20px;
-    flex-wrap: wrap;
-  }
+.auth-btn {
+  border-radius: 12px;
+  padding: 0.7em 0;
+  font-weight: 700;
+  font-size: 1.1em;
+  font-family: 'Inconsolata', monospace;
+  cursor: pointer;
+  width: 100%;
+  max-width: 300px;
+  min-width: 0; /* RESPONSIVE FIX: removed hardcoded min-width: 180px */
+  border: 2px solid #fff;
+  transition: opacity 0.2s;
+}
 
-  .nav-center {
-    justify-content: center;
-    width: 100%;
-    margin: 10px 0 0 0;
-  }
+.auth-btn:hover { opacity: 0.9; }
 
+.auth-btn-login {
+  background: #1C2E4A;
+  color: #fff;
+}
+
+.auth-btn-register {
+  background: #52677D;
+  color: #fff;
+}
+
+/* Error Popup */
+.error-popup-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 1em; /* RESPONSIVE FIX: padding prevents edge-to-edge on small screens */
+}
+
+.error-popup-content {
+  background: #fff;
+  padding: clamp(1.2em, 4vw, 2em);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+  max-width: 400px;
+  width: 100%; /* RESPONSIVE FIX: was hardcoded 90% */
+  text-align: center;
+  border: 2px solid #dc3545;
+  box-sizing: border-box;
+}
+
+.error-popup-icon {
+  background-color: #dc3545;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+}
+
+.error-popup-title {
+  color: #dc3545;
+  margin-bottom: 15px;
+  font-size: clamp(1.1em, 3vw, 1.4em);
+  font-weight: 600;
+}
+
+.error-popup-message {
+  color: #666;
+  margin-bottom: 25px;
+  font-size: clamp(0.95em, 2.5vw, 1.1em);
+  line-height: 1.5;
+}
+
+.error-popup-btn {
+  background: #dc3545;
+  color: #fff;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 1.1em;
+  transition: background 0.2s;
+}
+
+.error-popup-btn:hover { background: #c82333; }
+
+/* ============================================= */
+/* RESPONSIVE FIX: Tablet (min-width: 768px)     */
+/* ============================================= */
+@media (min-width: 768px) {
   .nav-links {
-    display: none !important; /* Hide nav links on mobile */
+    display: flex; /* show nav links on tablet+ */
+  }
+
+  .nav-download-link {
+    display: inline; /* show download link on tablet+ */
   }
 
   .mobile-menu-btn {
-    display: block !important;
-  }
-
-  .nav-right {
-    margin-left: auto;
+    display: none; /* hide hamburger on tablet+ */
   }
 }
 
-@media (max-width: 480px) {
-  .navbar {
-    padding: 6px 15px;
+/* ============================================= */
+/* RESPONSIVE FIX: Desktop (min-width: 1024px)   */
+/* ============================================= */
+@media (min-width: 1024px) {
+  .guest-navbar {
+    padding: 0.8em clamp(2em, 6vw, 6em);
   }
 
-  .nav-left,
-  .nav-center,
-  .nav-right {
-    gap: 0.5em !important;
-  }
-
-  .account-container svg {
-    width: 20px !important;
-    height: 20px !important;
-  }
-
-  .mobile-menu {
-    padding: 0.5em !important;
+  .nav-brand {
+    font-size: 1.2em;
   }
 }

@@ -1,11 +1,14 @@
+/* UserArchived.css — Responsive Fixes Applied */
+
 .archived-main-container {
   min-height: 100vh;
   width: 100vw;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #334E7B; /* Main theme blue for background */
+  background: #334E7B;
 }
+
 .archived-content-box {
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.10);
@@ -14,9 +17,9 @@
   -webkit-backdrop-filter: blur(10.3px);
   width: 90vw;
   max-width: 880px;
-  min-width: 240px;
+  min-width: 0; /* RESPONSIVE FIX: removed min-width that could cause overflow */
   min-height: 540px;
-  padding: 4vw 4vw 2vw 4vw;
+  padding: clamp(1rem, 4vw, 3rem) clamp(0.8rem, 4vw, 3rem) clamp(0.8rem, 2vw, 2rem);
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -25,42 +28,53 @@
   box-sizing: border-box;
   overflow: hidden;
 }
+
 .archived-header-row {
   display: flex;
   align-items: center;
-  margin-bottom: 2vw;
+  margin-bottom: clamp(0.8rem, 2vw, 1.5rem);
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
+
 .archived-back-btn {
   background: none;
   border: none;
   font-size: 1.5em;
   color: #6c63ff;
   cursor: pointer;
-  margin-right: 2vw;
+  margin-right: clamp(0.5rem, 2vw, 1rem);
 }
+
 .archived-bar-row {
   display: flex;
   align-items: center;
-  margin-bottom: 4vw;
+  margin-bottom: clamp(1rem, 4vw, 3rem);
   position: relative;
+  gap: 0.5rem;
+  flex-wrap: wrap; /* RESPONSIVE FIX: allow wrap on small screens */
 }
+
+/* RESPONSIVE FIX: was width: 480px — hardcoded, breaks on mobile */
 .archived-input {
   flex: 1;
   padding: 0.7em 1em;
-  font-size: 1.2em;
+  font-size: clamp(0.9em, 2.5vw, 1.2em); /* RESPONSIVE FIX: fluid font */
   border: 1px solid #000000;
   border-radius: 8px;
   outline: none;
-  margin-left: 2em;
-  width: 480px;
-  min-width: 260px;
+  margin-left: clamp(0.5em, 2vw, 2em);
+  width: 100%; /* RESPONSIVE FIX: was 480px — now fluid */
+  min-width: 0; /* RESPONSIVE FIX: allow shrinking */
   max-width: 100%;
   font-family: 'Roboto Mono', monospace;
+  box-sizing: border-box;
 }
+
 .filter-icon-btn {
   background: none;
   border: none;
-  margin-left: 2vw;
+  margin-left: clamp(0.3rem, 2vw, 1rem);
   font-size: 1.2em;
   color: #334E7B;
   font-weight: 500;
@@ -69,6 +83,7 @@
   padding: 2px 8px;
   border-radius: 4px;
   transition: background 0.2s;
+  flex-shrink: 0; /* RESPONSIVE FIX: don't shrink the filter button */
 }
 
 .filter-dropdown {
@@ -81,11 +96,13 @@
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   z-index: 10;
   min-width: 180px;
-  max-width: 260px;
+  /* RESPONSIVE FIX: cap max-width so it doesn't overflow on small screens */
+  max-width: min(260px, 90vw);
   width: auto;
 }
+
 .filter-option {
-  padding: 2vw 4vw;
+  padding: clamp(0.5rem, 2vw, 1rem) clamp(0.8rem, 3vw, 1.5rem);
   font-size: 1em;
   color: #334E7B;
   background: none;
@@ -95,43 +112,37 @@
   cursor: pointer;
   transition: background 0.15s;
 }
+
 .filter-option.selected,
 .filter-option:hover {
   background: #334E7B;
   color: #fff;
   border-radius: 8px;
 }
+
 .archived-list {
   flex: 1;
   overflow-y: auto;
   max-height: 40vh;
   min-height: 120px;
-  padding: 2.5em 2em 2.5em 2em;
+  padding: clamp(1rem, 3vw, 2.5em) clamp(0.5rem, 2vw, 2em);
   scrollbar-width: thin;
   scrollbar-color: #fff #334E7B;
   font-family: 'Roboto Mono', monospace;
   width: 100%;
-  max-width: 880px;
   min-width: 0;
   box-sizing: border-box;
 }
-.archived-list::-webkit-scrollbar {
-  width: 10px;
-  background: transparent;
-}
+
+.archived-list::-webkit-scrollbar { width: 10px; background: transparent; }
 .archived-list::-webkit-scrollbar-thumb {
   background: rgba(255,255,255,0.35);
   border-radius: 8px;
   border: 2px solid #334E7B;
-  box-shadow: 0 2px 8px rgba(51,78,123,0.10);
-  transition: background 0.2s;
 }
-.archived-list::-webkit-scrollbar-thumb:hover {
-  background: rgba(255,255,255,0.65);
-}
-.archived-list::-webkit-scrollbar-track {
-  background: transparent;
-}
+.archived-list::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.65); }
+.archived-list::-webkit-scrollbar-track { background: transparent; }
+
 .archived-item {
   background: transparent;
   color: #fff;
@@ -143,60 +154,61 @@
   align-items: center;
   justify-content: space-between;
   border: 2px solid #fff;
+  gap: 0.5rem;
 }
+
 .archived-content {
   flex: 1;
   min-width: 0;
 }
+
 .archived-title {
   color: #fff;
   font-weight: bold;
-  font-size: 1.1em;
+  font-size: clamp(0.9em, 2.5vw, 1.1em); /* RESPONSIVE FIX: fluid font */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .archived-actions {
   display: flex;
-  gap: 12px;
+  gap: 8px;
   align-items: center;
+  flex-shrink: 0;
 }
+
 .archived-action-btn {
   background: none;
   border: none;
   color: #ffffff;
-  font-size: 1.3em;
+  font-size: clamp(1.1em, 3vw, 1.3em); /* RESPONSIVE FIX: fluid icon size */
   cursor: pointer;
   border-radius: 8px;
   padding: 8px;
   transition: all 0.2s ease;
   outline: 2px solid transparent;
   outline-offset: 2px;
+  /* RESPONSIVE FIX: ensure minimum touch target 44px */
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
 .archived-action-btn:hover {
   color: #000000;
   background: rgba(255, 255, 255, 0.1);
   transform: scale(1.1);
 }
-.archived-action-btn:focus,
-.archived-action-btn:focus-visible {
-  outline: 2px solid #334E7B;
-  outline-offset: 2px;
-}
-.archived-action-btn.restore-btn {
-  color: #ffffff;
-}
-.archived-action-btn.restore-btn:hover {
-  color: #000000;
-  background: rgba(255, 255, 255, 0.1);
-}
-.archived-action-btn.delete-btn {
-  color: #ffffff;
-}
-.archived-action-btn.delete-btn:hover {
-  color: #000000;
-  background: rgba(255, 255, 255, 0.1);
-}
+
+.archived-action-btn.restore-btn { color: #ffffff; }
+.archived-action-btn.restore-btn:hover { color: #000000; background: rgba(255, 255, 255, 0.1); }
+.archived-action-btn.delete-btn { color: #ffffff; }
+.archived-action-btn.delete-btn:hover { color: #000000; background: rgba(255, 255, 255, 0.1); }
+
+/* Background decorative element */
 .archived-bg-booksearch {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -210,246 +222,41 @@
   opacity: 0.18;
 }
 
-.archived-bg-booksearch::before {
-  content: '';
-  display: block;
-  width: 340px;
-  height: 340px;
-  margin: auto;
-  background: transparent;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 0;
-  /* Book body */
-  box-shadow:
-    0 0 0 0 #fff,
-    0 0 0 0 #fff,
-    0 0 0 0 #fff,
-    0 0 0 0 #fff;
-}
-
-.archived-bg-booksearch::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 180px;
-  height: 120px;
-  transform: translate(-50%, -50%);
-  background: linear-gradient(120deg, #334E7B 60%, #fff 100%);
-  border-radius: 18px 18px 12px 12px/22px 22px 12px 12px;
-  box-shadow: 0 8px 32px 0 #1c2e4a44, 0 1.5px 0 0 #fff inset;
-  z-index: 1;
-  animation: book-bounce 2.8s cubic-bezier(.6,-0.28,.74,1.25) infinite;
-}
-
-@keyframes book-bounce {
-  0%, 100% { transform: translate(-50%, -50%) scale(1); }
-  50% { transform: translate(-50%, -54%) scale(1.04); }
-}
-
-/* Book spine */
-.archived-bg-booksearch::before {
-  box-shadow:
-    0 0 0 0 #fff,
-    0 0 0 0 #fff,
-    0 0 0 0 #fff,
-    0 0 0 0 #fff,
-    0 0 0 0 #fff;
-}
-
-/* Book search glass */
-.archived-bg-booksearch span {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 44px;
-  height: 44px;
-  background: transparent;
-  border-radius: 50%;
-  border: 5px solid #fff;
-  box-shadow: 0 0 0 2px #334E7B, 0 0 16px 0 #1c2e4a33;
-  transform: translate(-50%, -50%) scale(1.1);
-  z-index: 2;
-  animation: glass-move 2.8s cubic-bezier(.6,-0.28,.74,1.25) infinite;
-}
-
-@keyframes glass-move {
-  0%, 100% { transform: translate(-50%, -50%) scale(1.1) rotate(-8deg); }
-  50% { transform: translate(-50%, -54%) scale(1.13) rotate(8deg); }
-}
-
-.archived-bg-booksearch span::after {
-  content: '';
-  position: absolute;
-  right: -18px;
-  bottom: -8px;
-  width: 18px;
-  height: 8px;
-  background: #fff;
-  border-radius: 8px;
-  transform: rotate(38deg);
-  opacity: 0.7;
-}
-
-/* Single Div Pure CSS Book Search animation */
-.booksearch-bg {
-  width: 100vw;
-  height: 100vh;
-  min-height: 350px;
-  margin: 0;
-  position: absolute;
-  left: 0;
-  top: 0;
-  background-color: #111;
-  background-image:
-    linear-gradient(to top, #222 5%, #111 6%, #111 7%, transparent 7%),
-    linear-gradient(to bottom, #111 30%, transparent 30%),
-    linear-gradient(to right, #222, #2e2e2e 5%, transparent 5%),
-    linear-gradient(to right, transparent 6%, #222 6%, #2e2e2e 9%, transparent 9%),
-    linear-gradient(to right, transparent 27%, #222 27%, #2e2e2e 34%, transparent 34%),
-    linear-gradient(to right, transparent 51%, #222 51%, #2e2e2e 57%, transparent 57%),
-    linear-gradient(to bottom, #111 35%, transparent 35%),
-    linear-gradient(to right, transparent 42%, #222 42%, #2e2e2e 44%, transparent 44%),
-    linear-gradient(to right, transparent 45%, #222 45%, #2e2e2e 47%, transparent 47%),
-    linear-gradient(to right, transparent 48%, #222 48%, #2e2e2e 50%, transparent 50%),
-    linear-gradient(to right, transparent 87%, #222 87%, #2e2e2e 91%, transparent 91%),
-    linear-gradient(to bottom, #111 37.5%, transparent 37.5%),
-    linear-gradient(to right, transparent 14%, #222 14%, #2e2e2e 20%, transparent 20%),
-    linear-gradient(to bottom, #111 40%, transparent 40%),
-    linear-gradient(to right, transparent 10%, #222 10%, #2e2e2e 13%, transparent 13%),
-    linear-gradient(to right, transparent 21%, #222 21%, #1c1c1c 25%, transparent 25%),
-    linear-gradient(to right, transparent 58%, #222 58%, #2e2e2e 64%, transparent 64%),
-    linear-gradient(to right, transparent 92%, #222 92%, #2e2e2e 95%, transparent 95%),
-    linear-gradient(to bottom, #111 48%, transparent 48%),
-    linear-gradient(to right, transparent 96%, #222 96%, #1c1c1c 99%, transparent 99%),
-    linear-gradient(to bottom, transparent 68.5%, transparent 76%, #111 76%, #111 77.5%, transparent 77.5%, transparent 86%, #111 86%, #111 87.5%, transparent 87.5%),
-    linear-gradient(to right, transparent 35%, #222 35%, #2e2e2e 41%, transparent 41%),
-    linear-gradient(to bottom, #111 68%, transparent 68%),
-    linear-gradient(to right, transparent 66%, #222 66%, #2e2e2e 85%, transparent 85%);
-  background-size: 300px 150px;
-  background-position: center bottom;
-  z-index: 0;
-}
-.booksearch-bg:before {
-  content: '';
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  left: 0;
-  top: 0;
-  background-color: #111;
-  background-image:
-    linear-gradient(to top, tan 5%, #111 6%, #111 7%, transparent 7%),
-    linear-gradient(to bottom, #111 30%, transparent 30%),
-    linear-gradient(to right, firebrick, #b22222 5%, transparent 5%),
-    linear-gradient(to right, transparent 6%, tomato 6%, #c0392b 9%, transparent 9%),
-    linear-gradient(to right, transparent 27%, darkolivegreen 27%, #556b2f 34%, transparent 34%),
-    linear-gradient(to right, transparent 51%, salmon 51%, #c96b6b 57%, transparent 57%),
-    linear-gradient(to bottom, #111 35%, transparent 35%),
-    linear-gradient(to right, transparent 42%, teal 42%, #006d6d 44%, transparent 44%),
-    linear-gradient(to right, transparent 45%, teal 45%, #006d6d 47%, transparent 47%),
-    linear-gradient(to right, transparent 48%, teal 48%, #006d6d 50%, transparent 50%),
-    linear-gradient(to right, transparent 87%, lightslategrey 87%, #364e5c 91%, transparent 91%),
-    linear-gradient(to bottom, #111 37.5%, transparent 37.5%),
-    linear-gradient(to right, transparent 14%, darkkhaki 14%, #bdb76b 20%, transparent 20%),
-    linear-gradient(to bottom, #111 40%, transparent 40%),
-    linear-gradient(to right, transparent 10%, olive 10%, #556b2f 13%, transparent 13%),
-    linear-gradient(to right, transparent 21%, saddlebrown 21%, #5c3317 25%, transparent 25%),
-    linear-gradient(to right, transparent 58%, saddlebrown 58%, #5c3317 64%, transparent 64%),
-    linear-gradient(to right, transparent 92%, darkslategrey 92%, #27474a 95%, transparent 95%),
-    linear-gradient(to bottom, #111 48%, transparent 48%),
-    linear-gradient(to right, transparent 96%, darkslategrey 96%, #27474a 99%, transparent 99%),
-    linear-gradient(to bottom, transparent 68.5%, transparent 76%, #111 76%, #111 77.5%, transparent 77.5%, transparent 86%, #111 86%, #111 87.5%, transparent 87.5%),
-    linear-gradient(to right, transparent 35%, indianred 35%, #8b3a3a 41%, transparent 41%),
-    linear-gradient(to bottom, #111 68%, transparent 68%),
-    linear-gradient(to right, transparent 78%, rosybrown 78%, rosybrown 80%, transparent 80%, transparent 82%, rosybrown 82%, rosybrown 83%, transparent 83%),
-    linear-gradient(to right, transparent 66%, brown 66%, #5c3317 85%, transparent 85%);
-  background-size: 300px 150px;
-  background-position: center bottom;
-  clip-path: circle(150px at center center);
-  animation: flashlight 5000ms infinite;
-  z-index: 1;
-}
-.booksearch-bg:after {
-  content: '';
-  width: 25px;
-  height: 10px;
-  position: absolute;
-  left: calc(50% + 59px);
-  bottom: 100px;
-  background-repeat: no-repeat;
-  background-image: radial-gradient(circle, white 50%, transparent 50%), radial-gradient(circle, white 50%, transparent 50%);
-  background-size: 10px 10px;
-  background-position: left center, right center;
-  animation: eyes 5000ms infinite;
-  z-index: 2;
-}
-@keyframes flashlight {
-  0%, 9% {
-    opacity: 0;
-    clip-path: circle(150px at 45% 10%);
-  }
-  10%, 15%, 85% {
-    opacity: 1;
-  }
-  50% {
-    clip-path: circle(150px at 60% 20%);
-  }
-  54%, 100% {
-    clip-path: circle(150px at 55% 92%);
-  }
-  88%, 100% {
-    opacity: 0;
-  }
-}
-@keyframes eyes {
-  0%, 52% {
-    opacity: 0;
-  }
-  53%, 87% {
-    opacity: 1;
-  }
-  64% {
-    transform: scaleY(1);
-  }
-  67% {
-    transform: scaleY(0);
-  }
-  70% {
-    transform: scaleY(1);
-  }
-  88%, 100% {
-    opacity: 0;
-  }
-}
-
-/* Meatball Icon Button */
-
-
-
-/* Responsive for smaller screens */
+/* ============================================= */
+/* RESPONSIVE: Small screens                     */
+/* ============================================= */
 @media (max-width: 600px) {
   .archived-content-box {
     width: 98vw;
     max-width: 99vw;
-    padding: 6vw 2vw 3vw 2vw;
+    padding: clamp(0.8rem, 4vw, 2rem) clamp(0.5rem, 2vw, 1rem);
   }
+
   .archived-input {
     font-size: 1em;
-    padding: 3vw 2vw;
+    padding: 0.6em 0.8em;
+    margin-left: 0.5em;
   }
+
   .archived-list {
     max-height: 36vh;
-  }
-  .archived-bg-booksearch::after {
-    width: 120px;
-    height: 80px;
-  }
-  .archived-bg-booksearch span {
-    width: 28px;
-    height: 28px;
+    padding: 1em 0.5em;
   }
 }
+
+@media (max-width: 380px) {
+  .archived-bar-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .archived-input {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .filter-icon-btn {
+    margin-left: 0;
+    align-self: flex-end;
+  }
+} 
