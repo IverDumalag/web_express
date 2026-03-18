@@ -10,7 +10,14 @@ Full translation features such as FSL-to-Text and Audio/Text-to-FSL are **exclus
 - **Alyssa Umiko Garcia** – Project Manager / UI/UX Designer / Frontend Developer / Mobile Developer 
 - **Angel Aisha Ross** – UI/UX Designer / Frontend Developer / Mobile Developer  
 
+
+## Overview
+Edit
+
+**exPress** is a mobile application designed to allow abled people to connect within deaf communities seamlessly and vice-versa. With features like sign language to text and text/audio to sign language conversion, exPress breaks down the barrier between abled people and deaf individuals.
+
 Advised by: **Ms. Alyssa C. Vicente**
+
 
 ---
 

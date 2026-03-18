@@ -1,25 +1,29 @@
-/* Extra large container for user-requested big div */
+/* UserProfile.css — Responsive Fixes Applied */
+
+/* RESPONSIVE FIX: was padding: 56px — breaks on small screens */
 .big-container {
-  padding: 56px;
+  padding: clamp(1rem, 5vw, 3.5rem);
   width: 100%;
   max-width: 1400px;
   min-height: 600px;
   margin: 0 auto;
   box-sizing: border-box;
 }
-/* Larger scrollable content area */
+
+/* RESPONSIVE FIX: was padding: 48px — too large on mobile */
 .scrollable-content {
-  padding: 48px;
+  padding: clamp(1rem, 4vw, 3rem);
   overflow-y: auto;
   max-height: 95vh;
   width: 100%;
   min-width: 0;
   box-sizing: border-box;
 }
-/* Add border to about-container */
+
 .about-container {
   border: 1px solid #334E7B;
 }
+
 body, html {
   height: 100%;
   width: 100%;
@@ -28,7 +32,6 @@ body, html {
   overflow-x: hidden;
   font-family: 'Roboto Mono', sans-serif;
   color: #333;
-
   background: url('/src/assets/userprofilebg.png') center center no-repeat;
   background-size: cover;
   background-attachment: fixed;
@@ -46,6 +49,7 @@ body, html {
   z-index: -2;
 }
 
+/* RESPONSIVE FIX: was padding: 50px — replaced with fluid value */
 .profile-main-container {
   position: relative;
   min-height: 100vh;
@@ -54,7 +58,7 @@ body, html {
   align-items: center;
   justify-content: center;
   background: transparent;
-  padding: 50px;
+  padding: clamp(1rem, 5vw, 3rem);
   box-sizing: border-box;
   z-index: 0;
 }
@@ -63,17 +67,20 @@ body, html {
   .profile-main-container {
     justify-content: center;
     padding: 1rem;
+    align-items: flex-start;
+    padding-top: 2rem;
   }
 }
 
+/* RESPONSIVE FIX: was width: 55vw; min-width: 420px — too wide on phones */
 .profile-card, .profile-card-modern {
   background: #fff;
   border-radius: 1.5rem;
   box-shadow: 0 0.125rem 1rem rgba(0,0,0,0.08);
-  width: 55vw;
+  width: clamp(320px, 90vw, 650px); /* RESPONSIVE FIX: fluid, min 320px */
   max-width: 650px;
-  min-width: 420px;
-  padding: 2vw 2.5vw 2vw 2.5vw;
+  min-width: 0; /* RESPONSIVE FIX: removed min-width: 420px */
+  padding: clamp(1rem, 3vw, 2.5rem);
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -81,29 +88,19 @@ body, html {
   min-height: 380px;
   height: auto;
   flex: 1 1 0;
-  padding-top: 2.5vw;
-  padding-bottom: 2.5vw;
   gap: 1rem;
   animation: popupBounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-sizing: border-box;
 }
 
 @keyframes popupBounce {
-  0% {
-    opacity: 0;
-    transform: scale(0.7) translateY(-20px);
-  }
-  50% {
-    opacity: 0.8;
-    transform: scale(1.05) translateY(-5px);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
+  0% { opacity: 0; transform: scale(0.7) translateY(-20px); }
+  50% { opacity: 0.8; transform: scale(1.05) translateY(-5px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 .profile-header-title-col .profile-title.modern {
-  font-size: 2rem;
+  font-size: clamp(1.4rem, 4vw, 2rem);
   font-weight: 600;
   color: #22365a;
   text-align: center;
@@ -122,7 +119,7 @@ body, html {
 .profile-form-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 2rem 3rem; 
+  gap: 1.5rem 2rem;
   width: 100%;
   align-items: center;
 }
@@ -131,7 +128,7 @@ body, html {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  margin-bottom: 1.25rem; 
+  margin-bottom: 1.25rem;
 }
 
 .profile-form-label {
@@ -148,6 +145,8 @@ body, html {
   border-radius: 0.5rem;
   background: rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(6px);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .profile-form-actions-wide {
@@ -155,6 +154,12 @@ body, html {
   display: flex;
   justify-content: center;
   margin-top: 1rem;
+}
+
+@media (max-width: 600px) {
+  .profile-form-actions-wide {
+    grid-column: span 1; /* RESPONSIVE FIX: span 2 breaks on single-column grid */
+  }
 }
 
 .profile-form-btn.edit {
@@ -168,10 +173,6 @@ body, html {
   transition: background 0.3s;
 }
 
-.profile-form-btn.edit:hover {
-  background: #1f2937;
-}
-
 .profile-edit-popup-bg {
   position: fixed;
   inset: 0;
@@ -180,29 +181,28 @@ body, html {
   justify-content: center;
   align-items: center;
   z-index: 2000;
+  padding: 1rem; /* RESPONSIVE FIX: padding prevents edge overflow */
+  box-sizing: border-box;
 }
 
 .profile-edit-popup {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px);
-  padding: 1.25rem 2rem;      /* less vertical, more horizontal */
+  padding: clamp(1rem, 3vw, 1.25rem) clamp(1rem, 4vw, 2rem);
   border-radius: 1rem;
-  max-width: 700px;           /* expanded width */
-  width: 95%;                 /* nearly full width */
-  min-height: auto;           /* remove forced height */
+  max-width: 700px;
+  width: 95%;
+  min-height: auto;
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
   animation: fadeInUp 0.4s ease-in-out;
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;                 /* compact spacing */
-  transition: all 0.3s ease;
+  gap: 0.2rem;
+  box-sizing: border-box;
 }
 
-
-
-
 .profile-edit-title {
-  font-size: 1.75rem;
+  font-size: clamp(1.3rem, 4vw, 1.75rem);
   font-weight: 700;
   margin-bottom: 0.5rem;
   color: #1f2937;
@@ -226,6 +226,7 @@ body, html {
   width: 100%;
   margin-bottom: 1rem;
   transition: border-color 0.2s ease;
+  box-sizing: border-box;
 }
 
 .profile-edit-input:focus {
@@ -239,6 +240,7 @@ body, html {
   justify-content: space-between;
   gap: 1rem;
   margin-top: 2rem;
+  flex-wrap: wrap; /* RESPONSIVE FIX: allow stacking on small screens */
 }
 
 .profile-edit-btn {
@@ -252,6 +254,7 @@ body, html {
   background-color: #1f2937;
   color: white;
   transition: transform 0.2s ease, background-color 0.3s ease;
+  min-width: 100px; /* RESPONSIVE FIX: prevent buttons from becoming too narrow */
 }
 
 .profile-edit-btn.cancel {
@@ -263,6 +266,7 @@ body, html {
   opacity: 0.95;
 }
 
+/* RESPONSIVE FIX: was width: 20% — far too narrow on any screen */
 .profile-popup-center-bg {
   position: fixed;
   inset: 0;
@@ -271,6 +275,7 @@ body, html {
   justify-content: center;
   align-items: center;
   z-index: 3000;
+  padding: 1rem;
 }
 
 .profile-popup-center {
@@ -278,24 +283,27 @@ body, html {
   padding: 1rem;
   border-radius: 1rem;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  /* RESPONSIVE FIX: was width: 20% — replaced with fluid value */
   max-width: 360px;
-  width: 20%;
+  width: clamp(280px, 90vw, 360px);
   text-align: center;
   backdrop-filter: blur(10px);
   animation: fadeInUp 0.4s ease-in-out;
+  box-sizing: border-box;
 }
 
 .profile-card {
   background: #fff;
   border-radius: 1.5rem;
   box-shadow: 0 0.125rem 1rem rgba(0,0,0,0.08);
-  width: 40%;
-  padding: 2.5rem; /* uniform padding on all sides */
+  /* RESPONSIVE FIX: was width: 40% — too narrow on mobile */
+  width: clamp(300px, 90vw, 600px);
+  padding: clamp(1rem, 3vw, 2.5rem);
   display: flex;
   flex-direction: column;
   align-items: stretch;
   position: relative;
-  box-sizing: border-box; /* ensures padding doesn't expand width */
+  box-sizing: border-box;
 }
 
 .profile-title-row {
@@ -307,30 +315,16 @@ body, html {
 
 .profile-title {
   font-weight: bold;
-  font-size: 1.5rem;
+  font-size: clamp(1.2rem, 3vw, 1.5rem);
   text-align: center;
   flex-grow: 1;
-}
-
-.profile-edit-btn {
-  background: none;
-  border: none;
-  color: #1f2937;
-  font-size: 1.2rem;
-  margin-left: 0.5rem;
-  cursor: pointer;
-  transition: color 0.2s;
-  padding: 0.2rem;
-}
-
-.profile-edit-btn:hover {
-  color: #fff;
 }
 
 .profile-row {
   display: flex;
   margin-bottom: 1rem;
   flex-wrap: wrap;
+  gap: 0.25rem;
 }
 
 .profile-label {
@@ -348,82 +342,6 @@ body, html {
   word-break: break-all;
 }
 
-.profile-edit-popup-bg {
-  position: fixed;
-  z-index: 3002;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  box-sizing: border-box;
-}
-
-.profile-edit-popup {
-  background: #fff;
-  border-radius: 1.5rem;
-  box-shadow: 0 0.25rem 2rem rgba(0,0,0,0.18);
-  width: 95%;
-  max-width: 400px;
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
-
-.profile-edit-title {
-  font-weight: bold;
-  font-size: 1.3rem;
-  margin-bottom: 1.5rem;
-  text-align: center;
-}
-
-.profile-edit-label {
-  font-weight: 500;
-  margin-bottom: 0.25rem;
-  font-size: 0.95rem;
-}
-
-.profile-edit-input {
-  padding: 0.75rem;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 0.5rem;
-  margin-bottom: 1rem;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.profile-edit-actions {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.profile-edit-btn {
-  flex: 1;
-  background: #334E7B;
-  color: #fff;
-  border: none;
-  border-radius: 0.5rem;
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.profile-edit-btn.cancel {
-  background: #bbb;
-}
-
-.profile-edit-btn:disabled {
-  background: #eee;
-  color: #aaa;
-  cursor: not-allowed;
-}
-
 .profile-edit-error {
   color: #e74c3c;
   text-align: center;
@@ -438,83 +356,76 @@ body, html {
   font-size: 0.9rem;
 }
 
-.profile-popup-center-bg {
-  position: fixed;
-  z-index: 4000;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  box-sizing: border-box;
-}
-
-.profile-popup-center {
-  z-index: 4001;
-  min-width: 100px;
-  max-width: 90vw;
-}
-
-/* Profile Info Box - outlined like user settings */
+/* Profile Info Box */
 .profile-info-box {
   border: 2px solid #b6cfff;
   border-radius: 12px;
   background: rgba(255,255,255,0.85);
   box-shadow: 0 2px 12px rgba(51, 78, 123, 0.06);
-  padding: 2.5vw 2vw 2vw 2vw;
-  margin-bottom: 2vw;
+  padding: clamp(1rem, 3vw, 2rem) clamp(1rem, 2vw, 1.5rem);
+  margin-bottom: clamp(1rem, 2vw, 1.5rem);
   width: 100%;
   max-width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 1vw;
+  gap: clamp(0.5rem, 1vw, 1rem);
+  box-sizing: border-box;
 }
 
-@media (max-width: 600px) {
-  .profile-info-box {
-    padding: 5vw 2vw 5vw 2vw;
-    border-radius: 4vw;
-    margin-bottom: 4vw;
-    gap: 2vw;
-  }
-}
-
-/* Media Queries for smaller screens */
+/* ============================================= */
+/* Responsive Media Queries                       */
+/* ============================================= */
 @media (max-width: 600px) {
   .profile-main-container {
     padding: 10px;
   }
+
   .profile-card, .profile-card-modern {
     width: 98vw;
     max-width: 99vw;
     min-width: 0;
-    padding: 10vw 2vw 10vw 2vw;
+    padding: clamp(1rem, 5vw, 2rem);
     border-radius: 4vw;
     box-shadow: 0 12px 32px -2px rgba(0,0,0,0.32);
     min-height: 120px;
     height: auto;
-    padding-top: 10vw;
-    padding-bottom: 10vw;
+  }
+
+  .profile-edit-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .profile-edit-btn {
+    min-width: 0;
+    width: 100%;
   }
 }
 
-/* Media Queries for very small screens (e.g., old smartphones) */
 @media (max-width: 380px) {
   .profile-card, .profile-edit-popup {
     padding: 0.75rem;
   }
+
   .profile-title {
     font-size: 1.1rem;
   }
+
   .profile-edit-title {
     font-size: 1.1rem;
   }
-  .profile-label, .profile-value, .profile-edit-label, .profile-edit-input, .profile-edit-btn {
+
+  .profile-label,
+  .profile-value,
+  .profile-edit-label,
+  .profile-edit-input,
+  .profile-edit-btn {
     font-size: 0.85rem;
   }
 }
 
+/* Select input custom styling */
 select.profile-edit-input {
   appearance: none;
   -webkit-appearance: none;
@@ -529,12 +440,12 @@ select.profile-edit-input {
   min-height: 2.5em;
   cursor: pointer;
   transition: border 0.2s, box-shadow 0.2s;
-  background: #fff; /* Use white background for visibility */
-  /* Remove background-image and background-color */
+  background: #fff;
   background-image: none;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-/* Remove duplicate or conflicting arrow backgrounds */
 select.profile-edit-input::-ms-expand {
   display: none;
 }
@@ -547,7 +458,7 @@ select.profile-edit-input::-ms-expand {
 
 .profile-edit-select-wrapper select.profile-edit-input {
   width: 100%;
-  padding-right: 2.5em; 
+  padding-right: 2.5em;
 }
 
 .profile-edit-select-wrapper::after {
@@ -559,7 +470,7 @@ select.profile-edit-input::-ms-expand {
   height: 1.5em;
   pointer-events: none;
   transform: translateY(-50%);
-  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="111" height="111" viewBox="0 0 111 111" fill="none"><path d="M32.375 46.25L55.5 69.375L78.625 46.25" stroke="%23334E7B" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M32.375 46.25L55.5 69.375L78.625 46.25" stroke="%23334E7B" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></svg>') no-repeat center center;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="111" height="111" viewBox="0 0 111 111" fill="none"><path d="M32.375 46.25L55.5 69.375L78.625 46.25" stroke="%23334E7B" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></svg>') no-repeat center center;
   background-size: 1.5em 1.5em;
   opacity: 1;
 }
@@ -573,37 +484,15 @@ select.profile-edit-input::-ms-expand {
   }
 }
 
-/* On focus, make arrow a bit bolder */
-.profile-edit-select-wrapper select.profile-edit-input:focus + .profile-edit-select-arrow,
-.profile-edit-select-wrapper:focus-within::after {
-  opacity: 1;
-  filter: drop-shadow(0 0 2px #2563eb);
-}
-
-/* Responsive: ensure arrow stays aligned */
-@media (max-width: 600px) {
-  .profile-edit-select-wrapper::after {
-    right: 0.7em;
-    width: 1em;
-    height: 1em;
-    background-size: 1em 1em;
-  }
-}
-/* place back icon at top-left of the page */
 .profile-back-icon {
   position: fixed;
   top: 16px;
   left: 16px;
   cursor: pointer;
   color: #1c2e4a;
-  z-index: 1000; 
+  z-index: 1000;
 }
 
-/* Style for input elements with datalist to always 
-  
-
-/* Ensure the arrow is always visible for datalist inputs */
 input[list]::-webkit-calendar-picker-indicator {
   opacity: 1 !important;
 }
-

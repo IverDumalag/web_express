@@ -33,14 +33,14 @@ const GuestNavBar = () => {
       console.error('Navigation error:', error);
       showError('Unable to navigate to the requested section. Please try refreshing the page.');
     }
+    // Close mobile menu after navigation
+    setMobileMenuOpen(false);
   };
 
   const handleSmoothScrollToTop = () => {
     try {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (error) {
-      console.error('Scroll error:', error);
-      // Fallback for older browsers
       window.scrollTo(0, 0);
     }
   };
@@ -62,31 +62,15 @@ const GuestNavBar = () => {
 
   return (
     <>
-      <nav
-        className="navbar"
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "0.8em 6em",
-          background: "#fff",
-          fontFamily: "Roboto Mono, monospace",
-          width: "100%",
-          borderBottom: "1px solid #eee",
-          position: "fixed",
-          top: 0,
-          left: 0,
-          zIndex: 1000,
-        }}
-      >
+      {/* RESPONSIVE FIX: Moved all inline styles to GuestNavBar.css so media queries can override them */}
+      <nav className="navbar guest-navbar">
         {/* Brand */}
         <div
+          className="nav-brand"
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            
             try {
-              // Use the same mechanism as other nav items to scroll to top/hero section
               if (location === "/") {
                 window.dispatchEvent(
                   new CustomEvent("guestnav-scroll", { detail: { section: "hero" } })
@@ -99,91 +83,39 @@ const GuestNavBar = () => {
               showError('Unable to navigate to the home page. Please try refreshing the page.');
             }
           }}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            cursor: "pointer",
-            fontWeight: 700,
-            fontSize: "1.1em",
-            color: "#1C2E4A",
-            marginLeft: "100px",
-            userSelect: "none",
-          }}
         >
-          ex<span style={{ color: "#2354C7" }}>Press</span>
+          ex<span className="brand-accent">Press</span>
         </div>
 
-        {/* Mobile Menu Button */}
+        {/* RESPONSIVE FIX: Hamburger button — no inline display:none, controlled by CSS only */}
         <button
           className="mobile-menu-btn"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          style={{
-            display: "none",
-            background: "none",
-            border: "none",
-            fontSize: "1.5em",
-            color: "#1C2E4A",
-            cursor: "pointer",
-            padding: "5px",
-          }}
+          aria-label="Toggle navigation menu"
+          aria-expanded={mobileMenuOpen}
         >
-          ☰
+          {mobileMenuOpen ? '✕' : '☰'}
         </button>
 
-        {/* Nav Links */}
-        <div
-          className="nav-links"
-          style={{
-            display: "flex",
-            gap: "2em",
-            fontSize: "0.95em",
-            alignItems: "center",
-          }}
-        >
-          <span
-            style={{ cursor: "pointer" }}
-            onClick={() => handleNavScroll("about")}
-          >
-            About
-          </span>
-          <span
-            style={{ cursor: "pointer" }}
-            onClick={() => handleNavScroll("challenges")}
-          >
-            Challenges
-          </span>
-          <span
-            style={{ cursor: "pointer" }}
-            onClick={() => handleNavScroll("features")}
-          >
-            Features
-          </span>
-          <span
-            style={{ cursor: "pointer" }}
-            onClick={() => handleNavScroll("faqs")}
-          >
-            FAQs
-          </span>
+        {/* Nav Links — hidden on mobile via CSS, shown in mobile dropdown */}
+        <div className="nav-links">
+          <span className="nav-link" onClick={() => handleNavScroll("about")}>About</span>
+          <span className="nav-link" onClick={() => handleNavScroll("challenges")}>Challenges</span>
+          <span className="nav-link" onClick={() => handleNavScroll("features")}>Features</span>
+          <span className="nav-link" onClick={() => handleNavScroll("faqs")}>FAQs</span>
         </div>
 
         {/* Download + Account */}
-        <div style={{ display: "flex", alignItems: "center" }}>
+        <div className="nav-right-actions">
           <span
+            className="nav-download-link"
             onClick={() => {
               try {
-                window.dispatchEvent(
-                  new CustomEvent("show-download-popup")
-                );
+                window.dispatchEvent(new CustomEvent("show-download-popup"));
               } catch (error) {
                 console.error('Download popup error:', error);
                 showError('Unable to show download popup. Please try refreshing the page.');
               }
-            }}
-            style={{ 
-              textDecoration: "none", 
-              color: "#334E7B", 
-              fontWeight: 600,
-              cursor: "pointer" 
             }}
           >
             Download App
@@ -192,8 +124,8 @@ const GuestNavBar = () => {
           <div className="account-container" ref={accountRef}>
             <span
               className="account-icon"
-              role="img"
-              aria-label="account"
+              role="button"
+              aria-label="Account menu"
               onClick={(e) => {
                 e.stopPropagation();
                 setShowAuthModal(true);
@@ -202,10 +134,9 @@ const GuestNavBar = () => {
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") setShowAuthModal(true);
               }}
-              style={{ cursor: "pointer" }}
             >
               <svg
-                width="80"
+                width="24"
                 height="24"
                 viewBox="0 0 24 24"
                 fill="none"
@@ -223,188 +154,60 @@ const GuestNavBar = () => {
         </div>
       </nav>
 
-      {/* Mobile Menu */}
+      {/* RESPONSIVE FIX: Mobile dropdown menu — rendered conditionally, full-width */}
       {mobileMenuOpen && (
-        <div
-          className="mobile-menu"
-          style={{
-            position: "fixed",
-            top: "60px",
-            left: 0,
-            right: 0,
-            background: "#fff",
-            border: "1px solid #eee",
-            borderTop: "none",
-            zIndex: 1000,
-            padding: "1em",
-            boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "1em",
-              fontSize: "1em",
+        <div className="mobile-menu">
+          <span className="mobile-menu-item" onClick={() => handleNavScroll("about")}>About</span>
+          <span className="mobile-menu-item" onClick={() => handleNavScroll("challenges")}>Challenges</span>
+          <span className="mobile-menu-item" onClick={() => handleNavScroll("features")}>Features</span>
+          <span className="mobile-menu-item" onClick={() => handleNavScroll("faqs")}>FAQs</span>
+          <span
+            className="mobile-menu-item"
+            onClick={() => {
+              try { window.dispatchEvent(new CustomEvent("show-download-popup")); } catch(e) {}
+              setMobileMenuOpen(false);
             }}
           >
-            <span
-              style={{ cursor: "pointer", padding: "0.5em" }}
-              onClick={() => {
-                handleNavScroll("about");
-                setMobileMenuOpen(false);
-              }}
-            >
-              About
-            </span>
-            <span
-              style={{ cursor: "pointer", padding: "0.5em" }}
-              onClick={() => {
-                handleNavScroll("challenges");
-                setMobileMenuOpen(false);
-              }}
-            >
-              Challenges
-            </span>
-            <span
-              style={{ cursor: "pointer", padding: "0.5em" }}
-              onClick={() => {
-                handleNavScroll("features");
-                setMobileMenuOpen(false);
-              }}
-            >
-              Features
-            </span>
-            <span
-              style={{ cursor: "pointer", padding: "0.5em" }}
-              onClick={() => {
-                handleNavScroll("faqs");
-                setMobileMenuOpen(false);
-              }}
-            >
-              FAQs
-            </span>
-          </div>
+            Download App
+          </span>
         </div>
       )}
 
       {/* Auth Modal */}
       {showAuthModal && (
         <div
+          className="auth-modal-overlay"
           onClick={() => setShowAuthModal(false)}
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: "rgba(0,0,0,0.08)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            zIndex: 3002,
-          }}
         >
           <div
+            className="auth-modal-content"
             onClick={(e) => e.stopPropagation()}
-            style={{
-              width: "95%",
-              maxWidth: 460,
-              padding: "8.2em 2.7em 2.7em",
-              borderRadius: 20,
-              border: "2px solid #334E7B",
-              background: "rgba(255,255,255,0.10)",
-              backdropFilter: "blur(30px)",
-              WebkitBackdropFilter: "blur(18px)",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: "1.5em",
-              color: "#334E7B",
-              animation: "modal-pop 0.22s cubic-bezier(.68,-0.55,.27,1.55)",
-              position: "relative",
-            }}
           >
             <button
+              className="auth-modal-close"
               onClick={() => setShowAuthModal(false)}
-              style={{
-                position: "absolute",
-                top: 18,
-                right: 22,
-                background: "none",
-                border: "none",
-                fontSize: "1.5em",
-                color: "#334E7B",
-                cursor: "pointer",
-                fontWeight: 700,
-              }}
+              aria-label="Close modal"
             >
               ×
             </button>
 
-            <div
-              style={{
-                fontWeight: 700,
-                fontSize: "2em",
-                textAlign: "center",
-                marginBottom: "2.9em",
-                fontFamily: "Inconsolata, monospace",
-                color: "#334E7B",
-              }}
-            >
-              Login or Register
-            </div>
+            <div className="auth-modal-title">Login or Register</div>
 
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "1em",
-                marginTop: "0.5em",
-                alignItems: "center",
-                width: "100%",
-              }}
-            >
+            <div className="auth-modal-buttons">
               <button
+                className="auth-btn auth-btn-login"
                 onClick={() => {
                   setShowAuthModal(false);
                   navigate("/login");
-                }}
-                style={{
-                  background: "#1C2E4A",
-                  color: "#fff",
-                  border: "2px solid #fff",
-                  borderRadius: 12,
-                  padding: "0.7em 0",
-                  fontWeight: 700,
-                  fontSize: "1.1em",
-                  fontFamily: "Inconsolata, monospace",
-                  cursor: "pointer",
-                  width: "100%",
-                  maxWidth: 300,
-                  minWidth: 180,
                 }}
               >
                 Login
               </button>
               <button
+                className="auth-btn auth-btn-register"
                 onClick={() => {
                   setShowAuthModal(false);
                   navigate("/register");
-                }}
-                style={{
-                  background: "#52677D",
-                  color: "#fff",
-                  border: "2px solid #fff",
-                  borderRadius: 12,
-                  padding: "0.7em 0",
-                  fontWeight: 700,
-                  fontSize: "1.1em",
-                  fontFamily: "Inconsolata, monospace",
-                  cursor: "pointer",
-                  width: "100%",
-                  maxWidth: 300,
-                  minWidth: 180,
                 }}
               >
                 Register
@@ -416,70 +219,19 @@ const GuestNavBar = () => {
 
       {/* Error Popup */}
       {showErrorPopup && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          zIndex: 9999
-        }}>
-          <div style={{
-            background: '#fff',
-            padding: '30px',
-            borderRadius: '12px',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15)',
-            maxWidth: '400px',
-            width: '90%',
-            textAlign: 'center',
-            border: '2px solid #dc3545'
-          }}>
-            <div style={{
-              backgroundColor: '#dc3545',
-              borderRadius: '50%',
-              width: '60px',
-              height: '60px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              margin: '0 auto 20px',
-            }}>
-              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div className="error-popup-overlay">
+          <div className="error-popup-content">
+            <div className="error-popup-icon">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
                 <path d="M11 15h2v2h-2zm0-8h2v6h-2z" fill="white"/>
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm0-4h-2V7h2v8z" fill="white"/>
               </svg>
             </div>
-            <h2 style={{
-              color: '#dc3545',
-              marginBottom: '15px',
-              fontSize: '1.4em',
-              fontWeight: '600'
-            }}>Something went wrong</h2>
-            <p style={{
-              color: '#666',
-              marginBottom: '25px',
-              fontSize: '1.1em',
-              lineHeight: '1.5'
-            }}>{errorMessage}</p>
-            <button 
+            <h2 className="error-popup-title">Something went wrong</h2>
+            <p className="error-popup-message">{errorMessage}</p>
+            <button
+              className="error-popup-btn"
               onClick={() => setShowErrorPopup(false)}
-              style={{
-                background: '#dc3545',
-                color: '#fff',
-                border: 'none',
-                padding: '12px 30px',
-                borderRadius: '8px',
-                cursor: 'pointer',
-                fontWeight: '500',
-                fontSize: '1.1em',
-                transition: 'all 0.2s ease'
-              }}
-              onMouseOver={(e) => e.target.style.background = '#c82333'}
-              onMouseOut={(e) => e.target.style.background = '#dc3545'}
             >
               Got it
             </button>
